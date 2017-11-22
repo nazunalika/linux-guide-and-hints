@@ -2,7 +2,7 @@
 
 This wiki uses a forked/heavily modified version of [Sphinx RTD Theme](https://github.com/snide/sphinx_rtd_theme).
 
-The website is NOT live at https://www.linuxguideandhints.com
+The website is live at https://www.linuxguideandhints.com
 
 Our servers at the data center have suffered from an irrecoverable crash.
 We're looking into alternative hosting.
