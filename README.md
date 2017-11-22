@@ -15,7 +15,7 @@ Primary developer: remyabel (Tommy Nguyen)
 
 Fedora articles: remyabel
 
-CentOS articles: Portfolio: [nazunalika](https://github.com/nazunalika) (Louis Abel)
+CentOS articles: [nazunalika](https://github.com/nazunalika) (Louis Abel)
 
 ### Builds
 
