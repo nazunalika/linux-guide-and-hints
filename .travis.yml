@@ -1,0 +1,12 @@
+language: python
+python:
+- "2.7"
+
+install:
+- pip install sphinx
+
+script:
+- make html SPHINXOPTS=-Ea
+
+notifications:
+    email: false
