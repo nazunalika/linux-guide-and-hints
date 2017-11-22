@@ -1,0 +1,141 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+/* navbar
+ * ------
+ */
+
+.navbar-default, .navbar-inverse {
+	margin-left: 300px;
+	border-radius: 0;
+	border: 0;
+}
+
+.navbar-default .container, .navbar-inverse .container {
+	margin: 0;
+}
+
+.navbar-inverse {
+	background-color: #2980B9;
+}
+
+.navbar-inverse .navbar-toggle {
+	border: none;
+	color: white;
+}
+
+.navbar-inverse > li > a {
+	color: #fff;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #b2dbfb;
+}
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus {
+	color: #ffffff;
+	background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: #b2dbfb;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+	color: #ffffff;
+	background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover
+{
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+	.navbar-default, .navbar-inverse {
+		margin-left: 0px;
+	}
+}
+
+
+
+/* sidebar
+ * ------
+ */
+
+/* Override Bootstrap's affix class,
+ * because RTD already implements it
+ */
+
+.affix {
+	position: static;
+}
+
+.wy-nav-top i {
+	font-size: 17.3333px;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.wy-menu-vertical {
+	width: 290px;
+}
+
+.wy-menu-vertical header, .wy-menu-vertical p.caption {
+	font-size: inherit;
+}
+
+.wy-menu-vertical a {
+	font-size: inherit;
+}
+
+.wy-menu-vertical a:hover,
+.wy-menu-vertical a:focus {
+	color: #b3b3b3; 
+}
+
+.wy-side-nav-search > a {
+  font-size: 120%;
+}
+
+/* content
+ * -------
+ */
+
+.wy-nav-content {
+    max-width: unset;
+}
+
+.rst-content code, .rst-content .important {
+	all: unset;
+}
+
+.rst-content :not(pre) > code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
+.btn.btn-default {
+	color: #333;
+}
+
+.breadcrumb {
+	background-color: #e3f2fd;
+}
+
+.wy-side-nav-search {
+	color: initial;
+}
+
+pre[class*="language-"] {
+	border: 0;
+	border-radius: 4px;
+}
+
+pre {
+	border: 0;
+}

@@ -1,0 +1,1397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<title>OpenLDAP &mdash; Linux Guide and Hints </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/prism.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Linux Guide and Hints master documentation" href="../index.html"/>
+        <link rel="next" title="The System Administrator Experience" href="sysadmin.html"/>
+        <link rel="prev" title="XScreenSaver" href="../fedora/xscreensaver.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+	<nav class='navbar navbar-inverse'>
+		<div class='container'>
+			<div class='navbar-header'>
+				<button type='button' class='navbar-toggle collapsed'
+					data-toggle='collapse' data-target='#collapse'>
+					<i class='fa fa-lg fa-bars'></i>					
+				</button>
+				<a class='navbar-brand' href='/angels-of-clockwork/'>EPK</a>
+			</div>
+
+			<div class='collapse navbar-collapse' id='collapse'>
+				<ul class='nav navbar-nav'>
+					<li><a href='/angels-of-clockwork/'>Home</a></li>
+                    <li><a href='/angels-of-clockwork/audio.html'>Music</a></li>
+					<li class='active'><a href='/angels-of-clockwork/linux-guide-and-hints/build/html/'>Wiki</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+ 
+
+<main id='main'>
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Linux Guide and Hints
+        
+
+        
+        </a>
+
+        
+          
+          
+            
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">Fedora</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/allinonescript.html">All-in-One Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/blockify.html">Blockify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/cipc.html">Cisco IP Communicator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-playonlinux">Installing via PlayOnLinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-regular-wine">Installing via Regular Wine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#pulse-audio">Pulse Audio</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/clangformat.html">Clang Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/emulators.html">Emulators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mupen64plus-unofficial-faq">Mupen64Plus unofficial FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#where-does-mupen64plus-like-to-put-files">Where does Mupen64Plus like to put files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-m-getting-a-dlopen-error">I’m getting a <code>dlopen</code> error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-changed-one-of-the-hi-res-textures-and-no-change-is-visible">I changed one of the hi-res textures and no change is visible</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#recommended-plugins">Recommended plugins?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#how-do-i-compile-it">How do I compile it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#gba">GBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mame-configuration">MAME configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#inconsistency">Inconsistency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#example-mame-ini">Example <code>mame.ini</code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#example-command-line-options">Example command line options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#speed">Speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#ui-script">UI script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mgba-controller-joystick-issue">mGBA controller/joystick issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#compiling-mgba">Compiling mGBA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#cmake-variables">CMake variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#link-cable-support">Link cable support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id1">BGB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id2">mGBA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/gcc.html">GCC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#installing-prerequisites-gmp-mpfr-mpc">Installing prerequisites: GMP, MPFR, MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#building">Building</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/git.html">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/git.html#workflow">Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#git-commit-am-didnt-add-my-latest-files"><code>git commit -am</code> didn’t add my latest files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#what-creates-duplicate-commits-different-shas">What creates duplicate commits (different SHA’s)?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#merge">Merge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#temporary-hotfix-branch">Temporary (hotfix) branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#feature-long-lived-branch">Feature (long-lived) branch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#rebase">Rebase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#local-branch-diverges-from-origin-remote">Local branch diverges from origin (remote)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#clean-up-your-work">Clean up your work</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/iphone.html">iPhone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/misc.html">Misc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#using-ld-library-path-in-fish">Using <code>LD_LIBRARY_PATH</code> in Fish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#failed-to-start-load-kernel-modules">Failed to start Load Kernel Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/misc.html#error-still-persists-after-uninstalling-virtualbox">Error still persists after uninstalling VirtualBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/nvidiadrivers.html">Nvidia drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/nvidiadrivers.html#negativo">Negativo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/nvidiadrivers.html#rpm-fusion">RPM Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#kmod">kmod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#akmod">akmod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pip.html">pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/postgres.html">Installing PostgreSQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/postgres.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#foreword">Foreword</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#simplest-method">Simplest method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#installing-from-postgresql-s-repository">Installing from PostgreSQL’s repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#disabling-postgresql-s-repo">Disabling PostgreSQL’s repo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#initialize-the-service">Initialize the service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/postgres.html#running-the-server">Running the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#the-postgresql-user-account">The PostgreSQL User Account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#managing-the-server">Managing the server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#importing-some-data">Importing some data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/powerline.html">Powerline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#installing-via-dnf">Installing via <code>dnf</code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#enabling-powerline-installed-via-dnf">Enabling powerline (installed via <code>dnf</code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#fish">Fish</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#vim">vim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#tmux">tmux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pulseaudio.html">Pulseaudio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#flat-volume">Flat Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#sound-crackling">Sound Crackling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vim.html">vim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vim.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vlc.html">VLC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vlc.html#qt-5-6-interface-dpi">QT 5.6 Interface DPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vlc.html#vdpau-decoding-hardware-acceleration">VDPAU decoding (hardware acceleration)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vmware.html">VMware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/winetips.html">Wine Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#new-vegas">New Vegas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#modding">Modding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#id1">Mod Organizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#lutana-nvse">Lutana NVSE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/xscreensaver.html">XScreenSaver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#gamma-or-brightness-is-too-high-when-unlocking">Gamma or brightness is too high when unlocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#disable-fade-to-black-effect">Disable fade to black effect</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">CentOS</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OpenLDAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#packages">Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#certificates">Certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldap-server-configuration">LDAP Server Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldap-structure">LDAP Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-users-via-migration">Add Users via Migration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-users-via-ldif">Add Users via LDIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nfs-export-home-directories">NFS Export Home Directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firewall">Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#client">Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rhel-6-rhel-7-fedora-20">RHEL 6/RHEL 7/Fedora 20+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automounting-home-directories">Automounting Home Directories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ldap-structure-add-ons">LDAP Structure Add-ons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sudo">SUDO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#member-groups">Member Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#referential-integrity">Referential Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acl">ACL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-anonymous-binding">Disable Anonymous Binding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldap-logging">LDAP Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#password-policy">Password Policy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sysadmin.html">The System Administrator Experience</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#recommendations">Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#certification-completions">Certification Completions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#notes-and-changelog">Notes and Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#begin">Begin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-a-kvm-hypervisor">Setup a KVM Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#dhcp-and-dns">DHCP and DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#server-and-content-management">Server and Content Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#connect-content-management-to-hypervisor">Connect Content Management to Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-s-using-katello-spacewalk">Spin Up VM’s Using Katello/Spacewalk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-openldap">Setup OpenLDAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-two-vm-s-for-databases">Spin Up Two VM’s for Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-configuration-management">Spin Up Configuration Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-for-nfs-iscsi">Spin Up VM for NFS/iSCSI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-bacula-server">Deploy Bacula Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-four-vm-s">Deploy Four VM’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-load-balancer-vm">Deploy Load Balancer VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-postfix-vm">Deploy Postfix VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-nagios-vm">Setup Nagios VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-syslog-vm">Setup Syslog VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#document-your-work">Document Your Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#rpm-build-server">RPM Build Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#git-server">Git Server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="freeipa.html">FreeIPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#dns">DNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#freeipa-has-full-control">FreeIPA has full control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#delegation">Delegation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#server-setup">Server Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#required-packages">Required Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica">Replica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica-automation">Replica Automation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#active-directory-trust">Active Directory Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#client-setup">Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-7">RHEL 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-6">RHEL 6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#mac-clients">Mac Clients</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#hbac">HBAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#sudo">SUDO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#legacy-client-setup">Legacy Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-10">Solaris 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-11">Solaris 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-hbac">Legacy HBAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-active-directory-trust">Legacy Active Directory Trust</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#situational-options">Situational Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+				<i data-toggle="wy-nav-top" class='fa fa-lg fa-bars'></i>					
+
+        <a href="../index.html">Linux Guide and Hints</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ol class="breadcrumb wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a></li>
+      
+    <li class="active">OpenLDAP</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/centos/openldap.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ol>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+						 
+						 <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+							 
+							 <a href="sysadmin.html" class="btn btn-default pull-right" accesskey="n">
+								 The System Administrator Experience <span class="fa fa-arrow-circle-right"></span>
+							 </a>
+							 
+							 
+							 <a href="../fedora/xscreensaver.html" class="btn btn-default" accesskey="p">
+								 <span class="fa fa-arrow-circle-left"></span> XScreenSaver
+							 </a>
+							 
+						 </div>
+						 
+
+            
+  <div class="section" id="openldap">
+<h1>OpenLDAP<a class="headerlink" href="#openldap" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial goes over how to install OpenLDAP to a RHEL 7 Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO (and it’s relatively easy to set it up).</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Simply put, LDAP is a directory service for authentication across a network. Rather than have local accounts on a bunch of machines, LDAP can be used to have one account across a bunch of machines. LDAP was once an easy setup in RHEL 5 but has changed in RHEL 6/7, and here provides the necessary information needed to get a simple LDAP system running with possible SUDO support and various options of how to support your LDAP system.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>First and foremost, we have a list of requirements. Keep in mind, if you do not fulfill these requirements, you may run into some issues down the road.</p>
+<ul class="simple">
+<li>RHEL 7 or Derivative like CentOS</li>
+<li>DNS Server (LDAP does NOT appreciate IP addresses for the URI)</li>
+<li>An active internet connection to install the packages required</li>
+</ul>
+</div>
+<div class="section" id="tutorial-preface-notes-and-recommendations">
+<h2>Tutorial Preface, Notes, and Recommendations<a class="headerlink" href="#tutorial-preface-notes-and-recommendations" title="Permalink to this headline">¶</a></h2>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Potential Pitfalls!</p>
+<ul class="simple">
+<li>The incorrect -The incorrect configuration in your firewall or other settings can cause login failures</li>
+<li>Not using certificates (TLS/SSL) will cause you not to be able to login (This is a RHEL 6/7 LDAP Client Requirement)</li>
+<li>SELinux is a pain when using mounted home directories or certificates (primarily in RHEL 7, will you have problems with certificates/home directories)</li>
+<li>If you use /home as an NFS mount, you’ll see some nasty side effects if you have local users.</li>
+</ul>
+</div></div>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Recommended Information</p>
+<ul class="simple">
+<li>It’s recommended to use colored vim syntax. Root doesn’t use vim when vim-enhanced is installed. You can make an alias for vi to run vim.</li>
+<li>Turn on syntaxing in ~/.vimrc – syntax on</li>
+<li>Make the vim colors brighter in ~/.vimrc – set background=dark</li>
+<li>Export your EDITOR variable in ~/.bash_profile – export EDITOR=vim</li>
+<li>Keep selinux set to <strong>enforcing</strong></li>
+</ul>
+</div></div>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Database Information</p>
+<p>We will be using lmdb, which is recommended over using hdb or bdb.</p>
+</div></div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Below details the process for installing OpenLDAP to our system(s). This includes installing the packages, setting up certificates, and configuring the LDAP server via LDIF files.</p>
+<div class="section" id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h3>
+<p>You will need the following packages. A couple of them may already be installed. If you don’t plan on migrating local accounts to LDAP, you can leave out migrationtools.</p>
+<pre><code class="language-bash">yum install openldap openldap-servers migrationtools nss-tools -y</code></pre></div>
+<div class="section" id="certificates">
+<h3>Certificates<a class="headerlink" href="#certificates" title="Permalink to this headline">¶</a></h3>
+<p>RHEL 7 clients and other newer distributions that are non-el require TLS/SSL for authentication when going toward LDAP. because of this, we will need to create certificates, regardless if you are in a lab or not.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Certificate Information</p>
+<p>Because of the way Red Hat compiled OpenLDAP, it relies on NSS. Do not attempt to use regular base64 certificates. If you want to use standard openssl, not NSS, you should obtain OpenLDAP builds from <a class="reference external" href="http://lsc-project.org/">LSC</a>.</p>
+</div></div>
+<p>I have two ways of doing it, we can do it manually or through a script. I prefer using my script to take care of it. First the manual way.</p>
+<pre><code class="language-bash">mkdir /etc/pki/ldap
+cd /etc/pki/ldap
+openssl genrsa -des3 -out ca.key 4096  # Remember the password you put here
+
+openssl genrsa -out ldapserver.key 4096
+
+openssl req -new -x509 -key ca.key -out ca.pem -days 3650
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:Arizona
+Locality Name (eg, city) [Default City]:Phoenix
+Organization Name (eg, company) [Default Company Ltd]:SSN Studio
+Organizational Unit Name (eg, section) []:Channel Maintainers
+Common Name (eg, your name or your server's hostname) []:SSN     # If you want to use a server name here, perform this step on another server first
+Email Address []:youremail@mail.com
+
+openssl req -new -key ldapserver.key -out ldapserver.csr
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:Arizona
+Locality Name (eg, city) [Default City]:Phoenix
+Organization Name (eg, company) [Default Company Ltd]:SSN Studio
+Organizational Unit Name (eg, section) []:LDAP Server Maintainer
+Common Name (eg, your name or your server's hostname) []:zera1.angelsofclockwork.net    # Set your common name to your server name for this certificate
+Email Address []:youremail@mail.com
+
+openssl x509 -req -in ldapserver.csr -out ldapserver.pem -CA ca.pem -CAkey ca.key -days 3650 -set_serial 01
+
+ln -s ca.pem `openssl x509 -hash -in ca.pem -noout`.0
+# Do an ls on the directory and save the hashed name including the .0 somewhere
+
+certutil -N -d /etc/pki/ldap
+# Do not enter any passwords. When asked, just hit enter beyond this point.
+
+openssl pkcs12 -export -inkey ldapserver.key -in ldapserver.pem -out ldapserver_crt-key.p12 -nodes -name "zera1.angelsofclockwork.net"
+
+certutil -A -d /etc/pki/ldap -n "SSN" -t CT,, -ai ca.pem            # Here, if you used a hostname in your CA cert, make sure you put it in place of "SSN" here.
+pk12util -i ldapserver_crt-key.p12 -d /etc/pki/ldap
+chown root:ldap *
+chmod 640 *</code></pre><p>The scripted way.</p>
+<pre><code class="language-bash">#!/bin/bash
+# CA Information
+CAcountry="US"
+CAstate="Arizona"
+CAlocale="Phoenix"
+CAorganization="SSN Studio"
+CAorganizationalunit="Channel Maintainers"
+# If you set the below to a hostname, you’re screwed. Don’t do it!
+# Only do it if you have an actual hostname you will do CA signing on!
+CAconicalname="SSN"
+CAemail="tucklesepk@gmail.com"
+# LDAP Server information
+country="US"
+state="Arizona"
+locale="Phoenix"
+organization="SSN Studio"
+organizationalunit="LDAP Server Maintainer"
+conicalname="zera1.angelsofclockwork.net"
+email="pc68xl@gmail.com"
+
+certdir="/etc/pki/ldap"
+
+mkdir $certdir ; cd $certdir
+echo "Enter a password when asked."
+openssl genrsa -des3 -out ca.key 4096
+openssl genrsa -out ldapserver.key 4096
+# Create the self-signed CA cert
+openssl req -new -x509 -key ca.key -out ca.pem -days 3650 -subj /C="$CAcountry"/ST="$CAstate"/L="$CAlocale"/O="$CAorganization"/OU="$CAorganizationalunit"/CN="$CAconicalname"/emailAddress="$CAemail"/
+# Create the LDAP server cert
+openssl req -new -key ldapserver.key -out ldapserver.csr -subj /C="$country"/ST="$state"/L="$locale"/O="$organization"/OU="$organizationalunit"/CN="$conicalname"/emailAddress="$email"/
+# Sign it
+openssl x509 -req -in ldapserver.csr -out ldapserver.pem -CA ca.pem -CAkey ca.key -days 3650 -set_serial 01
+ln -s ca.pem `openssl x509 -hash -in ca.pem -noout`.0
+echo "DO NOT ENTER A PASSWORD! JUST PRESS ENTER!"
+certutil -N -d $certdir
+openssl pkcs12 -export -inkey ldapserver.key -in ldapserver.pem -out ldapserver_crt-key.p12 -nodes -name "$conicalname"
+certutil -A -d $certdir -n "$CAconicalname" -t CT,, -ai ca.pem
+pk12util -i ldapserver_crt-key.p12 -d $certdir
+chown root:ldap *
+chmod 640 *</code></pre><p>Make sure to obtain your hash. Your hash will be different from mine.</p>
+<pre><code class="language-bash">ls -l /etc/pki/ldap | grep '0'
+39642ab3.0</code></pre></div>
+<div class="section" id="ldap-server-configuration">
+<h3>LDAP Server Configuration<a class="headerlink" href="#ldap-server-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Attention</h3></div><div class="panel-body">
+<p>Current Show-stopping Bug
+In releases older than openldap-servers-2.4.39-6, there were two problems: A missing object class and an invalid olcDatabase value. In release -6, the objectClass sets should be fixed. But, the olcDatabase attribute is not.</p>
+<pre><code class="language-bash">egrep 'objectClass|olcDatabase' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{-1\}frontend.ldif
+dn: olcDatabase={-1}frontend
+objectClass: olcDatabaseConfig
+objectClass: olcFrontendConfig
+olcDatabase: frontend
+sed -i 's/olcDatabase: frontend/olcDatabase: {-1}frontend/g' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{-1\}frontend.ldif</code></pre><p>For more information, you can check this <a class="reference external" href="https://bugzilla.redhat.com/show_bug.cgi?id=1132094">bugzilla report</a>.</p>
+</div></div>
+<p>Configurations done in OpenLDAP are done via LDIF. Your passwords should be hashed as well. Before we begin, let’s start by generating a password for our root DN. <strong>This is required.</strong></p>
+<pre><code class="language-bash">slappasswd
+New password:
+Re-enter new password:
+{SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+</code></pre><p>Keep this SSHA output for our configuration files. Next, we’ll need to make a couple LDIFs.</p>
+<p>This is our suffix.ldif file. This file helps to create the mdb database for our LDAP structure. It also sets our DIT suffix, root password, etc. You should change the olcSuffix, olcRootDN, and olcRootPW to whatever you plan on using. The olcDbMaxSize is set to 20GB. This is normally sufficient and can be changed. The olcDbEnvFlags can be changed as well.</p>
+<pre><code class="language-none">dn: olcDatabase=mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: mdb
+olcDbDirectory: /var/lib/ldap
+olcSuffix: dc=angelsofclockwork,dc=net
+olcRootDN: cn=manager,dc=angelsofclockwork,dc=net
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+olcLastMod: TRUE
+olcDbEnvFlags: nometasync
+olcDbEnvFlags: writemap
+olcDbMaxSize: 21474836480</code></pre><p>Now, below we have our primary modification ldif. Comments describe what each one does.</p>
+<pre><code class="language-none"># Sets our cert path and information
+# The "CertificateFile" has to be set to the hostname of the LDAP server
+dn: cn=config
+changetype: modify
+replace: olcTLSCACertificatePath
+olcTLSCACertificatePath: /etc/pki/ldap
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: zera1.angelsofclockwork.net
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/pki/ldap/ldapserver.key
+
+# Adding a rootDN for the config.
+# Note that this isn't fully necessary as you can use -Y EXTERNAL -H ldapi:/// instead
+# So, treat this as an optional thing. If you do want it, consider a different password.
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=config
+-
+replace: olcRootPW
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+
+
+# Set the password again in the mdb database
+# This is because sometimes the password set when making the database doesn't 'work' sometimes
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+
+
+# Sets the default password hash to SSHA -- Refer to the 'bug' information if this does not work
+dn: olcDatabase={-1}frontend,cn=config
+changetype: modify
+replace: olcPasswordHash
+olcPasswordHash: {SSHA}
+
+# Changes the rootdn information in the monitor database
+dn: olcDatabase={1}monitor,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read by dn.base="cn=manager,dc=angelsofclockwork,dc=net" read by * none</code></pre><p>Let’s make sure we turn on ldaps. It’s recommended to use TLS, but some applications insist on SSL. (Very few, but they are out there.)</p>
+<pre><code class="language-none"># vi /etc/sysconfig/slapd
+
+. . .
+SLAPD_URLS="ldapi:/// ldap:/// ldaps:///"
+
+# slaptest -u
+Config file testing succeeded
+
+# /etc/openldap/ldap.conf
+. . .
+TLS_CACERTDIR /etc/pki/ldap</code></pre><p>Now, we need to add our LDIFs into LDAP.</p>
+<pre><code class="language-bash">rm -f /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif
+chown -R ldap:ldap /var/lib/ldap
+systemctl enable slapd
+systemctl start slapd
+ldapadd -Y EXTERNAL -H ldapi:/// -f suffix.ldif
+ldapmodify -Y EXTERNAL -H ldapi:/// -f info.ldif</code></pre><p>You may end up getting a checksum error in your logs. To solve this, you need to do a simple operation against the configuration.</p>
+<pre><code class="language-bash">ldapmodify -h localhost -xWD "cn=config"
+Enter LDAP Password:
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=config
+modifying entry "olcDatabase={0}config,cn=config"
+slaptest -u
+config file testing succeeded</code></pre><p>That should do it. You can do a -Y EXTERNAL -H ldapi:/// instead if you wanted to. I did the above to show passwords will work for config.</p>
+</div>
+<div class="section" id="ldap-structure">
+<h3>LDAP Structure<a class="headerlink" href="#ldap-structure" title="Permalink to this headline">¶</a></h3>
+<p>The next piece is to get our backend structure built. In EL7, core is the only schema that is there. In EL6, it’s a good chunk of these. I like to put them in a file so I can loop through them.</p>
+<pre><code class="language-none">/etc/openldap/schema/corba.ldif
+/etc/openldap/schema/cosine.ldif
+/etc/openldap/schema/duaconf.ldif
+/etc/openldap/schema/dyngroup.ldif
+/etc/openldap/schema/inetorgperson.ldif
+/etc/openldap/schema/java.ldif
+/etc/openldap/schema/misc.ldif
+/etc/openldap/schema/nis.ldif
+/etc/openldap/schema/openldap.ldif
+/etc/openldap/schema/ppolicy.ldif
+/etc/openldap/schema/collective.ldif</code></pre><div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>rfc2307</p>
+<p>If you want to be able to combine groupOfNames and posixGroup together (similar to Active Directory, other open source, and commercial offerings), don’t use nis. Use the <a class="reference external" href="https://raw.githubusercontent.com/ptman/ldap-tools/master/rfc2307bis.ldif">rfc2307bis</a> schema instead.</p>
+</div></div>
+<p>Once you have your list of schema to put in, we can loop through them.</p>
+<pre><code class="language-bash">for x in $(cat schemaorder) ; do ldapadd -Y EXTERNAL -H ldapi:/// -f $x ; done
+adding new entry "cn=corba,cn=schema,cn=config"
+adding new entry "cn=cosine,cn=schema,cn=config"
+adding new entry "cn=duaconf,cn=schema,cn=config"
+adding new entry "cn=dyngroup,cn=schema,cn=config"
+adding new entry "cn=inetorgperson,cn=schema,cn=config"
+adding new entry "cn=java,cn=schema,cn=config"
+adding new entry "cn=misc,cn=schema,cn=config"
+adding new entry "cn=nis,cn=schema,cn=config"
+adding new entry "cn=openldap,cn=schema,cn=config"
+adding new entry "cn=ppolicy,cn=schema,cn=config"
+adding new entry "cn=collective,cn=schema,cn=config"</code></pre><p>I normally like to keep all LDIFs in a folder by themselves to avoid clutter (non-configuration LDIF).</p>
+<pre><code class="language-bash">mkdir ldif ; cd ldif</code></pre><p>Let’s get our base created. Make sure to replace my DN with your DN that you chose earlier. Call this base.ldif.</p>
+<pre><code class="language-none">dn: dc=angelsofclockwork,dc=net
+dc: angelsofclockwork
+objectClass: top
+objectClass: domain
+
+dn: ou=People,dc=angelsofclockwork,dc=net
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=angelsofclockwork,dc=net
+ou: Group
+objectClass: top
+objectClass: organizationalUnit</code></pre><pre><code class="language-bash">ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f base.ldif
+Enter LDAP Password:
+adding new entry "dc=angelsofclockwork,dc=net"
+adding new entry "ou=People,dc=angelsofclockwork,dc=net"
+adding new entry "ou=Group,dc=angelsofclockwork,dc=net"</code></pre><p><strong>If this doesn’t add, make sure your LDAP server is running, check /var/log/messages, and ensure you’ve completed all steps before this.</strong></p>
+<pre><code class="language-bash">ldapsearch -x -LLL -b 'dc=angelsofclockwork,dc=net'
+dn: dc=angelsofclockwork,dc=net
+dc: angelsofclockwork
+objectClass: top
+objectClass: domain
+
+dn: ou=People,dc=angelsofclockwork,dc=net
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=angelsofclockwork,dc=net
+ou: Group
+objectClass: top
+objectClass: organizationalUnit</code></pre></div>
+<div class="section" id="add-users-via-migration">
+<h3>Add Users via Migration<a class="headerlink" href="#add-users-via-migration" title="Permalink to this headline">¶</a></h3>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>But… I don’t want to add my users locally</p>
+<p>You don’t have to add your users locally to the system. This just aids in the creation of users. Go to the next section if you want to add users and do permissions by hand.</p>
+</div></div>
+<p>This is the fun part. We’ll need to add some users, set some passwords and migrate them into the LDAP system. I’ll make three users as an example, give them an ID starting at 10000, home directories in /lhome, set a password, and proceed to migrate them. <strong>If you don’t want to use /lhome, keep them set to /home and their home directories should get created automatically when logging into another machine.</strong></p>
+<pre><code class="language-none"># mkdir /lhome
+# mkdir ldif/user
+# semanage fcontext -a -t home_root_t "/lhome(/.*)?"
+# restorecon -v /lhome
+restorecon reset /lhome context unconfined_u:object_r:default_t:s0->unconfined_u:object_r:home_root_t:s0
+# groupadd -g 10000 sokel
+# groupadd -g 10001 suree
+# groupadd -g 10002 ranos
+# useradd -u 10000 -g 10000 -d /lhome/sokel sokel
+# useradd -u 10001 -g 10001 -d /lhome/suree suree
+# useradd -u 10002 -g 10002 -d /lhome/ranos ranos
+# passwd sokel ; passwd suree ; passwd ranos
+# cat /etc/passwd | grep sokel > ldif/user/passwd.sokel
+# cat /etc/passwd | grep suree > ldif/user/passwd.suree
+# cat /etc/passwd | grep ranos > ldif/user/passwd.ranos
+# cat /etc/group | grep sokel > ldif/user/group.sokel
+# cat /etc/group | grep suree > ldif/user/group.suree
+# cat /etc/group | grep ranos > ldif/user/group.ranos</code></pre><p>We’ll set some aliases for our migration scripts too</p>
+<pre><code class="language-none"># alias miguser='/usr/share/migrationtools/migrate_passwd.pl'
+# alias miggroup='/usr/share/migrationtools/migrate_group.pl'</code></pre><p>Before we continue, we need to modify our migration scripts. This is extremely important, otherwise our LDIFs will come out incorrect. Change them to your DN.</p>
+<pre><code class="language-none"># sed -i.bak "s/padl.com/angelsofclockwork.net/g" /usr/share/migrationtools/migrate_common.ph
+# sed -i.bak "s/padl,dc=com/angelsofclockwork,dc=net/g" /usr/share/migrationtools/migrate_common.ph</code></pre><p>Now we can use a loop to convert them. You can do it by hand also, but that’s up to you.</p>
+<pre><code class="language-none"># for x in sokel suree ranos ; do miguser ldif/user/passwd.$x > ldif/user/$x.ldif ; done
+# for x in sokel suree ranos ; do miggroup ldif/user/group.$x >> ldif/user/$x.ldif ; done
+# cd ldif/user/
+# cat *.ldif >> /tmp/ourusers.ldif
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f /tmp/ourusers.ldif
+Enter LDAP Password:
+adding new entry "uid=ranos,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=ranos,ou=Group,dc=angelsofclockwork,dc=net"
+
+adding new entry "uid=sokel,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=sokel,ou=Group,dc=angelsofclockwork,dc=net"
+
+adding new entry "uid=suree,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=suree,ou=Group,dc=angelsofclockwork,dc=net"</code></pre><p>The manual way.</p>
+<pre><code class="language-none"># /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.sokel > ldif/user/sokel.ldif
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.sokel >> ldif/user/sokel.ldif
+# /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.suree > ldif/user/suree.ldif
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.suree >> ldif/user/suree.ldif
+# /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.ranos > ldif/user/ranos.ldif
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.ranos >> ldif/user/ranos.ldif
+
+# cd ldif/user/
+# ls
+group.ranos  group.suree   passwd.sokel  ranos.ldif  suree.ldif
+group.sokel  passwd.ranos  passwd.suree  sokel.ldif
+
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f sokel.ldif
+Enter LDAP Password:
+adding new entry "uid=sokel,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=sokel,ou=Group,dc=angelsofclockwork,dc=net"
+
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f suree.ldif
+Enter LDAP Password:
+adding new entry "uid=suree,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=suree,ou=Group,dc=angelsofclockwork,dc=net"
+
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f ranos.ldif
+Enter LDAP Password:
+adding new entry "uid=ranos,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=ranos,ou=Group,dc=angelsofclockwork,dc=net"</code></pre></div>
+<div class="section" id="add-users-via-ldif">
+<h3>Add Users via LDIF<a class="headerlink" href="#add-users-via-ldif" title="Permalink to this headline">¶</a></h3>
+<p>This is for those who don’t want to create the account locally. For each user, you need to create an LDIF that satisfies their account information such as UID, GID and their group information. If you plan on having NFS exports to /lhome, make sure homeDirectory is correctly pointing as such. Otherwise, keep it as /home/username.</p>
+<pre><code class="language-none">dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+cn: Zera Nalika
+gidNumber: 11000
+sn: Nalika
+uidNumber: 11000
+givenName: Zera
+uid: zera
+loginShell: /bin/bash
+homeDirectory: /home/zera
+displayName: Zera Nalika
+userPassword: changeme2
+
+dn: cn=zera,ou=Group,dc=angelsofclockwork,dc=net
+objectClass: posixGroup
+objectClass: top
+cn: zera
+gidNumber: 11000</code></pre><p>That’s about it for that. You create these for each user as needed and then add them into ldap.</p>
+<pre><code class="language-none"># ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f zera.ldif
+adding new entry "uid=zera,ou=People,dc=angelsofclockwork,dc=net"
+
+adding new entry "cn=zera,ou=Group,dc=angelsofclockwork,dc=net"</code></pre><p>For users who are doing the /lhome thing, make their directories. When you are changing ownership, do it by UID and GID number.</p>
+<pre><code class="language-none"># mkdir /lhome
+# semanage fcontext -a -t home_root_t "/lhome(/.*)?"
+# mkdir /lhome/zera
+# cp /etc/skel/.* /lhome/zera
+# chown -R 11000:11000 /lhome/zera
+# restorecon -Rv /lhome</code></pre></div>
+<div class="section" id="nfs-export-home-directories">
+<h3>NFS Export Home Directories<a class="headerlink" href="#nfs-export-home-directories" title="Permalink to this headline">¶</a></h3>
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Caution</h3></div><div class="panel-body">
+<p>/home vs /lhome</p>
+<p>If you used /lhome and you want to use NFS mounts, you may continue here. Otherwise, skip this section entirely. If you use /home and still want to do NFS, you will need to do persistent NFS to say /export/home, and then setup AutoFS to use /export/home as a way to automount into /home.</p>
+</div></div>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Potential Pitfall</p>
+<p>Do NOT use NFSv3. The steps below show how to prevent user squashing to allow the user to have access to their home directories. Typically, in an NFSv4 fashion, it tends to mount it with permissions set to nobody. Other solutions have been to force NFSv3. This is <strong>NOT</strong> recommended. <strong>YOU HAVE BEEN WARNED.</strong></p>
+</div></div>
+<p>First, we’ll need to install nfs-utils, set up our exports, and modify our id map file.</p>
+<pre><code class="language-none"># yum install nfs-utils libnfsidmap -y
+
+# vi /etc/exports
+/lhome *(rw,sync,root_squash,no_all_squash)
+
+# vi /etc/idmapd.conf
+
+# Comment out the first Domain line and make your own
+Domain = zera1.angelsofclockwork.net
+
+# systemctl start nfs-server
+# systemctl enable nfs-server</code></pre><p>Sometimes you’ll still run into the nobody problem. Sometimes this helps.</p>
+<pre><code class="language-none"># vi /etc/sysconfig/nfs
+NEED_IDMAPD=yes
+NFSMAPID_DOMAIN=library.angelsofclockwork.net</code></pre></div>
+<div class="section" id="firewall">
+<h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this headline">¶</a></h3>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Keep your firewall on</p>
+<p>It is bad practice to turn your firewall off. Don’t do it.</p>
+</div></div>
+<p>We need to open up our firewall.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Port Reference</p>
+<ul class="simple">
+<li>LDAP Ports: 389/tcp 636/tcp</li>
+<li>NFS Ports: 111/tcp 111/udp 2049/tcp</li>
+</ul>
+</div></div>
+<p>If using firewalld, you can add these ports by service.</p>
+<pre><code class="language-none"># firewall-cmd --add-service=ldap --zone=public --permanent
+# firewall-cmd --add-service=ldaps --zone=public --permanent
+# firewall-cmd --add-service=nfs --zone=public --permanent
+# firewall-cmd --reload</code></pre></div>
+</div>
+<div class="section" id="client">
+<h2>Client<a class="headerlink" href="#client" title="Permalink to this headline">¶</a></h2>
+<p>Setting up the client can be straight-forward or troubling, depending on the distribution you’re using. We’ll be going over RHEL 6 and 7. Fedora also works here as well.</p>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Third-party Repositories</p>
+<p>If you use third-party repositories, you may want to disable them, at least temporarily. Depending on the repository, there may be conflicts when installing the appropriate packages. You may want to consider on setting up priorities, and ensure your base and updates are higher than the rest.</p>
+</div></div>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Slight Command Difference</p>
+<p>On RHEL 7, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately.</p>
+</div></div>
+<div class="section" id="rhel-6-rhel-7-fedora-20">
+<h3>RHEL 6/RHEL 7/Fedora 20+<a class="headerlink" href="#rhel-6-rhel-7-fedora-20" title="Permalink to this headline">¶</a></h3>
+<p>We’ll be using SSSD for this. We need to install some key packages first. Some of these packages may not install because they were either superceded or obsoleted.</p>
+<pre><code class="language-none"># yum install pki-{ca,common,silent} openldap-clients nss-pam-ldapd policycoreutils-python sssd sssd-common sssd-client sssd-ldap</code></pre><p>Make sure to use authconfig to setup your LDAP information. I like to do an authconfig command (rather than authconfig-tui) to get me started.</p>
+<pre><code class="language-none"># authconfig --enableldap --enableshadow --enableldapauth --enablesssd --enablesssdauth --enablelocauthorize --enablemkhomedir --ldapserver='ldaps://zera1.angelsofclockwork.net' --ldapbasedn="dc=angelsofclockwork,dc=net" --updateall</code></pre><p>Now, let’s get our CA cert that we made way long ago and download it. If you used a real CA to sign your certificate, obtain their certificate.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Hash</p>
+<p>Remember your hash from when you were making your certificates? You need to obtain it. In both examples, we created it while using a symbolic link.</p>
+</div></div>
+<pre><code class="language-none"># scp zera1.angelsofclockwork.net:/etc/pki/ldap/ca.pem /etc/openldap/certs/ca.pem
+# cd /etc/openldap/certs
+# ln -s ca.pem 39642ab3.0</code></pre><p>Now, modify /etc/openldap/ldap.conf and add the following to the bottom, ensuring your BASE is set correctly.</p>
+<pre><code class="language-none">URI ldap://library.angelsofclockwork.net
+BASE dc=angelsofclockwork,dc=net
+ssl start_tls</code></pre><p>You can attempt an ldapsearch and it should work. Search for one of your users.</p>
+<pre><code class="language-none"># ldapsearch -x -LLL uid=zera
+
+dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+cn: Zera Nalika
+gidNumber: 11000
+uidNumber: 11000
+givenName: Zera
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+objectClass: hostObject
+objectClass: radiusprofile
+objectClass: inetOrgPerson
+objectClass: ldapPublicKey
+uid: zera
+loginShell: /bin/bash
+homeDirectory: /lhome/zera
+displayName: Zera Nalika</code></pre></div>
+<div class="section" id="automounting-home-directories">
+<h3>Automounting Home Directories<a class="headerlink" href="#automounting-home-directories" title="Permalink to this headline">¶</a></h3>
+<p>If you chose to do /lhome NFS mounting, proceed here.</p>
+<pre><code class="language-none"># mkdir /lhome
+# semanage fcontext -a -t autofs_t "/lhome(/.*)?"
+# restorecon -v /lhome
+# setsebool use_nfs_home_dirs 1</code></pre><p>Now, let’s get our automounting setup.</p>
+<pre><code class="language-none"># vi /etc/auto.master
+. . .
+/lhome /etc/auto.lhome # Add this under the /misc line</code></pre><p>Let’s copy the misc template and make a change to it.</p>
+<pre><code class="language-none"># cp /etc/auto.misc /etc/auto.lhome
+# vi /etc/auto.lhome
+
+# Comment the cd line, and add our mount under it.
+#cd             -fstype=iso9660,ro,nosuid,nodev :/dev/cdrom
+*               -rw,soft,intr       zera1.angelsofclockwork.net:/lhome/&
+
+# restorecon -v /etc/auto.lhome
+# systemctl enable autofs
+# systemctl start autofs</code></pre><p>Let’s make our change to the idmapd configuration.</p>
+<pre><code class="language-none"># vi /etc/idmapd.conf
+
+#Domain = local.domain.edu
+Domain = zera1.angelsofclockwork.net
+
+# systemctl restart sssd autofs</code></pre></div>
+</div>
+<div class="section" id="ldap-structure-add-ons">
+<h2>LDAP Structure Add-ons<a class="headerlink" href="#ldap-structure-add-ons" title="Permalink to this headline">¶</a></h2>
+<p>Here you’ll find my value-added portions of getting LDAP going further than what the above presented.</p>
+<div class="section" id="sudo">
+<h3>SUDO<a class="headerlink" href="#sudo" title="Permalink to this headline">¶</a></h3>
+<p>Getting SUDO to work in LDAP can be a real pain. It doesn’t have to be.</p>
+<p>The default sudo schema provided by the LDAP packages, which I have taken and converted into the proper olc format.</p>
+<pre><code class="language-none">dn: cn=sudo,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: sudo
+olcAttributeTypes: {0}( 1.3.6.1.4.1.15953.9.1.1 NAME 'sudoUser' DESC 'User(s)
+ who may  run sudo' EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMa
+ tch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {1}( 1.3.6.1.4.1.15953.9.1.2 NAME 'sudoHost' DESC 'Host(s)
+ who may run sudo' EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMat
+ ch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {2}( 1.3.6.1.4.1.15953.9.1.3 NAME 'sudoCommand' DESC 'Comma
+ nd(s) to be executed by sudo' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1
+ 466.115.121.1.26 )
+olcAttributeTypes: {3}( 1.3.6.1.4.1.15953.9.1.4 NAME 'sudoRunAs' DESC 'User(s)
+  impersonated by sudo (deprecated)' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1
+ .4.1.1466.115.121.1.26 )
+olcAttributeTypes: {4}( 1.3.6.1.4.1.15953.9.1.5 NAME 'sudoOption' DESC 'Option
+ s(s) followed by sudo' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115
+ .121.1.26 )
+olcAttributeTypes: {5}( 1.3.6.1.4.1.15953.9.1.6 NAME 'sudoRunAsUser' DESC 'Use
+ r(s) impersonated by sudo' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466
+ .115.121.1.26 )
+olcAttributeTypes: {6}( 1.3.6.1.4.1.15953.9.1.7 NAME 'sudoRunAsGroup' DESC 'Gr
+ oup(s) impersonated by sudo' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.14
+ 66.115.121.1.26 )
+olcAttributeTypes: {7}( 1.3.6.1.4.1.15953.9.1.8 NAME 'sudoNotBefore' DESC 'Sta
+ rt of time interval for which the entry is valid' EQUALITY generalizedTimeMat
+ ch ORDERING generalizedTimeOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+  )
+olcAttributeTypes: {8}( 1.3.6.1.4.1.15953.9.1.9 NAME 'sudoNotAfter' DESC 'End
+ of time interval for which the entry is valid' EQUALITY generalizedTimeMatch
+ ORDERING generalizedTimeOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 )
+olcAttributeTypes: {9}( 1.3.6.1.4.1.15953.9.1.10 NAME 'sudoOrder' DESC 'an int
+ eger to order the sudoRole entries' EQUALITY integerMatch ORDERING integerOrd
+ eringMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+olcObjectClasses: {0}( 1.3.6.1.4.1.15953.9.2.1 NAME 'sudoRole' DESC 'Sudoer En
+ tries' SUP top STRUCTURAL MUST cn MAY ( sudoUser $ sudoHost $ sudoCommand $ s
+ udoRunAs $ sudoRunAsUser $ sudoRunAsGroup $ sudoOption $ sudoOrder $ sudoNotB
+ efore $ sudoNotAfter $ description ) )</code></pre><p>Save this as sudoschema.ldif and add it in.</p>
+<pre><code class="language-none"># ldapadd -Y EXTERNAL -H ldapi:/// -f sudoschema.ldif</code></pre><p>Let’s create our defaults. This will start our sudo OU and give it some defaults. You may change these if you so desire.</p>
+<pre><code class="language-none"># vi sudo.ldif
+
+dn: ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: top
+objectClass: organizationalUnit
+ou: SUDOers
+
+dn: cn=defaults,ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: top
+objectClass: sudoRole
+cn: defaults
+description: SUDOers Default values
+sudoOption: requiretty
+sudoOption: env_reset
+sudoOption: env_keep =  "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS"
+sudoOption: env_keep += "MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE"
+sudoOption: env_keep += "LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES"
+sudoOption: env_keep += "LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE"
+sudoOption: env_keep += "LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY"
+
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f sudo.ldif</code></pre><p>Now, let’s create our first SUDO container. It will be for our “admins”. We could specify “sudoHost: ALL” if we wanted. But for the example, I chose a couple of hosts.</p>
+<pre><code class="language-none"># vi admins.ldif
+
+dn: cn=ADMINS,ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: sudoRole
+cn: ADMINS
+description: Administration Role
+sudoCommand: ALL
+sudoHost: zera2.angelsofclockwork.net
+sudoHost: zera3.angelsofclockwork.net
+sudoRunAs: ALL
+sudoRunAsGroup: ALL
+sudoRunAsUser: ALL
+sudoUser: zera
+
+# ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f admins.ldif</code></pre><p>We need to make a couple of config changes on our clients. You’re configurations may be slightly different than mine.</p>
+<pre><code class="language-none"># vi /etc/nsswitch.conf
+. . .
+passwd:     files sss
+shadow:     files sss
+group:      files sss
+sudoers:    files sss  # Add this
+
+# vi /etc/sssd/sssd.conf
+
+[domain/default]
+
+cache_credentials = True
+krb5_realm = #
+ldap_search_base = dc=angelsofclockwork,dc=net
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+sudo_provider = ldap
+ldap_uri = ldap://zera1.angelsofclockwork.net
+ldap_id_use_start_tls = True
+ldap_tls_cacertdir = /etc/openldap/certs
+ldap_tls_cacert = /etc/openldap/certs/ca.pem
+# Add the below
+ldap_sudo_search_base = ou=SUDOers,dc=angelsofclockwork,dc=net
+
+[sssd]
+# Modify this line and add sudo to the list
+services = nss, pam, autofs, sudo
+
+# Add this also...
+[sudo]
+
+# systemctl restart sssd</code></pre><div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>SSSD Cache</p>
+<p>Sometimes SSSD likes to cache things or never update things for whatever reason or another. To get around this, stop sssd, delete everything under /var/lib/sss/db/ and then start sssd again.</p>
+</div></div>
+<p>Now, let’s test.</p>
+<pre><code class="language-bash">[root@zera3 ~]# su - zera
+[zera@zera3 ~]$ sudo -l
+[sudo] password for zera:
+Matching Defaults entries for zera on this host:
+    requiretty, env_reset, env_keep="COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS", env_keep+="MAIL
+    PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE", env_keep+="LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT
+    LC_MESSAGES", env_keep+="LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE", env_keep+="LC_TIME LC_ALL
+    LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY", secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin, env_reset, requiretty
+
+User sokel may run the following commands on this host:
+    (ALL : ALL) ALL</code></pre></div>
+<div class="section" id="member-groups">
+<h3>Member Groups<a class="headerlink" href="#member-groups" title="Permalink to this headline">¶</a></h3>
+<p>Member groups are extremely useful, especially for when you’re granting permissions to external applications (and SSSD if you wish).</p>
+<pre><code class="language-none"># vi modules.ldif
+
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulePath: /usr/lib64/openldap
+olcModuleLoad: memberof.la
+
+# vi memberof.ldif
+
+dn: olcOverlay=memberof,olcDatabase={2}mdb,cn=config
+objectClass: olcMemberOf
+objectClass: olcOverlayConfig
+objectClass: olcConfig
+objectClass: top
+olcOverlay: memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+
+# ldapadd -Y EXTERNAL -H ldapi:/// -f modules.ldif
+# ldapadd -Y EXTERNAL -H ldapI:/// -f memberof.ldif</code></pre><p>After that, we can now create our groups. Example.</p>
+<pre><code class="language-none">dn: cn=Admins,ou=Group,dc=angelsofclockwork,dc=net
+objectClass: groupOfNames
+cn: Admins
+member: uid=chris,ou=People,dc=angelsofclockwork,dc=net
+member: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+member: uid=sithlord,ou=People,dc=angelsofclockwork,dc=net</code></pre><p>In SSSD, we can make some minor changes.</p>
+<pre><code class="language-none">ldap_search_base = dc=angelsofclockwork,dc=net?sub?|(memberOf=cn=Admins,ou=Group,dc=angelsofclockwork,dc=net)
+ldap_access_filter = (|(memberOf=cn=Admins,ou=Group,dc=angelsofclockwork,dc=net))
+# Change this to rfc2307 if you are using nis
+ldap_schema = rfc2307bis
+enumerate = True
+
+# systemctl stop sssd ; rm -rf /var/lib/sss/db/* ; systemctl start sssd</code></pre><p>If we were to do an ldapsearch, we can see the groups show up.</p>
+<pre><code class="language-none"># ldapsearch -x -LLL uid=zera memberOf
+dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+memberOf: cn=Admins,ou=Group,dc=angelsofclockwork,dc=net</code></pre><p>Make sure you turn on referential integrity!</p>
+</div>
+<div class="section" id="referential-integrity">
+<h3>Referential Integrity<a class="headerlink" href="#referential-integrity" title="Permalink to this headline">¶</a></h3>
+<p>Having referential integrity is absolutely important. It basically means that if a user gets deleted, their group membership disappears also. This prevents you from having to clean up manually.</p>
+<pre><code class="language-none"># vi module.ldif
+
+dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f module.ldif</code></pre><p>You also need the overlay. An overlay allows certain plugins to work on a DIT.</p>
+<pre><code class="language-none"># vi overlay.ldif
+dn: olcOverlay=refint,olcDatabase={2}mdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcConfig
+objectClass: olcRefintConfig
+objectClass: top
+olcOverlay: refint
+olcRefintAttribute: memberOf member manager
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f overlay.ldif</code></pre></div>
+<div class="section" id="acl">
+<h3>ACL<a class="headerlink" href="#acl" title="Permalink to this headline">¶</a></h3>
+<p>An ACL (Access Control List) allows permissions to be given to those in the LDAP tree. The problem with a default LDAP setup is that, attributes like userPassword show up in an ldapsearch. This gives little protection. So, to get around this issue, we have to create ACLs.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>The Manager’s Rights</p>
+<p>The manager has all rights to the DIT. In previous implementations, I have put him in access controls as a reference and would put “write” as his access. This isn’t needed, but it doesn’t hurt to have it.</p>
+</div></div>
+<p>This ldif creates an ACL that allows the Admins group to do anything they want on the DIT (similar to manager). This also prevents anonymous searches from pulling up a user’s password.</p>
+<pre><code class="language-none"># vi acl.ldif
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by group.exact="cn=Admins,ou=Group,dc=angelsofclockwork,dc=net" write by anonymous auth by self write by * none break
+olcAccess: {2}to * by group.exact="cn=Admins,ou=Group,dc=angelsofclockwork,dc=net" write by * read
+olcAccess: {3}to dn.base="" by * read
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f acl.ldif</code></pre><p>It’s highly recommended, however, to disable anonymous searching, especially if you go production with LDAP. A lot of LDAP implementations disallow anonymous searching by default. You can do this with ACLs, but it’s not recommended. We cover this in the search.</p>
+</div>
+<div class="section" id="disable-anonymous-binding">
+<h3>Disable Anonymous Binding<a class="headerlink" href="#disable-anonymous-binding" title="Permalink to this headline">¶</a></h3>
+<p>It’s recommended to disable anonymous searching. This can be handled by making a modification to the global configuration and the DIT configuration.</p>
+<pre><code class="language-none">dn: cn=config
+changetype: modify
+add: olcDisallows
+olcDisallows: bind_anon
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+add: olcRequires
+olcRequires: authc</code></pre><p>Once you add this in, all anonymous searching will cease.</p>
+<pre><code class="language-none"># ldapsearch -x -LLL uid=zera
+ldap_bind: Inappropriate authentication (48)
+        additional info: anonymous bind disallowed</code></pre></div>
+<div class="section" id="ldap-logging">
+<h3>LDAP Logging<a class="headerlink" href="#ldap-logging" title="Permalink to this headline">¶</a></h3>
+<p>Logging is of course, very important for an LDAP server. There are a few types of logs we can do. There are the standard logs and then there are also audit logs. Audit logs allow an administrator to view changes being done to LDAP in an LDIF form. We can setup both.</p>
+<p>Let’s create our modification LDIF. This will turn on standard logging and enable the audit module. Run an ldapmodify against this LDIF.</p>
+<pre><code class="language-none">dn: cn=config
+changetype: modify
+replace: olcLogFile
+olcLogFile: /var/log/ldap-standard.log
+-
+replace: olcLogLevel
+olcLogLevel: 256
+
+# Keep in mind, if you have other modules being loaded,
+# add them to the list
+dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+olcModuleLoad: auditlog.la</code></pre><p>Now, we need to make sure audit logging is done on our database.</p>
+<pre><code class="language-none">dn: olcOverlay=auditlog,olcDatabase={2}mdb,cn=config
+objectClass: olcAuditlogConfig
+objectClass: olcOverlayConfig
+olcOverlay: auditlog
+olcAuditlogFile: /var/log/ldap-audit.log</code></pre><p>It’s recommended to have logrotate working for our logs. Here is a file I’ve dropped into /etc/logrotate.d. Experiment with these options. Since I work in an environment that has tons of transactions going all the time, and thus, my rotations are at 100M and 250M respectively.</p>
+<pre><code class="language-none">/var/log/ldap-standard.log {
+missingok
+compress
+notifempty
+daily
+rotate 10
+size=100M
+}
+
+/var/log/ldap-audit.log {
+missingok
+compress
+notifempty
+daily
+rotate 10
+size=250M
+}</code></pre><p>In /etc/rsyslog.conf, optionally, you can create this. If you find that logs are not appearing after the changes above, use this.</p>
+<pre><code class="language-none">local4.*                   /var/log/ldap.log</code></pre></div>
+<div class="section" id="password-policy">
+<h3>Password Policy<a class="headerlink" href="#password-policy" title="Permalink to this headline">¶</a></h3>
+<p>Password policies are a great asset, especially when working in an environment that have or require security policies. First, let’s load our module and then add our overlay. This LDIF will do both. <strong>You may want to remove the comments before adding.</strong></p>
+<pre><code class="language-none">dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+olcModuleLoad: auditlog.la
+olcModuleLoad: ppolicy.la
+
+dn: olcOverlay=ppolicy,olcDatabase={2}hdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcPPolicyConfig
+olcOverlay: ppolicy
+olcPPolicyDefault: cn=default,ou=policies,dc=angelsofclockwork,dc=net
+# Set the below to TRUE if you want users to get locked out after failed attempted
+olcPPolicyUseLockout: TRUE
+# Set the below to TRUE if you want passwords to be hashed.
+# HIGHLY RECOMMENDED YOU SET THIS TO TRUE
+olcPPolicyHashCleartext: TRUE</code></pre><p>Now, we need an LDIF to create our standard password policy. It’s important to have a default password policy and then create separate ones as needed. Make sure to read the comments. <strong>You may want to remove the comments before adding.</strong></p>
+<pre><code class="language-none">dn: cn=default,ou=policies,dc=angelsofclockwork,dc=net
+objectClass: pwdPolicy
+objectClass: person
+objectClass: top
+cn: passwordDefault
+sn: passwordDefault
+pwdAttribute: userPassword
+# If set to 0, quality is not checked.
+# If set to 1, quality is checked by an internal module which you setup.
+# If set to 2, the system used to change the password must have a checking mechanism.
+# Pick your poison.
+pwdCheckQuality: 0
+# Password lives for 84 days
+pwdMinAge: 0
+pwdMaxAge: 7257600
+# Minimum length is 7
+pwdMinLength: 7
+# Password history of 10, cannot use a password that's in history
+pwdInHistory: 10
+# 5 Failures till a lockout, 10 minutes for it to reset, 30 minute lockout.
+pwdMaxFailure: 5
+pwdFailureCountInterval: 600
+pwdLockout: TRUE
+pwdLockoutDuration: 1800
+# A user can change their own password.
+pwdAllowUserChange: TRUE
+# Systems that authenticate to LDAP can warn 14 days before an expiration
+pwdExpireWarning: 1209600
+# Allowed binds on an expired password.
+pwdGraceAuthNLimit: 5
+pwdMustChange: TRUE
+pwdSafeModify: FALSE</code></pre><p>In the instance you want to use the built-in module for password checking, your LDIF would have these lines.</p>
+<pre><code class="language-none">pwdCheckQuality: 1
+pwdCheckModule: check_password.so</code></pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+	
+	<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+		
+		<a href="sysadmin.html" class="btn btn-default pull-right" accesskey="n">
+			The System Administrator Experience <span class="fa fa-arrow-circle-right"></span>
+		</a>
+		
+		
+		<a href="../fedora/xscreensaver.html" class="btn btn-default" accesskey="p">
+			<span class="fa fa-arrow-circle-left"></span> XScreenSaver
+		</a>
+		
+	</div>
+	
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, remyabel, nazunalika.
+
+    </p>
+		<p>This site is not affiliated with or endorsed by the Fedora Project, nor the CentOS project</p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a heavily customized version of <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+</main>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'master',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="../_static/js/prism.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

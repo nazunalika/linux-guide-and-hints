@@ -1,0 +1,1479 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<title>FreeIPA &mdash; Linux Guide and Hints </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/prism.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Linux Guide and Hints master documentation" href="../index.html"/>
+        <link rel="prev" title="The System Administrator Experience" href="sysadmin.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+	<nav class='navbar navbar-inverse'>
+		<div class='container'>
+			<div class='navbar-header'>
+				<button type='button' class='navbar-toggle collapsed'
+					data-toggle='collapse' data-target='#collapse'>
+					<i class='fa fa-lg fa-bars'></i>					
+				</button>
+				<a class='navbar-brand' href='/angels-of-clockwork/'>EPK</a>
+			</div>
+
+			<div class='collapse navbar-collapse' id='collapse'>
+				<ul class='nav navbar-nav'>
+					<li><a href='/angels-of-clockwork/'>Home</a></li>
+                    <li><a href='/angels-of-clockwork/audio.html'>Music</a></li>
+					<li class='active'><a href='/angels-of-clockwork/linux-guide-and-hints/build/html/'>Wiki</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+ 
+
+<main id='main'>
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Linux Guide and Hints
+        
+
+        
+        </a>
+
+        
+          
+          
+            
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">Fedora</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/allinonescript.html">All-in-One Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/blockify.html">Blockify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/cipc.html">Cisco IP Communicator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-playonlinux">Installing via PlayOnLinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-regular-wine">Installing via Regular Wine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#pulse-audio">Pulse Audio</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/clangformat.html">Clang Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/emulators.html">Emulators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mupen64plus-unofficial-faq">Mupen64Plus unofficial FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#where-does-mupen64plus-like-to-put-files">Where does Mupen64Plus like to put files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-m-getting-a-dlopen-error">I’m getting a <code>dlopen</code> error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-changed-one-of-the-hi-res-textures-and-no-change-is-visible">I changed one of the hi-res textures and no change is visible</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#recommended-plugins">Recommended plugins?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#how-do-i-compile-it">How do I compile it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#gba">GBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mame-configuration">MAME configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#inconsistency">Inconsistency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#example-mame-ini">Example <code>mame.ini</code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#example-command-line-options">Example command line options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#speed">Speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#ui-script">UI script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mgba-controller-joystick-issue">mGBA controller/joystick issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#compiling-mgba">Compiling mGBA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#cmake-variables">CMake variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#link-cable-support">Link cable support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id1">BGB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id2">mGBA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/gcc.html">GCC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#installing-prerequisites-gmp-mpfr-mpc">Installing prerequisites: GMP, MPFR, MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#building">Building</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/git.html">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/git.html#workflow">Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#git-commit-am-didnt-add-my-latest-files"><code>git commit -am</code> didn’t add my latest files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#what-creates-duplicate-commits-different-shas">What creates duplicate commits (different SHA’s)?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#merge">Merge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#temporary-hotfix-branch">Temporary (hotfix) branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#feature-long-lived-branch">Feature (long-lived) branch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/git.html#rebase">Rebase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#local-branch-diverges-from-origin-remote">Local branch diverges from origin (remote)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/git.html#clean-up-your-work">Clean up your work</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/iphone.html">iPhone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/misc.html">Misc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#using-ld-library-path-in-fish">Using <code>LD_LIBRARY_PATH</code> in Fish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#failed-to-start-load-kernel-modules">Failed to start Load Kernel Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/misc.html#error-still-persists-after-uninstalling-virtualbox">Error still persists after uninstalling VirtualBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/nvidiadrivers.html">Nvidia drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/nvidiadrivers.html#negativo">Negativo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/nvidiadrivers.html#rpm-fusion">RPM Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#kmod">kmod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#akmod">akmod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/nvidiadrivers.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pip.html">pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/postgres.html">Installing PostgreSQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/postgres.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#foreword">Foreword</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#simplest-method">Simplest method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#installing-from-postgresql-s-repository">Installing from PostgreSQL’s repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#disabling-postgresql-s-repo">Disabling PostgreSQL’s repo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#initialize-the-service">Initialize the service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/postgres.html#running-the-server">Running the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#the-postgresql-user-account">The PostgreSQL User Account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#managing-the-server">Managing the server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/postgres.html#importing-some-data">Importing some data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/powerline.html">Powerline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#installing-via-dnf">Installing via <code>dnf</code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#enabling-powerline-installed-via-dnf">Enabling powerline (installed via <code>dnf</code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#fish">Fish</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#vim">vim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#tmux">tmux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pulseaudio.html">Pulseaudio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#flat-volume">Flat Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#sound-crackling">Sound Crackling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vim.html">vim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vim.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vlc.html">VLC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vlc.html#qt-5-6-interface-dpi">QT 5.6 Interface DPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vlc.html#vdpau-decoding-hardware-acceleration">VDPAU decoding (hardware acceleration)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vmware.html">VMware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/winetips.html">Wine Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#new-vegas">New Vegas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#modding">Modding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#id1">Mod Organizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#lutana-nvse">Lutana NVSE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/xscreensaver.html">XScreenSaver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#gamma-or-brightness-is-too-high-when-unlocking">Gamma or brightness is too high when unlocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#disable-fade-to-black-effect">Disable fade to black effect</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">CentOS</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="openldap.html">OpenLDAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#packages">Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#certificates">Certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-server-configuration">LDAP Server Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-structure">LDAP Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-migration">Add Users via Migration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-ldif">Add Users via LDIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#nfs-export-home-directories">NFS Export Home Directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#firewall">Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#client">Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#rhel-6-rhel-7-fedora-20">RHEL 6/RHEL 7/Fedora 20+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#automounting-home-directories">Automounting Home Directories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#ldap-structure-add-ons">LDAP Structure Add-ons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#sudo">SUDO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#member-groups">Member Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#referential-integrity">Referential Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#acl">ACL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#disable-anonymous-binding">Disable Anonymous Binding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-logging">LDAP Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#password-policy">Password Policy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sysadmin.html">The System Administrator Experience</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#recommendations">Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#certification-completions">Certification Completions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#notes-and-changelog">Notes and Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#begin">Begin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-a-kvm-hypervisor">Setup a KVM Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#dhcp-and-dns">DHCP and DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#server-and-content-management">Server and Content Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#connect-content-management-to-hypervisor">Connect Content Management to Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-s-using-katello-spacewalk">Spin Up VM’s Using Katello/Spacewalk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-openldap">Setup OpenLDAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-two-vm-s-for-databases">Spin Up Two VM’s for Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-configuration-management">Spin Up Configuration Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-for-nfs-iscsi">Spin Up VM for NFS/iSCSI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-bacula-server">Deploy Bacula Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-four-vm-s">Deploy Four VM’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-load-balancer-vm">Deploy Load Balancer VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-postfix-vm">Deploy Postfix VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-nagios-vm">Setup Nagios VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-syslog-vm">Setup Syslog VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#document-your-work">Document Your Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#rpm-build-server">RPM Build Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#git-server">Git Server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FreeIPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dns">DNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#freeipa-has-full-control">FreeIPA has full control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delegation">Delegation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#server-setup">Server Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required-packages">Required Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replica">Replica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replica-automation">Replica Automation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#active-directory-trust">Active Directory Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#client-setup">Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rhel-7">RHEL 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rhel-6">RHEL 6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac-clients">Mac Clients</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hbac">HBAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sudo">SUDO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#legacy-client-setup">Legacy Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#solaris-10">Solaris 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solaris-11">Solaris 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#legacy-hbac">Legacy HBAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#legacy-active-directory-trust">Legacy Active Directory Trust</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#situational-options">Situational Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+				<i data-toggle="wy-nav-top" class='fa fa-lg fa-bars'></i>					
+
+        <a href="../index.html">Linux Guide and Hints</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ol class="breadcrumb wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a></li>
+      
+    <li class="active">FreeIPA</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/centos/freeipa.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ol>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+						 
+						 <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+							 
+							 
+							 <a href="sysadmin.html" class="btn btn-default" accesskey="p">
+								 <span class="fa fa-arrow-circle-left"></span> The System Administrator Experience
+							 </a>
+							 
+						 </div>
+						 
+
+            
+  <div class="section" id="freeipa">
+<h1><a class="toc-backref" href="#id4">FreeIPA</a><a class="headerlink" href="#freeipa" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial goes over how to install and configure FreeIPA on CentOS 7 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#freeipa" id="id4">FreeIPA</a><ul>
+<li><a class="reference internal" href="#overview" id="id5">Overview</a></li>
+<li><a class="reference internal" href="#requirements" id="id6">Requirements</a></li>
+<li><a class="reference internal" href="#tutorial-preface-notes-and-recommendations" id="id7">Tutorial Preface, Notes, and Recommendations</a></li>
+<li><a class="reference internal" href="#dns" id="id8">DNS</a><ul>
+<li><a class="reference internal" href="#freeipa-has-full-control" id="id9">FreeIPA has full control</a></li>
+<li><a class="reference internal" href="#delegation" id="id10">Delegation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#server-setup" id="id11">Server Setup</a><ul>
+<li><a class="reference internal" href="#required-packages" id="id12">Required Packages</a></li>
+<li><a class="reference internal" href="#installation" id="id13">Installation</a></li>
+<li><a class="reference internal" href="#replica" id="id14">Replica</a></li>
+<li><a class="reference internal" href="#replica-automation" id="id15">Replica Automation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#active-directory-trust" id="id16">Active Directory Trust</a></li>
+<li><a class="reference internal" href="#client-setup" id="id17">Client Setup</a><ul>
+<li><a class="reference internal" href="#rhel-7" id="id18">RHEL 7</a></li>
+<li><a class="reference internal" href="#rhel-6" id="id19">RHEL 6</a></li>
+<li><a class="reference internal" href="#mac-clients" id="id20">Mac Clients</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hbac" id="id21">HBAC</a></li>
+<li><a class="reference internal" href="#sudo" id="id22">SUDO</a></li>
+<li><a class="reference internal" href="#legacy-client-setup" id="id23">Legacy Client Setup</a><ul>
+<li><a class="reference internal" href="#solaris-10" id="id24">Solaris 10</a></li>
+<li><a class="reference internal" href="#solaris-11" id="id25">Solaris 11</a></li>
+<li><a class="reference internal" href="#legacy-hbac" id="id26">Legacy HBAC</a></li>
+<li><a class="reference internal" href="#legacy-active-directory-trust" id="id27">Legacy Active Directory Trust</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#situational-options" id="id28">Situational Options</a><ul>
+<li><a class="reference internal" href="#remove-realm-for-ad-users" id="id29">Remove &#64;realm for AD users</a></li>
+<li><a class="reference internal" href="#rhel-6-sudo-and-default-domain-suffix" id="id30">RHEL 6 SUDO and Default Domain Suffix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id5">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>FreeIPA is an integrated security information management system combining Linux, a Directory Server (389), Kerberos, NTP, DNS, DogTag. It’s a system that can be loosely compared to Active Directory in what it attempts to solve for Linux and UNIX clients and even mixed environments. While it is <strong>not</strong> an active directory, it is an integrated Identity and Authentication solution for Linux/UNIX environments, which means it does not support Windows clients. One problem that FreeIPA attempts to solve is giving back control to the Linux/UNIX administration teams of access, authentication, and authorization rather than trying to integrate directly into Active Directory, where the controls do not work the same or do not work at all. And because of this, no third party software is required to be installed.</p>
+</div>
+<div class="section" id="requirements">
+<h2><a class="toc-backref" href="#id6">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Here are the list of requirements below.</p>
+<ul class="simple">
+<li>CentOS 7</li>
+<li>An active internet connection to install the packages required or available internal mirrors</li>
+<li>DNS delegation (if a DNS appliance or server already exists)</li>
+</ul>
+</div>
+<div class="section" id="tutorial-preface-notes-and-recommendations">
+<h2><a class="toc-backref" href="#id7">Tutorial Preface, Notes, and Recommendations</a><a class="headerlink" href="#tutorial-preface-notes-and-recommendations" title="Permalink to this headline">¶</a></h2>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Potential Pitfalls!</p>
+<ul class="simple">
+<li>Leave SELinux enabled at all times. You will not run into SELinux issues.</li>
+<li>FreeIPA runs a lot better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely.</li>
+<li>FreeIPA does not run DHCP. ISC DHCP can be configured to do dynamic DNS updates to FreeIPA if FreeIPA has full control over DNS.</li>
+</ul>
+</div></div>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Recommended Information</p>
+<ul class="simple">
+<li>Keep selinux set to <strong>enforcing</strong></li>
+<li>DNS - You <strong>must</strong> be careful when using DNS. Here are recommendations. <a class="footnote-reference" href="#f1" id="id1">[1]</a><ul>
+<li>Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes.</li>
+<li>Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - Do not attempt to hijack a domain already being used. This assumes you may have Dynamic DNS enabled in the current DNS infrastructure or perhaps everything is static addressing where A/AAAA/PTR records do not change too often.</li>
+</ul>
+</li>
+<li>Consider setting up a trust with Active Directory if you are in a mixed environment, eg Active Directory already exists</li>
+<li>IPA servers should have static assigned addresses</li>
+</ul>
+</div></div>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Trust Information</p>
+<p>If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, ad.example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources.</p>
+</div></div>
+</div>
+<div class="section" id="dns">
+<h2><a class="toc-backref" href="#id8">DNS</a><a class="headerlink" href="#dns" title="Permalink to this headline">¶</a></h2>
+<p>As noted in the previous section, you must keep in mind that you should not hijack a domain. While FreeIPA does have DNS capabilities and will allow you to do some things like create zones (forward/reverse) and many types of records, FreeIPA should not be considered a full on DNS solution for a network. It does not support “views”, meaning you cannot have an internal view and an external view, assuming your domain is both an external and internally routable domain. In the event that you do need to have “views”, you should setup a separate DNS server and perform delegation of your domain.</p>
+<p>Here are some common ways you can setup FreeIPA and DNS.</p>
+<div class="section" id="freeipa-has-full-control">
+<h3><a class="toc-backref" href="#id9">FreeIPA has full control</a><a class="headerlink" href="#freeipa-has-full-control" title="Permalink to this headline">¶</a></h3>
+<p>Any DHCP servers will need to point to the FreeIPA server(s) for DNS. Static servers where no DHCP is available will need their DHCP manually set to the FreeIPA server(s). If using ISC DHCP, you would just adjust the option domain-name-servers and option domain-name to match accordingly.</p>
+<p>Example.</p>
+<p>option domain-name-servers 10.200.0.21 10.200.0.22;
+option domain-name example.com;</p>
+<p>In this setup, it would allow clients that are DHCP to automatically update their own IP address as they come online or get a new IP automatically. They would have their own permissions to make such changes in the zones (where sssd+kerberos do the work).</p>
+</div>
+<div class="section" id="delegation">
+<h3><a class="toc-backref" href="#id10">Delegation</a><a class="headerlink" href="#delegation" title="Permalink to this headline">¶</a></h3>
+<p>Throughout this guide, you will find we will be using DNS delegation as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. The guide will assume you have a DNS server/appliance that controls a domain like example.com and delegates ad.example.com and ipa.example.com. Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zone (eg example.com outside of ipa.example.com).</p>
+<p>You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don’t overlap with a domain that’s already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner.</p>
+<p>Let’s say I’m using bind, I own a domain called example.com that’s already being used. My AD servers are delegated ad.example.com and IPA servers are delegated ipa.example.com. My example.com zone would have these records to deal with it:</p>
+<pre><code class="language-none">$ORIGIN angelsofclockwork.net.
+ipa                     NS      np-ipa01.ipa
+                        NS      np-ipa02.ipa
+ad                      NS      np-ad01.ad
+                        NS      np-ad02.ad
+$ORIGIN ipa.angelsofclockwork.net.
+np-ipa01                A       10.200.0.230
+np-ipa02                A       10.200.0.231
+$ORIGIN ad.angelsofclockwork.net.
+np-ad01                 A       10.200.0.232
+np-ad02                 A       10.200.0.233</code></pre><p>It is recommended that your DNS server does not perform forwarding. If you are performing any forwarding, you will need to put forwarders { }; inside the zone’s configuration in the named.conf.</p>
+<p>This way, both AD and IPA are both delegated their own subdomains that they control. This ensures both AD and IPA can do what they need to do, DNS wise.</p>
+<p>Note that AD can send nsupdates to a DNS server if given the permissions - As of this writing, FreeIPA does not do this, which is why DNS delegation is recommended.</p>
+</div>
+</div>
+<div class="section" id="server-setup">
+<h2><a class="toc-backref" href="#id11">Server Setup</a><a class="headerlink" href="#server-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="required-packages">
+<h3><a class="toc-backref" href="#id12">Required Packages</a><a class="headerlink" href="#required-packages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>ipa-server</li>
+<li>ipa-client (required as an IPA server is technically a client of the domain)</li>
+<li>ipa-server-dns (required for using the internal DNS)</li>
+<li>ipa-server-trust-ad (required for AD trusts)</li>
+<li>sssd/sssd-ipa (pulled in as dependencies)</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h3><a class="toc-backref" href="#id13">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>To install the server, make sure the hostname is set to the A records and NS delegations you’ve put in DNS (which won’t respond to a DNS lookup). If these are stand-alone, then you can just keep it at the top level (eg, example.com). You’ll also need to modify /etc/hosts, set static IP addresses, and then run the ipa-server-install command.</p>
+<pre><code class="language-bash">% hostnamectl set-hostname server1.ipa.example.com
+% nmcli con mod ens192 ipv4.address 10.200.0.230/24
+% nmcli con mod ens192 ipv4.gateway 10.200.0.1
+% nmcli con mod ens192 ipv4.method manual
+% nmcli con up ens192
+% vi /etc/hosts
+. . .
+10.200.0.230 server1.ipa.example.com
+10.200.0.231 server2.ipa.example.com
+
+% yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+% firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
+% firewall-cmd --complete-reload
+% ipa-server-install --no_hbac_allow --no-ntp --setup-dns  <-- If you want to host NTP from IPA, take off --no-ntp
+. . . (show steps here)</code></pre><p>Once this is complete, it’s recommended you create an admin account for yourself. Later, you can disable ‘admin’ if you’d like, but for now, just create one for yourself. Me personally, I like to have a “2” at the end of my login name, that way I have an obvious difference. I don’t like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it’s better to have separate admin accounts away from the defaults.</p>
+<pre><code class="language-bash">% kinit admin
+% ipa user-add --first=First --last=Last --cn="First Last Admin" --gecos="First Last Admin" flast2
+% ipa group-add-member --users=flast2 admins</code></pre></div>
+<div class="section" id="replica">
+<h3><a class="toc-backref" href="#id14">Replica</a><a class="headerlink" href="#replica" title="Permalink to this headline">¶</a></h3>
+<p>On the replica, ensure you repeat the same steps as above.</p>
+<pre><code class="language-bash">% hostnamectl set-hostname server2.ipa.example.com
+% nmcli con mod ens192 ipv4.address 10.200.0.231/24
+% nmcli con mod ens192 ipv4.gateway 10.200.0.1
+% nmcli con mod ens192 ipv4.method manual
+% nmcli con up ens192
+% vi /etc/hosts
+. . .
+10.200.0.230 server1.ipa.example.com
+10.200.0.231 server2.ipa.example.com
+
+% yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+% firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
+% firewall-cmd --complete-reload
+% ipa-replica-install --auto-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
+. . . (show steps)</code></pre><p>You should now be able to see your replicas.</p>
+<pre><code class="language-bash">% ipa-replica-manage list
+server1.ipa.example.com: master
+server2.ipa.example.com: master</code></pre></div>
+<div class="section" id="replica-automation">
+<h3><a class="toc-backref" href="#id15">Replica Automation</a><a class="headerlink" href="#replica-automation" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to automate the replica installation. To automate the replica installation, the following requirements would need to be met:</p>
+<ul class="simple">
+<li>Server must be added as a client (ipa-client-install) with an IP address on the commandline</li>
+<li>Server must be added to the ipaservers host group</li>
+<li>ipa-replica-install ran without principal and passwords</li>
+</ul>
+</div>
+</div>
+<div class="section" id="active-directory-trust">
+<h2><a class="toc-backref" href="#id16">Active Directory Trust</a><a class="headerlink" href="#active-directory-trust" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="client-setup">
+<h2><a class="toc-backref" href="#id17">Client Setup</a><a class="headerlink" href="#client-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rhel-7">
+<h3><a class="toc-backref" href="#id18">RHEL 7</a><a class="headerlink" href="#rhel-7" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="rhel-6">
+<h3><a class="toc-backref" href="#id19">RHEL 6</a><a class="headerlink" href="#rhel-6" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="mac-clients">
+<h3><a class="toc-backref" href="#id20">Mac Clients</a><a class="headerlink" href="#mac-clients" title="Permalink to this headline">¶</a></h3>
+<p>Mac Clients are an interesting workstation to setup as a FreeIPA client. After a lot of fighting and trying to work around some of Mac’s interesting ways of dealing with network logins, I was finally able to get my IPA users to login. Unfortunately it’s not as easy as just adding to AD as it has it built in, so I had to write down my own instructions and repeat it twice to ensure it works. I eventually scripted it out, which will be at the bottom of this guide. But it’s important to know the step-by-step of how it’s configured.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Other Guides</p>
+<p>There are a couple of guides out there that you may have found before (if you looked) that help setup IPA for Mac. There’s one for much older (I think Lion) and one for Sierra. This section was made mostly for my own reference because I found some things in both of those guides didn’t address issues I ran into one way or another and couldn’t find any information on. The FreeIPA users mail list didn’t have any archives with people having similar issues.</p>
+<p>If you came here after looking at another guide, you will find that there are some similarities between those here, but you may spot some stark differences. If you find that my guide is missing steps or something is clearly missing (because human error), please open an issue on github or email the maintainers of this github repo and we’ll fix it.</p>
+<p>If you are interested in the other guides to compare to, you may see them <a class="reference external" href="https://www.freeipa.org/page/HowTo/Setup_FreeIPA_Services_for_Mac_OS_X_10.12">here (recent)</a> and <a class="reference external" href="https://annvix.com/using_freeipa_for_user_authentication#Mac_OS_X_10.7.2F10.8">here (older)</a></p>
+</div></div>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>AD Users</p>
+<p>You cannot login as AD users on a Mac when going through FreeIPA. You can, in theory, point to the cn=compat tree and set the attribute mapping to rfc2307. In my tests, I have never been able to get this to work. This section, I am going to assume you are going to be logging in as a user in IPA. If you are in a mixed environment, add your Mac to your AD domain instead.</p>
+<p>For a more technical reason, it comes down to how cn=compat exists and what it does. cn=compat doesn’t have every AD user listed. It’s a dynamic tree. And because of this, AD users only appear the moment a search is done for them. From what I could gather, mac’s open directory utilities doesn’t seem to play with this concept very well. Which is why I recommend to stick with AD if you have a mixed environment and your users are in AD.</p>
+</div></div>
+<p>Check your system’s hostname. You want to make sure it has a hostname defined for it in the domain the mac sits in, even if it’s dynamic via DHCP/DNS.</p>
+<pre><code class="language-bash">% sudo scutil --set HostName mac.example.com</code></pre><p>Get the IPA certificate. You’ll need to double click it after you get it and import it.</p>
+<pre><code class="language-bash">% cd ~/Desktop && curl -OL http://server1.ipa.example.com/ipa/config/ca.crt
+% sudo mkdir /etc/ipa
+% sudo cp ca.crt /etc/ipa/ca.crt</code></pre><p>On the IPA server, you will need to create a host and get the keytab.</p>
+<pre><code class="language-bash">% ipa host-add mac.example.com --macaddress="00:00:00:00:00:00"
+% ipa-getkeytab -s server1.ipa.example.com -p host/mac.example.com -k /tmp/krb5.keytab</code></pre><p>You will need to transfer that keytab to your mac.</p>
+<pre><code class="language-bash">% cd ~
+% scp user@server1.ipa.example.com:/tmp/krb5.keytab .
+% sudo mv krb5.keytab /etc/krb5.keytab
+% sudo chmod 600 /etc/krb5.keytab
+% sudo chown root:wheel /etc/krb5.keytab</code></pre><p>Configure /etc/krb5.conf</p>
+<pre><code class="language-none">[domain_realm]
+    .ipa.example.com = IPA.EXAMPLE.COM
+    ipa.example.com = IPA.EXAMPLE.COM
+
+[libdefaults]
+    default_realm = IPA.EXAMPLE.COM
+    allow_weak_crypto = yes
+    dns_lookup_realm = true
+    dns_lookup_kdc = true
+    rdns = false
+    ticket_lifetime = 24h
+    forwardable = yes
+    renewable = true
+
+[realms]
+    IPA.EXAMPLE.COM = {
+        # You don't need to set these when your DNS is setup correctly, but it doesn't hurt to have a reference.
+        # In my opinion, you shouldn't hardcode these values. You have to have a good reason to.
+        #kdc = tcp/server1.ipa.example.com
+        #kdc = tcp/server2.ipa.example.com
+        #admin_server = tcp/server1.ipa.example.com
+        #admin_server = tcp/server2.ipa.example.com
+        pkinit_anchors = FILE:/etc/ipa/ca.crt
+    }</code></pre><p>You’ll want to do a kinit to verify. If it works, you should be able to go to the FreeIPA webui and check that the host is “enrolled” (Identity -&gt; Hosts).</p>
+<pre><code class="language-bash">% kinit username@IPA.EXAMPLE.COM</code></pre><p>You need to modify a couple of pam files. I’ll explain why they need to be changed.</p>
+<pre><code class="language-bash">% sudo vi /etc/pam.d/authorization
+# authorization: auth account
+# Putting krb5 here twice ensures that you can login via kerberos and also get a keytab
+auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
+auth          sufficient     pam_krb5.so use_first_pass default_principal
+auth          required       pam_opendirectory.so use_first_pass nullok
+account    required       pam_opendirectory.so
+
+% sudo vi /etc/pam.d/screensaver
+# The krb5 changes do similar to the authorization when on the lock screen after a sleep
+auth       optional       pam_krb5.so use_first_pass use_kcminit
+auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
+auth       sufficient     pam_krb5.so use_first_pass default_principal
+auth       required       pam_opendirectory.so use_first_pass nullok
+account    required       pam_opendirectory.so
+account    sufficient     pam_self.so
+account    required       pam_group.so no_warn group=admin,wheel fail_safe
+account    required       pam_group.so no_warn deny group=admin,wheel ruser fail_safe
+
+% sudo vi /etc/pam.d/passwd
+# Helps with kerberos logins
+password   sufficient     pam_krb5.so
+auth       required       pam_permit.so
+account    required       pam_opendirectory.so
+password   required       pam_opendirectory.so
+session    required       pam_permit.so</code></pre><p>After these changes, you’ll need to go into make some changes with the directory utility.</p>
+<ol class="arabic simple">
+<li>Go to system preferences -&gt; users &amp; groups -&gt; login options - Click the ‘lock’ to make changes</li>
+<li>Set the following:</li>
+</ol>
+<pre><code class="language-none">Automatic login: Off
+Display login window as: Name and Password
+Show fast user switching menu as: Full Name</code></pre><ol class="arabic simple">
+<li>Click “Join” next to “Network Account Server”</li>
+<li>Enter one of your IPA servers (you can duplicate it later for backup purposes) and click Continue.</li>
+<li>Ensure “Allow network users to log in at login window” is checked - Make sure it’s set to all users</li>
+<li>Click “edit” next to the “Network Account Server”</li>
+<li>Click “Open Directory Utility”</li>
+<li>Click the lock, edit LDAPv3</li>
+<li>Select your server and click “edit”</li>
+<li>Set the following options:</li>
+</ol>
+<pre><code class="language-none">Open/close times out in 5 seconds
+Query times out in 5 seconds
+Connection idles out in 1 minute (this can't be changed)
+Encrypt using SSL (selected)</code></pre><ol class="arabic simple">
+<li>Click “Search &amp; Mappings”</li>
+<li>You may either select “rfc2307” from the dropdown or select custom. It will ask your base DN (eg, dc=ipa,dc=example,dc=com)</li>
+</ol>
+<ul class="simple">
+<li>If you select rfc2307, it will ask for your base DN (eg, dc=ipa,dc=example,dc=com)</li>
+<li>If you select “custom”, you will need to do this manually for each record type. <strong>This is recommended for most deployments.</strong></li>
+</ul>
+<ol class="arabic simple">
+<li>Click the “+” to add a groups record type or scroll and find “groups”.</li>
+<li>Select “groups”, and ensure the following object classes exist. You can click the “+” to add them when needed.</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Record Type</th>
+<th class="head">ObjectClasses</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Groups</td>
+<td>posixGroup</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>ipausergroup</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>groupOfNames*</td>
+</tr>
+</tbody>
+</table>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+“groupOfNames” is optional here, because it seems that the directory utility doesn’t understand this concept.</div></div>
+<ol class="arabic simple">
+<li>Expand “groups” and ensure the following for each record type. You can click the “+” to add the attribute types as needed.</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Mapping</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PrimaryGroupID</td>
+<td>gidNumber</td>
+</tr>
+<tr class="row-odd"><td>RecordName</td>
+<td>cn</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Click the “+” to add a users record type or scroll and find “users”.</li>
+<li>Select “users” and ensure the following object classes exist. You can click the “+” to add them when needed.</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Record Type</th>
+<th class="head">ObjectClasses</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Users</td>
+<td>inetOrgPerson</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>posixAccount</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>shadowAccount</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>apple-user</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Expand “users” and ensure the following for each record type. You can click the “+” to add the attribute types as needed.</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Mapping</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AuthenticationAuthority</td>
+<td>uid</td>
+</tr>
+<tr class="row-odd"><td>GeneratedUID</td>
+<td>GeneratedUID</td>
+</tr>
+<tr class="row-even"><td>HomeDirectory</td>
+<td>#/Users/$uid$</td>
+</tr>
+<tr class="row-odd"><td>NFSHomeDirectory</td>
+<td>#/Users/$uid$</td>
+</tr>
+<tr class="row-even"><td>PrimaryGroupID</td>
+<td>gidNumber</td>
+</tr>
+<tr class="row-odd"><td>RealName</td>
+<td>cn</td>
+</tr>
+<tr class="row-even"><td>RecordName</td>
+<td>uid</td>
+</tr>
+<tr class="row-odd"><td>UniqueID</td>
+<td>uidNumber</td>
+</tr>
+<tr class="row-even"><td>UserShell</td>
+<td>loginShell</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>If using custom mapping, click reach record type you created and ensure the base DN is set.</li>
+<li>Make sure each record type is set to all subtrees.</li>
+<li>Click OK</li>
+<li>Click OK</li>
+<li>Click on Search Policy.</li>
+<li>Double check that “/LDAPV3/server1.ipa.example.com” is listed beneath “/Local/Default”</li>
+<li>Close everything until you’re back to the users &amp; groups section of preferences</li>
+<li>Open a terminal.</li>
+</ol>
+<pre><code class="language-bash">% dscacheutil -flushcache
+% dscacheutil -q user -a name username</code></pre><p>You should get a return.</p>
+<p>If you want to further verify users and groups after the above succeeds, open up the directory utility again. Click “Directory Editor”, ensure you are searching for “users” and check that they appear in a list on the right hand side, optionally doing a search. In a default setup, you shouldn’t need an account to do (some) anonymous lookups. If you changed that in any way, you will need to create a readonly system account in cn=sysaccounts,cn=etc.</p>
+<p>In a terminal, you will need to create the home directories via the createmobileaccount command. <a class="footnote-reference" href="#f2" id="id2">[2]</a></p>
+<pre><code class="language-bash">% sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P</code></pre><p>Log out and login as your IPA user. It should succeed. It takes a few moments, but you will eventually see the first login prompts that require you to hit next a couple of times. You’ll get a fresh desktop.</p>
+<p>Log out and go back to your local account. Go to system preferences, users &amp; groups, find the account, set it as an administrator of the machine.</p>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>Password Notes</p>
+<p>There are a couple of problems with this setup that you should be aware of.</p>
+<ul class="simple">
+<li>If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.</li>
+<li>If your account does not have any keytabs (eg, you haven’t had your mac on or haven’t logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.</li>
+</ul>
+</div></div>
+<p>And that’s it! The script to do this work is below. It’s highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac’s.</p>
+<pre><code class="language-bash">#!/bin/bash
+serverName=server1.ipa.example.com
+krb5Conf=/etc/krb5.conf
+krb5Tab=/etc/krb5.keytab
+pamDirectory=/etc/pam.d
+
+# Add SSL cert to chain
+mkdir /etc/ipa
+cd /etc/ipa
+curl -OL http://$serverName/ipa/config/ca.crt
+security add-trusted-cert -d -k /Library/Keychains/System.keychain -r trustRoot /etc/ipa/ca.crt
+
+# Stop and flushout the Open Directory
+/usr/sbin/dscacheutil -flushcache
+launchctl unload /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
+
+# Pull the plist and pam files needed for IPA and deploy them, this assumes you setup one mac and zipped up the configurations
+# You can try your hand at dsconfigldap before pam, but I could never figure it out, honestly.
+# Relevant tar: tar czf /tmp/macconfig.tar.gz /Library/Preferences/OpenDirectory/Configurations /etc/pam.d/authorization \
+#                /etc/pam.d/screensaver /etc/pam.d/passwd /etc/krb5.conf
+cd /tmp
+curl -OL http://$serverName/macconfig.tar.gz
+cd /
+tar xzf /tmp/macconfig.tar.gz
+
+# Add steps here for your keytab! Where are you getting it from?
+cp /tmp/mac.keytab /etc/krb5.keytab
+chown root:wheel /etc/krb5.keytab
+chmod 600 /etc/krb5.keytab
+
+# Start directory
+launchctl load /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
+sleep 30
+
+# Kill the loginwindow
+killall loginwindow
+
+# If the system doesn't reboot here, reboot now.</code></pre><p>If you want to move your local files, you will need to tread lightly here. I personally believe it’s always good to start fresh though. Look into the ditto command. I suppose something like this can work:</p>
+<pre><code class="language-bash"># make sure you're logged in as a different account away from your local account
+% sudo su -
+root# cd /Users
+root# ditto localfolder networkfolder (or maybe an mv?)
+root# chown -R user:user folder
+root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P</code></pre><p>Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It’s recommended to fix those too.</p>
+</div>
+</div>
+<div class="section" id="hbac">
+<h2><a class="toc-backref" href="#id21">HBAC</a><a class="headerlink" href="#hbac" title="Permalink to this headline">¶</a></h2>
+<p>When we first setup our IPA servers, we had an option set to make it so hbac wasn’t allowed for everyone. This way we have to create HBAC rules for our systems. I personally do this out of habit when working with IPA. What we need to do though is create an “admin” group that can login to all machines.</p>
+<pre><code class="language-bash">% ipa idrange-show IPA.ANGELSOFCLOCKWORK.NET_id_range
+  Range name: IPA.ANGELSOFCLOCKWORK.NET_id_range
+  First Posix ID of the range: 686600000
+  Number of IDs in the range: 200000
+  First RID of the corresponding RID range: 1000
+  First RID of the secondary RID range: 100000000
+  Range type: local domain range
+% ipa group-add --gid=686610000 linuxadm
+% ipa group-add-member --users=flast linuxadm</code></pre><p>In the event that your AD user will be an admin or what have you, you need to create an “external” group to map the user or users over. This isn’t required if you don’t have an AD trust.</p>
+<pre><code class="language-bash">% ipa group-add --external linuxadm_external
+% ipa group-add-member --users=flast@ad.example.com linuxadm_external
+% ipa group-add-member --groups=linuxadm_external linuxadm</code></pre><p>Now, let’s create an HBAC for our Linux Administrator account for our group.</p>
+<pre><code class="language-bash">% ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' all_linux
+% ipa hbacrule-add-user --groups=linuxadm all_linux
+% ipa hbactest --rules=All_Systems --user=flast --host=server1.ipa.example.com --service=sshd
+# or set it to user@domain to test your external users</code></pre><p>You might want to create an HBAC rule specifically for your IPA admin accounts to have ssh access to the IPA servers too. You can follow something like the above to make it possible.</p>
+</div>
+<div class="section" id="sudo">
+<h2><a class="toc-backref" href="#id22">SUDO</a><a class="headerlink" href="#sudo" title="Permalink to this headline">¶</a></h2>
+<p>Setting up sudo is relatively easy. RHEL 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let’s create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.</p>
+<pre><code class="language-bash">% ipa sudorule-add --runasusercat=all --hostcat=all --cmdcat=all --desc='linux admins all sudo' all_linux_sudo
+% ipa sudorule-add-user --groups=linuxadm all_linux_sudo</code></pre><p>You can make this a little more specific, such as /bin/bash as everyone or otherwise. It’s your call here. If you want to create a sudo rule and add some commands to it, you can do something like this.</p>
+<pre><code class="language-bash">% ipa sudorule-add sudo_rule
+% ipa sudorule-add-allow-command --sudocmds="/usr/bin/less" sudo_rule</code></pre></div>
+<div class="section" id="legacy-client-setup">
+<h2><a class="toc-backref" href="#id23">Legacy Client Setup</a><a class="headerlink" href="#legacy-client-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="solaris-10">
+<h3><a class="toc-backref" href="#id24">Solaris 10</a><a class="headerlink" href="#solaris-10" title="Permalink to this headline">¶</a></h3>
+<p>Setting up Solaris 10 as an IPA client is… different. In fact, it’s a whole kind of different that plagued me for days trying to unravel how to do all of it. So here are the steps I took to make it work.</p>
+<p>Create an ldif.</p>
+<pre><code class="language-ldif">dn: cn=solaris_authpam,ou=profile,dc=ipa,dc=example,dc=com
+objectClass: top
+objectClass: DUAConfigProfile
+authenticationMethod: simple
+bindTimeLimit: 5
+cn: default
+cn: solaris_authpam
+defaultSearchBase: dc=ipa,dc=example,dc=com
+defaultServerList: server1.ipa.example.com server2.ipa.example.com
+followReferrals: TRUE
+objectclassMap: shadow:shadowAccount=posixAccount
+objectclassMap: passwd:posixAccount=posixaccount
+objectclassMap: group:posixGroup=posixgroup
+profileTTL: 6000
+searchTimeLimit: 15
+serviceAuthenticationMethod: pam_ldap:simple
+serviceSearchDescriptor: group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: sudoers:ou=sudoers,dc=ipa,dc=example,dc=com
+
+dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
+objectclass: account
+objectclass: simplesecurityobject
+uid: solaris
+userPassword: secret123
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0</code></pre><p>Note, if ou=profile is missing, it is recommended to create it. The solaris system account is required.</p>
+<pre><code class="language-bash">% ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif</code></pre><p>This ensure we’ll be using PAM to authenticate with the directory. This also ensures we’ll be using the compat tree (required).</p>
+<div class="panel panel-warning">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Warning</h3></div><div class="panel-body">
+<p>No Secure Connection</p>
+<p>When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. I don’t know if Solaris 10 intelligently tags the connection for kerberos.</p>
+</div></div>
+<p>Now, set the nisdomain.</p>
+<pre><code class="language-bash">% defaultdomain ipa.example.com
+% echo 'ipa.example.com' > /etc/defaultdomain</code></pre><p>Configure kerberos.</p>
+<pre><code class="language-bash">% vi /etc/krb5/krb5.conf
+[libdefaults]
+default_realm = IPA.EXAMPLE.COM
+dns_lookup_kdc = true
+verify_ap_req_nofail = false
+[realms]
+IPA.EXAMPLE.COM = {
+}
+[domain_realm]
+ipa.example.com = IPA.EXAMPLE.COM
+.ipa.example.com = IPA.EXAMPLE.COM
+[logging]
+default = FILE:/var/krb5/kdc.log
+kdc = FILE:/var/krb5/kdc.log
+kdc_rotate = {
+ period = 1d
+ version = 10
+}
+[appdefaults]
+kinit = {
+renewable = true
+forwardable= true
+}</code></pre><p>Generate a keytab and bring it over.</p>
+<pre><code class="language-bash"># on the ipa server
+% ipa host-add solaris10.example.com
+% ipa-getkeytab -s server1.ipa.example.com -p host/solaris10.example.com -k /tmp/solaris10.keytab
+
+# Transfer the keytab
+% scp /tmp/solaris10.keytab solaris10.example.com:/tmp
+
+# On the solaris 10 machine
+% cp /tmp/solaris10.keytab /etc/krb5/krb5.keytab
+% chmod 600 /etc/krb5/krb5.keytab
+% chmod 644 /etc/krb5/krb5.conf
+% chown root:sys /etc/krb5/*
+% kinit flast2@IPA.EXAMPLE.COM</code></pre><p>Create the LDAP configurations, bring the certificate, and create an NSS database.</p>
+<pre><code class="language-bash">% mkdir /etc/ipa /var/ldap
+% cd /etc/ipa
+% wget -O ipa.pem http://server1.ipa.example.com/ipa/config/ca.crt
+% certutil -A -n "ca-cert" -i /etc/ipa/ipa.pem -a -t CT -d .
+% cp * /var/ldap
+% vi /etc/ldap.conf
+base dc=ipa,dc=example,dc=com
+scope sub
+TLS_CACERTDIR /var/ldap
+TLS_CERT /var/ldap/cert8.db
+TLS_CACERT /var/ldap/ipa.pem
+tls_checkpeer no
+ssl off
+bind_timelimit 120
+timelimit 120
+uri ldap://server1.ipa.example.com
+sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
+pam_lookup_policy yes</code></pre><p>Now init the ldap client.</p>
+<pre><code class="language-bash">% ldapclient init -a profileName=solaris_authpam -a domainName=ipa.example.com -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" -a proxyPassword="secret123" -D uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com -w secret123 server1.ipa.example.com</code></pre><p>This should succeed. Once it succeeds, you need to configure pam and nsswitch.</p>
+<pre><code class="language-bash">% vi /etc/pam.conf
+
+# Console
+login auth requisite pam_authtok_get.so.1
+login auth sufficient pam_krb5.so.1
+login auth required pam_dhkeys.so.1
+login auth required pam_unix_cred.so.1
+login auth required pam_dial_auth.so.1
+login auth required pam_unix_auth.so.1 use_first_pass
+login auth required pam_ldap.so.1
+rlogin auth sufficient pam_rhosts_auth.so.1
+rlogin auth requisite pam_authtok_get.so.1
+rlogin auth sufficient pam_krb5.so.1
+rlogin auth required pam_dhkeys.so.1
+rlogin auth required pam_unix_cred.so.1
+rlogin auth required pam_unix_auth.so.1
+rlogin auth required pam_ldap.so.1
+
+# Needed for krb
+krlogin auth required pam_unix_cred.so.1
+krlogin auth sufficient pam_krb5.so.1
+
+# Remote Shell
+rsh auth sufficient pam_rhosts_auth.so.1
+rsh auth required pam_unix_cred.so.1
+rsh auth binding pam_unix_auth.so.1 server_policy
+rsh auth required pam_ldap.so.1
+
+# Needed for krb
+krsh auth required pam_unix_cred.so.1
+krsh auth required pam_krb5.so.1
+
+# ?
+ppp auth requisite pam_authtok_get.so.1
+ppp auth required pam_dhkeys.so.1
+ppp auth required pam_dial_auth.so.1
+ppp auth binding pam_unix_auth.so.1 server_policy
+ppp auth required pam_ldap.so.1
+
+# Other, used by sshd and "others" as a fallback
+other auth requisite pam_authtok_get.so.1
+other auth sufficient pam_krb5.so.1
+other auth required pam_dhkeys.so.1
+other auth required pam_unix_cred.so.1
+other auth binding pam_unix_auth.so.1 server_policy
+other auth required pam_ldap.so.1
+other account requisite pam_roles.so.1
+other account required pam_projects.so.1
+other account binding pam_unix_account.so.1 server_policy
+other account required pam_ldap.so.1
+other session required pam_unix_session.so.1
+other password required pam_dhkeys.so.1
+other password requisite pam_authtok_get.so.1
+other password requisite pam_authtok_check.so.1
+other password required pam_authtok_store.so.1 server_policy
+
+# passwd and cron
+passwd auth binding pam_passwd_auth.so.1 server_policy
+passwd auth required pam_ldap.so.1
+cron account required pam_unix_account.so.1
+
+# SSH Pubkey - Needed for openldap and still probably needed
+sshd-pubkey account required pam_unix_account.so.1</code></pre><pre><code class="language-bash">% vi /etc/nsswitch.conf
+
+# Below are just the minimum changes
+passwd:     files ldap [NOTFOUND=return]
+group:      files ldap [NOTFOUND=return]
+sudoers:    files ldap
+netgroup:   ldap
+# the rest here are just here, up to you if you choose to set them.
+hosts:      files dns
+ipnodes:    files dns
+ethers:     files ldap
+publickey:  files ldap
+automount:  files ldap</code></pre><p>You can test now if you’d like.</p>
+<pre><code class="language-bash">bash-3.2# ldaplist -l passwd flast2
+dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
+        cn: First Last
+        objectClass: posixAccount
+        objectClass: ipaOverrideTarget
+        objectClass: top
+        gidNumber: 1006800001
+        gecos: First Last
+        uidNumber: 1006800001
+        ipaAnchorUUID: :IPA:ipa.example.com:8babb9a8-5aaf-11e7-9769-00505690319e
+        loginShell: /bin/bash
+        homeDirectory: /home/first.last2
+        uid: first.last2</code></pre><p>I recommend setting up sudo at least… if you want to use sudo, install the OpenCSW pkgutil utility and set it up like so.</p>
+<pre><code class="language-bash">% /opt/csw/bin/pkgutil -i -y sudo sudo_ldap
+% vi /etc/opt/csw/sudo.conf
+. . .
+# LDAP-enabled plugin:
+Plugin sudoers_policy sudoers-ldap.so
+Plugin sudoers_io sudoers-ldap.so
+
+% ln -s /etc/opt/csw/ldap.conf /etc/ldap.conf</code></pre></div>
+<div class="section" id="solaris-11">
+<h3><a class="toc-backref" href="#id25">Solaris 11</a><a class="headerlink" href="#solaris-11" title="Permalink to this headline">¶</a></h3>
+<p>Solaris 11 is sort of similar to 10. We need to make a couple of manual changes but then the rest require us to work with the svcprop commands (thanks Oracle). Sudo should just work as well, no OpenCSW required. And, we should be able to use TLS without much of a fuss. No certificate databases are required.</p>
+<pre><code class="language-ldif">dn: cn=solaris_authssl,ou=profile,dc=ipa,dc=example,dc=com
+objectClass: top
+objectClass: DUAConfigProfile
+authenticationMethod: tls:simple
+bindTimeLimit: 5
+cn: solaris_authssl
+defaultSearchBase: cn=compat,dc=ipa,dc=example,dc=com
+defaultServerList: server1.ipa.example.com server2.ipa.example.com
+followReferrals: TRUE
+objectclassMap: shadow:shadowAccount=posixAccount
+objectclassMap: passwd:posixAccount=posixaccount
+objectclassMap: group:posixGroup=posixgroup
+profileTTL: 6000
+searchTimeLimit: 15
+serviceSearchDescriptor: group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com
+serviceSearchDescriptor: sudoers:ou=sudoers,dc=ipa,dc=example,dc=com</code></pre><p>Note, if ou=profile is missing, it is recommended to create it. The system account is also required (previous section).</p>
+<pre><code class="language-bash">% ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif</code></pre><p>Now, set the nisdomain.</p>
+<pre><code class="language-bash">% defaultdomain ipa.example.com
+% echo 'ipa.example.com' > /etc/defaultdomain</code></pre><p>Configure kerberos.</p>
+<pre><code class="language-bash">% vi /etc/krb5/krb5.conf
+[libdefaults]
+default_realm = IPA.EXAMPLE.COM
+dns_lookup_kdc = true
+verify_ap_req_nofail = false
+[realms]
+IPA.EXAMPLE.COM = {
+}
+[domain_realm]
+ipa.example.com = IPA.EXAMPLE.COM
+.ipa.example.com = IPA.EXAMPLE.COM
+[logging]
+default = FILE:/var/krb5/kdc.log
+kdc = FILE:/var/krb5/kdc.log
+kdc_rotate = {
+ period = 1d
+ version = 10
+}
+[appdefaults]
+kinit = {
+renewable = true
+forwardable= true
+}</code></pre><p>Generate a keytab and bring it over.</p>
+<pre><code class="language-bash"># on the ipa server
+% ipa host-add solaris11.example.com
+% ipa-getkeytab -s server1.ipa.example.com -p host/solaris11.example.com -k /tmp/solaris11.keytab
+
+# Transfer the keytab
+% scp /tmp/solaris11.keytab solaris11.example.com:/tmp
+
+# On the solaris 11 machine
+% cp /tmp/solaris11.keytab /etc/krb5/krb5.keytab
+% chmod 600 /etc/krb5/krb5.keytab
+% chmod 644 /etc/krb5/krb5.conf
+% chown root:sys /etc/krb5/*
+% kinit flast2@IPA.EXAMPLE.COM</code></pre><p>Create the LDAP configurations, bring the certificate, and create an NSS database.</p>
+<pre><code class="language-bash">% mkdir /etc/ipa /var/ldap
+% cd /etc/ipa
+% wget -O ipa.pem http://server1.ipa.example.com/ipa/config/ca.crt
+% cp * /var/ldap
+% vi /etc/ldap.conf
+base dc=ipa,dc=example,dc=com
+scope sub
+TLS_CACERTDIR /var/ldap
+TLS_CACERT /var/ldap/ipa.pem
+tls_checkpeer no
+ssl start_tls
+bind_timelimit 120
+timelimit 120
+uri ldap://server1.ipa.example.com
+sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
+pam_lookup_policy yes</code></pre><p>Now init the ldap client.</p>
+<pre><code class="language-bash">% ldapclient init -a profileName=solaris_authpam -a domainName=ipa.example.com -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" -a proxyPassword="secret123" -D uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com -w secret123 server1.ipa.example.com</code></pre><p>This should succeed. Once it succeeds, you need to configure pam and nsswitch.</p>
+<pre><code class="language-bash">% /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/sudoer = astring: "files ldap"'
+% /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/password = astring: "files ldap [NOTFOUND=return]"'
+% /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/group = astring: "files ldap [NOTFOUND=return]"'
+
+% /usr/sbin/svcadm refresh svc:/system/name-service/switch
+% /usr/sbin/svcadm restart svc:/system/name-service/switch
+% /usr/sbin/svcadm restart ldap/client</code></pre><pre><code class="language-bash">% vi /etc/pam.d/krlogin
+auth required           pam_unix_cred.so.1
+auth required           pam_krb5.so.1
+
+% vi /etc/pam.d/krsh
+auth required           pam_unix_cred.so.1
+auth required           pam_krb5.so.1
+
+% vi /etc/pam.d/login
+auth requisite          pam_authtok_get.so.1
+auth sufficient         pam_krb5.so.1
+auth required           pam_dhkeys.so.1
+auth required           pam_unix_cred.so.1
+auth required           pam_dial_auth.so.1
+auth required           pam_unix_auth.so.1 server_policy
+auth required           pam_ldap.so.1
+
+% vi /etc/pam.d/other
+auth definitive         pam_user_policy.so.1
+auth requisite          pam_authtok_get.so.1
+auth sufficient         pam_krb5.so.1
+auth required           pam_dhkeys.so.1
+auth required           pam_unix_cred.so.1
+auth required           pam_unix_auth.so.1 server_policy
+auth required           pam_ldap.so.1
+
+account requisite       pam_roles.so.1
+account definitive      pam_user_policy.so.1
+account required        pam_unix_account.so.1 server_policy
+account required        pam_krb5.so.1
+account required        pam_tsol_account.so.1
+account required        pam_ldap.so.1
+
+session definitive      pam_user_policy.so.1
+session required        pam_unix_session.so.1
+
+password definitive     pam_user_policy.so.1
+password include        pam_authtok_common
+password sufficient     pam_krb5.so.1
+password required       pam_authtok_store.so.1 server_policy
+
+% vi /etc/pam.d/passwd
+auth binding            pam_passwd_auth.so.1 server_policy
+auth required           pam_ldap.so.1
+account requisite       pam_roles.so.1
+account definitive      pam_user_policy.so.1
+account required        pam_unix_account.so.1
+
+% vi /etc/pam.d/ppp
+auth requisite          pam_authtok_get.so.1
+auth required           pam_dhkeys.so.1
+auth required           pam_unix_cred.so.1
+auth required           pam_dial_auth.so.1
+auth required           pam_unix_auth.so.1 server_policy
+auth required           pam_ldap.so.1
+
+% vi /etc/pam.d/rlogin
+auth definitive         pam_user_policy.so.1
+auth sufficient         pam_rhosts_auth.so.1
+auth requisite          pam_authtok_get.so.1
+auth sufficient         pam_krb5.so.1
+auth required           pam_dhkeys.so.1
+auth required           pam_unix_cred.so.1
+auth required           pam_unix_auth.so.1
+auth required           pam_ldap.so.1
+
+% vi /etc/pam.d/rsh
+auth definitive         pam_user_policy.so.1
+auth sufficient         pam_rhosts_auth.so.1
+auth required           pam_unix_cred.so.1
+auth required           pam_ldap.so.1
+
+% vi /etc/pam.d/sshd-pubkey
+account required        pam_unix_account.so.1</code></pre><p>You can test now if you’d like.</p>
+<pre><code class="language-bash">root@solaris11:~# ldaplist -l passwd flast2
+dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
+        cn: First Last
+        objectClass: posixAccount
+        objectClass: ipaOverrideTarget
+        objectClass: top
+        gidNumber: 1006800001
+        gecos: First Last
+        uidNumber: 1006800001
+        ipaAnchorUUID: :IPA:ipa.example.com:8babb9a8-5aaf-11e7-9769-00505690319e
+        loginShell: /bin/bash
+        homeDirectory: /home/first.last2
+        uid: first.last2</code></pre></div>
+<div class="section" id="legacy-hbac">
+<h3><a class="toc-backref" href="#id26">Legacy HBAC</a><a class="headerlink" href="#legacy-hbac" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="legacy-active-directory-trust">
+<h3><a class="toc-backref" href="#id27">Legacy Active Directory Trust</a><a class="headerlink" href="#legacy-active-directory-trust" title="Permalink to this headline">¶</a></h3>
+<p>This section isn’t really a walk through, but it’s more of an explanation of my experiences and what I’ve noticed. First and foremost, I’m going to be assuming you have a domain resolution order set for AD to be first. If this is truly the case, then the cn=compat tree changes slightly from what it traditionally does.</p>
+<p>What it initially does is it takes all the IPA users, makes them compat objects on the fly (virtual objects). And then, if they are from AD, they only appear on request, but they usually only appear when you query them as <a class="reference external" href="mailto:uid=username&#37;&#52;&#48;domain">uid=username<span>&#64;</span>domain</a>. When domain resolution order is set on the IPA side, it changes this behavior slightly. Instead, what happens is if you request uid=username, you will get the response back with your AD user, but the difference is that there are multiple ‘uid’ attributes. One is part of the RDN of the object (uid=username) and the other is the fully qualified username. Now, this is actually RFC compliant. But let’s say the compat tree never had the user in there and you searched the tranditional way, <a class="reference external" href="mailto:uid=username&#37;&#52;&#48;domain">uid=username<span>&#64;</span>domain</a>. You now have behavior as if domain resolution order was never set in the first place.</p>
+<p>While this occurs for AD users, IPA users are unaffected. You might think to yourself though ‘this doesn’t seem too bad’ and you would be mostly right, it’s rfc compliant. However, legacy clients sometimes don’t play too well with this. In fact, there’s some weirdness that occurs.</p>
+<p>To explain, this is what appears to happen:</p>
+<ul class="simple">
+<li>User doesn’t exist initially in cn=compat</li>
+<li>User is queried as username (instead of <a class="reference external" href="mailto:username&#37;&#52;&#48;domain">username<span>&#64;</span>domain</a>)</li>
+<li>User is checked against Active Directory</li>
+<li>Virtual object is created in cn=compat in the form of uid=username,cn=users,cn=compat,…</li>
+<li>Virtual object has two uid’s, uid: username and uid: <a class="reference external" href="mailto:username&#37;&#52;&#48;domain">username<span>&#64;</span>domain</a></li>
+</ul>
+<p>If a user is queried as <a class="reference external" href="mailto:username&#37;&#52;&#48;domain">username<span>&#64;</span>domain</a>, that object is created on the fly as <a class="reference external" href="mailto:uid=username&#37;&#52;&#48;domain">uid=username<span>&#64;</span>domain</a>, which can throw a wrench in your plans of trying to login without the realm name. When you query for a user that way, only ONE uid attribute appears, basically how it would act if you didn’t have domain resolution order set. Fixing this requires you to restart dirsrv.</p>
+<p>Where I’m going with this is this: It’s <em>always</em> better to search or login without the domain name when you have domain resolution order set.</p>
+<p>Another weird thing is this:</p>
+<ul class="simple">
+<li>If you do su - username on a system and run <cite>id</cite>, groups do not appear.</li>
+<li>If you login (via ssh for example), groups do appear as long as the former wasn’t done first (this seems to be intermittent from my tests)</li>
+<li>After you login via ssh or console, groups will always show with <cite>id</cite> from now on</li>
+</ul>
+<p>What’s interesting is that if you login with first.last, your name shows up as the fully qualified name, and this is probably how the group membership is applied in some way.</p>
+<p>Also, the caveat to all of this is if the directory servers restart, the objects disappear. So be careful when you’re logging in or doing <cite>id</cite>. It might cause you some trouble down the road. And <em>always</em> try to use first.last when using domain resolution order.</p>
+<p>The good news though is sudo and HBAC still work perfectly fine on Solaris (RHEL 5 HBAC, not so much).</p>
+</div>
+</div>
+<div class="section" id="situational-options">
+<h2><a class="toc-backref" href="#id28">Situational Options</a><a class="headerlink" href="#situational-options" title="Permalink to this headline">¶</a></h2>
+<p>This section goes over “situational” scenarios. These scenarios are reflective of the environment in which IPA is installed and not all will fit into your environment. These are more or less common situations that could occur during an IPA deployment or even post-deployment.</p>
+<div class="section" id="remove-realm-for-ad-users">
+<h3><a class="toc-backref" href="#id29">Remove &#64;realm for AD users</a><a class="headerlink" href="#remove-realm-for-ad-users" title="Permalink to this headline">¶</a></h3>
+<p>A common scenario is that IPA and AD will have a trust, but there will not be any IPA users with the exception of the engineering team for managing IPA itself. The common theme is that because of this, the engineers and customers would rather not login with <a class="reference external" href="mailto:username&#37;&#52;&#48;realm">username<span>&#64;</span>realm</a>.</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<h3 class="panel-title">
+<i class='fa fa-exclamation-circle'></i> Note</h3></div><div class="panel-body">
+<p>Info</p>
+<p>The following is only applicable in an IPA-AD trust. An IPA-only scenario would not require any of these steps and most pieces would work natively (no &#64;realm, sudo, hbac).</p>
+<p>In the event that you are in an IPA-AD scenario, please take note that this can adversely affect legacy clients. This will cause ldapsearches that are done in the compat tree to display multiple uid attributes. In most cases, this is fine and the user can still login without the realm name. The whoami and id commands will show the domain. There’s no workaround for this.</p>
+</div></div>
+<p>On the IPA servers, you will need to set the domain resolution order. This was introduced in 4.5.0.</p>
+<pre><code class="language-bash">% kinit admin
+% ipa config-mod --domain-resolution-order="ad.example.com:ipa.example.com"</code></pre><p>The below is optional. It will remove the &#64;realm off the usernames, like on the prompt or id or whoami commands. Only do this if required.</p>
+<pre><code class="language-bash"># vi /etc/sssd/sssd.conf
+
+[domain/ipa.example.com]
+. . .
+full_name_format = %1$s</code></pre><p>This will ensure EL7 clients resolve the AD domain first when attempting logins and optionally drop the &#64;realm off the usernames. However, for EL6 clients, additional changes on the client side is required. Since the sssd in EL6 does not support domain resolution order, you will either need to modify /etc/sssd/sssd.conf with “default_domain_suffix” or install a later version of sssd from copr. Below assumes you are using 1.13.3 from the base.</p>
+<pre><code class="language-bash"># vi /etc/sssd/sssd.conf
+
+[domain/ipa.example.com]
+. . .
+full_name_format = %1$s
+
+[sssd]
+. . .
+default_domain_suffix = ad.example.com</code></pre></div>
+<div class="section" id="rhel-6-sudo-and-default-domain-suffix">
+<h3><a class="toc-backref" href="#id30">RHEL 6 SUDO and Default Domain Suffix</a><a class="headerlink" href="#rhel-6-sudo-and-default-domain-suffix" title="Permalink to this headline">¶</a></h3>
+<p>This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable this fall back, you will need to append the following to your domain section.</p>
+<pre><code class="language-bash">[domain/ipa.example.com]
+. . .
+sudo_provider = ldap
+ldap_uri = ldap://server01.ipa.example.com, ldap://server02.ipa.example.com
+ldap_sudo_search_base = ou=sudoers,dc=ipa,dc=example,dc=com
+ldap_sasl_mech = GSSAPI
+ldap_sasl_authid = host/client.example.com
+ldap_sasl_realm = IPA.EXAMPLE.COM
+krb5_server = server01.ipa.example.com, server02.ipa.example.com
+enumerate = True # (optional)</code></pre><p>If you look in mail lists of RHEL 6 and SUDO with sssd on IPA, you’ll see something similar above. This is because originally, the sssd for RHEL 6 did not perform sudo lookups for the IPA provider. Now while the IPA provider in RHEL 6 <em>does</em> support sudo, it doesn’t work for when you start setting full_name_format and default_domain_suffix. The only workaround is to go back to the old way of setting up sudo in sssd against FreeIPA, which is using GSSAPI authentication to do an ldap query the tried and true way.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>For more information on DNS for FreeIPA, please read <a class="reference external" href="https://www.freeipa.org/page/DNS">this page</a> and <a class="reference external" href="https://www.freeipa.org/page/Deployment_Recommendations#DNS">this page</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>The -P asks for the password of the username in question, that way it is cached right away. The directory service on the system then has credentials to compare to. I have found that sometimes if you don’t use -P, even if you’re logged in as the account, the password does not get cached and you’ll get stuck at a background image the next time you login. Again, this is only sometimes. Your mileage may vary here.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+	
+	<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+		
+		
+		<a href="sysadmin.html" class="btn btn-default" accesskey="p">
+			<span class="fa fa-arrow-circle-left"></span> The System Administrator Experience
+		</a>
+		
+	</div>
+	
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, remyabel, nazunalika.
+
+    </p>
+		<p>This site is not affiliated with or endorsed by the Fedora Project, nor the CentOS project</p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a heavily customized version of <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+</main>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'master',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="../_static/js/prism.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
