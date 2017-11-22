@@ -1,0 +1,90 @@
+Git
+^^^
+
+Workflow
+--------
+
+This is a living set of notes I have for a Git workflow.
+
+.. warning::
+
+    This contains incomplete and possibly incorrect advice. It
+    will continue to be amended as I use it in my workflow and see
+    what works and doesn't.
+
+``git commit -am`` didn’t add my latest files
+*********************************************
+
+The ``-a`` option only allows you to skip ``git add <filename>`` for files already tracked.
+
+What creates duplicate commits (different SHA’s)?
+*************************************************
+
+Rebasing, cherry-picking. 
+
+Merge
+*****
+
+Temporary (hotfix) branch
++++++++++++++++++++++++++
+
+* If master is ahead, use rebase and ``--ff-only``
+
+Example:
+
+.. code-block:: bash
+
+    git checkout hotfix
+
+    git rebase master
+
+    git checkout master
+
+    git merge hotfix --ff-only
+
+* If master is untouched, do a fast-forward merge
+
+Feature (long-lived) branch
++++++++++++++++++++++++++++
+
+* If master is untouched, do a non-fast-forward merge with ``--no-ff``
+
+* Otherwise git merge will perform a “true merge”.
+
+After merging a branch into master, fast-forward master back into it to advance the HEAD pointer. It's important to do this regularly so you are not forced to create a merge commit from master after staging some changes. If you run into this situation, do:
+
+- ``git reset HEAD^`` (not ``--hard``)
+
+- ``git merge master``
+
+- ``git commit -am "whatever"``
+
+Rebase
+******
+
+Local branch diverges from origin (remote)
+++++++++++++++++++++++++++++++++++++++++++
+
+This happens if someone pushed work ahead of you. Git will deny the push and recommend you pull which is ill-advised. Instead, you should do ``git pull --rebase=preserve``. The preserve option ensures that any local merges will not be flattened.
+
+Example
++++++++
+
+Let’s say you have three repositories: remote, workA and workB.
+
+* workA does an initial commit.
+
+* workB does a git pull to incorporate the initial commit.
+
+* workB adds a new commit and pushes to remote.
+
+* workA adds a new commit but is denied a push because workB already pushed.
+
+* workA does ``git pull --rebase=preserve`` and can now safely git push.
+
+* workB can now merge (in this case, a fast-forward). All three repositories have a clean, linear history.
+
+Clean up your work
+++++++++++++++++++
+
+Local changes (haven't been pushed elsewhere) should be cleaned up by using ``git rebase -i``. Squash the commits and use ``[#issueno] Summary`` in the message. Otherwise if the changes have already been pushed, ``git revert`` etc. should be used. Do not overwrite (that is, dropping their commits) other people's changes or rewrite history. This problem is slightly mitigated by using protected branches that disable force pushes.
