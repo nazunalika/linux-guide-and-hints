@@ -7,7 +7,7 @@ Linux Guide and Hints
 =====================
 
 The source code for this page can be found on `Github
-<https://github.com/remyabel/angels-of-clockwork/tree/master/fedora-linux-guide-and-hints>`_.
+<https://github.com/remyabel/linux-guide-and-hints>`_.
 
 This page contains tutorials and generally useful information regarding
 packages and system administration in |Fedora| and |CentOS|.
