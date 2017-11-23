@@ -8,6 +8,14 @@ install:
 script:
 - make html SPHINXOPTS=-Ea
 
+deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: ${GITHUB_TOKEN}
+    fqdn: www.linuxguideandhints.com
+    on:
+        branch: master
+
 after_script:
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
