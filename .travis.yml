@@ -6,6 +6,7 @@ install:
 - pip install sphinx
 
 script:
+- touch .nojekyll
 - make html SPHINXOPTS=-Ea
 
 deploy:
@@ -18,7 +19,6 @@ deploy:
         branch: master
 
 after_deploy:
-  - touch .nojekyll
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
      -H "X-Auth-Email: ${CF_EMAIL}" \
