@@ -6,8 +6,8 @@ install:
 - pip install sphinx
 
 script:
-- touch .nojekyll
 - make html SPHINXOPTS=-Ea
+- touch build/html/.nojekyll
 
 deploy:
     provider: pages
