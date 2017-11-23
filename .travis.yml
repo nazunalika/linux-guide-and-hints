@@ -13,10 +13,11 @@ deploy:
     skip_cleanup: true
     github_token: ${GITHUB_TOKEN}
     fqdn: www.linuxguideandhints.com
+    local_dir: build/html
     on:
         branch: master
 
-after_script:
+after_deploy:
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
      -H "X-Auth-Email: ${CF_EMAIL}" \
