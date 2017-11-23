@@ -17,7 +17,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' maxcdn.bootstrapcdn.com; style-src 'self' 'unsafe-inline' maxcdn.bootstrapcdn.com fonts.googleapis.com; img-src 'self' data:; media-src 'self'; font-src 'self' fonts.googleapis.com;">
   <meta name="google-site-verification" content="APUET_EdyP7TtgYTR2_c_H45rvv4R5BtUEACJDSm_lY" />
   {% block htmltitle %}
-	<title>{{ title|striptags|e }}{{ titlesuffix|replace('master documentation', '') }}</title>
+  <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
   {% endblock %}
 
   {# FAVICON #}
@@ -139,9 +139,10 @@
 
       {# MOBILE NAV, TRIGGLES SIDE NAV ON TOGGLE #}
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-				<i data-toggle="wy-nav-top" class='fa fa-lg fa-bars'></i>					
-
-        <a href="{{ pathto(master_doc) }}">{{ project }}</a>
+        {% block mobile_nav %}
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="{{ pathto(master_doc) }}">{{ project }}</a>
+        {% endblock %}
       </nav>
 
 
