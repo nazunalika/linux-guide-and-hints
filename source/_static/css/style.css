@@ -72,6 +72,13 @@
 	position: static;
 }
 
+.wy-side-scroll {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+}
+
 .wy-nav-top i {
 	font-size: 17.3333px;
 	margin-top: 15px;
