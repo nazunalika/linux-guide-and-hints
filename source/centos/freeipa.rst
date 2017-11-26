@@ -174,6 +174,14 @@ It is possible to automate the replica installation. To automate the replica ins
 * Server must be added to the ipaservers host group
 * ipa-replica-install ran without principal and passwords
 
+Once you have a server added as a client and then added to the ipaservers host group, you would run a command like this:
+
+.. code-block:: bash
+
+   % ipa-replica-install --no-ntp --sh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
+
+If you have forwarders, use the --forwarders option instead.
+
 Active Directory Trust
 ----------------------
 
