@@ -1,6 +1,11 @@
 Emulators
 ^^^^^^^^^
 
+mednafen randomly speeds up
+---------------------------
+
+mednafen seems to have probelms with pulseaudio; change the ``sound.driver`` to ``sdl``.
+
 Mupen64Plus unofficial FAQ
 --------------------------
 
@@ -33,7 +38,7 @@ This file can be found in ``~/.cache/mupen64plus``. So you have to delete this f
 you make a modification for a game.
 
 Recommended plugins?
---------------------
+********************
 
 Video: `GLideN64 <https://github.com/gonetz/GLideN64/releases>`_ Do not confuse this with 
 glide64mk2, which seems to be made for ancient graphics cards
@@ -41,7 +46,7 @@ glide64mk2, which seems to be made for ancient graphics cards
 RSP (processor): `cxd4 <https://github.com/mupen64plus/mupen64plus-rsp-cxd4>`_
 
 How do I compile it?
---------------------
+********************
 
 All of the projects follow a pattern: their Makefiles are located in ``project/unix`` and they
 do not use autotools. You specify make variables like so:
@@ -137,7 +142,7 @@ Also if you enable ``gl_glsl`` you want to set ``gl_glsl_filter`` to ``0`` (if
 you don't like the bilinear filter.)
 
 Example command line options
-----------------------------
+****************************
 
 I'm assuming that you're using the ini file in the previous section. In
 general, starting up MAME looks like this:
