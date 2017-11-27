@@ -4,7 +4,7 @@ Emulators
 mednafen randomly speeds up
 ---------------------------
 
-mednafen seems to have probelms with pulseaudio; change the ``sound.driver`` to ``sdl``.
+mednafen seems to have problems with pulseaudio; change the ``sound.driver`` to ``sdl``.
 
 Mupen64Plus unofficial FAQ
 --------------------------
