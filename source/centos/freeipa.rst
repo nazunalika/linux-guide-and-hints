@@ -185,6 +185,66 @@ If you have forwarders, use the --forwarders option instead.
 Active Directory Trust
 ----------------------
 
+To initiate a trust with your active directory domain, ensure the following requirements are met.
+
+.. note:: Requirements
+
+   Package installed: ipa-server-trust-ad
+   DNS: Properly configured that FreeIPA can resolve the AD servers A and SRV records
+    -> This can either be forwarders to AD, a subdomain that IPA manages, or delegated subdomain from the master DNS servers in your network. This is completely dependent on your infrastructure.
+
+When the following requirements are met, you have two choices before continuning. You can either use POSIX or have the id range generated automatically.
+
+.. note:: POSIX vs Non-POSIX
+
+   If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides. If you are not planning a migration from pure AD over to IPA with a trust, then using POSIX may be recommended as they are probably already set. Otherwise, if you don't turn on POSIX, IPA will take care of assigning the ID's for the accounts across the trust.
+
+You will need to prep your master(s) for the trust. We will be enabling compat, adding sids, and adding agents so both masters can provide AD information. 
+
+.. code-block:: bash
+
+   % ipa-adtrust-install --add-sids --add-agents --enable-compat
+
+This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode.
+
+You will now need to open the necessary ports. Do this on both masters.
+
+.. note:: Ports
+
+   TCP: 135, 138, 139, 389, 445, 1024-1300, 3268
+   UDP: 138, 139, 389, 445
+
+.. code-block:: bash
+
+   % firewall-cmd --add-service=freeipa-trust --permanent
+   % firewall-cmd --complete-reload
+
+Now you can initiate the trust. The admin account you use must be part of the domain admins group.
+
+.. code-block:: bash
+
+   # If you are using IPA's ID ranges, use ipa-ad-trust.
+   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust-posix --two-way=true --admin adminaccount --password 
+
+Once the trust is up, verify it.
+
+.. code-block:: bash
+
+   % ipa trust-show ad.example.com
+    Realm name: ad.example.com
+    Domain NetBIOS name: AD
+    Domain Security Identifier: S-X-X-XX-XXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX
+    Trust direction: Two-way trust
+    Trust type: Active Directory domain
+    UPN suffixes: ad.example.com
+
+You should be able to test for the users now.
+
+.. code-block:: bash
+
+   % id first.last@ad.example.com
+   uid=10000(louis.abel@ad.example.com) gid=10000(label@ad.example.com) groups=10000(label@ad.example.com)
+
 Client Setup
 ------------
 
