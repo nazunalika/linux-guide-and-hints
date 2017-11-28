@@ -1,2 +1,3 @@
 build/
 /sphinx_rtd_theme/
+*.pyc

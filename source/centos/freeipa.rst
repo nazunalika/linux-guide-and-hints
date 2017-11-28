@@ -1192,5 +1192,5 @@ If you look in mail lists of RHEL 6 and SUDO with sssd on IPA, you'll see someth
 
 .. rubric:: Footnotes
 
-.. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`_ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`_
+.. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`__ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`__
 .. [#f2] The -P asks for the password of the username in question, that way it is cached right away. The directory service on the system then has credentials to compare to. I have found that sometimes if you don't use -P, even if you're logged in as the account, the password does not get cached and you'll get stuck at a background image the next time you login. Again, this is only sometimes. Your mileage may vary here.
