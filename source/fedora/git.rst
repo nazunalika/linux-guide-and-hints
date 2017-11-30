@@ -37,7 +37,7 @@ We will be using `git-bump <https://github.com/tpope/git-bump>`_. Install gem an
 
 Modify whatever appropriate files for versioning, i.e ``package.json``,
 ``conf.py``, etc. Stage the changes then run ``git-bump <version>``. You can then verify the tag with
-``git-tag v <version>``.
+``git tag -v <version>``.
 
 ``git commit -am`` didn’t add my latest files
 *********************************************
