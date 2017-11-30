@@ -12,6 +12,11 @@ As a rule of thumb, avoid ``sudo pip``. Always append ``--user`` to the
 ``pip --version``. It should say the version number as well as the
 directory it's being pulled from.
 
+.. note::
+
+    There is a proposal to make ``--user`` the default scheme, see
+    `issue #1668 <https://github.com/pypa/pip/issues/1668>`_.
+
 Finally, there's a separate pip for Python 2 and 3. You could easily
 have 4-5 different versions (2 installed globally, 2 installed locally,
 and pip-installed pips) which compounds the issue further.
