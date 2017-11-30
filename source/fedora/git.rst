@@ -1,6 +1,19 @@
 Git
 ^^^
 
+GPG
+---
+
+This summarizes the information from `Github Help <https://help.github.com/articles/signing-commits-with-gpg/>`_.
+
+* List your keys with ``gpg --list-keys``.
+* Configure your git signing key with ``git config --global user.signingkey <key>``.
+* Run ``gpg --armor --export <key>`` and add the key to your Github account.
+* Sign commits with ``git commit -S <...>``
+* ``git-bump`` will sign tags automatically.
+
+Ensure that your name and e-mail address match the Github account you're adding the key to.
+
 Workflow
 --------
 
@@ -11,6 +24,20 @@ This is a living set of notes I have for a Git workflow.
     This contains incomplete and possibly incorrect advice. It
     will continue to be amended as I use it in my workflow and see
     what works and doesn't.
+
+Versioning
+**********
+
+We will be using `git-bump <https://github.com/tpope/git-bump>`_. Install gem and the package:
+
+.. code-block:: bash
+
+   sudo dnf install gem
+   sudo gem install git-bump
+
+Modify whatever appropriate files for versioning, i.e ``package.json``,
+``conf.py``, etc. Stage the changes then run ``git-bump <version>``. You can then verify the tag with
+``git-tag v <version>``.
 
 ``git commit -am`` didn’t add my latest files
 *********************************************
