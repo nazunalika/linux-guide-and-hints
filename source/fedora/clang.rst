@@ -1,5 +1,13 @@
-Clang Format
-^^^^^^^^^^^^
+Clang
+^^^^^
+
+MSan line numbers
+-----------------
+
+Install the ``llvm`` package, not just ``clang``. MemorySanitizer requires the ``llvm-symbolizer`` binary to display files/line numbers.
+
+clang-format
+------------
 
 Installing ``clang`` via the package manager only grabs the ``clang-format`` binary, which doesn't have vim integration. Instead, grab the python script from llvm directly, i.e their `github page <https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-format/clang-format.py>`_. Put it somewhere then add the following to your ``.vimrc``:
 
