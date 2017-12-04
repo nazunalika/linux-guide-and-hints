@@ -1,6 +1,9 @@
 FreeIPA
 ^^^^^^^
 
+.. meta::
+    :description: How to install/configure FreeIPA on CentOS 7 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
+
 This tutorial goes over how to install and configure FreeIPA on CentOS 7 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::

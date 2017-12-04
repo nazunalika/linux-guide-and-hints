@@ -1,6 +1,9 @@
 The System Administrator Experience
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. meta::
+    :description: The System Administrator Experience for Red Hat based distributions, such as CentOS 6 and 7.
+
 This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. 
 
 Please keep in mind, this is for Red Hat based distributions, mainly CentOS 6 and 7. You may attempt to use Scientific Linux, but just know that they modify the base repositories and make other changes that go outside of what is shipped by Red Hat, and therefore CentOS.

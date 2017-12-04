@@ -1,6 +1,9 @@
 OpenLDAP
 ^^^^^^^^
 
+.. meta::
+    :description: How to install OpenLDAP on RHEL 7, configure and set up accounts for host access, etc. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO.
+
 This tutorial goes over how to install OpenLDAP to a RHEL 7 Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO (and it's relatively easy to set it up).
 
 Overview
