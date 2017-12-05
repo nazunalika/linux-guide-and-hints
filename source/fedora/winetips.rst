@@ -1,6 +1,13 @@
 Wine Tips
 ^^^^^^^^^
 
+Out of memory errors
+--------------------
+
+This seems to affect multiple games. For example, in Resident Evil Remaster you might see "ERR08: memory overrun". For non-DRM games, you can try using the `4gb patch <http://www.ntcore.com/4gb_patch.php>`_ or equivalent "Large Address Awareness" patches. For DRM games (like found on Steam), you'll need a patch/mod with specific support (i.e, this is the case for Fallout).
+
+If you are willing to `compile Wine from source <https://wiki.winehq.org/Building_Wine>`_, use this `patch <https://bugs.winehq.org/attachment.cgi?id=53156>`_ by Gabriel Corona that will enable LAA across the board.
+
 New Vegas
 ---------
 
