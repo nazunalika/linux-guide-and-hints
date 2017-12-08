@@ -1,5 +1,7 @@
 # Linux Guide and Hints
 
+[![Build Status](https://travis-ci.org/remyabel/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/remyabel/linux-guide-and-hints)
+
 This wiki uses a forked/heavily modified version of [Sphinx RTD Theme](https://github.com/snide/sphinx_rtd_theme).
 
 The website is live at https://www.linuxguideandhints.com
