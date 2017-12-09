@@ -1,6 +1,67 @@
 Emulators
 ^^^^^^^^^
 
+32-bit rendering in mednafen (RetroArch)
+----------------------------------------
+
+Mednafen, being an accurate PSX emulator, doesn't support 32-bit color depth.
+Patching it to disable `dithering <https://en.wikipedia.org/wiki/Dither>`_ will
+result in color banding as expected, which looks something like this:
+
+.. image:: https://abload.de/img/16-bit-no-dithert9bx7.png
+   :alt: 16-bit rendering with dithering disabled (OpenGL)
+
+However, the `beetle-psx-libretro <https://github.com/libretro/beetle-psx-libretro>`_ core
+for RetroArch supports 32-bit color depth, but it's a little tricky to setup. 
+
+We will be using the Vulkan renderer because the OpenGL renderer is a little buggy
+(see `beetle-psx-libretro#43 <https://github.com/libretro/beetle-psx-libretro/issues/43>`_.
+For example, this is what 32-bit rendering with dithering disabled looks like in the OpenGL
+renderer:
+
+.. image:: https://abload.de/img/32-bitpiy55.png
+   :alt: 32-bit rendering with dithering disabled (OpenGL)
+
+On the other hand, this is what it looks like with Vulkan:
+
+.. image:: /_static/img/silent_hill.png
+   :alt: 32-bit rendering with dithering disabled (Vulkan)
+
+If you followed our guide on installing Nvidia drivers from :doc:`negativo`, then you can
+install the ``vulkan`` package.
+
+Building beetle-psx-libretro
+****************************
+
+First, clone the `beetle-psx-libretro repo <https://github.com/libretro/beetle-psx-libretro>`_:
+
+.. code-block:: bash
+
+   git clone git@github.com:libretro/beetle-psx-libretro.git
+
+Then enable the Vulkan renderer and build:
+
+.. code-block:: bash
+
+   make HAVE_VULKAN=1
+
+Copy the core to the RetroArch directory:
+
+.. code-block:: bash
+
+   cp mednafen_psx_hw_libretro.so ~/.config/retroarch/cores/
+
+Enabling the Vulkan renderer and 32-bit color
+*********************************************
+
+In ``retroarch.cfg``, put ``video_driver = "vulkan"``. In ``retroarch-core-options.cfg``, put ``beetle_psx_hw_renderer = "vulkan"``. 
+
+Due to an unknown reason (see `beetle-psx-libretro#158 <https://github.com/libretro/beetle-psx-libretro/issues/158>`_),
+on X11 (i.e, if you are running XFCE, as opposed to Gnome which uses Wayland), you will get a "bad sector" error. The
+fix is to set ``beetle_psx_hw_cd_access_method = "precache"`` (this enables what the documentation refers to as "CD image cache").
+
+Finally, ensure that ``beetle_psx_hw_color_depth = "32bpp"``.
+
 mednafen randomly speeds up
 ---------------------------
 
