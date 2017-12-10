@@ -48,7 +48,8 @@ Alternatively, you can use another powerline-enabled theme provided by
 .. code-block:: bash
 
    curl -L https://get.oh-my.fish > install
-   sha256sum -c install
+   curl -L https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install.sha256 > install.256
+   sha256sum -c install.256
    fish install --path=~/.local/share/omf --config=~/.config/omf
    omf install bobthefish
    omf theme bobthefish
