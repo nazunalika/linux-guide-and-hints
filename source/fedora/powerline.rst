@@ -39,6 +39,22 @@ Add this to ``~/.config/fish/config.fish``:
 If you used the ``dnf`` method, ``{repository_root}`` will be
 ``/usr/share/``. 
 
+oh-my-fish
+++++++++++
+
+Alternatively, you can use another powerline-enabled theme provided by
+`oh-my-fish <https://github.com/oh-my-fish/oh-my-fish>`_.
+
+.. code-block:: bash
+
+   curl -L https://get.oh-my.fish > install
+   sha256sum -c install
+   fish install --path=~/.local/share/omf --config=~/.config/omf
+   omf install bobthefish
+   omf theme bobthefish
+
+If present, remove ``powerline-setup`` from your Fish config.
+
 vim
 ***
 
