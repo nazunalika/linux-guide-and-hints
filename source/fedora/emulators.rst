@@ -69,6 +69,14 @@ fix is to set ``beetle_psx_hw_cd_access_method = "precache"`` (this enables what
 
 Finally, ensure that ``beetle_psx_hw_color_depth = "32bpp"``.
 
+RetroArch shaders
+-----------------
+
+If you are using the OpenGL renderer, download the `glsl-shaders <https://github.com/libretro/glsl-shaders>`_ repository. If you
+are using the Vulkan renderer, download the `slang-shaders <https://github.com/libretro/slang-shaders>`_ repository. In order to load
+these shader presets, load a core/content then go to **Quick Menu** -> **Shaders** -> **Load Shader Preset**. Then look for files with
+the ``.glslp`` or ``.slangp`` file extensions.
+
 mednafen randomly speeds up
 ---------------------------
 
