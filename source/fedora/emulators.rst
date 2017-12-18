@@ -1,8 +1,32 @@
 Emulators
 ^^^^^^^^^
 
-32-bit rendering in mednafen (RetroArch)
-----------------------------------------
+RetroArch
+---------
+
+Building beetle-psx-libretro (mednafen)
+***************************************
+
+First, clone the `beetle-psx-libretro repo <https://github.com/libretro/beetle-psx-libretro>`_:
+
+.. code-block:: bash
+
+   git clone git@github.com:libretro/beetle-psx-libretro.git
+
+Then enable the Vulkan renderer and build:
+
+.. code-block:: bash
+
+   make HAVE_VULKAN=1
+
+Copy the core to the RetroArch directory:
+
+.. code-block:: bash
+
+   cp mednafen_psx_hw_libretro.so ~/.config/retroarch/cores/
+
+Enabling the Vulkan renderer and 32-bit color
+*********************************************
 
 Mednafen, being an accurate PSX emulator, doesn't support 32-bit color depth.
 Patching it to disable `dithering <https://en.wikipedia.org/wiki/Dither>`_ will
@@ -37,30 +61,6 @@ On the other hand, this is what it looks like with Vulkan:
 If you followed our guide on installing Nvidia drivers from :doc:`negativo`, then you can
 install the ``vulkan`` package.
 
-Building beetle-psx-libretro
-****************************
-
-First, clone the `beetle-psx-libretro repo <https://github.com/libretro/beetle-psx-libretro>`_:
-
-.. code-block:: bash
-
-   git clone git@github.com:libretro/beetle-psx-libretro.git
-
-Then enable the Vulkan renderer and build:
-
-.. code-block:: bash
-
-   make HAVE_VULKAN=1
-
-Copy the core to the RetroArch directory:
-
-.. code-block:: bash
-
-   cp mednafen_psx_hw_libretro.so ~/.config/retroarch/cores/
-
-Enabling the Vulkan renderer and 32-bit color
-*********************************************
-
 In ``retroarch.cfg``, put ``video_driver = "vulkan"``. In ``retroarch-core-options.cfg``, put ``beetle_psx_hw_renderer = "vulkan"``. 
 
 Due to an unknown reason (see `beetle-psx-libretro#158 <https://github.com/libretro/beetle-psx-libretro/issues/158>`_),
@@ -69,18 +69,22 @@ fix is to set ``beetle_psx_hw_cd_access_method = "precache"`` (this enables what
 
 Finally, ensure that ``beetle_psx_hw_color_depth = "32bpp"``.
 
-RetroArch shaders
------------------
+Shaders
+*******
+
+Since texture filtering is only supported with the OpenGL renderer, shaders are an alternative. However, since shaders are essentially
+a post-process effect, this will also affect pre-rendered backgrounds (like in Resident Evil). It can also be slightly slower.
 
 If you are using the OpenGL renderer, download the `glsl-shaders <https://github.com/libretro/glsl-shaders>`_ repository. If you
 are using the Vulkan renderer, download the `slang-shaders <https://github.com/libretro/slang-shaders>`_ repository. In order to load
 these shader presets, load a core/content then go to **Quick Menu** -> **Shaders** -> **Load Shader Preset**. Then look for files with
-the ``.glslp`` or ``.slangp`` file extensions.
+the ``.glslp`` or ``.slangp`` file extensions. For convenience, you might want to install these to ``~/.config/retroarch/shaders``.
 
 mednafen randomly speeds up
 ---------------------------
 
-mednafen seems to have problems with pulseaudio; change the ``sound.driver`` to ``sdl``.
+mednafen seems to have problems with pulseaudio; change the ``sound.driver`` to ``sdl``. Note: this doesn't seem to apply
+to RetroArch.
 
 Mupen64Plus unofficial FAQ
 --------------------------
