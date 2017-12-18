@@ -759,13 +759,13 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    % vi /etc/pam.conf
 
    # Console
+   # We are not using pam_ldap for console, it causes an svc console login crash
    login auth requisite pam_authtok_get.so.1
    login auth sufficient pam_krb5.so.1
    login auth required pam_dhkeys.so.1
    login auth required pam_unix_cred.so.1
    login auth required pam_dial_auth.so.1
    login auth required pam_unix_auth.so.1 use_first_pass
-   login auth required pam_ldap.so.1
    rlogin auth sufficient pam_rhosts_auth.so.1
    rlogin auth requisite pam_authtok_get.so.1
    rlogin auth sufficient pam_krb5.so.1
@@ -1003,13 +1003,13 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth required           pam_krb5.so.1
 
    % vi /etc/pam.d/login
+   # We are not using pam_ldap for console, it causes an svc console login crash
    auth requisite          pam_authtok_get.so.1
    auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth required           pam_dial_auth.so.1
    auth required           pam_unix_auth.so.1 server_policy
-   auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/other
    auth definitive         pam_user_policy.so.1
@@ -1095,9 +1095,9 @@ Legacy Active Directory Trust
 
 This section isn't really a walk through, but it's more of an explanation of my experiences and what I've noticed. First and foremost, I'm going to be assuming you have a domain resolution order set for AD to be first. If this is truly the case, then the cn=compat tree changes slightly from what it traditionally does. 
 
-What it initially does is it takes all the IPA users, makes them compat objects on the fly (virtual objects). And then, if they are from AD, they only appear on request, but they usually only appear when you query them as uid=username@domain. When domain resolution order is set on the IPA side, it changes this behavior slightly. Instead, what happens is if you request uid=username, you will get the response back with your AD user, but the difference is that there are multiple 'uid' attributes. One is part of the RDN of the object (uid=username) and the other is the fully qualified username. Now, this is actually RFC compliant. But let's say the compat tree never had the user in there and you searched the tranditional way, uid=username@domain. You now have behavior as if domain resolution order was never set in the first place.
+What it initially does is it takes all the IPA users, makes them compat objects on the fly (virtual objects). And then, if they are from AD, they only appear on request, but they usually only appear when you query them as uid=username@domain. When domain resolution order is set on the IPA side, it changes this behavior slightly. Instead, what happens is if you request uid=username, you will get the response back with your AD user, but the difference is that there are multiple 'uid' attributes. One is part of the RDN of the object (uid=username) and the other is the fully qualified username. Now, this is actually RFC compliant. But let's say the compat tree never had the user in there and you searched the tranditional way, uid=username@domain. You now have behavior as if domain resolution order was never set in the first place. While this occurs for AD users, IPA users are unaffected. 
 
-While this occurs for AD users, IPA users are unaffected. You might think to yourself though 'this doesn't seem too bad' and you would be mostly right, it's rfc compliant. However, legacy clients sometimes don't play too well with this. In fact, there's some weirdness that occurs.
+You might think to yourself though 'this doesn't seem too bad' and you would be mostly right, it's rfc compliant. However, legacy clients sometimes don't play too well with this. In fact, there's some weirdness that occurs.
 
 To explain, this is what appears to happen:
 
