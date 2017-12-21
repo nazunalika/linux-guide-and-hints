@@ -41,7 +41,7 @@ However, the `beetle-psx-libretro <https://github.com/libretro/beetle-psx-libret
 for RetroArch supports 32-bit color depth, but it's a little tricky to setup. 
 
 We will be using the Vulkan renderer because the OpenGL renderer is a little buggy
-(see `beetle-psx-libretro#43 <https://github.com/libretro/beetle-psx-libretro/issues/43>`_.
+(see `beetle-psx-libretro#43 <https://github.com/libretro/beetle-psx-libretro/issues/43>`_).
 For example, this is what 32-bit rendering with dithering disabled looks like in the OpenGL
 renderer:
 
@@ -57,6 +57,8 @@ On the other hand, this is what it looks like with Vulkan:
 
    32-bit rendering with dithering disabled (Vulkan)
 
+In this particular instance, however, the issue is because mask bit emulation is yet to be backported
+to the OpenGL renderer. This article may become out of date once that's implemented.
 
 If you followed our guide on installing Nvidia drivers from :doc:`negativo`, then you can
 install the ``vulkan`` package.
