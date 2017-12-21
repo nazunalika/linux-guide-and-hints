@@ -32,7 +32,7 @@ Mednafen, being an accurate PSX emulator, doesn't support 32-bit color depth.
 Patching it to disable `dithering <https://en.wikipedia.org/wiki/Dither>`_ will
 result in color banding as expected, which looks something like this:
 
-.. figure:: https://abload.de/img/16-bit-no-dithert9bx7.png
+.. figure:: /_static/img/silent_hill_16.png
    :alt: 16-bit rendering with dithering disabled (OpenGL)
 
    16-bit rendering with dithering disabled (OpenGL). Source: https://forums.libretro.com/t/mednafen-psx-32-bit-rendering-a-possibility/4440
@@ -45,7 +45,7 @@ We will be using the Vulkan renderer because the OpenGL renderer is a little bug
 For example, this is what 32-bit rendering with dithering disabled looks like in the OpenGL
 renderer:
 
-.. figure:: https://abload.de/img/32-bitpiy55.png
+.. figure:: /_static/img/silent_hill_32.png
    :alt: 32-bit rendering with dithering disabled (OpenGL)
 
    32-bit rendering with dithering disabled (OpenGL). Source: https://forums.libretro.com/t/mednafen-psx-32-bit-rendering-a-possibility/4440
