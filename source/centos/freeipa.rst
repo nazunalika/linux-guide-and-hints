@@ -129,7 +129,7 @@ To install the server, make sure the hostname is set to the A records and NS del
    % ipa-server-install --no_hbac_allow --no-ntp --setup-dns  <-- If you want to host NTP from IPA, take off --no-ntp
    . . . (show steps here)
 
-Once this is complete, it's recommended you create an admin account for yourself. Later, you can disable 'admin' if you'd like, but for now, just create one for yourself. Me personally, I like to have a "2" at the end of my login name, that way I have an obvious difference. I don't like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it's better to have separate admin accounts away from the defaults.
+Once this is complete, it's recommended you create an admin account for yourself. Me personally, I like to have a "2" at the end of my login name, that way I have an obvious difference. I don't like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it's better to have separate admin accounts away from the defaults.
 
 .. code-block:: bash
    
