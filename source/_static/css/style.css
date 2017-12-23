@@ -72,6 +72,13 @@
 	position: static;
 }
 
+/* The original style uses data:
+ * which violates the CSP policy
+ */
+.wy-body-for-nav {
+    background-image: none !important;
+}
+
 .wy-side-scroll {
     position: relative;
     overflow-x: hidden;
