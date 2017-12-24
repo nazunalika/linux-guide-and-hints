@@ -1,6 +1,41 @@
 Emulators
 ^^^^^^^^^
 
+Compiling PCSX2
+---------------
+
+`PCSX2 <https://github.com/PCSX2/pcsx2>`_  is a 32-bit only Playstation 2 emulator. The wiki does not contain any
+instructions (other than install from RPMFusion) for Fedora. This is what you need to do.
+
+Dependencies
+************
+
+.. code-block:: bash
+
+   dnf install zlib-devel.i686 bzip2-devel.i686 freetype-devel.i686 \
+   glew-devel.i686 libX11-devel.i686 libICE-devel.i686 libXrandr-devel.i686 \
+   mesa-libGLES-devel.i686 alsa-lib-devel.i686 SDL-devel.i686 gtk2-devel.i686 \
+   portaudio-devel.i686 sparsehash-devel.i686 wxGTK-devel.i686 \
+   soundtouch-devel.i686 libaio-devel.i686 lzma-devel.i686
+
+You might also need ``xz-devel.i686`` and ``compat-wtkGTK3-gtk2-devel.i686``.
+
+CMake flags
+***********
+
+These are taken from the RPMFusion spec.
+
+.. code-block:: bash
+
+    cmake .. \
+    -DCMAKE_TOOLCHAIN_FILE=$PWD/../cmake/linux-compiler-i386-multilib.cmake \
+    -DXDG_STD=TRUE -DGLSL_API=TRUE -DFORCE_INTERNAL_SOUNDTOUCH=FALSE \
+    -DFORCE_INTERNAL_SDL=FALSE -DCMAKE_BUILD_STRIP=FALSE -DGTK3_API=FALSE \
+    -DEXTRA_PLUGINS=FALSE -DSDL2_API=FALSE -DCMAKE_BUILD_TYPE=Release
+
+Most of these are self-explanatory. ``XDG_STD`` will have it put files in standard Linux locations (``.config``, etc).
+We need to use the i386 toolchain because PCSX2 can't be compiled for 64-bit currently.
+
 RetroArch
 ---------
 
