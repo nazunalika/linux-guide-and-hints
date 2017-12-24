@@ -21,12 +21,12 @@ Error still persists after uninstalling VirtualBox
 
 ``journalctl`` shows that you still get ``could not insert vboxdrv`` errors. Run ``dracut -v -f`` then restart your computer.
 
-Unable to find `LibLZMA`
------------------------
+Unable to find ``LibLZMA``
+--------------------------
 
 Try installing ``xz-libs`` and ``xz-devel``. For some reason, the maintainers have changed the name from `LZMA Utils to XZ Utils <https://tukaani.org/xz/>`_.
 
-Unable to find `wxWidgets`
---------------------------
+Unable to find ``wxWidgets``
+----------------------------
 
 For some reason, for some projects that depend on GTK2, installing ``wxGTK`` isn't sufficient. You also need ``compat-wxGTK3-gtk2`` (and the ``-devel`` packages if necessary).
