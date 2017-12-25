@@ -30,3 +30,14 @@ Unable to find ``wxWidgets``
 ----------------------------
 
 For some reason, for some projects that depend on GTK2, installing ``wxGTK`` isn't sufficient. You also need ``compat-wxGTK3-gtk2`` (and the ``-devel`` packages if necessary).
+
+Update all repositories in the current directory
+------------------------------------------------
+
+Two use-cases for this are updating vim plugins or golang packages. `Zarat <https://stackoverflow.com/users/578323/zarat>`_ at StackOverflow suggests this:
+
+.. code-block:: bash
+
+   find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
+
+If you are using the Fish shell, you need to quote the brackets, `'{}'`. See `issue #95 <https://github.com/fish-shell/fish-shell/issues/95>`_.
