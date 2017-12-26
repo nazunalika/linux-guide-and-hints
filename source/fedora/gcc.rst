@@ -46,3 +46,16 @@ directory.) It's better to run it out-of-source by doing the following:
 
 Some options you may consider passing to ``configure`` may be
 ``--enable-languages=c,c++``, ``--disable-nls`` and ``--enable-multilib``. 
+
+"invalid instruction suffix for"
+--------------------------------
+
+If you are building a cross-compiler (i.e, following along with the `osdev
+article <http://wiki.osdev.org/GCC_Cross-Compiler>`_) and come across this
+error, you simply need to set the install prefix for Binutils and GCC to the
+same directory. For some strange reason, GCC will fallback to the system
+assembler even if Binutils binaries are in the path.
+
+.. note::
+
+    TODO: Additional research needed.
