@@ -41,3 +41,8 @@ Two use-cases for this are updating vim plugins or golang packages. `Zarat <http
    find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
 
 If you are using the Fish shell, you need to quote the brackets, `'{}'`. See `issue #95 <https://github.com/fish-shell/fish-shell/issues/95>`_.
+
+Firefox redirects me to a website if I type an invalid URL
+----------------------------------------------------------
+
+Example, you type ``firefox build/html/fedora/gcc.rst`` (where gcc.rst doesn't exist) and it opens up ``build.com/...``. Go to ``about:config`` and set ``browser.fixup.alternate.enabled`` to ``false``.
