@@ -2,3 +2,4 @@ build/
 /sphinx_rtd_theme/
 *.pyc
 cert/
+node_modules/

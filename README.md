@@ -41,8 +41,9 @@ in forcing an entire rebuild.
 
 ### Livereload
 
-		pip install --user sphinx-autobuild
+    npm install -g grunt-cli
+    npm install
+    grunt
 
-Then
-
-		sphinx-autobuild . <directory>
+Add `localhost.ssl` to your `/etc/hosts`, then visit `https://localhost.ssl:8443`. 
+    
