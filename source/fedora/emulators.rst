@@ -18,7 +18,7 @@ Dependencies
    portaudio-devel.i686 sparsehash-devel.i686 wxGTK-devel.i686 \
    soundtouch-devel.i686 libaio-devel.i686 lzma-devel.i686
 
-You might also need ``xz-devel.i686`` and ``compat-wtkGTK3-gtk2-devel.i686``.
+You might also need ``xz-devel.i686`` and ``compat-wtkGTK3-gtk2-devel.i686``. Do not install ``wxGTK3-devel.i686`` or CMake will say it can't find ``wxWidgets``.
 
 CMake flags
 ***********
