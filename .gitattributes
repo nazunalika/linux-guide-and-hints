@@ -1,1 +1,4 @@
 source/themes/sphinx_rtd_theme/* linguist-vendored
+source/_static/css/prism.css linguist-vendored
+source/_static/js/prism.js linguist-vendored
+source/exts/sphinx_sitemap/* linguist-vendored
