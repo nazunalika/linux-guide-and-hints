@@ -1,6 +1,22 @@
 Emulators
 ^^^^^^^^^
 
+Dolphin
+-------
+
+Wii controls
+************
+
+In order to set up mouse controls for "Motion Controls and IR", reset the controls to default. If you are playing Super Paper Mario, make sure **Sideways Wii Remote** is ticked. 
+
+Game idiosyncrasies
+*******************
+
+Paper Mario: The Thousand-Year Door
++++++++++++++++++++++++++++++++++++
+
+When you need to enter "Tube Mode" in Chapter 4, the game asks you to rapidly rotate your stick. However, using a keyboard where i.e. WASD is mapped to Up/Left/Down/Right, this is physically impossible. An easier way is to map something straight in a line i.e. 1324 in the top number row to Up/Left/Down/Right.
+
 Compiling PCSX2
 ---------------
 
