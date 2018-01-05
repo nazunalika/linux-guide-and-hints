@@ -4,7 +4,7 @@ Git
 Travis CI
 ---------
 
-To skip a build, add `[ci skip]` to the commit message. Tags (i.e, created by `git-bump`) are skipped automatically.
+To skip a build, add ``[ci skip]`` to the commit message. Tags (i.e, created by ``git-bump``) are skipped automatically.
 
 GPG
 ---
