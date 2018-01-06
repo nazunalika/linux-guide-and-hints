@@ -163,6 +163,12 @@ absolute path including the filename.
 
 	./mupen64plus --corelib $PWD/libmupen64plus.so.2
 
+Keycode values 
+**************
+
+Please use the keycode values from ``SDL_keysym.h`` (found `here <https://www.libsdl.org/release/SDL-1.2.15/include/SDL_keysym.h>`_)
+and not the values from the wiki.
+
 I changed one of the hi-res textures and no change is visible
 *************************************************************
 
