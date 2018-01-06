@@ -150,6 +150,10 @@ expected to be found in ``~/.local/share/mupen64plus`` although this can be chan
 in the configuration. Some cache files for hi-res textures and memory are created
 in ``~/.cache/mupen64plus``. The default prefix is ``/usr/local``.
 
+There are also ``.ini`` files that contain ROM information installed in ``$PREFIX/share``.
+mupen64plus and the Rice video plugin need to find these files. If you are using the
+mupen64plus-ui-console, specify ``--datadir $PREFIX/share/mupen64plus`` at the command-line.
+
 I'm getting a ``dlopen`` error
 ******************************
 
@@ -183,6 +187,8 @@ Video: `GLideN64 <https://github.com/gonetz/GLideN64/releases>`_ Do not confuse 
 glide64mk2, which seems to be made for ancient graphics cards
 
 RSP (processor): `cxd4 <https://github.com/mupen64plus/mupen64plus-rsp-cxd4>`_
+
+Note that the Rice video plugin is not compatible with cxd4.
 
 How do I compile it?
 ********************
