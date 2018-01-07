@@ -4,15 +4,8 @@ from docutils.parsers.rst import roles
 from sphinx import addnodes
 from sphinx.writers.html import Writer, HTMLTranslator as BaseTranslator
 
-# https://github.com/github/markup/issues/497
-# Credit goes to livibetter
-def kbd(name, rawtext, text, lineno, inliner, options=None, content=None):
-    return [nodes.raw('', '<kbd>%s</kbd>' % text, format='html')], []
-
 def setup(app):
     app.set_translator('html', HTMLTranslator);
-
-    app.add_role('kbd', kbd)
 
     return {'version': 'latest'}
 
@@ -68,9 +61,3 @@ class HTMLTranslator(BaseTranslator):
                 self.body.append(html)
 
 		raise nodes.SkipNode
-
-        def visit_literal(self, node):
-            self.body.append('<code>')
-
-        def depart_literal(self, node):
-            self.body.append('</code>')
