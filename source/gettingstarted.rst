@@ -11,7 +11,7 @@ RPMFusion (which is not compatible anyway). A few notes:
 
 - Since we are not using RPMFusion, ``libmpg123`` is now ``mpg123``
 
-The :doc:`negativo` article contains more information. This
+The :doc:`fedora/negativo` article contains more information. This
 script will get you off your feet (adapted from `Louis' script <https://github.com/nazunalika/useful-scripts/blob/master/fedora/fedora-desk.sh>`_):
 
 .. code-block:: bash
@@ -41,7 +41,7 @@ script will get you off your feet (adapted from `Louis' script <https://github.c
     dnf --refresh upgrade
 
 Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the
-:doc:`vlc` and :doc:`pulseaudio` articles on troubleshooting tips.
+:doc:`fedora/vlc` and :doc:`fedora/pulseaudio` articles on troubleshooting tips.
 
 Other things
 ------------

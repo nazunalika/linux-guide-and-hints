@@ -20,6 +20,7 @@ packages and system administration in |Fedora| and |CentOS|.
   :caption: Fedora
   :glob:
 
+  gettingstarted
   fedora/*
 
 .. toctree::
