@@ -19,8 +19,8 @@ This is incompatible with and not a replacement for RPMFusion.
 Packages of interest:
 
 - Nvidia drivers
-- ``gstreamer1-plugins-bad``, ``gstreamer1-plugins-ugly``, ``gstreamer1-plugins-vaapi``, ``gstreamer1-plugins-libav``, ``gstreamer1-plugins-bad-fluidsynth``
-- ``mozilla-open264``
+- ``gstreamer1-plugins-bad``, ``gstreamer1-plugins-ugly``, ``gstreamer1-vaapi``, ``gstreamer1-libav``, ``gstreamer1-plugins-bad-fluidsynth``
+- ``mozilla-openh264``
 - ``vlc`` 
 
 Nvidia
