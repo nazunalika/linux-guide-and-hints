@@ -26,8 +26,8 @@ script will get you off your feet (adapted from `Louis' script <https://github.c
 
     # We explicitly list out the packages here because gstreamer1-*
     # will pull in upstream packages that creates conflicts
-    dnf install gstreamer1-plugins-bad gstreamer1-plugins-ugly gstreamer1-plugins-vaapi gstreamer1-plugins-libav gstreamer1-plugins-bad-fluidsynth
-    dnf install mozilla-open264
+    dnf install gstreamer1-plugins-bad gstreamer1-plugins-ugly gstreamer1-vaapi gstreamer1-libav gstreamer1-plugins-bad-fluidsynth
+    dnf install mozilla-openh264
     dnf install vlc
 
     dnf install ffmpeg mpg123
