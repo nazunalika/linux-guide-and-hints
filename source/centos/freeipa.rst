@@ -1003,13 +1003,13 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth required           pam_krb5.so.1
 
    % vi /etc/pam.d/login
-   # We are not using pam_ldap for console, it causes an svc console login crash
    auth requisite          pam_authtok_get.so.1
    auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth required           pam_dial_auth.so.1
-   auth required           pam_unix_auth.so.1 server_policy
+   auth binding            pam_unix_auth.so.1 server_policy
+   auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/other
    auth definitive         pam_user_policy.so.1
@@ -1017,14 +1017,14 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
-   auth required           pam_unix_auth.so.1 server_policy
+   auth binding            pam_unix_auth.so.1 server_policy
    auth required           pam_ldap.so.1
 
    account requisite       pam_roles.so.1
    account definitive      pam_user_policy.so.1
-   account required        pam_unix_account.so.1 server_policy
    account required        pam_krb5.so.1
    account required        pam_tsol_account.so.1
+   account binding         pam_unix_account.so.1 server_policy
    account required        pam_ldap.so.1
 
    session definitive      pam_user_policy.so.1
@@ -1047,7 +1047,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth required           pam_dial_auth.so.1
-   auth required           pam_unix_auth.so.1 server_policy
+   auth binding            pam_unix_auth.so.1 server_policy
    auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/rlogin
@@ -1057,7 +1057,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
-   auth required           pam_unix_auth.so.1
+   auth binding            pam_unix_auth.so.1 server_policy
    auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/rsh
