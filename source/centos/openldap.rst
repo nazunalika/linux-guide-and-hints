@@ -63,7 +63,7 @@ RHEL 7 clients and other newer distributions that are non-el require TLS/SSL for
 
 .. note:: Certificate Information
 
-   Because of the way Red Hat compiled OpenLDAP, it relies on NSS. Do not attempt to use regular base64 certificates. If you want to use standard openssl, not NSS, you should obtain OpenLDAP builds from `LSC <http://lsc-project.org/>`_.
+   Because of the way Red Hat compiled OpenLDAP, it relies on NSS. Do not attempt to use regular base64 certificates. When 7.5 is released and you ahve followed this guide, the RPM will automatically perform an LDIF modification and pull all the NSS pieces apart. When this happens, the guide will be partially changed to deal with this.
 
 I have two ways of doing it, we can do it manually or through a script. I prefer using my script to take care of it. First the manual way.
 
