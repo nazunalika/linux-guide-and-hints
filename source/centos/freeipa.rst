@@ -1176,7 +1176,7 @@ This will ensure EL7 clients resolve the AD domain first when attempting logins 
 RHEL 6 SUDO and Default Domain Suffix
 +++++++++++++++++++++++++++++++++++++
 
-This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable this fall back, you will need to append the following to your domain section.
+This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to append the following to your domain section.
 
 .. code-block:: bash
 
