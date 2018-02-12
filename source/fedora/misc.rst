@@ -46,3 +46,8 @@ Firefox redirects me to a website if I type an invalid URL
 ----------------------------------------------------------
 
 Example, you type ``firefox build/html/fedora/gcc.rst`` (where gcc.rst doesn't exist) and it opens up ``build.com/...``. Go to ``about:config`` and set ``browser.fixup.alternate.enabled`` to ``false``.
+
+YouCompleteMe crashes due to ``libtinfo.so`` version mismatch
+-------------------------------------------------------------
+
+As pointed out by pdavydov108 in `YouCompleteMe issue #778 <https://github.com/Valloric/YouCompleteMe/issues/778#issuecomment-228704671>`_, the fix is to install ``ncurses-compat-libs``. Fedora comes with ``libtinfo.so.6``, however, the version of Clang required by YouCompleteMe has a dependency on ``libtinfo.so.5``. 
