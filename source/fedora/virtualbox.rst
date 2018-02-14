@@ -1,6 +1,11 @@
 VirtualBox
 ^^^^^^^^^^
 
+"Failed to start Load Kernel Modules" after uninstalling
+--------------------------------------------------------
+
+If ``journalctl`` shows that you still get ``could not insert vboxdrv`` errors, run ``dracut -v -f`` then restart your computer.
+
 Kernel modules do not build upon kernel update
 ----------------------------------------------
 

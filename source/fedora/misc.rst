@@ -12,15 +12,6 @@ There are a few issues regarding the lack of ``LD_LIBRARY_PATH`` for Fish such a
 
 The solution credit goes to `lucasb-eyer <https://github.com/lucasb-eyer>`_.
 
-
-Failed to start Load Kernel Modules
------------------------------------
-
-Error still persists after uninstalling VirtualBox
-++++++++++++++++++++++++++++++++++++++++++++++++++
-
-``journalctl`` shows that you still get ``could not insert vboxdrv`` errors. Run ``dracut -v -f`` then restart your computer.
-
 Unable to find ``LibLZMA``
 --------------------------
 
