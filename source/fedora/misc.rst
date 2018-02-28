@@ -42,3 +42,16 @@ YouCompleteMe crashes due to ``libtinfo.so`` version mismatch
 -------------------------------------------------------------
 
 As pointed out by pdavydov108 in `YouCompleteMe issue #778 <https://github.com/Valloric/YouCompleteMe/issues/778#issuecomment-228704671>`_, the fix is to install ``ncurses-compat-libs``. Fedora comes with ``libtinfo.so.6``, however, the version of Clang required by YouCompleteMe has a dependency on ``libtinfo.so.5``. 
+
+Nvidia drivers don't rebuild automatically
+------------------------------------------
+
+Run ``dkms status``. If the output is empty, then you'll need to manually run the build and install:
+
+.. code-block:: bash
+
+    dkms add nvidia/<version>
+    dkms build nvidia/<version>
+    dkms install nvidia/<version>
+
+Where ``<version>`` is something like ``390.25``.
