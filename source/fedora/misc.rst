@@ -12,15 +12,6 @@ There are a few issues regarding the lack of ``LD_LIBRARY_PATH`` for Fish such a
 
 The solution credit goes to `lucasb-eyer <https://github.com/lucasb-eyer>`_.
 
-
-Failed to start Load Kernel Modules
------------------------------------
-
-Error still persists after uninstalling VirtualBox
-++++++++++++++++++++++++++++++++++++++++++++++++++
-
-``journalctl`` shows that you still get ``could not insert vboxdrv`` errors. Run ``dracut -v -f`` then restart your computer.
-
 Unable to find ``LibLZMA``
 --------------------------
 
@@ -46,3 +37,21 @@ Firefox redirects me to a website if I type an invalid URL
 ----------------------------------------------------------
 
 Example, you type ``firefox build/html/fedora/gcc.rst`` (where gcc.rst doesn't exist) and it opens up ``build.com/...``. Go to ``about:config`` and set ``browser.fixup.alternate.enabled`` to ``false``.
+
+YouCompleteMe crashes due to ``libtinfo.so`` version mismatch
+-------------------------------------------------------------
+
+As pointed out by pdavydov108 in `YouCompleteMe issue #778 <https://github.com/Valloric/YouCompleteMe/issues/778#issuecomment-228704671>`_, the fix is to install ``ncurses-compat-libs``. Fedora comes with ``libtinfo.so.6``, however, the version of Clang required by YouCompleteMe has a dependency on ``libtinfo.so.5``. 
+
+Nvidia drivers don't rebuild automatically
+------------------------------------------
+
+Run ``dkms status``. If the output is empty, then you'll need to manually run the build and install:
+
+.. code-block:: bash
+
+    dkms add nvidia/<version>
+    dkms build nvidia/<version>
+    dkms install nvidia/<version>
+
+Where ``<version>`` is something like ``390.25``.
