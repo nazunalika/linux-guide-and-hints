@@ -624,31 +624,9 @@ Solaris 10
 
 Setting up Solaris 10 as an IPA client is... different. In fact, it's a whole kind of different that plagued me for days trying to unravel how to do all of it. So here are the steps I took to make it work.
 
-Create an ldif.
+Create an ldif for your service account.
 
 .. code-block:: ldif
-
-   dn: cn=solaris_authpam,ou=profile,dc=ipa,dc=example,dc=com
-   objectClass: top
-   objectClass: DUAConfigProfile
-   authenticationMethod: simple
-   bindTimeLimit: 5
-   cn: default
-   cn: solaris_authpam
-   defaultSearchBase: dc=ipa,dc=example,dc=com
-   defaultServerList: server1.ipa.example.com server2.ipa.example.com
-   followReferrals: TRUE
-   objectclassMap: shadow:shadowAccount=posixAccount
-   objectclassMap: passwd:posixAccount=posixaccount
-   objectclassMap: group:posixGroup=posixgroup
-   profileTTL: 6000
-   searchTimeLimit: 15
-   serviceAuthenticationMethod: pam_ldap:simple
-   serviceSearchDescriptor: group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: sudoers:ou=sudoers,dc=ipa,dc=example,dc=com
 
    dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
    objectclass: account
@@ -658,17 +636,11 @@ Create an ldif.
    passwordExpirationTime: 20380119031407Z
    nsIdleTimeout: 0
 
-Note, if ou=profile is missing, it is recommended to create it. The solaris system account is required.
+The solaris system account is required. So now, add it in.
 
 .. code-block:: bash
 
    % ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif
-
-This ensure we'll be using PAM to authenticate with the directory. This also ensures we'll be using the compat tree (required). 
-
-.. warning:: No Secure Connection
-
-   When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. I don't know if Solaris 10 intelligently tags the connection for kerberos.
 
 Now, set the nisdomain.
 
@@ -686,12 +658,15 @@ Configure kerberos.
    default_realm = IPA.EXAMPLE.COM
    dns_lookup_kdc = true
    verify_ap_req_nofail = false
+   
    [realms]
    IPA.EXAMPLE.COM = {
    }
+   
    [domain_realm]
    ipa.example.com = IPA.EXAMPLE.COM
    .ipa.example.com = IPA.EXAMPLE.COM
+   
    [logging]
    default = FILE:/var/krb5/kdc.log
    kdc = FILE:/var/krb5/kdc.log
@@ -699,6 +674,7 @@ Configure kerberos.
     period = 1d
     version = 10
    }
+   
    [appdefaults]
    kinit = {
    renewable = true
@@ -748,9 +724,29 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
 
 Now init the ldap client.
 
+.. warning:: No Secure Connection
+
+   When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. Kerberos is hit or miss.
+
 .. code-block:: bash
 
-   % ldapclient init -a profileName=solaris_authpam -a domainName=ipa.example.com -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" -a proxyPassword="secret123" -D uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com -w secret123 server1.ipa.example.com 
+   % ldapclient manual -a credentialLevel=proxy \
+                       -a authenticationMethod=simple \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5 \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123"
 
 This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
@@ -765,13 +761,13 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    login auth required pam_dhkeys.so.1
    login auth required pam_unix_cred.so.1
    login auth required pam_dial_auth.so.1
-   login auth required pam_unix_auth.so.1 use_first_pass
+   login auth required pam_unix_auth.so.1 server_policy
    rlogin auth sufficient pam_rhosts_auth.so.1
    rlogin auth requisite pam_authtok_get.so.1
    rlogin auth sufficient pam_krb5.so.1
    rlogin auth required pam_dhkeys.so.1
    rlogin auth required pam_unix_cred.so.1
-   rlogin auth required pam_unix_auth.so.1
+   rlogin auth binding pam_unix_auth.so.1 server_policy
    rlogin auth required pam_ldap.so.1
    
    # Needed for krb
@@ -819,7 +815,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    
    # SSH Pubkey - Needed for openldap and still probably needed
    sshd-pubkey account required pam_unix_account.so.1
-   
+
 .. code-block:: bash
 
    % vi /etc/nsswitch.conf
@@ -872,29 +868,17 @@ Solaris 11
 
 Solaris 11 is sort of similar to 10. We need to make a couple of manual changes but then the rest require us to work with the svcprop commands (thanks Oracle). Sudo should just work as well, no OpenCSW required. And, we should be able to use TLS without much of a fuss. No certificate databases are required.
 
-.. code-block:: ldif
-   
-   dn: cn=solaris_authssl,ou=profile,dc=ipa,dc=example,dc=com
-   objectClass: top
-   objectClass: DUAConfigProfile
-   authenticationMethod: tls:simple
-   bindTimeLimit: 5
-   cn: solaris_authssl
-   defaultSearchBase: cn=compat,dc=ipa,dc=example,dc=com
-   defaultServerList: server1.ipa.example.com server2.ipa.example.com
-   followReferrals: TRUE
-   objectclassMap: shadow:shadowAccount=posixAccount
-   objectclassMap: passwd:posixAccount=posixaccount
-   objectclassMap: group:posixGroup=posixgroup
-   profileTTL: 6000
-   searchTimeLimit: 15
-   serviceSearchDescriptor: group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com
-   serviceSearchDescriptor: sudoers:ou=sudoers,dc=ipa,dc=example,dc=com
+Below is a copy of Solaris 10 for the service account, here as a reference.
 
-Note, if ou=profile is missing, it is recommended to create it. The system account is also required (previous section).
+.. code-block:: ldif
+
+   dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
+   objectclass: account
+   objectclass: simplesecurityobject
+   uid: solaris
+   userPassword: secret123
+   passwordExpirationTime: 20380119031407Z
+   nsIdleTimeout: 0
 
 .. code-block:: bash
 
@@ -916,12 +900,15 @@ Configure kerberos.
    default_realm = IPA.EXAMPLE.COM
    dns_lookup_kdc = true
    verify_ap_req_nofail = false
+
    [realms]
    IPA.EXAMPLE.COM = {
    }
+
    [domain_realm]
    ipa.example.com = IPA.EXAMPLE.COM
    .ipa.example.com = IPA.EXAMPLE.COM
+
    [logging]
    default = FILE:/var/krb5/kdc.log
    kdc = FILE:/var/krb5/kdc.log
@@ -929,6 +916,7 @@ Configure kerberos.
     period = 1d
     version = 10
    }
+
    [appdefaults]
    kinit = {
    renewable = true
@@ -974,11 +962,27 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
    sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
    pam_lookup_policy yes
 
-Now init the ldap client.
+Now init the ldap client. We actually get to use a secure connection here. Kerberos is hit or miss, could never get sasl/GSSAPI to work.
 
 .. code-block:: bash
 
-   % ldapclient init -a profileName=solaris_authpam -a domainName=ipa.example.com -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" -a proxyPassword="secret123" -D uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com -w secret123 server1.ipa.example.com 
+   % ldapclient manual -a credentialLevel=proxy \
+                       -a authenticationMethod=tls:simple \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5 \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123"
 
 This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
@@ -1089,6 +1093,8 @@ You can test now if you'd like.
 
 Legacy HBAC
 +++++++++++
+
+Info to follow here soon!
 
 Legacy Active Directory Trust
 +++++++++++++++++++++++++++++
