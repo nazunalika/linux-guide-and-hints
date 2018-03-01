@@ -1094,7 +1094,7 @@ You can test now if you'd like.
 Legacy HBAC
 +++++++++++
 
-Info to follow here soon!
+Info to follow here soon! Trying to figure out some bugs.
 
 Legacy Active Directory Trust
 +++++++++++++++++++++++++++++
