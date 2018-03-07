@@ -14,7 +14,7 @@ Multimedia
 
    dnf config-manager --add-repo=http://negativo17.org/repos/fedora-multimedia.repo
 
-This is incompatible with and not a replacement for RPMFusion.
+This is incompatible with and not a replacement for RPMFusion. However, the epoch is set to override RPMFusion packages whenever possible.
 
 Packages of interest:
 
