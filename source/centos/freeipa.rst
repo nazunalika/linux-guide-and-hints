@@ -748,14 +748,18 @@ Now init the ldap client.
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123"
 
-This should succeed. Once it succeeds, you need to configure pam and nsswitch.
+This should succeed. Once it succeeds, you need to configure pam and nsswitch. 
+
+.. note:: AD Trust Information
+
+   In the event you don't have an AD trust, you can change the "binding" lines to required and remove the pam_ldap lines.
 
 .. code-block:: bash
 
    % vi /etc/pam.conf
 
    # Console
-   # We are not using pam_ldap for console, it causes an svc console login crash
+   # We are not using pam_ldap because there's a SVC login crash
    login auth requisite pam_authtok_get.so.1
    login auth sufficient pam_krb5.so.1
    login auth required pam_dhkeys.so.1
@@ -801,6 +805,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    other account requisite pam_roles.so.1
    other account required pam_projects.so.1
    other account binding pam_unix_account.so.1 server_policy
+   other account required pam_krb5.so.1
    other account required pam_ldap.so.1
    other session required pam_unix_session.so.1
    other password required pam_dhkeys.so.1
@@ -996,6 +1001,10 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    % /usr/sbin/svcadm restart svc:/system/name-service/switch
    % /usr/sbin/svcadm restart ldap/client
 
+.. note:: AD Trust Information
+
+   In the event you don't have an AD trust, you can change the "binding" lines to required and remove the pam_ldap lines.
+
 .. code-block:: bash
 
    % vi /etc/pam.d/krlogin
@@ -1018,17 +1027,17 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    % vi /etc/pam.d/other
    auth definitive         pam_user_policy.so.1
    auth requisite          pam_authtok_get.so.1
-   auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth binding            pam_unix_auth.so.1 server_policy
+   auth sufficient         pam_krb5.so.1
    auth required           pam_ldap.so.1
 
    account requisite       pam_roles.so.1
    account definitive      pam_user_policy.so.1
-   account required        pam_krb5.so.1
    account required        pam_tsol_account.so.1
    account binding         pam_unix_account.so.1 server_policy
+   account required        pam_krb5.so.1
    account required        pam_ldap.so.1
 
    session definitive      pam_user_policy.so.1
@@ -1058,10 +1067,10 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth definitive         pam_user_policy.so.1
    auth sufficient         pam_rhosts_auth.so.1
    auth requisite          pam_authtok_get.so.1
-   auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth binding            pam_unix_auth.so.1 server_policy
+   auth sufficient         pam_krb5.so.1
    auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/rsh
