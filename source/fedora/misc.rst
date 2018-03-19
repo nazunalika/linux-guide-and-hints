@@ -50,8 +50,8 @@ Run ``dkms status``. If the output is empty, then you'll need to manually run th
 
 .. code-block:: bash
 
-    dkms add nvidia/<version>
-    dkms build nvidia/<version>
-    dkms install nvidia/<version>
+    dkms add nvidia/&lt;version&gt;
+    dkms build nvidia/&lt;version&gt;
+    dkms install nvidia/&lt;version&gt;
 
 Where ``<version>`` is something like ``390.25``.
