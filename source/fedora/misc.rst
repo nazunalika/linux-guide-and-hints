@@ -55,3 +55,8 @@ Run ``dkms status``. If the output is empty, then you'll need to manually run th
     dkms install nvidia/&lt;version&gt;
 
 Where ``<version>`` is something like ``390.25``.
+
+KeePassHttp no longer works
+---------------------------
+
+If you were using `keepasshttp-connector <https://github.com/smorks/keepasshttp-connector>`_ it is now deprecated in favor of `keepassxc-browser <https://github.com/keepassxreboot/keepassxc-browser>`_. Install smorks' `keepassnatmsg <https://github.com/smorks/keepassnatmsg>`_ plugin for compatibility with normal KeePass (instead of KeePassXC).
