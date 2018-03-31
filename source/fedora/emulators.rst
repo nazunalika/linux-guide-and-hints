@@ -294,7 +294,7 @@ general, starting up MAME looks like this:
 
 .. code-block:: bash
 
-	mame <driver> -cart <file> -resolution <widthxheight> -sound <auto or none> -speed <floating point value>
+	mame &lt;driver&gt; -cart &lt;file&gt; -resolution &lt;widthxheight&gt; -sound &lt;auto or none&gt; -speed &lt;floating point value&gt;
 
 For example:
 
