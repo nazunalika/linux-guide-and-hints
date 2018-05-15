@@ -71,3 +71,8 @@ The latest version of the LazyNewbPack can be found at the `Dwarf Fortress File 
     sudo dnf install SDL-devel.i686 SDL_ttf-devel.i686 gtk2-devel.i686 SDL_image-devel.i686 mesa-libGL-devel.i686 mesa-libGLU-devel.i686
 
 Also modify ``df_linux/df`` to add ``/usr/lib/libstdc++.so.6`` to the preload list.
+
+``lm_sensors`` doesn't give detailed information
+------------------------------------------------
+
+The latest release of ``lm_sensors`` is 3.4.0, which is 3 years old and what is shipped in the Fedora repositories. However, it's still actively maintained on `Github <https://github.com/groeck/lm-sensors>`_.
