@@ -51,7 +51,7 @@ crashing or performance.
 Modding
 *******
 
-I recommend using `Mod Organizer <http://www.nexusmods.com/skyrim/mods/1334/?>`_ 
+I recommend using `Mod Organizer <https://www.nexusmods.com/skyrimspecialedition/mods/6194>`_ 
 as opposed to NMM or FOMM. I cannot get NMM to work and FOMM seems to be quite glitchy.
 Either way, MO will support mods targeted towards NMM or FOMM, and if that doesn't work
 has a intuitive interface for manual installation. It's still through the interface,
