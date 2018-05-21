@@ -4,12 +4,14 @@ Wine Tips
 Out of memory errors
 --------------------
 
-This seems to affect multiple games. For example, in Resident Evil Remaster you might see "ERR08: memory overrun". For non-DRM games, you can try using the `4gb patch <http://www.ntcore.com/4gb_patch.php>`_ or equivalent "Large Address Awareness" patches. For DRM games (like found on Steam), you'll need a patch/mod with specific support (i.e, this is the case for Fallout).
+This seems to affect multiple games. For example, in Resident Evil Remaster you might see "ERR08: memory overrun". For non-DRM games, you can try using the `4gb patch <http://www.ntcore.com/4gb_patch.php>`_ or equivalent "Large Address Awareness" patches. For DRM games (like found on Steam), you'll need a patch/mod with specific support (i.e, this is the case for Fallout). 
 
 If you are willing to `compile Wine from source <https://wiki.winehq.org/Building_Wine>`_, use this `patch <https://bugs.winehq.org/attachment.cgi?id=53156>`_ by Gabriel Corona that will enable LAA across the board.
 
 New Vegas
 ---------
+
+If you are using the GOG version, it already comes prepatched with 4GB support.
 
 - Use a 32-bit prefix
 
@@ -48,6 +50,15 @@ That's all you need to run the game. Anything else is your discretion though I
 wouldn't install or change anything else unless you're certain it's related to
 crashing or performance.
 
+If you are using `ENB <http://enbdev.com/>`_, make sure to patch the following executables for 4GB support:
+
+.. code-block:: bash
+
+    nvse_loader.exe
+    enbhost.exe
+
+Then launch ``nvse_loader.exe`` with the environment variable ``WINEDLLOVERRIDES="d3d9.dll=n,b"``. 
+
 Modding
 *******
 
@@ -71,10 +82,7 @@ Some necessary mods are:
   something like ``u`` or ``m``, there's basically nothing that can be done about it. In other
   words, if you only see crashes of this nature, NVAC is doing its job.
 
-- `New Vegas Stutter Remover <http://www.nexusmods.com/newvegas/mods/34832/?>`_. You will get most
-  of your performance with its heap replacer. Make sure ``bReplaceHeap`` is ``1``, then set ``iHeapSize``
-  anywhere from ``450`` to ``900``, although reportedly multiples of 128 help. You can also mess around
-  with the maximum FPS cap.
+- `New Vegas Stutter Remover <http://www.nexusmods.com/newvegas/mods/34832/?>`_. Do not use the heap replacer.
 
 Mod Organizer
 *************
@@ -82,8 +90,27 @@ Mod Organizer
 While .NET is not required to run MO itself, it is required for the scripted installers. Mods will not install
 properly if their scripted installers don't run, even if you don't "require" them.
 
+.. note::
+
+    .NET installation via ``winetricks`` seems to be broken at the moment. See `issue #810 <https://github.com/Winetricks/winetricks/issues/810>`_.
+
+.. warning::
+
+    Mod Organizer seems to be broken at the moment. See this `wine bug report <https://bugs.winehq.org/show_bug.cgi?id=44880>`_.
+
+LOOT
+****
+
+If none of the mod organizers work, then you can use the much simpler `Load Order Optimization Tool <https://loot.github.io/>`_. 
+You will need to install and uninstall mods manually, but LOOT will help organize your ``plugins.txt`` file. Note that this file is located in
+``users/your_username/Local Settings/Application Data/FalloutNV/``.
+
 Lutana NVSE
 ***********
+
+.. note::
+
+    Lutana has been merged into JIP.
 
 This is a prerequisite of CASM. Even if you don't use a controller, one of its script functions depends on
 ``xinput.dll``. You need to install that via winetricks to prevent crashing. The error would look like:
