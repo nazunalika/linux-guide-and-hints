@@ -118,3 +118,25 @@ This is a prerequisite of CASM. Even if you don't use a controller, one of its s
 .. code-block:: bash
 
     err:seh:raise_exception Unhandled exception code c0000005 flags 0 addr 0x14b01645
+
+GMDX
+----
+
+If you are using GMDX (Deus Ex mod), you may need to edit ``/home/user/Documents/Deus Ex/System/GMDX.ini`` in order for it to work properly.
+Under ``[Core.System]`` replace all of the ``Paths`` entries with:
+
+.. code-block: none
+
+    Paths=..\New Vision\Textures\*.utx
+    Paths=..\GMDXv9\Maps\*.dx
+    Paths=..\GMDXv9\Music\*.umx
+    Paths=..\GMDXv9\System\*.u
+    Paths=..\GMDXv9\Textures\*.utx
+    Paths=..\HDTP\System\*.u
+    Paths=..\HDTP\Textures\*.utx
+    Paths=..\Music\*.umx
+    Paths=..\Sounds\*.uax
+    Paths=..\Textures\*.utx
+    Paths=..\Maps\*.dx
+    Paths=..\System\*.u
+
