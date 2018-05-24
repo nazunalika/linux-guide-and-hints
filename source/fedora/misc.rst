@@ -61,17 +61,6 @@ KeePassHttp no longer works
 
 If you were using `keepasshttp-connector <https://github.com/smorks/keepasshttp-connector>`_ it is now deprecated in favor of `keepassxc-browser <https://github.com/keepassxreboot/keepassxc-browser>`_. Install smorks' `keepassnatmsg <https://github.com/smorks/keepassnatmsg>`_ plugin for compatibility with normal KeePass (instead of KeePassXC).
 
-Running Dwarf Fortress (LazyNewbPack)
--------------------------------------
-
-The latest version of the LazyNewbPack can be found at the `Dwarf Fortress File Depot <http://dffd.bay12games.com/file.php?id=8936>`_. For some odd reason, LNP is shipped with a 32-bit version of Dwarf Fortress. You will need to install the following packages:
-
-.. code-block:: bash
-
-    sudo dnf install SDL-devel.i686 SDL_ttf-devel.i686 gtk2-devel.i686 SDL_image-devel.i686 mesa-libGL-devel.i686 mesa-libGLU-devel.i686
-
-Also modify ``df_linux/df`` to add ``/usr/lib/libstdc++.so.6`` to the preload list.
-
 ``lm_sensors`` doesn't give detailed information
 ------------------------------------------------
 
