@@ -53,3 +53,6 @@ time.
 
 Again, negativo17 provides Steam. However, if you have any games that are Window only,
 you need to download Steam via Wine and install the games that way.
+
+Finally, to ensure that Negativo's repo takes precedence over RPMFusion, edit ``/etc/yum.repos.d/fedora-multimedia.repo``
+and add ``priority=1`` under ``[fedora-multimedia]``.
