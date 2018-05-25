@@ -33,10 +33,11 @@ If you are using the GOG version, it already comes prepatched with 4GB support.
   - quartz
   - l3codecx (mp3)
   - xinput (required for a mod)
-  - .NET 3.5 (required for Mod Organizer to work properly)
+  - .NET 4.6.2 (required for Mod Organizer to work properly)
   - Steam. New Vegas requires steam activation, and mods will assume you have the
     Steam version. You only need Steam to be running in the background, but you can
     launch the game via Mod Organizer.
+  - d3dcompiler_43 (if you are using ENB)
 
 - Set the following overrides via winecfg:
   
@@ -119,13 +120,40 @@ This is a prerequisite of CASM. Even if you don't use a controller, one of its s
 
     err:seh:raise_exception Unhandled exception code c0000005 flags 0 addr 0x14b01645
 
+.ini modifications
+*****************
+
+In order to disable mouse acceleration, place this in ``Fallout.ini``:
+
+.. code-block:: ini
+
+    [Controls]
+    fForegroundMouseAccelBase=0
+    fForegroundMouseAccelTop=0
+    fForegroundMouseBase=0
+    fForegroundMouseMult=0
+
+If you are using the Archive Invalidation mod, also place this in ``Fallout.ini``:
+
+.. code-block:: ini
+
+    [Archive]
+    SInvalidationFile=
+    iRetainFilenameOffsetTable=1
+    iRetainFilenameStringTable=1
+    iRetainDirectoryStringTable=1
+    bCheckRuntimeCollisions=0
+    bInvalidateOlderFiles=1
+    bUseArchives=1
+    SArchiveList=Fallout - Voices1.bsa, Fallout - Sound.bsa, Fallout - Misc.bsa, ArchiveInvalidationInvalidated!.bsa, Fallout - Textures.bsa, Fallout - Textures2.bsa, Fallout - Meshes.bsa 
+
 GMDX
 ----
 
 If you are using GMDX (Deus Ex mod), you may need to edit ``/home/user/Documents/Deus Ex/System/GMDX.ini`` in order for it to work properly.
 Under ``[Core.System]`` replace all of the ``Paths`` entries with:
 
-.. code-block: none
+.. code-block:: ini
 
     Paths=..\New Vision\Textures\*.utx
     Paths=..\GMDXv9\Maps\*.dx
