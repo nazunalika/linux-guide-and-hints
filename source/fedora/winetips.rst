@@ -99,6 +99,9 @@ properly if their scripted installers don't run, even if you don't "require" the
 
     Mod Organizer seems to be broken at the moment. See this `wine bug report <https://bugs.winehq.org/show_bug.cgi?id=44880>`_.
 
+As a workaround, you can use A.J. Venter's ``movfs4l script <https://github.com/ajventer/ksp_stuff/blob/master/movfs4l.py>``. Modify the variables to
+point to the correct directories, then run it with ``WINEPREFIX=... python movfs4l.py``. 
+
 LOOT
 ****
 
