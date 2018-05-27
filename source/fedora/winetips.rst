@@ -150,6 +150,24 @@ If you are using the Archive Invalidation mod, also place this in ``Fallout.ini`
     bUseArchives=1
     SArchiveList=Fallout - Voices1.bsa, Fallout - Sound.bsa, Fallout - Misc.bsa, ArchiveInvalidationInvalidated!.bsa, Fallout - Textures.bsa, Fallout - Textures2.bsa, Fallout - Meshes.bsa 
 
+In order to reduce stuttering when using ENB, modify ``enblocal.ini`` like so:
+
+.. code-block:: ini
+
+    ExpandSystemMemoryX64=false
+    ReduceSystemMemoryUsage=false
+    DisablePreloadToVRAM=false
+    EnableUnsafeMemoryHacks=false
+    ReservedMemorySizeMb=...
+    VideoMemorySizeMb=...
+    EnableCompression=false
+    AutodetectVideoMemorySize=false
+
+These options either should not be set to true (except in rare or for debugging cases) or are designed to reduce memory footprint at a significant cost
+to performance. ``ReservedMemorySizeMb`` should be a small value in multiples of ``128`` and ``VideoMemorySizeMb`` should be set to whatever the ENB
+``VRam size tool <http://enbdev.com/download_vramsizetest.htm>`` gives you minus 170~. While this may not necessarily improve FPS, it will get rid of stuttering,
+particularly when turning or opening the pipboy.
+
 GMDX
 ----
 
