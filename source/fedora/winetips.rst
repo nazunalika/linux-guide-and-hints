@@ -100,7 +100,9 @@ properly if their scripted installers don't run, even if you don't "require" the
     Mod Organizer seems to be broken at the moment. See this `wine bug report <https://bugs.winehq.org/show_bug.cgi?id=44880>`_.
 
 As a workaround, you can use A.J. Venter's ``movfs4l script <https://github.com/ajventer/ksp_stuff/blob/master/movfs4l.py>``. Modify the variables to
-point to the correct directories, then run it with ``WINEPREFIX=... python movfs4l.py``. 
+point to the correct directories, then run it with ``WINEPREFIX=... python movfs4l.py``. Since Mod Organizer will pick up the symlinks (and display them as
+redundant unmanaged mods), you should run ``python movfs4l.py UNVFS`` prior to opening Mod Organizer, then rerun the script without arguments after closing
+Mod Organizer.
 
 LOOT
 ****
@@ -166,7 +168,7 @@ In order to reduce stuttering when using ENB, modify ``enblocal.ini`` like so:
 These options either should not be set to true (except in rare or for debugging cases) or are designed to reduce memory footprint at a significant cost
 to performance. ``ReservedMemorySizeMb`` should be a small value in multiples of ``128`` and ``VideoMemorySizeMb`` should be set to whatever the ENB
 ``VRam size tool <http://enbdev.com/download_vramsizetest.htm>`` gives you minus 170~. While this may not necessarily improve FPS, it will get rid of stuttering,
-particularly when turning or opening the pipboy.
+particularly when turning or opening the pipboy. Finally, if you are having transparency issues (i.e, in Camp Golf) set ``FixTransparencyBugs=false``.
 
 GMDX
 ----
