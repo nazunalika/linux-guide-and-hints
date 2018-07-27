@@ -12,9 +12,13 @@ slightly trickier. Ensure that your Cloudflare settings look like the following.
 | Type  |    Name     |           Value            |          Status          |
 +-------+-------------+----------------------------+--------------------------+
 | CNAME | www         | is an alias of example.com | DNS and HTTP Proxy (CDN) |
++-------+-------------+----------------------------+--------------------------+
 | A     | example.com | points to <GITHUB-IP>      | DNS only                 |
++-------+-------------+----------------------------+--------------------------+
 | A     | example.com | points to <GITHUB-IP>      | DNS only                 |
++-------+-------------+----------------------------+--------------------------+
 | A     | example.com | points to <GITHUB-IP>      | DNS only                 |
++-------+-------------+----------------------------+--------------------------+
 | A     | example.com | points to <GITHUB-IP>      | DNS only                 |
 +-------+-------------+----------------------------+--------------------------+
 
