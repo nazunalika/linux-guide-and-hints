@@ -15,7 +15,7 @@ Recommendations
 
    * Postgresql can be replaced with MySQL/MariaDB
 
-     * Note: Doing this will mean you will need another way to "cluster" them. EL Distributions do not have a built-in way to do this.
+     * Note: Doing this will mean you will need another way to "cluster" MySQL/MariaDB. EL Distributions do not have a built-in way to do this.
 
    * Spacewalk can be replaced with Katello (**recommended to use Katello**, but you can try both)
    * You can replace KVM with ESXi if you wish, with specific caveats listed in the steps.
@@ -143,6 +143,10 @@ Notes and Changelog
 |      May 10, 2016      | * Added information about oVirt  |
 |                        | * Added information about cobbler|
 +------------------------+----------------------------------+
+|      Jul 27, 2018      | * Accounting for Fedora 28       |
+|                        | * Remove OpenLDAP from guide     |
+|                        | * Remove spacewalk from the guide|
++------------------------+----------------------------------+
 
 Begin
 -----
@@ -152,7 +156,7 @@ We'll now begin the system administrator experience. We will provide from beginn
 Setup a KVM Hypervisor
 ++++++++++++++++++++++
 
-Now you'll need to setup a KVM Hypervisor. You can do this on Fedora 23+ or CentOS 7. Because CentOS 7 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.
+Now you'll need to setup a KVM Hypervisor. You can do this on Fedora 28+ or CentOS 7. Because CentOS 7 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.
 
 You may want to make sure your hardware supports virtualization.
 
@@ -193,39 +197,41 @@ You may want to make sure your hardware supports virtualization.
 DHCP and DNS
 ++++++++++++
 
-You'll need to setup a DHCP/DNS server. You have two choices.
+You'll need to setup a DHCP and DNS server. You have a few choices.
 
-1) You can create a simple VM running CentOS 7
-2) Use your hypervisor
+1) Create two VM's to run DHCP for HA and create FreeIPA servers to handle DNS (two replicas, doubles as authentication for Linux/UNIX clients)
+2) Create two VM's to run DHCP for HA and create two standalone BIND servers as master/slave
+3) Use your hypervisor to host DHCP and BIND (not recommended)
 
-I personally have done both above with success. However, it was much more manageable to host DHCP and DNS from my hypervisor. Also, it is possible to allow cobbler handle DHCP and DNS, but this is outside the scope of this write up.
+It would be sensible to do "1", if you do "2", you at least get more exposure to how zone files are created and the like.
+
+Also, it is possible to allow cobbler handle DHCP and DNS or integrate directly into DNS such as making changes, but this is outside the scope of this write up.
 
 .. warning::
 
-   If you plan on setting up a VM for DHCP and DNS, keep these in mind:
+   Do NOT run DHCP from the FreeIPA replicas. The FreeIPA servers should have STATIC addresses set.
 
-   * The virtual interface for your hypervisor should be set to a gateway address, eg 10.200.0.1
-   * The DHCP and DNS server should be set to something like 10.200.0.2 so you know the difference
-   * The DHCP server needs to be configured to tell all the clients that the gateway is 10.200.0.1 but the name server is 10.200.0.2
+.. note::
 
-You will need to configure your hypervisor server to have:
+   When you are setting up DHCP and DNS on separate servers (such as FreeIPA replicas), the DHCP server needs to be configured to tell all the clients the true gateway (this is either a VM in on ESX/oVirt or your hypervisor if you are doing straight KVM) and the DNS servers.
+
+Setup a VM or your hypervisor as the gateway to the internet.
 
 1) IP forwarding enabled (/etc/sysctl.conf)
 2) NAT enabled (firewalld can help you with this, check out the zones)
-3) A virtual interface (you should have already configured this)
+3) A virtual interface (hypervisor) or a second interface for your network (as a VM)
 
 When setting up DHCP and DNS:
 
 1) Decide on a domain name. This can be a domain you own or one you make up internally. I personally used one of my four domains for this lab. RFC expects that internal networks have world routable domains. This is up to you. **Do NOT use '.local' domains**
-2) Setup DNS forwarders to ensure your VM's can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed. You can list as many as you want. **Do NOT put these extra DNS servers in your dhcpd.conf configuration**
-3) You need two zones. Forward Zone: This is for your domain, name to an IP. Reverse Zone: This is for reverse IP lookups, IP to a name.
+2) Setup DNS forwarders to ensure your VM's can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed in BIND or you can set them in the FreeIPA interface. You can list as many as you want. **Do NOT put these extra DNS servers in your dhcpd.conf configuration**
+3) You need two zones. Forward Zone: This is for your domain, name to an IP. Reverse Zone: This is for reverse IP lookups, IP to a name. FreeIPA handles this for you on setup if you state you are handling a reverse zone and what the subnet is.
 
 .. note:: Bonus Points
 
-   * Setup Dynamic DNS - This requires an almost specific configuration between dhcpd and named (bind).
+   * Setup Dynamic DNS - This requires an almost specific configuration between dhcpd and named (bind) or FreeIPA's named.
    * Dynamic DNS needs to be aware of a domain name
-
-You can view `this page <https://www.bromosapien.net/media/index.php/Linux_Router_and_Firewall>`_ for some pointers if needed.
+   * Use SSSD for the IPA clients to update their DNS automatically (FreeIPA only) - this may not be required if dhcpd and named are configured correctly
 
 **From this point forward, you are to ensure each of your VM's that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate to add additional entries as needed if you are implementing static A records or CNAME records.**
 
@@ -234,18 +240,13 @@ Server and Content Management
 
 At this point, you'll need to setup Spacewalk or Katello on a VM. I recommend using Katello as **Satellite 6** has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat is phasing out **Red Hat Network Classic** and **Satellite 5**.
 
-If you decide to use Spacewalk, go `here <https://fedorahosted.org/spacewalk/wiki/HowToInstall>`__. 
-
-If you decide to use Katello, go `here <http://www.katello.org/>`__.
+Katello, go `here <http://www.katello.org/>`__.
 
 .. note:: Heads up
 
    * You're going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there.
-   * Previously, it was not possible to run Spacewalk on EL 7. It is now possible.
-   * If you decide to use Spacewalk and you're using ESXi, it will be a challenge to automate builds from the Spacewalk server.
-   * Katello supports connecting directly to numerous hypervisors.
    * Spacewalk has an odd "dependency" on wanting DHCP/TFTP to exist on the server at the same time. There is no way around this. You do not have to use it unless you are using cobbler (which needs TFTP and a specific DHCP configuration).
-   * Spacewalk is memory hungry. If you use it, you will need a hefty amount of RAM, unless you want spacewalk to fall flat on its face constantly
+   * Katello is resource heavy, it's you may need to tune it.
 
 .. note:: Bonus Points
 
@@ -257,32 +258,28 @@ Kickstart examples can be found at my `github <https://github.com/nazunalika/use
 Connect Content Management to Hypervisor
 ++++++++++++++++++++++++++++++++++++++++
 
-Next you will need to connect your Content Management to your hypervisor. Both Katello and Spacewalk have this capability. View their documentation to get an idea of how it works.
+Next you will need to connect your Content Management to your hypervisor. View their documentation to get an idea of how it works.
 
 Spin Up VM's Using Katello/Spacewalk
 ++++++++++++++++++++++++++++++++++++
 
-You will need to spin up two EL7 VM's via Spacewalk or Katello. Do not spin them up using virt-install, virt-manager, etc. This will require you to connect Katello/Spacewalk to the hypervisor. Ensure they are registered properly to your content management server.
-
-If you find the clients aren't registering on Spacewalk, click `here <https://fedorahosted.org/spacewalk/wiki/RegisteringClients>`__ to see how to manually do it.
+You will need to spin up two EL7 VM's via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
 
 If you find the clients aren't registering on Katello, click `here <https://theforeman.org/manuals/1.15/index.html>`__.
 
 If you want examples of an EL7 kickstart you can use, click `here <https://github.com/nazunalika/useful-scripts/blob/master/centos/centos7-pci.ks>`__.
 
-If you find that you do not want to use Katello/Spacewalk to perform this task, then you can setup cobbler and work it out from there. **I currently do not have a tutorial for this, but there is plenty of documentation online.**
+If you find that you do not want to use Katello to perform this task, then you can setup cobbler and work it out from there. **I currently do not have a tutorial for this, but there is plenty of documentation online.**
 
-Setup OpenLDAP
-++++++++++++++
+Setup FreeIPA
++++++++++++++
 
-The two VM's you created from the previous step will need to be two LDAP servers. They will need to be master-master configured. 
+Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand.
 
-View the `OpenLDAP <http://angelsofclockwork.net/wiki/centos/openldap.html>`_ section of this wiki for a good idea how to get up and running. It also contains examples of getting clients to authenticate to LDAP.
+* `FreeIPA <https://freeipa.org>`__
+* `FreeIPA Guide <https://www.linuxguideandhints.com/centos/freeipa.html>`__
 
-**The above guide does not explain replication.**
-
-If you instead do not want to hassle yourself into getting authenticated with LDAP (this is no easy task), you can consider setting up FreeIPA. It is generally pretty easy to setup FreeIPA, including standing up replicas. However, it DOES require you to setup DNS delegation for a subdomain (ipa.example.com for example) or have full control of your DNS infrastructure. There are pros and cons to both, really. You can read about FreeIPA `here <https://www.freeipa.org>`_.
-
+I recommend against setting up OpenLDAP for the case of UNIX authentication. For anything else, go for it. 
 
 Spin Up Two VM's for Databases
 ++++++++++++++++++++++++++++++
@@ -301,17 +298,9 @@ Spin Up Configuration Management
 
 While Katello has some form of puppet built in, it may be better to create a solitary configuration management VM. Spin up a VM that is EL6 or EL7 and install a master for configuration management. You have a few choices.
 
-#. SaltStack -> Available in EPEL or their own repository (please use EPEL, salt's repo collides with EPEL and it will destroy things)
+#. SaltStack -> Available in their own repository
 
-   #. If you want to use the most up-to-date version (recommended), consider creating your own internal repository in Katello/Spacewalk and importing the minimal RPM's, and then EPEL and the base repositories for CentOS will take care of the rest of the dependecies. You will need to make TWO separate repositories, one for EL6 and one for EL7. This won't be an issue if you're using all EL7.
-
-      -> salt-\*.rpm
-
-      -> python2-pycryptodomex-\*.rpm
-
-      -> python-tornado-4.2.1-1.*.rpm
-
-      -> winexe-*
+   #. If you want to use the most up-to-date version (recommended), consider creating your own internal repository in Katello/Spacewalk and importing the minimal RPM's, and then EPEL and the base repositories for CentOS will take care of the rest of the dependecies. You only need the salt packages for EL7. You need additional dependencies for EL6 (IUS)
 
 #. Ansible   -> Available in EPEL
 #. Puppet    -> Available in their own repository

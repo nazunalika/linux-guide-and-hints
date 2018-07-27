@@ -42,6 +42,10 @@ Tutorial Preface, Notes, and Recommendations
 
    We will be using lmdb, which is recommended over using hdb or bdb. 
 
+.. note:: RHEL 8 OpenLDAP
+
+   RHEL 8 will be dropping OpenLDAP. You will need to use the RPM's from LTB in that case.
+
 
 Installation
 ------------
