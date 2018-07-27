@@ -38,9 +38,10 @@ Tutorial Preface, Notes, and Recommendations
 
      * Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes.
      * Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - Do not attempt to hijack a domain already being used. This assumes you may have Dynamic DNS enabled in the current DNS infrastructure or perhaps everything is static addressing where A/AAAA/PTR records do not change too often.
+     * Recommendation 3: If the above is not possible, the IPA servers won't need control of DNS. Instead, it will spit out the necessary zone information for IPA for the zone you will have IPA in.
 
    * Consider setting up a trust with Active Directory if you are in a mixed environment, eg Active Directory already exists
-   * IPA servers should have static assigned addresses
+   * IPA servers should have static assigned addresses - Configured via nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-*
 
 .. note:: Trust Information
 
@@ -129,7 +130,7 @@ To install the server, make sure the hostname is set to the A records and NS del
    % ipa-server-install --no_hbac_allow --no-ntp --setup-dns  <-- If you want to host NTP from IPA, take off --no-ntp
    . . . (show steps here)
 
-Once this is complete, it's recommended you create an admin account for yourself. Me personally, I like to have a "2" at the end of my login name, that way I have an obvious difference. I don't like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it's better to have separate admin accounts away from the defaults.
+Once this is complete, it's recommended you create an admin account for yourself. Me personally, I like to have a "2" at the end of my login name, that way I have an obvious difference. I don't like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it's better to have separate admin accounts away from the defaults. But this is ultimately your call.
 
 .. code-block:: bash
    
@@ -200,7 +201,7 @@ When the following requirements are met, you have two choices before continuning
 
 .. note:: POSIX vs Non-POSIX
 
-   If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides. If you are not planning a migration from pure AD over to IPA with a trust, then using POSIX may be recommended as they are probably already set. Otherwise, if you don't turn on POSIX, IPA will take care of assigning the ID's for the accounts across the trust.
+   If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides if you already have that information for current users (assuming this is not a new setup for the environment, ie you already have UID's for people). If you are not planning a migration from pure AD over to IPA with a trust, it is recommended to note that information so you can setup the ID overrides. Afterwards, any new users will get UID/GID's that you will not have to manage yourself.
 
 You will need to prep your master(s) for the trust. We will be enabling compat, adding sids, and adding agents so both masters can provide AD information. 
 
@@ -226,8 +227,8 @@ Now you can initiate the trust. The admin account you use must be part of the do
 
 .. code-block:: bash
 
-   # If you are using IPA's ID ranges, use ipa-ad-trust.
-   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust-posix --two-way=true --admin adminaccount --password 
+   # If you are using POSIX ID, use ipa-ad-trust-posix.
+   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust --two-way=true --admin adminaccount --password 
 
 Once the trust is up, verify it.
 
@@ -246,7 +247,7 @@ You should be able to test for the users now.
 .. code-block:: bash
 
    % id first.last@ad.example.com
-   uid=10000(louis.abel@ad.example.com) gid=10000(label@ad.example.com) groups=10000(label@ad.example.com)
+   uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
 
 Client Setup
 ------------
@@ -1191,22 +1192,7 @@ This will ensure EL7 clients resolve the AD domain first when attempting logins 
 RHEL 6 SUDO and Default Domain Suffix
 +++++++++++++++++++++++++++++++++++++
 
-This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to append the following to your domain section.
-
-.. code-block:: bash
-
-   [domain/ipa.example.com]
-   . . .
-   sudo_provider = ldap
-   ldap_uri = ldap://server01.ipa.example.com, ldap://server02.ipa.example.com
-   ldap_sudo_search_base = ou=sudoers,dc=ipa,dc=example,dc=com
-   ldap_sasl_mech = GSSAPI
-   ldap_sasl_authid = host/client.example.com
-   ldap_sasl_realm = IPA.EXAMPLE.COM
-   krb5_server = server01.ipa.example.com, server02.ipa.example.com
-   enumerate = True # (optional)
-
-If you look in mail lists of RHEL 6 and SUDO with sssd on IPA, you'll see something similar above. This is because originally, the sssd for RHEL 6 did not perform sudo lookups for the IPA provider. Now while the IPA provider in RHEL 6 *does* support sudo, it doesn't work for when you start setting full_name_format and default_domain_suffix. The only workaround is to go back to the old way of setting up sudo in sssd against FreeIPA, which is using GSSAPI authentication to do an ldap query the tried and true way.
+This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
 
 .. rubric:: Footnotes
 
