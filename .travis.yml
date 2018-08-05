@@ -14,7 +14,7 @@ deploy:
     provider: pages
     skip_cleanup: true
     github_token: ${GITHUB_TOKEN}
-    fqdn: linuxguideandhints.com
+    fqdn: www.linuxguideandhints.com
     local_dir: build/html
     on:
         branch: master
