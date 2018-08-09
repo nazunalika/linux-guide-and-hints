@@ -191,3 +191,29 @@ Under ``[Core.System]`` replace all of the ``Paths`` entries with:
     Paths=..\Maps\*.dx
     Paths=..\System\*.u
 
+DirectX11 games
+---------------
+
+If you are having rendering issues in D3D11 games (such as black screens/textures), then you may need to use `DXVK <https://github.com/doitsujin/dxvk>`_, a Vulkan-based
+D3D11 implementation. In order to compile it, you need to install the following dependencies:
+
+.. code-block:: bash
+
+   dnf install mingw64-gcc mingw64-gcc-c++ mingw32-winpthreads-static mingw64-winpthreads-static meson glslang
+
+It's important that you install the static packages for pthreads or the compilation will fail. Then run (from the README):
+
+.. code-block:: bash
+
+   # 64-bit build. For 32-bit builds, replace
+   # build-win64.txt with build-win32.txt
+   meson --cross-file build-win64.txt --prefix /your/dxvk/directory build.w64
+   cd build.w64
+   meson configure
+   # for an optimized release build:
+   meson configure -Dbuildtype=release
+   ninja
+   ninja install
+
+But add ``-Denable_testing=true`` in order to build the demo programs. Finally, you need a copy of ``d3dcompiler_47.dll`` which you can get from the redist of certain programs,
+such as `this one <https://raw.githubusercontent.com/ImagingSIMS/ImagingSIMS/master/Redist/x64/d3dcompiler_47.dll>`_.
