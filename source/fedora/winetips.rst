@@ -217,3 +217,9 @@ It's important that you install the static packages for pthreads or the compilat
 
 But add ``-Denable_testing=true`` in order to build the demo programs. Finally, you need a copy of ``d3dcompiler_47.dll`` which you can get from the redist of certain programs,
 such as `this one <https://raw.githubusercontent.com/ImagingSIMS/ImagingSIMS/master/Redist/x64/d3dcompiler_47.dll>`_.
+
+When launching the program, use the following overrides:
+
+.. code-block:: bash
+
+   WINEDLLOVERRIDES="d3d11.dll=n;d3dcompiler_47.dll=n;dxgi.dll=n"
