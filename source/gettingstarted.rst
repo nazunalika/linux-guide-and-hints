@@ -41,7 +41,7 @@ script will get you off your feet (adapted from `Louis' script <https://github.c
     dnf --refresh upgrade
 
 Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the
-:doc:`fedora/vlc` and :doc:`fedora/pulseaudio` articles on troubleshooting tips.
+:doc:`fedora/pulseaudio` articles on troubleshooting tips.
 
 Other things
 ------------

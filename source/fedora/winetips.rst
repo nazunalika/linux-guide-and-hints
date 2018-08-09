@@ -126,7 +126,7 @@ This is a prerequisite of CASM. Even if you don't use a controller, one of its s
     err:seh:raise_exception Unhandled exception code c0000005 flags 0 addr 0x14b01645
 
 .ini modifications
-*****************
+******************
 
 In order to disable mouse acceleration, place this in ``Fallout.ini``:
 
