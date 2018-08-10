@@ -479,6 +479,8 @@ Some of the variables that are important are:
 +-----------------------------+---------+--------------------------------------------------------------+
 | CMAKE_BUILD_TYPE            | Release |                                                              |
 +-----------------------------+---------+--------------------------------------------------------------+
+| OpenGL_GL_PREFERENCE        | GLVND   | Required because CMake uses legacy GL by default             |
++-----------------------------+---------+--------------------------------------------------------------+
 | OPENGLx_mesa_INCLUDE_DIR    |         | This can be ignored, as it's not applicable to Linux systems |
 +-----------------------------+---------+--------------------------------------------------------------+
 
@@ -495,7 +497,7 @@ ROMs directly from zipped files.
 
 .. code-block:: bash
 
-  dnf install qt5-devel qt5-qtbase-devel qt5-multimedia-devel SDL2-devel libzip-devel
+  dnf install qt5-qtmultimedia-devel SDL2-devel libzip-devel sqlite-devel qt5-linguist
 
 Link cable support
 ------------------
