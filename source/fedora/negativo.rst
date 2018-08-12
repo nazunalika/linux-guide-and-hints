@@ -19,7 +19,7 @@ This is incompatible with and not a replacement for RPMFusion. However, the epoc
 Packages of interest:
 
 - Nvidia drivers
-- ``gstreamer1-plugins-bad``, ``gstreamer1-plugins-ugly``, ``gstreamer1-vaapi``, ``gstreamer1-libav``, ``gstreamer1-plugins-bad-fluidsynth``
+- ``gstreamer1-plugins-bad``, ``gstreamer1-plugins-ugly``, ``gstreamer1-libav``, ``gstreamer1-plugins-bad-fluidsynth``
 - ``mozilla-openh264``
 - ``vlc`` 
 
