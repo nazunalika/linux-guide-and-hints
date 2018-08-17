@@ -15,7 +15,7 @@
   <meta charset="utf-8">
   {{ metatags }}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' maxcdn.bootstrapcdn.com; style-src 'self' maxcdn.bootstrapcdn.com fonts.googleapis.com; img-src 'self'; media-src 'self'; font-src 'self' maxcdn.bootstrapcdn.com fonts.gstatic.com fonts.googleapis.com;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' stackpath.bootstrapcdn.com; style-src 'self' stackpath.bootstrapcdn.com fonts.googleapis.com; img-src 'self'; media-src 'self'; font-src 'self' stackpath.bootstrapcdn.com fonts.gstatic.com fonts.googleapis.com;">
   {% if pagename == "index" %}
     <meta name="description" content="Tutorials and generally useful information regarding packages and system administration in Fedora® and CentOS®.">
   {% endif %}
@@ -47,7 +47,7 @@
   {# RTD hosts this file, so just load on non RTD builds #}
   {%- if not READTHEDOCS %}
     <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   {%- endif %}
   {%- for css in css_files %}
     {%- if css|attr("rel") %}
@@ -225,7 +225,7 @@
 
   {% endif %}
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   {# RTD hosts this file, so just load on non RTD builds #}
   {% if not READTHEDOCS %}
