@@ -65,3 +65,12 @@ If you were using `keepasshttp-connector <https://github.com/smorks/keepasshttp-
 ------------------------------------------------
 
 The latest release of ``lm_sensors`` is 3.4.0, which is 3 years old and what is shipped in the Fedora repositories. However, it's still actively maintained on `Github <https://github.com/groeck/lm-sensors>`_.
+
+Firefox glitchy UI when using custom GTK theme
+----------------------------------------------
+
+If you are using a custom GTK theme for your window manager, you need to instruct Firefox to use the default theme. On XFCE, this will be something like:
+
+.. code-block:: bash
+
+   env GTK_THEME=Adwaita:light firefox
