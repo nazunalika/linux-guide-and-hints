@@ -229,15 +229,18 @@ There are some high quality alternatives:
 Which one you use is a matter of preference, although they all have
 their pros and cons. Personally, I alternate between mGBA and MAME.
 
-MAME configuration
-------------------
+MAME
+----
+
+Configuration
+*************
 
 MAME looks for configuration in at least two places:
 ``/etc/mame/mame.ini`` and ``~/.mame/ini/mame.ini``. The latter
 overrides the former.
 
 Inconsistency
-*************
++++++++++++++
 
 The official `MAME website <http://mamedev.org>`_ is seriously lacking
 in the documentation department. The `MESS <http://www.mess.org>`_
@@ -256,7 +259,7 @@ Since the documentation is out-of-date/unsynchronized/severely lacking,
 you'll have to experiment to see what works. 
 
 Example ``mame.ini``
-********************
+++++++++++++++++++++
 
 For some reason, fullscreen mode likes to eat up as much screenspace as
 possible with no regards to aspect ratio, etc. It's not even true fullscreen
@@ -287,7 +290,7 @@ Also if you enable ``gl_glsl`` you want to set ``gl_glsl_filter`` to ``0`` (if
 you don't like the bilinear filter.)
 
 Example command line options
-****************************
+++++++++++++++++++++++++++++
 
 I'm assuming that you're using the ini file in the previous section. In
 general, starting up MAME looks like this:
@@ -309,7 +312,7 @@ not but I've found it to be tedious and inconsistent, so instead I wrote a `UI
 script`_ that has preset resolutions for certain consoles.
 
 Speed
------
+*****
 
 Emulators have tackled gamer's impatience in different ways, by adding speed
 boosting options. For example, throttling, frame skipping, boosting
@@ -329,7 +332,7 @@ choppiness. On the other hand, I've experienced choppiness in mGBA when
 setting an FPS target above 120. 
 
 UI script
----------
+*********
 
 In lieu of using a MAME front-end, I've opted to write a simple start-up
 script. A precursory glance at the list of front-ends seems to show
@@ -419,8 +422,11 @@ for muted gameplay at an arbitrary speed.
 			${RESOLUTIONS[$EXT_CHOICE]} -sound "$SOUND" -speed "$SPEED" 
 	fi  
 
-mGBA controller/joystick issue
-------------------------------
+mGBA
+----
+
+Controller/joystick issue
+*************************
 
 If you have certain brands of USB devices, namely mice or keyboards, i.e
 Microsoft Nano Transceiver, it will try to load that as a joystick.
@@ -436,8 +442,8 @@ devices known to be detected as joysticks. Of course, you do this at
 your own risk but I've had no problems with this approach.
 
 
-Compiling mGBA
---------------
+Building
+********
 
 An RPM for mGBA doesn't seem to exist, but luckily the compilation
 process is painless. As is the case for all CMake projects, you want to
@@ -460,7 +466,7 @@ folder in your ``PATH`` for the binaries and man pages. Also located in
 the ``share`` folder are some shaders but they aren't anything special.
 
 CMake variables
-***************
++++++++++++++++
 
 Some of the variables that are important are:
 
@@ -490,7 +496,7 @@ simply a library that seems to deal with pointer safety. It really has
 no bearing aside from compilation.
 
 Dependencies
-************
+++++++++++++
 
 You need Qt5, Qt5 Multimedia (for audio) and libzip if you want to load
 ROMs directly from zipped files.
