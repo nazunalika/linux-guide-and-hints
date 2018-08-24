@@ -1081,7 +1081,86 @@ You can test now if you'd like.
 Legacy HBAC
 +++++++++++
 
-Info to follow here soon! Trying to figure out some bugs.
+For HBAC to work on Solaris, you will need to compile the pam_hbac module found `here <https://github.com/jhrozek/pam_hbac>`__. I would clone the current master branch or download the master.zip to your Solaris system. The instructions are different between Solaris 10 and Solaris 11 for compiling it. Solaris 10 requires some `OpenCSW <https://www.opencsw.org/>`__ packages. Solaris 11 just needs you to install a few packages and then the rest is pretty straight forward.
+
+First, create the following system account. We will need this when we are configuring our legacy clients.
+
+.. code-block:: 
+
+   dn: uid=hbac,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
+   objectClass: account
+   objectClass: simplesecurityobject
+   objectClass: top
+   uid: hbac
+   userPassword: password
+
+For Solaris 10, these are the steps to compile the HBAC module:
+
+.. code-block:: bash
+
+   % /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
+   % /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
+   % PATH=$PATH:/opt/csw/bin
+   % export M4=/opt/csw/bin/gm4
+   % autoconf -o configure
+   % autoreconf -i
+
+   # Yes, SSL must be disabled for Solaris 10 to work. The libraries are too old.
+   # You may or may not need to set CFLAGS, CXXFLAGS, and LDFLAGS with -m32
+   % ./configure AR=/opt/csw/bin/gar --with-pammoddir=/usr/lib/security --sysconfdir=/etc/ --disable-ssl --disable-man-pages
+   % make
+   % make install
+
+For Solaris 11, these are the steps:
+
+.. code-block:: bash
+
+   % pkg install autoconf libtool pkg-config automake gcc docbook
+   % export CFLAGS="-m32 -gstabs"
+   % export CXXFLAGS="-m32"
+   % export LDFLAGS="-m32"
+   % autoreconf -if
+   % ./configure --with-pammoddir=/usr/lib/security --mandir=/usr/share/man --sysconfdir=/etc/
+   % make
+   % make install
+
+Now configure pam_hbac.conf:
+
+.. code-block:: bash
+
+   % vim /etc/pam_hbac.conf
+
+   # Replace client with your server's FQDN
+   URI = ldap://server.ipa.example.com
+   BASE = dc=ipa,dc=chotel,dc=com
+   BIND_DN = uid=hbac,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
+   BIND_PW = password
+   SSL_PATH = /var/ldap
+   HOST_NAME = client
+
+Now add the line to your pam configuration.
+
+.. code-block:: bash
+
+   # Solaris 10 - /etc/pam.conf
+   # Modify the other account section... It should come after pam_ldap
+   other account requisite pam_roles.so.1
+   other account required pam_projects.so.1
+   other account binding pam_unix_account.so.1 server_policy
+   other account required pam_ldap.so.1
+   other account required pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
+
+   # Solaris 11 - /etc/pam.d/other
+   # Same here, only modify the account section
+   account requisite       pam_roles.so.1
+   account definitive      pam_user_policy.so.1
+   account required        pam_tsol_account.so.1
+   account binding         pam_unix_account.so.1 server_policy
+   account required        pam_krb5.so.1
+   account required        pam_ldap.so.1
+   account required        pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
+
+In the event you cannot login or things aren't working the way you'd expect, add 'debug' to the end of the pam_hbac line and watch /var/log/authlog for errors.
 
 Legacy Active Directory Trust
 +++++++++++++++++++++++++++++
