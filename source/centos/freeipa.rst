@@ -763,16 +763,16 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    # We are not using pam_ldap because there's a SVC login crash
    login auth requisite pam_authtok_get.so.1
    login auth sufficient pam_krb5.so.1
-   login auth required pam_dhkeys.so.1
    login auth required pam_unix_cred.so.1
    login auth required pam_dial_auth.so.1
-   login auth required pam_unix_auth.so.1 server_policy
+   login auth sufficient pam_unix_auth.so.1 server_policy
+   login auth required pam_ldap.so.1
    rlogin auth sufficient pam_rhosts_auth.so.1
    rlogin auth requisite pam_authtok_get.so.1
    rlogin auth sufficient pam_krb5.so.1
    rlogin auth required pam_dhkeys.so.1
    rlogin auth required pam_unix_cred.so.1
-   rlogin auth binding pam_unix_auth.so.1 server_policy
+   rlogin auth sufficient pam_unix_auth.so.1 server_policy
    rlogin auth required pam_ldap.so.1
    
    # Needed for krb
@@ -782,7 +782,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    # Remote Shell
    rsh auth sufficient pam_rhosts_auth.so.1
    rsh auth required pam_unix_cred.so.1
-   rsh auth binding pam_unix_auth.so.1 server_policy
+   rsh auth sufficient pam_unix_auth.so.1 server_policy
    rsh auth required pam_ldap.so.1
    
    # Needed for krb
@@ -801,7 +801,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    other auth sufficient pam_krb5.so.1
    other auth required pam_dhkeys.so.1
    other auth required pam_unix_cred.so.1
-   other auth binding pam_unix_auth.so.1 server_policy
+   other auth sufficient pam_unix_auth.so.1 server_policy
    other auth required pam_ldap.so.1
    other account requisite pam_roles.so.1
    other account required pam_projects.so.1
@@ -1017,12 +1017,13 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth required           pam_krb5.so.1
 
    % vi /etc/pam.d/login
+   auth definitive         pam_user_policy.so.1
    auth requisite          pam_authtok_get.so.1
    auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
    auth required           pam_dial_auth.so.1
-   auth binding            pam_unix_auth.so.1 server_policy
+   auth sufficient         pam_unix_auth.so.1 server_policy
    auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/other
@@ -1030,55 +1031,31 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    auth requisite          pam_authtok_get.so.1
    auth required           pam_dhkeys.so.1
    auth required           pam_unix_cred.so.1
-   auth binding            pam_unix_auth.so.1 server_policy
+   auth sufficient         pam_unix_auth.so.1 server_policy
    auth sufficient         pam_krb5.so.1
    auth required           pam_ldap.so.1
-
+   
    account requisite       pam_roles.so.1
    account definitive      pam_user_policy.so.1
    account required        pam_tsol_account.so.1
    account binding         pam_unix_account.so.1 server_policy
    account required        pam_krb5.so.1
    account required        pam_ldap.so.1
-
+   
    session definitive      pam_user_policy.so.1
    session required        pam_unix_session.so.1
-
+   
    password definitive     pam_user_policy.so.1
    password include        pam_authtok_common
    password sufficient     pam_krb5.so.1
    password required       pam_authtok_store.so.1 server_policy
-
+   
    % vi /etc/pam.d/passwd
    auth binding            pam_passwd_auth.so.1 server_policy
    auth required           pam_ldap.so.1
    account requisite       pam_roles.so.1
    account definitive      pam_user_policy.so.1
    account required        pam_unix_account.so.1
-
-   % vi /etc/pam.d/ppp
-   auth requisite          pam_authtok_get.so.1
-   auth required           pam_dhkeys.so.1
-   auth required           pam_unix_cred.so.1
-   auth required           pam_dial_auth.so.1
-   auth binding            pam_unix_auth.so.1 server_policy
-   auth required           pam_ldap.so.1
-
-   % vi /etc/pam.d/rlogin
-   auth definitive         pam_user_policy.so.1
-   auth sufficient         pam_rhosts_auth.so.1
-   auth requisite          pam_authtok_get.so.1
-   auth required           pam_dhkeys.so.1
-   auth required           pam_unix_cred.so.1
-   auth binding            pam_unix_auth.so.1 server_policy
-   auth sufficient         pam_krb5.so.1
-   auth required           pam_ldap.so.1
-
-   % vi /etc/pam.d/rsh
-   auth definitive         pam_user_policy.so.1
-   auth sufficient         pam_rhosts_auth.so.1
-   auth required           pam_unix_cred.so.1
-   auth required           pam_ldap.so.1
 
    % vi /etc/pam.d/sshd-pubkey
    account required        pam_unix_account.so.1
