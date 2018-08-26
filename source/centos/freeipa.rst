@@ -1085,7 +1085,7 @@ For HBAC to work on Solaris, you will need to compile the pam_hbac module found 
 
 First, create the following system account. We will need this when we are configuring our legacy clients.
 
-.. code-block:: 
+::
 
    dn: uid=hbac,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
    objectClass: account
