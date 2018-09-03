@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.abspath('exts'))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['customwriter', 'sphinx_sitemap']
-site_url = 'https://www.linuxguideandhints.com/'
+site_url = 'https://linuxguideandhints.com/'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

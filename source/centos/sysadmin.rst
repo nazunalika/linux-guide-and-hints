@@ -277,7 +277,7 @@ Setup FreeIPA
 Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand.
 
 * `FreeIPA <https://freeipa.org>`__
-* `FreeIPA Guide <https://www.linuxguideandhints.com/centos/freeipa.html>`__
+* `FreeIPA Guide <https://linuxguideandhints.com/centos/freeipa.html>`__
 
 I recommend against setting up OpenLDAP for the case of UNIX authentication. For anything else, go for it. 
 
