@@ -74,3 +74,8 @@ If you are using a custom GTK theme for your window manager, you need to instruc
 .. code-block:: bash
 
    env GTK_THEME=Adwaita:light firefox
+
+Disable TCP/IP and use sockets for MySQL
+----------------------------------------
+
+On Linux, MySQL will create a socket in a location defined by the ``socket`` variable found in ``/etc/my.cnf``. For example, the value may be ``/usr/lib/mysql/mysql.sock``. However, by default, it will still listen on a TCP port, which may be undesirable if you don't plan on exposing your server to the Internet. Simply add ``skip-networking`` to ``/etc/my.cnf``.
