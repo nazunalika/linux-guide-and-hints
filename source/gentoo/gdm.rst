@@ -12,7 +12,7 @@ If you are using systemd, check ``journalctl``. If you see messages of the natur
    gdm[4607]: Child process 4619 was already dead.
    gdm[4607]: Unable to kill session worker process
 
-Then you are likely suffering from ``bug #669146 <https://bugs.gentoo.org/669146#c2>``. 
+Then you are likely suffering from `bug #669146 <https://bugs.gentoo.org/669146#c2>`_.
 For some reason, folders created by GDM at runtime do not have the correct permissions. To fix the issue:
 
 .. code-block:: bash
