@@ -17,6 +17,13 @@ packages and system administration in |Fedora| and |CentOS|.
 
 .. toctree::
   :maxdepth: 4
+  :caption: Gentoo
+  :glob:
+
+  gentoo/*
+
+.. toctree::
+  :maxdepth: 4
   :caption: Fedora
   :glob:
 
