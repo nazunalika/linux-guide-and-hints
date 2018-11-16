@@ -100,11 +100,9 @@
 				<a class='navbar-brand' href='/index.html'>LGNH</a>
 			</div>
 
-			<div class='collapse navbar-collapse' id='collapse'>
-				<ul class='nav navbar-nav'>
-                    <li><a href='https://www.howtoclosevim.com/'>howtoclosevim.com</a></li>
-				</ul>
-			</div>
+            <div class='navbar-form navbar-left'>
+                {% include "searchbox.html" %}
+            </div>
 		</div>
 	</nav>
  
@@ -146,8 +144,7 @@
             {% endif %}
           {% endif %}
 
-          {% include "searchbox.html" %}
-
+          
           {% endblock %}
         </div>
 
