@@ -17,8 +17,8 @@ Requirements
 ------------
 
 Here are the list of requirements below.
-
-* CentOS 7
+ 
+* CentOS 7 or Fedora 29+
 * An active internet connection to install the packages required or available internal mirrors
 * DNS delegation (if a DNS appliance or server already exists)
 
@@ -46,6 +46,10 @@ Tutorial Preface, Notes, and Recommendations
 .. note:: Trust Information
 
    If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, ad.example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources. 
+.. note:: NOFILE limits
+
+   You may run into file descriptor limit problems depending on the IPA version you are using and/or patch level. Ensure that /etc/sysconfig/dirsrv.systemd has LimitNOFILE set to at least 16384.
+
 
 DNS
 ---
@@ -53,16 +57,6 @@ DNS
 As noted in the previous section, you must keep in mind that you should not hijack a domain. While FreeIPA does have DNS capabilities and will allow you to do some things like create zones (forward/reverse) and many types of records, FreeIPA should not be considered a full on DNS solution for a network. It does not support "views", meaning you cannot have an internal view and an external view, assuming your domain is both an external and internally routable domain. In the event that you do need to have "views", you should setup a separate DNS server and perform delegation of your domain.
 
 Here are some common ways you can setup FreeIPA and DNS.
-
-FreeIPA has full control
-++++++++++++++++++++++++
-
-Any DHCP servers will need to point to the FreeIPA server(s) for DNS. Static servers where no DHCP is available will need their DHCP manually set to the FreeIPA server(s). If using ISC DHCP, you would just adjust the option domain-name-servers and option domain-name to match accordingly.
-
-Example.
-
-option domain-name-servers 10.200.0.21 10.200.0.22;
-option domain-name example.com;
 
 In this setup, it would allow clients that are DHCP to automatically update their own IP address as they come online or get a new IP automatically. They would have their own permissions to make such changes in the zones (where sssd+kerberos do the work). 
 
