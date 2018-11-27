@@ -255,21 +255,17 @@ RHEL 6
 Mac Clients
 +++++++++++
 
-Mac Clients are an interesting workstation to setup as a FreeIPA client. After a lot of fighting and trying to work around some of Mac's interesting ways of dealing with network logins, I was finally able to get my IPA users to login. Unfortunately it's not as easy as just adding to AD as it has it built in, so I had to write down my own instructions and repeat it twice to ensure it works. I eventually scripted it out, which will be at the bottom of this guide. But it's important to know the step-by-step of how it's configured.
+Mac Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings.
 
 .. note:: Other Guides
 
    There are a couple of guides out there that you may have found before (if you looked) that help setup IPA for Mac. There's one for much older (I think Lion) and one for Sierra. This section was made mostly for my own reference because I found some things in both of those guides didn't address issues I ran into one way or another and couldn't find any information on. The FreeIPA users mail list didn't have any archives with people having similar issues. 
-
-   If you came here after looking at another guide, you will find that there are some similarities between those here, but you may spot some stark differences. If you find that my guide is missing steps or something is clearly missing (because human error), please open an issue on github or email the maintainers of this github repo and we'll fix it.
 
    If you are interested in the other guides to compare to, you may see them `here (recent) <https://www.freeipa.org/page/HowTo/Setup_FreeIPA_Services_for_Mac_OS_X_10.12>`_ and `here (older) <https://annvix.com/using_freeipa_for_user_authentication#Mac_OS_X_10.7.2F10.8>`_
 
 .. warning:: AD Users
 
    You cannot login as AD users on a Mac when going through FreeIPA. You can, in theory, point to the cn=compat tree and set the attribute mapping to rfc2307. In my tests, I have never been able to get this to work. This section, I am going to assume you are going to be logging in as a user in IPA. If you are in a mixed environment, add your Mac to your AD domain instead.
-
-   For a more technical reason, it comes down to how cn=compat exists and what it does. cn=compat doesn't have every AD user listed. It's a dynamic tree. And because of this, AD users only appear the moment a search is done for them. From what I could gather, mac's open directory utilities doesn't seem to play with this concept very well. Which is why I recommend to stick with AD if you have a mixed environment and your users are in AD.
 
 Check your system's hostname. You want to make sure it has a hostname defined for it in the domain the mac sits in, even if it's dynamic via DHCP/DNS.
 
