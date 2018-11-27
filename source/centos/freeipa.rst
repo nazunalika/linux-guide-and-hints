@@ -498,7 +498,7 @@ Log out and go back to your local account. Go to system preferences, users & gro
    * If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.
    * If your account does not have any keytabs (eg, you haven't had your mac on or haven't logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.
 
-And that's it! The script to do this work is below. It's highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac's.
+And that's it! My own script that I made (as a reference) is below to do the work. It's highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac's.
 
 .. code-block:: bash
 
