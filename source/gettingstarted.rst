@@ -33,7 +33,7 @@ script will get you off your feet (adapted from `Louis' script <https://github.c
     dnf install ffmpeg mpg123
 
     # kernel-devel needs to be explicitly listed to avoid pulling in the debug package
-    dnf install nvidia-settings kernel-devel vulkan.i686 nvidia-driver-libs.i686
+    dnf install nvidia-settings kernel-devel vulkan-loader.i686 nvidia-driver-libs.i686
     # You can choose dkms-nvidia if you prefer
     dnf install akmod-nvidia
 

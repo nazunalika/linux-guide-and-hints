@@ -43,19 +43,6 @@ YouCompleteMe crashes due to ``libtinfo.so`` version mismatch
 
 As pointed out by pdavydov108 in `YouCompleteMe issue #778 <https://github.com/Valloric/YouCompleteMe/issues/778#issuecomment-228704671>`_, the fix is to install ``ncurses-compat-libs``. Fedora comes with ``libtinfo.so.6``, however, the version of Clang required by YouCompleteMe has a dependency on ``libtinfo.so.5``. 
 
-Nvidia drivers don't rebuild automatically
-------------------------------------------
-
-Run ``dkms status``. If the output is empty, then you'll need to manually run the build and install:
-
-.. code-block:: bash
-
-    dkms add nvidia/&lt;version&gt;
-    dkms build nvidia/&lt;version&gt;
-    dkms install nvidia/&lt;version&gt;
-
-Where ``<version>`` is something like ``390.25``.
-
 KeePassHttp no longer works
 ---------------------------
 
@@ -74,6 +61,8 @@ If you are using a custom GTK theme for your window manager, you need to instruc
 .. code-block:: bash
 
    env GTK_THEME=Adwaita:light firefox
+
+If that's inconvenient, you can add the change to Firefox directly. Go to ``about:config`` and add a new key called ``widget.content.gtk-theme-override``. Set the value to ``Adwaita:light`` or whatever you prefer.
 
 Disable TCP/IP and use sockets for MySQL
 ----------------------------------------
