@@ -223,3 +223,20 @@ When launching the program, use the following overrides:
 .. code-block:: bash
 
    WINEDLLOVERRIDES="d3d11.dll=n;d3dcompiler_47.dll=n;dxgi.dll=n"
+
+Proton
+------
+
+If you use Steam, you can play games using Steam Play, which uses `Proton <https://github.com/ValveSoftware/Proton/>`_. Proton incorporates both Wine and DXVK to allow you to play Windows games without doing any tinkering out of the box. However, if you don't plan on building it from source, you need to install a Steam Play game first to obtain it.
+
+Once that's done, locate the Proton directory. It will look something like ``steam/steamapps/common/Proton 3.7``, where ``steam`` is located in one of your Steam download libraries. You can directly invoke the Proton binary to use it for non-steam games. For example:
+
+.. code-block:: bash
+
+   env PROTON_NO_ESYNC=1 PROTON_DUMP_DEBUG_COMMANDS=1 STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
+
+``$APP_ID`` will be the value of whatever game you installed with Steam Play.
+
+.. note::
+
+   Compatibility data for each game will be different, so there is no guarantee that it will work for whatever particular non-steam game you are trying to play.
