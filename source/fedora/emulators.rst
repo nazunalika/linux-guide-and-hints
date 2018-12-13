@@ -239,25 +239,6 @@ MAME looks for configuration in at least two places:
 ``/etc/mame/mame.ini`` and ``~/.mame/ini/mame.ini``. The latter
 overrides the former.
 
-Inconsistency
-+++++++++++++
-
-The official `MAME website <http://mamedev.org>`_ is seriously lacking
-in the documentation department. The `MESS <http://www.mess.org>`_
-website contains better information, including configuration options.
-
-While the two are separate projects and are not 100% compatible, the two
-projects merged possibly explaining why some options work or don't work.
-For example, ``auto`` is explicitly outlined as a valid value for
-``-sound`` by the MESS docs, even though this is missing from the MAME
-docs. To continue the example ``mame -showusage`` gives two options for
-sound: ``sdl`` or ``none``. ``man mame`` lists ``-nosound`` and
-``-sound`` as valid command line options, which is consistent with the
-other options (i.e, ``-filter`` and ``-nofilter``), but don't work.
-
-Since the documentation is out-of-date/unsynchronized/severely lacking,
-you'll have to experiment to see what works. 
-
 Example ``mame.ini``
 ++++++++++++++++++++
 
