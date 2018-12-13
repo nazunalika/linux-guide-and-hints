@@ -10,6 +10,8 @@ script:
 - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
 - npm install
 - make html SPHINXOPTS=-Ea
+- grunt uglify
+- grunt imagemin
 - touch build/html/.nojekyll
 
 deploy:

@@ -7,6 +7,7 @@
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-imagemin": "^3.1.0",
     "grunt-contrib-uglify": "^4.0.0"
   },
   "scripts": {

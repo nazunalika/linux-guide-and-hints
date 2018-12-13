@@ -20,11 +20,22 @@ module.exports = function(grunt) {
                 src: ['source/_static/js/prism.js'],
                 dest: 'build/html/_static/js/prism.min.js'
             }
+        },
+        imagemin: {
+            dynamic: {
+                files: [{
+                    cwd: 'source/_static/img/',
+                    expand: true,
+                    src: ['**/*.{png,jpg}'],
+                    dest: 'build/html/_static/img/'
+                }]
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
 
     grunt.registerTask('default', ['connect']);
 };
