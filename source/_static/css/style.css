@@ -47,6 +47,10 @@
  * -------
  */
 
+.card {
+    margin-bottom: .5rem;
+}
+
 .wy-nav-content {
     max-width: unset;
 }

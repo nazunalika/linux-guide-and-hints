@@ -28,21 +28,18 @@ class HTMLTranslator(BaseTranslator):
                 elif name == 'danger':
                         type = 'danger'
                 self.body.append(self.starttag(
-                        node, 'div', CLASS=('panel panel-' + type)))
+                        node, 'div', CLASS=('card')))
                 self.body.append(self.starttag(
-                        node, 'div', CLASS=('panel-heading')))
+                        node, 'div', CLASS=('card-header bg-' + type)))
 
                 title = node.traverse(nodes.paragraph);
-                self.body.append(self.starttag(
-                        node, 'h3', CLASS=('panel-title')))
                 self.body.append("<i class='fa fa-exclamation-circle'></i> " + name.title());
-                self.body.append('</h3>')
 
                 # node.remove(node.traverse(nodes.paragraph)[0])
 
                 self.body.append("</div>")
                 self.body.append(self.starttag(
-                        node, 'div', CLASS=('panel-body')))
+                        node, 'div', CLASS=('card-body')))
 
         def depart_admonition(self, node=None):
                 self.body.append('</div></div>\n')
