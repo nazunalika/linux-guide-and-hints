@@ -14,10 +14,17 @@ module.exports = function(grunt) {
                     ca: grunt.file.read('cert/ca.crt').toString()
                 }
             }
+        },
+        uglify: {
+            js: {
+                src: ['source/_static/js/prism.js'],
+                dest: 'build/html/_static/js/prism.min.js'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.registerTask('default', ['connect']);
 };

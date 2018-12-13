@@ -6,7 +6,8 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.3",
-    "grunt-contrib-connect": "^1.0.2"
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-uglify": "^4.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
