@@ -1,3 +1,15 @@
+/* general
+ * -------
+ */
+
+a {
+    color: rgb(27, 85, 126);
+}
+
+a:hover {
+    color: rgb(0, 83, 173);
+}
+
 /* sidebar
  * ------
  */
@@ -17,30 +29,34 @@
 }
 
 .wy-nav-top i {
-	font-size: 17.3333px;
-	margin-top: 15px;
-	margin-left: 15px;
+    font-size: 17.3333px;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 
 .wy-menu-vertical {
-	width: 290px;
+    width: 290px;
 }
 
 .wy-menu-vertical header, .wy-menu-vertical p.caption {
-	font-size: inherit;
+    font-size: inherit;
 }
 
 .wy-menu-vertical a {
-	font-size: inherit;
+    font-size: inherit;
 }
 
 .wy-menu-vertical a:hover,
 .wy-menu-vertical a:focus {
-	color: #b3b3b3; 
+    color: #FFFFFF;
 }
 
 .wy-side-nav-search > a {
   font-size: 120%;
+}
+
+.wy-side-nav-search > a:hover {
+    color: #FFFFFF;
 }
 
 /* content
@@ -56,7 +72,7 @@
 }
 
 .rst-content code, .rst-content .important {
-	all: unset;
+    all: unset;
 }
 
 .rst-content :not(pre) > code {
@@ -68,26 +84,31 @@
 }
 
 .btn.btn-default {
-	color: #333;
+    color: #333;
 }
 
 .breadcrumb {
-	background-color: #e3f2fd;
+    background-color: #e3f2fd;
 }
 
 .wy-side-nav-search {
-	color: initial;
+    color: initial;
+    background-color: rgb(29, 91, 134);
 }
 
 pre[class*="language-"] {
-	border: 0;
-	border-radius: 4px;
+    border: 0;
+    border-radius: 4px;
 }
 
 pre {
-	border: 0;
+    border: 0;
 }
 
 .btn:active {
     padding: 6px 12px;
+}
+
+footer {
+    color: rgb(85, 85, 85);
 }
