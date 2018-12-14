@@ -28,6 +28,10 @@ a:hover {
     height: 100%;
 }
 
+.wy-nav-top {
+    background: rgb(29, 91, 134);
+}
+
 .wy-nav-top i {
     font-size: 17.3333px;
     margin-top: 15px;
@@ -81,6 +85,10 @@ a:hover {
     color: #c7254e;
     background-color: #f9f2f4;
     border-radius: 4px;
+}
+
+.rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
+    color: rgb(151, 32, 18);
 }
 
 .btn.btn-default {
