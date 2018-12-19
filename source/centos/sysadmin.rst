@@ -2,7 +2,7 @@ The System Administrator Experience
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. meta::
-    :description: The System Administrator Experience for Red Hat based distributions, such as CentOS 6 and 7.
+    :description: The System Administrator Experience for Red Hat based distributions, such as CentOS 7.
 
 This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. 
 
@@ -17,7 +17,7 @@ Recommendations
 
      * Note: Doing this will mean you will need another way to "cluster" MySQL/MariaDB. EL Distributions do not have a built-in way to do this.
 
-   * Spacewalk can be replaced with Katello (**recommended to use Katello**, but you can try both)
+   * Spacewalk can be replaced with Katello/Foreman or straight Pulp (**recommended to use Katello**, but you can try both)
    * You can replace KVM with ESXi if you wish, with specific caveats listed in the steps.
    * nagios can be replaced with icinga
    * On EL7, you can replace firewalld with the regular iptables service - This may be required for your virtual host
@@ -291,7 +291,7 @@ Do the following:
 1) Install and configure pgpool-II for master-master replication
 2) If using Spacewalk, export the database of your server and import it into the cluster. Reconfigure Spacewalk to use your database cluster (this is tricky)
 
-**Step 2 is NOT required if you are using Katello.**
+**Step 2 is NOT required if you are using Katello/Foreman or Pulp.**
 
 Spin Up Configuration Management
 ++++++++++++++++++++++++++++++++
@@ -305,9 +305,7 @@ While Katello has some form of puppet built in, it may be better to create a sol
 #. Ansible   -> Available in EPEL
 #. Puppet    -> Available in their own repository
 
-As a side note, for EL6, you **will** need to pull the IUS CentOS 6 repository for python27 packages and then pull in all the python27* packages from the saltstack repo. From this point forward (as of 2017.7.0), this is required for Salt to function on EL6. EL7 is unaffected.
-
-Spacewalk does support puppet in some fashion, but not SaltStack or Ansible (there are plugins though, but they are not perfect and require Salt/Ansible to run locally on the Spacewalk server). Katello was asked to include SaltStack support. There is currently a SaltStack plugin, but it may require that Salt run on the same server as Katello.
+Spacewalk does support puppet in some fashion, but not SaltStack or Ansible (there are plugins though, but they are not perfect and require Salt/Ansible to run locally on the Spacewalk server). Katello was asked to include SaltStack support. There is currently a SaltStack plugin and needs a foreman proxy setup. It is trivial to setup correctly.
 
 Spin Up VM for NFS/iSCSI
 ++++++++++++++++++++++++
@@ -315,7 +313,7 @@ Spin Up VM for NFS/iSCSI
 This VM should be EL7. Ensure it has an extra 20GB disk attached to it. Install the following:
 
 1) An NFS server (nfs-utils)
-2) An iSCSI server (EL6: scsi-target-utils) (EL7: scsi-target-utils, targetcli)
+2) An iSCSI server (EL7: scsi-target-utils, targetcli)
 
 You are to:
 
@@ -347,8 +345,6 @@ Your server will need the following:
 Deploy Four VM's
 ++++++++++++++++
 
-These can be EL6 or EL7. Recommended EL7, but this will work fine for both.
-
 1) First two will be web servers running apache (httpd)
 2) Next two will be tomcat servers
 
@@ -356,7 +352,7 @@ This is a typical "web/app" configuration. Some shops use apache frontends to we
 
 You will need to do the following:
 
-1) Setup JBoss Wiki on your app servers
+1) Setup JBoss/Wildfly Wiki on your app servers
 2) Setup apache to forward requests to your tomcat servers for the wiki
 3) Do this as a VirtualHost configuration with the ServerName as "wiki.domain.tld", replacing "domain.tld" with your domain
 4) Set a ServerAlias as wiki
@@ -374,12 +370,10 @@ You will need the following:
 
 .. warning:: Dynamic DNS
 
-   If you are using Dynamic DNS, you may need to run rndc sync before making changes. You will want to use the nsupdate command to make changes to your Dynamic Zones. 
+   If you are using Dynamic DNS, you may need to run rndc sync before making changes. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.
 
 Deploy Postfix VM
 +++++++++++++++++
-
-This VM should be EL7. It doesn't truly matter, but it will be a postfix mail relay (this will not be a mail server).
 
 You will need to do the following:
 
@@ -420,10 +414,10 @@ On your new wiki, document everything you did, right now, on your new wiki.
 RPM Build Server
 ++++++++++++++++
 
-For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this. EL6 and EL7 are fine, as mock will emulate any RHEL or Fedora release as necessary. It is recommended to use EL7 has EL6 is now in phase 3 support.
+For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this.
 
 Git Server
 ++++++++++
 
-Also for fun, you can setup a git server. There are many options out there. A popular opensource one is `Gitlab <https://about.gitlab.com/>`_. EL6 or EL7 are fine, as Gitlab supports both. 
+Also for fun, you can setup a git server. There are many options out there. A popular opensource one is `Gitlab <https://about.gitlab.com/>`_ or even Gitea.
 
