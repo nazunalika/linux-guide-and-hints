@@ -203,7 +203,7 @@ You will need to prep your master(s) for the trust. We will be enabling compat, 
 
    % ipa-adtrust-install --add-sids --add-agents --enable-compat
 
-This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode.
+This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps.
 
 You will now need to open the necessary ports. Do this on both masters.
 
@@ -846,19 +846,8 @@ You can test now if you'd like.
            homeDirectory: /home/first.last2
            uid: first.last2
 
-I recommend setting up sudo at least... if you want to use sudo, install the OpenCSW pkgutil utility and set it up like so.
+I recommend setting up sudo at least... if you want to use sudo, install the sudo-ldap from sudo.ws for Solaris 10.
 
-.. code-block:: bash
-
-   % /opt/csw/bin/pkgutil -i -y sudo sudo_ldap
-   % vi /etc/opt/csw/sudo.conf
-   . . .
-   # LDAP-enabled plugin:
-   Plugin sudoers_policy sudoers-ldap.so
-   Plugin sudoers_io sudoers-ldap.so
-   
-   % ln -s /etc/opt/csw/ldap.conf /etc/ldap.conf
-   
 Solaris 11
 ++++++++++
 
@@ -939,6 +928,11 @@ Generate a keytab and bring it over.
 
 Create the LDAP configurations, bring the certificate, and create an NSS database.
 
+.. note:: Solaris 11.3 vs 11.4
+
+   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems.
+
+
 .. code-block:: bash
 
    % mkdir /etc/ipa /var/ldap
@@ -948,15 +942,20 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
    % vi /etc/ldap.conf
    base dc=ipa,dc=example,dc=com
    scope sub
-   TLS_CACERTDIR /var/ldap
-   TLS_CACERT /var/ldap/ipa.pem
-   tls_checkpeer no
-   ssl start_tls
    bind_timelimit 120
    timelimit 120
    uri ldap://server1.ipa.example.com
    sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
    pam_lookup_policy yes
+   # 11.3
+   TLS_CACERTDIR /var/ldap
+   TLS_CERT /var/ldap/cert8.db
+   ssl on
+   tls_checkpeer no
+   # 11.4
+   TLS_CACERTDIR /var/ldap
+   ssl start_tls
+   tls_checkpeer no
 
 Now init the ldap client. We actually get to use a secure connection here. Kerberos is hit or miss, could never get sasl/GSSAPI to work.
 
@@ -1067,6 +1066,11 @@ You can test now if you'd like.
            loginShell: /bin/bash
            homeDirectory: /home/first.last2
            uid: first.last2
+
+Automated Scripts
++++++++++++++++++
+
+I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. The problem is that it doesn't create the host objects because of how curl was compiled in OpenCSW and Solaris 11. I can't think of useful way around this (yet). I'm thinking at some point I'll make that portion python.
 
 Legacy HBAC
 +++++++++++
