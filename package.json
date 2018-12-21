@@ -1,14 +1,16 @@
 {
   "name": "linux-guide-and-hints",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "[![Build Status](https://travis-ci.org/remyabel/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/remyabel/linux-guide-and-hints)",
   "main": "Gruntfile.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-imagemin": "^3.1.0",
-    "grunt-contrib-uglify": "^4.0.0"
+    "grunt-contrib-uglify": "^4.0.0",
+    "quicklink": "^1.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
