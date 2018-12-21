@@ -1,1 +1,3 @@
-quicklink();
+window.addEventListener('load', () => {
+    quicklink();
+});
