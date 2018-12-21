@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         copy: {
             quicklink: {
                 files: [
-                    {expand: true, flatten: true, src: ['node_modules/quicklink/dist/quicklink.js'], dest: 'source/_static/js'}
+                    {expand: true, flatten: true, src: ['node_modules/quicklink/dist/quicklink.umd.js'], dest: 'build/html/_static/js'}
                 ]
             }
         },
