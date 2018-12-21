@@ -15,10 +15,22 @@ module.exports = function(grunt) {
                 }
             }
         },
+        copy: {
+            quicklink: {
+                files: [
+                    {expand: true, flatten: true, src: ['node_modules/quicklink/dist/quicklink.js'], dest: 'source/_static/js'}
+                ]
+            }
+        },
         uglify: {
             js: {
-                src: ['source/_static/js/prism.js'],
-                dest: 'build/html/_static/js/prism.min.js'
+                cwd: 'source/_static/js',
+                expand: true,
+                src: ['**/*.js'],
+                dest: 'build/html/_static/js',
+                rename: function (dst, src) {
+                    return dst + '/' + src.replace('.js', '.min.js');
+                }
             }
         },
         imagemin: {
@@ -34,8 +46,10 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
 
-    grunt.registerTask('default', ['connect']);
+    grunt.registerTask('build', ['copy', 'uglify', 'imagemin']);
+    grunt.registerTask('default', ['build', 'connect']);
 };
