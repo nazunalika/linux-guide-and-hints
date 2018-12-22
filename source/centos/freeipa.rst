@@ -721,9 +721,9 @@ Now init the ldap client.
 
    When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. Kerberos is hit or miss.
 
-.. note:: Multiple Views
+.. note:: AD Trust - Different Trees
 
-   If using an AD trust, you should use the second example, where it looks in both the cn=accounts and cn=compat trees. The caveat is that getent passwd will show IPA accounts twice. This does not affect logins.
+   If using an AD trust, you should use the second example, where it looks at the compat tree for users.
 
 .. code-block:: bash
 
@@ -746,8 +746,7 @@ Now init the ldap client.
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123"
 
-   # With AD Trust - we are looking at two directories to ensure we can login with both
-   #                 IPA and AD users.
+   # With AD Trust
    % ldapclient manual -a credentialLevel=proxy \
                        -a authenticationMethod=simple \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
@@ -758,7 +757,7 @@ Now init the ldap client.
                        -a objectClassMap=passwd:posixAccount=posixaccount \
                        -a objectClassMap=group:posixGroup=posixgroup \
                        -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                       -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,\;cn=users,cn=compat,\;dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
@@ -988,6 +987,10 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
 
 Now init the ldap client. We actually get to use a secure connection here. Kerberos is hit or miss, could never get sasl/GSSAPI to work.
 
+.. note:: AD Trust - Different Trees
+
+   If using an AD trust, you should use the second example, where it looks at the compat tree for users.
+
 .. code-block:: bash
 
    # Without AD Trust
@@ -1009,8 +1012,7 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123"
 
-   # With AD Trust - we are looking at two directories to ensure we can login with both
-   #                 IPA and AD users.
+   # With AD Trust
    % ldapclient manual -a credentialLevel=proxy \
                        -a authenticationMethod=tls:simple \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
@@ -1021,7 +1023,7 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a objectClassMap=passwd:posixAccount=posixaccount \
                        -a objectClassMap=group:posixGroup=posixgroup \
                        -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,\;cn=users,cn=compat,\;dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
