@@ -610,6 +610,8 @@ You can make this a little more specific, such as /bin/bash as everyone or other
 Legacy Client Setup
 -------------------
 
+This applies to Solaris, Omnios, others based on Illumos.
+
 Solaris 10
 ++++++++++
 
@@ -719,8 +721,13 @@ Now init the ldap client.
 
    When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. Kerberos is hit or miss.
 
+.. note:: Multiple Views
+
+   If using an AD trust, you should use the second example, where it looks in both the cn=accounts and cn=compat trees. The caveat is that getent passwd will show IPA accounts twice. This does not affect logins.
+
 .. code-block:: bash
 
+   # Without AD Trust
    % ldapclient manual -a credentialLevel=proxy \
                        -a authenticationMethod=simple \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
@@ -731,7 +738,7 @@ Now init the ldap client.
                        -a objectClassMap=passwd:posixAccount=posixaccount \
                        -a objectClassMap=group:posixGroup=posixgroup \
                        -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
@@ -739,11 +746,32 @@ Now init the ldap client.
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123"
 
+   # With AD Trust - we are looking at two directories to ensure we can login with both
+   #                 IPA and AD users.
+   % ldapclient manual -a credentialLevel=proxy \
+                       -a authenticationMethod=simple \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,\;cn=users,cn=compat,\;dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5 \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123"
+
+
 This should succeed. Once it succeeds, you need to configure pam and nsswitch. 
 
 .. note:: AD Trust Information
 
-   In the event you don't have an AD trust, you can change the "binding" lines to required and remove the pam_ldap lines.
+   In the event you don't have an AD trust, you can change the "binding" lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read "required"
 
 .. code-block:: bash
 
@@ -751,63 +779,59 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
    # Console
    # We are not using pam_ldap because there's a SVC login crash
-   login auth requisite pam_authtok_get.so.1
-   login auth sufficient pam_krb5.so.1
-   login auth required pam_unix_cred.so.1
-   login auth required pam_dial_auth.so.1
-   login auth sufficient pam_unix_auth.so.1 server_policy
-   login auth required pam_ldap.so.1
-   rlogin auth sufficient pam_rhosts_auth.so.1
-   rlogin auth requisite pam_authtok_get.so.1
-   rlogin auth sufficient pam_krb5.so.1
-   rlogin auth required pam_dhkeys.so.1
-   rlogin auth required pam_unix_cred.so.1
-   rlogin auth sufficient pam_unix_auth.so.1 server_policy
-   rlogin auth required pam_ldap.so.1
+   login auth requisite    pam_authtok_get.so.1
+   login auth sufficient   pam_krb5.so.1
+   login auth required     pam_unix_cred.so.1
+   login auth required     pam_dial_auth.so.1
+   login auth sufficient   pam_unix_auth.so.1 server_policy
+   login auth sufficient   pam_ldap.so.1
+
+   rlogin auth sufficient  pam_rhosts_auth.so.1
+   rlogin auth requisite   pam_authtok_get.so.1
+   rlogin auth required    pam_dhkeys.so.1
+   rlogin auth sufficient  pam_krb5.so.1
+   rlogin auth required    pam_unix_cred.so.1
+   rlogin auth sufficient  pam_unix_auth.so.1 server_policy
+   rlogin auth sufficient  pam_ldap.so.1
    
    # Needed for krb
-   krlogin auth required pam_unix_cred.so.1
+   krlogin auth required   pam_unix_cred.so.1
    krlogin auth sufficient pam_krb5.so.1
    
-   # Remote Shell
-   rsh auth sufficient pam_rhosts_auth.so.1
-   rsh auth required pam_unix_cred.so.1
-   rsh auth sufficient pam_unix_auth.so.1 server_policy
-   rsh auth required pam_ldap.so.1
-   
    # Needed for krb
-   krsh auth required pam_unix_cred.so.1
-   krsh auth required pam_krb5.so.1
+   krsh auth required      pam_unix_cred.so.1
+   krsh auth required      pam_krb5.so.1
    
    # ?
-   ppp auth requisite pam_authtok_get.so.1
-   ppp auth required pam_dhkeys.so.1
-   ppp auth required pam_dial_auth.so.1
-   ppp auth binding pam_unix_auth.so.1 server_policy
-   ppp auth required pam_ldap.so.1
+   ppp auth requisite      pam_authtok_get.so.1
+   ppp auth required       pam_dhkeys.so.1
+   ppp auth sufficient     pam_krb5.so.1
+   ppp auth required       pam_dial_auth.so.1
+   ppp auth binding        pam_unix_auth.so.1 server_policy
+   ppp auth sufficient     pam_ldap.so.1
    
    # Other, used by sshd and "others" as a fallback
-   other auth requisite pam_authtok_get.so.1
-   other auth sufficient pam_krb5.so.1
-   other auth required pam_dhkeys.so.1
-   other auth required pam_unix_cred.so.1
-   other auth sufficient pam_unix_auth.so.1 server_policy
-   other auth required pam_ldap.so.1
+   other auth requisite    pam_authtok_get.so.1
+   other auth required     pam_dhkeys.so.1
+   other auth sufficient   pam_krb5.so.1
+   other auth required     pam_unix_cred.so.1
+   other auth sufficient   pam_unix_auth.so.1 server_policy
+   other auth sufficient   pam_ldap.so.1
    other account requisite pam_roles.so.1
-   other account required pam_projects.so.1
-   other account binding pam_unix_account.so.1 server_policy
-   other account required pam_krb5.so.1
-   other account required pam_ldap.so.1
-   other session required pam_unix_session.so.1
+   other account required  pam_projects.so.1
+   other account binding   pam_unix_account.so.1 server_policy
+   other account sufficient pam_krb5.so.1
+   other account sufficient pam_ldap.so.1
+   other session required  pam_unix_session.so.1
    other password required pam_dhkeys.so.1
    other password requisite pam_authtok_get.so.1
-   other password requisite pam_authtok_check.so.1
+   other password requisite pam_authtok_check.so.1 force_check
    other password required pam_authtok_store.so.1 server_policy
    
    # passwd and cron
-   passwd auth binding pam_passwd_auth.so.1 server_policy
-   passwd auth required pam_ldap.so.1
-   cron account required pam_unix_account.so.1
+   passwd auth binding    pam_passwd_auth.so.1 server_policy
+   passwd auth sufficient pam_ldap.so.1
+   cron account required  pam_unix_account.so.1
    
    # SSH Pubkey - Needed for openldap and still probably needed
    sshd-pubkey account required pam_unix_account.so.1
@@ -848,10 +872,10 @@ You can test now if you'd like.
 
 I recommend setting up sudo at least... if you want to use sudo, install the sudo-ldap from sudo.ws for Solaris 10.
 
-Solaris 11
-++++++++++
+Solaris 11 and Omnios/Illumos
++++++++++++++++++++++++++++++
 
-Solaris 11 is sort of similar to 10. We need to make a couple of manual changes but then the rest require us to work with the svcprop commands (thanks Oracle). Sudo should just work as well, no OpenCSW required. And, we should be able to use TLS without much of a fuss. No certificate databases are required.
+Solaris 11 and Omnios share similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.
 
 Below is a copy of Solaris 10 for the service account, here as a reference.
 
@@ -924,13 +948,18 @@ Generate a keytab and bring it over.
    % chmod 600 /etc/krb5/krb5.keytab
    % chmod 644 /etc/krb5/krb5.conf
    % chown root:sys /etc/krb5/*
+
+   # Check the keytab
+   % klist -ket /etc/krb5/krb5.keytab
+
+   # Test that you can kinit
    % kinit flast2@IPA.EXAMPLE.COM
 
 Create the LDAP configurations, bring the certificate, and create an NSS database.
 
 .. note:: Solaris 11.3 vs 11.4
 
-   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems.
+   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems. Omnios may require a different configuration. Test 11.3 and 11.4 to verify this.
 
 
 .. code-block:: bash
@@ -961,6 +990,7 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
 
 .. code-block:: bash
 
+   # Without AD Trust
    % ldapclient manual -a credentialLevel=proxy \
                        -a authenticationMethod=tls:simple \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
@@ -971,7 +1001,27 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a objectClassMap=passwd:posixAccount=posixaccount \
                        -a objectClassMap=group:posixGroup=posixgroup \
                        -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5 \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123"
+
+   # With AD Trust - we are looking at two directories to ensure we can login with both
+   #                 IPA and AD users.
+   % ldapclient manual -a credentialLevel=proxy \
+                       -a authenticationMethod=tls:simple \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,\;cn=users,cn=compat,\;dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
@@ -993,43 +1043,33 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
 .. note:: AD Trust Information
 
-   In the event you don't have an AD trust, you can change the "binding" lines to required and remove the pam_ldap lines.
+   In the event you don't have an AD trust, you can change the "binding" lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read "required"
 
 .. code-block:: bash
-
-   % vi /etc/pam.d/krlogin
-   auth required           pam_unix_cred.so.1
-   auth required           pam_krb5.so.1
-
-   % vi /etc/pam.d/krsh
-   auth required           pam_unix_cred.so.1
-   auth required           pam_krb5.so.1
 
    % vi /etc/pam.d/login
    auth definitive         pam_user_policy.so.1
    auth requisite          pam_authtok_get.so.1
-   auth sufficient         pam_krb5.so.1
    auth required           pam_dhkeys.so.1
+   auth sufficient         pam_krb5.so.1
    auth required           pam_unix_cred.so.1
-   auth required           pam_dial_auth.so.1
    auth sufficient         pam_unix_auth.so.1 server_policy
-   auth required           pam_ldap.so.1
+   auth sufficient         pam_ldap.so.1
 
    % vi /etc/pam.d/other
    auth definitive         pam_user_policy.so.1
    auth requisite          pam_authtok_get.so.1
    auth required           pam_dhkeys.so.1
+   auth sufficient         pam_krb5.so.1
    auth required           pam_unix_cred.so.1
    auth sufficient         pam_unix_auth.so.1 server_policy
-   auth sufficient         pam_krb5.so.1
-   auth required           pam_ldap.so.1
+   auth sufficient         pam_ldap.so.1
    
    account requisite       pam_roles.so.1
    account definitive      pam_user_policy.so.1
-   account required        pam_tsol_account.so.1
    account binding         pam_unix_account.so.1 server_policy
-   account required        pam_krb5.so.1
-   account required        pam_ldap.so.1
+   account sufficient      pam_krb5.so.1
+   account sufficient      pam_ldap.so.1
    
    session definitive      pam_user_policy.so.1
    session required        pam_unix_session.so.1
@@ -1039,13 +1079,6 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    password sufficient     pam_krb5.so.1
    password required       pam_authtok_store.so.1 server_policy
    
-   % vi /etc/pam.d/passwd
-   auth binding            pam_passwd_auth.so.1 server_policy
-   auth required           pam_ldap.so.1
-   account requisite       pam_roles.so.1
-   account definitive      pam_user_policy.so.1
-   account required        pam_unix_account.so.1
-
    % vi /etc/pam.d/sshd-pubkey
    account required        pam_unix_account.so.1
 
@@ -1070,12 +1103,12 @@ You can test now if you'd like.
 Automated Scripts
 +++++++++++++++++
 
-I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. The problem is that it doesn't create the host objects because of how curl was compiled in OpenCSW and Solaris 11. I can't think of useful way around this (yet). I'm thinking at some point I'll make that portion python.
+I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. This may or may not be of use to you. Though if you have problems, file a github issue and we can address it.
 
 Legacy HBAC
 +++++++++++
 
-For HBAC to work on Solaris, you will need to compile the pam_hbac module found `here <https://github.com/jhrozek/pam_hbac>`__. I would clone the current master branch or download the master.zip to your Solaris system. The instructions are different between Solaris 10 and Solaris 11 for compiling it. Solaris 10 requires some `OpenCSW <https://www.opencsw.org/>`__ packages. Solaris 11 just needs you to install a few packages and then the rest is pretty straight forward.
+For HBAC to work on Solaris, you will need to compile the pam_hbac module found `here <https://github.com/jhrozek/pam_hbac>`__. I would clone the current master branch or download the master.zip to your Solaris system. Each OS has their set of instructions for compiling. 
 
 First, create the following system account. We will need this when we are configuring our legacy clients.
 
@@ -1088,7 +1121,8 @@ First, create the following system account. We will need this when we are config
    uid: hbac
    userPassword: password
 
-For Solaris 10, these are the steps to compile the HBAC module:
+Solaris 10
+''''''''''
 
 .. code-block:: bash
 
@@ -1105,7 +1139,8 @@ For Solaris 10, these are the steps to compile the HBAC module:
    % make
    % make install
 
-For Solaris 11, these are the steps:
+Solaris 11
+''''''''''
 
 .. code-block:: bash
 
@@ -1118,7 +1153,22 @@ For Solaris 11, these are the steps:
    % make
    % make install
 
-Now configure pam_hbac.conf:
+Omnios
+''''''
+
+.. code-block:: bash
+
+   % pkg install developer/build/autoconf developer/build/libtool \
+                 developer/pkg-config developer/build/automake    \
+                 developer/gcc48 system/header developer/object-file \
+                 developer/linker
+   % autoreconf -if
+   % ./configure --with-pammoddir=/usr/lib/security --mandir=/usr/share/man --sysconfdir=/etc/
+   % make
+   % make install
+
+pam_hbac.conf
+'''''''''''''
 
 .. code-block:: bash
 
@@ -1132,62 +1182,49 @@ Now configure pam_hbac.conf:
    SSL_PATH = /var/ldap
    HOST_NAME = client
 
-Now add the line to your pam configuration.
+PAM Configuration
+'''''''''''''''''
 
 .. code-block:: bash
 
    # Solaris 10 - /etc/pam.conf
-   # Modify the other account section... It should come after pam_ldap
-   other account requisite pam_roles.so.1
-   other account required pam_projects.so.1
-   other account binding pam_unix_account.so.1 server_policy
-   other account required pam_ldap.so.1
+   # Modify the other account section... It should come at the end of the account blocks.
+   . . .
    other account required pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
 
    # Solaris 11 - /etc/pam.d/other
    # Same here, only modify the account section
-   account requisite       pam_roles.so.1
-   account definitive      pam_user_policy.so.1
-   account required        pam_tsol_account.so.1
-   account binding         pam_unix_account.so.1 server_policy
-   account required        pam_krb5.so.1
-   account required        pam_ldap.so.1
+   . . .
    account required        pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
 
 In the event you cannot login or things aren't working the way you'd expect, add 'debug' to the end of the pam_hbac line and watch /var/log/authlog for errors.
 
-Legacy Active Directory Trust
-+++++++++++++++++++++++++++++
+Login with AD Users to Legacy Clients
++++++++++++++++++++++++++++++++++++++
 
-This section isn't really a walk through, but it's more of an explanation of my experiences and what I've noticed. First and foremost, I'm going to be assuming you have a domain resolution order set for AD to be first. If this is truly the case, then the cn=compat tree changes slightly from what it traditionally does. 
+For AD users to be able to login to legacy clients, you have to enable system-auth to the IPA servers. Without it, users will be denied access, regardless of HBAC controls or if you're using the pam_hbac module.
 
-What it initially does is it takes all the IPA users, makes them compat objects on the fly (virtual objects). And then, if they are from AD, they only appear on request, but they usually only appear when you query them as uid=username@domain. When domain resolution order is set on the IPA side, it changes this behavior slightly. Instead, what happens is if you request uid=username, you will get the response back with your AD user, but the difference is that there are multiple 'uid' attributes. One is part of the RDN of the object (uid=username) and the other is the fully qualified username. Now, this is actually RFC compliant. But let's say the compat tree never had the user in there and you searched the tranditional way, uid=username@domain. You now have behavior as if domain resolution order was never set in the first place. While this occurs for AD users, IPA users are unaffected. 
+.. code-block:: bash
 
-You might think to yourself though 'this doesn't seem too bad' and you would be mostly right, it's rfc compliant. However, legacy clients sometimes don't play too well with this. In fact, there's some weirdness that occurs.
+   % ipa hbacsvc-add system-auth
+   % ipa hbacrule-add legacy_client_auth
+   % ipa hbacrule-add-host --hostgroups=ipaservers legacy_client_auth
+   % ipa hbacrule-mod --usercat=all legacy_client_auth
 
-To explain, this is what appears to happen:
+Legacy Active Directory Trust Notes
++++++++++++++++++++++++++++++++++++
 
-* User doesn't exist initially in cn=compat
-* User is queried as username (instead of username@domain)
-* User is checked against Active Directory
-* Virtual object is created in cn=compat in the form of uid=username,cn=users,cn=compat,...
-* Virtual object has two uid's, uid: username and uid: username@domain
+This section isn't really a walk through, but it's more of notes and such.
 
-If a user is queried as username@domain, that object is created on the fly as uid=username@domain, which can throw a wrench in your plans of trying to login without the realm name. When you query for a user that way, only ONE uid attribute appears, basically how it would act if you didn't have domain resolution order set. Fixing this requires you to restart dirsrv.
+Domain Resolution Order Oddness
+'''''''''''''''''''''''''''''''
 
-Where I'm going with this is this: It's *always* better to search or login without the domain name when you have domain resolution order set.
+If using domain resolution order, AD users get double uid attributes - but only if they login with their shortname. If they login with fqdn, double uid's do not occur. But shortnames do not work anymore. Have to restart the directory server to make short names work again.
 
-Another weird thing is this:
+Solaris Weirdness
+'''''''''''''''''
 
-* If you do su - username on a system and run `id`, groups do not appear.
-* If you login (via ssh for example), groups do appear as long as the former wasn't done first (this seems to be intermittent from my tests)
-* After you login via ssh or console, groups will always show with `id` from now on
-
-What's interesting is that if you login with first.last, your name shows up as the fully qualified name, and this is probably how the group membership is applied in some way.
-
-Also, the caveat to all of this is if the directory servers restart, the objects disappear. So be careful when you're logging in or doing `id`. It might cause you some trouble down the road. And *always* try to use first.last when using domain resolution order.
-
-The good news though is sudo and HBAC still work perfectly fine on Solaris (RHEL 5 HBAC, not so much).
+If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not (currently). Groups show fqdn for users, so resolution does not work.
 
 Situational Options
 -------------------
