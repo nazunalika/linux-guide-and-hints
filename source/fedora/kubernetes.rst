@@ -26,7 +26,7 @@ Fortunately, it is quite simple.
    make && make drivers
 
    cp out/minikube $GOBIN
-   cp out/driver-machine-driver-kvm2 $GOBIN
+   cp out/docker-machine-driver-kvm2 $GOBIN
 
 Then simply add ``$GOBIN`` to your path.
 
