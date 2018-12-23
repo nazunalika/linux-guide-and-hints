@@ -23,7 +23,7 @@ Fortunately, it is quite simple.
    # go get will not work here, minikube expects to have a certain directory structure
    git clone https://github.com/kubernetes/minikube.git $GOPATH/src/k8s.io/minikube
    cd $GOPATH/src/k8s.io/minikube
-   make && make driver
+   make && make drivers
 
    cp out/minikube $GOBIN
    cp out/driver-machine-driver-kvm2 $GOBIN
