@@ -4,12 +4,12 @@ mkdir cert && cd cert
 
 ### Create ca.key, use a password phrase when asked
 ### Use "localhost.ssl" for hostname
-openssl genrsa -des3 -out ca.key 1024
+openssl genrsa -aes128 -out ca.key 2048
 openssl req -new -key ca.key -out ca.csr
 openssl x509 -req -days 365 -in ca.csr -out ca.crt -signkey ca.key
 
 ### Create server certificate
-openssl genrsa -des3 -out server.key 1024
+openssl genrsa -aes128 -out server.key 2048
 openssl req -new -key server.key -out server.csr
 
 ### Remove password from the certificate
