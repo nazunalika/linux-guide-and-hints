@@ -116,6 +116,13 @@ html_theme = 'sphinx_rtd_theme'
 # documentation.
 #html_theme_options = {}
 
+html_context = {
+  'display_github': True,
+  'github_user': 'remyabel',
+  'github_repo': 'linux-guide-and-hints',
+  'github_version': 'master/source/'
+}
+
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['themes']
 
