@@ -32,14 +32,18 @@ class HTMLTranslator(BaseTranslator):
                 self.body.append(self.starttag(
                         node, 'div', CLASS=('card-header bg-' + type)))
 
-                title = node.traverse(nodes.paragraph);
+                title = node.traverse(nodes.paragraph)[0];
                 self.body.append("<i class='fa fa-exclamation-circle'></i> " + name.title());
-
-                # node.remove(node.traverse(nodes.paragraph)[0])
 
                 self.body.append("</div>")
                 self.body.append(self.starttag(
                         node, 'div', CLASS=('card-body')))
+                if (len(node.traverse(nodes.paragraph)) > 1):
+                    node.remove(node.traverse(nodes.paragraph)[0])
+                    self.body.append(self.starttag(
+                        node, 'h5', CLASS=('card-title')))
+                    self.body.append(title.astext());
+                    self.body.append('</h5>')
 
         def depart_admonition(self, node=None):
                 self.body.append('</div></div>\n')
