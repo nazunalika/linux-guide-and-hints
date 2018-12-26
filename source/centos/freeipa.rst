@@ -124,7 +124,7 @@ To install the server, make sure the hostname is set to the A records and NS del
    % ipa-server-install --no_hbac_allow --no-ntp --setup-dns  <-- If you want to host NTP from IPA, take off --no-ntp
    . . . (show steps here)
 
-Once this is complete, it's recommended you create an admin account for yourself. Me personally, I like to have a "2" at the end of my login name, that way I have an obvious difference. I don't like my IPA admin account to also be used to login to systems and have full root privileges. I personally believe it's better to have separate admin accounts away from the defaults. But this is ultimately your call.
+Once this is complete, it's recommended you create an admin account for yourself. In this instance, you can append "2" at the end of your login name, that way there is an obvious distinction between what's a 'normal' account (ie desktop user) and an admin account (servers). It is generally frowned upon to have one account that does both. In the case of Active Directory, environments that follow security compliance require their 'domain administrators' to have a separate account from their workstation account.
 
 .. code-block:: bash
    
@@ -203,9 +203,9 @@ You will need to prep your master(s) for the trust. We will be enabling compat, 
 
    % ipa-adtrust-install --add-sids --add-agents --enable-compat
 
-This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps.
+This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.
 
-You will now need to open the necessary ports. Do this on both masters.
+You will now need to open the necessary ports. Do this on all masters.
 
 .. note:: Ports
 
@@ -242,6 +242,26 @@ You should be able to test for the users now.
 
    % id first.last@ad.example.com
    uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
+
+Disable Anonymous Bind
+----------------------
+
+In some cases, it is a requirement to disable *all* anonymous binds. If this is the case, you will need to modify cn=config on each master as it is not replicated.
+
+.. warning:: rootdse
+
+   Some applications do anonymous binds to the directory server to determine its version and it supported controls. While it is possible to disable anonymous binds completely, it is important to know that if you disable the rootdse binds, applications that do anonymous lookups to get server information will fail.
+
+.. code-block:: bash
+   
+   % ldapmodify -xZZ -D "cn=Directory Manager" -W -h server.ipa.example.com
+   Enter LDAP Password:
+   dn: cn=config
+   changetype: modify
+   replace: nsslapd-allow-anonymous-access
+   nsslapd-allow-anonymous-access: rootdse
+
+   modifying entry "cn=config"
 
 Client Setup
 ------------
@@ -615,9 +635,9 @@ This applies to Solaris, Omnios, others based on Illumos.
 Solaris 10
 ++++++++++
 
-Setting up Solaris 10 as an IPA client is... different. In fact, it's a whole kind of different that plagued me for days trying to unravel how to do all of it. So here are the steps I took to make it work.
+Setting up Solaris 10 as an IPA client is interesting in the fact that if you have a trust, things change (like where to look in the directory for users).
 
-Create an ldif for your service account.
+Create an ldif for your service account (optional)
 
 .. code-block:: ldif
 
@@ -719,20 +739,23 @@ Now init the ldap client.
 
 .. warning:: No Secure Connection
 
-   When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on. Kerberos is hit or miss.
+   When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on.
 
 .. note:: AD Trust - Different Trees
 
    If using an AD trust, you should use the second example, where it looks at the compat tree for users.
 
+.. warning:: No Service Account
+
+   If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
+
 .. code-block:: bash
 
-   # Without AD Trust
-   % ldapclient manual -a credentialLevel=proxy \
-                       -a authenticationMethod=simple \
+   # Without AD Trust (no proxy)
+   % ldapclient manual -a authenticationMethod=none \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                       -a domainName=ipa.example.com
-                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
                        -a followReferrals=true \
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
@@ -742,16 +765,32 @@ Now init the ldap client.
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                       -a bindTimeLimit=5 \
-                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                       -a proxyPassword="secret123"
+                       -a bindTimeLimit=5
 
-   # With AD Trust
+   # Without AD Trust (proxy)
    % ldapclient manual -a credentialLevel=proxy \
                        -a authenticationMethod=simple \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123" \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                       -a domainName=ipa.example.com
-                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
+
+   # With AD Trust (no proxy)
+   % ldapclient manual -a authenticationMethod=none \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
                        -a followReferrals=true \
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
@@ -761,9 +800,26 @@ Now init the ldap client.
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                       -a bindTimeLimit=5 \
+                       -a bindTimeLimit=5
+
+   # With AD Trust (proxy)
+   % ldapclient manual -a credentialLevel=proxy \
+                       -a authenticationMethod=simple \
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                       -a proxyPassword="secret123"
+                       -a proxyPassword="secret123" \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
 
 
 This should succeed. Once it succeeds, you need to configure pam and nsswitch. 
@@ -876,7 +932,7 @@ Solaris 11 and Omnios/Illumos
 
 Solaris 11 and Omnios share similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.
 
-Below is a copy of Solaris 10 for the service account, here as a reference.
+Below is for the service account like in the previous section, here as a reference.
 
 .. code-block:: ldif
 
@@ -991,14 +1047,17 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
 
    If using an AD trust, you should use the second example, where it looks at the compat tree for users.
 
+.. warning:: No Service Account
+
+   If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
+
 .. code-block:: bash
 
-   # Without AD Trust
-   % ldapclient manual -a credentialLevel=proxy \
-                       -a authenticationMethod=tls:simple \
+   # Without AD Trust (no proxy)
+   % ldapclient manual -a authenticationMethod=tls:simple \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
                        -a domainName=ipa.example.com
-                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
                        -a followReferrals=true \
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
@@ -1008,16 +1067,16 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                       -a bindTimeLimit=5 \
-                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                       -a proxyPassword="secret123"
+                       -a bindTimeLimit=5
 
-   # With AD Trust
-   % ldapclient manual -a credentialLevel=proxy \
-                       -a authenticationMethod=tls:simple \
+   # Without AD Trust (proxy)
+   % ldapclient manual -a authenticationMethod=tls:simple \
+                       -a credentialLevel=proxy \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123" \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                       -a domainName=ipa.example.com
-                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com"
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
                        -a followReferrals=true \
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
@@ -1027,9 +1086,42 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                       -a bindTimeLimit=5 \
+                       -a bindTimeLimit=5
+
+   # With AD Trust (no proxy)
+   % ldapclient manual -a authenticationMethod=tls:simple \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
+
+   # With AD Trust (proxy)
+   % ldapclient manual -a authenticationMethod=tls:simple \
+                       -a credentialLevel=proxy \
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                       -a proxyPassword="secret123"
+                       -a proxyPassword="secret123" \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
 
 This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
