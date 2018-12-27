@@ -1270,7 +1270,7 @@ pam_hbac.conf
 
    # Replace client with your server's FQDN
    URI = ldap://server.ipa.example.com
-   BASE = dc=ipa,dc=chotel,dc=com
+   BASE = dc=ipa,dc=example,dc=com
    BIND_DN = uid=hbac,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
    BIND_PW = password
    SSL_PATH = /var/ldap
