@@ -14,6 +14,8 @@ Fortunately, it is quite simple.
 
 .. code-block:: bash
 
+   #!/bin/bash
+
    # libvirt-devel is required for building docker-machine-driver-kvm2
    sudo dnf install glibc-static libvirt-devel
 
@@ -21,8 +23,14 @@ Fortunately, it is quite simple.
    export GOBIN=$GOPATH/bin
 
    # go get will not work here, minikube expects to have a certain directory structure
-   git clone https://github.com/kubernetes/minikube.git $GOPATH/src/k8s.io/minikube
+   if [ -n "$(find $GOPATH/src/k8s.io/minikube -maxdepth 0 -empty)" ]
+   then
+       git clone https://github.com/kubernetes/minikube.git $GOPATH/src/k8s.io/minikube
+   fi
    cd $GOPATH/src/k8s.io/minikube
+   git checkout -- .
+   git checkout $(git describe --abbrev=0 --tags)
+   make clean
    make && make drivers
 
    cp out/minikube $GOBIN
