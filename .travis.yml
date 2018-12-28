@@ -12,7 +12,6 @@ script:
 - make html SPHINXOPTS=-Ea
 - grunt build
 - touch build/html/.nojekyll
-- cp keybase.txt build/html
 
 deploy:
     provider: pages
