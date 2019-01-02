@@ -195,7 +195,13 @@ DirectX11 games
 ---------------
 
 If you are having rendering issues in D3D11 games (such as black screens/textures), then you may need to use `DXVK <https://github.com/doitsujin/dxvk>`_, a Vulkan-based
-D3D11 implementation. In order to compile it, you need to install the following dependencies:
+D3D11 implementation. There are three ways of obtaining it. You can either use `Winetricks <https://github.com/Winetricks/winetricks>`_, download the latest `binary release <https://github.com/doitsujin/dxvk/releases>`_ or attempt to compile it.
+
+.. note::
+
+   DXVK will fail to compile for F29 until the MinGW headers are updated.
+
+In order to compile it, you need to install the following dependencies:
 
 .. code-block:: bash
 
@@ -216,7 +222,7 @@ It's important that you install the static packages for pthreads or the compilat
    ninja install
 
 But add ``-Denable_tests=true`` in order to build the demo programs. Finally, you need a copy of ``d3dcompiler_47.dll`` which you can get from the redist of certain programs,
-such as `this one <https://raw.githubusercontent.com/ImagingSIMS/ImagingSIMS/master/Redist/x64/d3dcompiler_47.dll>`_.
+such as `this one <https://raw.githubusercontent.com/ImagingSIMS/ImagingSIMS/master/Redist/x64/d3dcompiler_47.dll>`_ (or use winetricks).
 
 When launching the program, use the following overrides:
 
@@ -233,9 +239,9 @@ Once that's done, locate the Proton directory. It will look something like ``ste
 
 .. code-block:: bash
 
-   env PROTON_NO_ESYNC=1 PROTON_DUMP_DEBUG_COMMANDS=1 STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
+   env PROTON_DUMP_DEBUG_COMMANDS=1 STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
 
-``$APP_ID`` will be the value of whatever game you installed with Steam Play.
+``$APP_ID`` will be the value of whatever game you installed with Steam Play. For a performance boost, you should **not** disable ``ESYNC``. This will require that you `change your ulimit <https://github.com/lutris/lutris/wiki/How-to:-Esync>`_. If you cannot get that working, then set the ``PROTON_NO_ESYNC=1`` environment variable.
 
 .. note::
 
