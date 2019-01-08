@@ -1014,7 +1014,7 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
 
 .. note:: Solaris 11.3 vs 11.4
 
-   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems. Omnios may require a different configuration. Test 11.3 and 11.4 to verify this.
+   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems. Omnios may require a different configuration. Test 11.3 and 11.4 to verify this. You can enable sudoers debug to assist.
 
 
 .. code-block:: bash
@@ -1239,9 +1239,6 @@ Solaris 11
 .. code-block:: bash
 
    % pkg install autoconf libtool pkg-config automake gcc docbook
-   % export CFLAGS="-m32 -gstabs"
-   % export CXXFLAGS="-m32"
-   % export LDFLAGS="-m32"
    % autoreconf -if
    % ./configure --with-pammoddir=/usr/lib/security --mandir=/usr/share/man --sysconfdir=/etc/
    % make
