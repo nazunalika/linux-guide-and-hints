@@ -47,6 +47,8 @@ If you are using the GOG version, it already comes prepatched with 4GB support.
   - nvcuda (native, built-in). To allow Physx to work
   - gameoverlayrenderer (disabled). To prevent crashing. Already done if you installed Steam
 
+If you enable the ``nvcuda`` override, you must install ``nvidia-driver-cuda-libs.i686``.
+
 That's all you need to run the game. Anything else is your discretion though I
 wouldn't install or change anything else unless you're certain it's related to
 crashing or performance.
