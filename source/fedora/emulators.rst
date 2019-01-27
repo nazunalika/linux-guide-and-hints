@@ -514,3 +514,50 @@ but here is a `youtube video
 managed to get it to work (again, no instructions). If you want to try it yourself, you need to
 go to ``File`` > ``New multiplayer window`` rather than running two
 instances of the emulator.
+
+Kega Fusion
+-----------
+
+Dependencies
+************
+
+To get Kega to run on Fedora, install the following dependencies:
+
+.. code-block:: bash
+
+   dnf install alsa-plugins-pulseaudio.i686 mesa-dri-drivers.i686 mesa-libGLU.i686 gtk2.i686 alsa-lib.i686 libSM.i686
+
+Configuration
+*************
+
+The following assumes a new install.
+
+.. code-block:: bash
+
+   # Fresh configuration, skip if you already have one
+   % mkdir ~/.Kega\ Fusion
+   % cat > ~/.Kega\ Fusion/Fusion.ini <<EOF
+   ALSADeviceName=default
+   libmpg123path=/usr/lib/libmpg123.so.0
+   EOF
+
+   # Make a desktop file
+   % mkdir -p ~/.local/share/icons/hicolor/256x256
+   % wget -q -O ~/.local/share/icons/hicolor/256x256/kega-fusion.png http://trya.alwaysdata.net/linux/icons/kega-fusion.png
+   % cat > ~/.local/share/applications/Fusion.desktop <<EOF
+   [Desktop Entry]
+   Version=1.0
+   Type=Application
+   Exec=/home/username/Games/Fusion/Fusion
+   
+   Name=Kega Fusion
+   GenericName=Sega Emulator
+   Comment=Sega Emulator
+   Icon=kega-fusion
+
+   Categories=Game;Emulator;
+
+No Sound?
+*********
+
+Make sure all dependencies are met above. If you've already installed them and still have no sound and you already have a Fusion.ini file (meaning you've ran it once before), change ALSADeviceName to 'default' in Fusion.ini, open Kega, click 'Sound' and click 'Disable Sound' and ensure the checkmark goes away.
