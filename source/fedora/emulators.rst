@@ -540,7 +540,6 @@ The following assumes a new install.
    ALSADeviceName=default
    libmpg123path=/usr/lib/libmpg123.so.0
    EOF
-
    # Make a desktop file
    % mkdir -p ~/.local/share/icons/hicolor/256x256
    % wget -q -O ~/.local/share/icons/hicolor/256x256/kega-fusion.png http://trya.alwaysdata.net/linux/icons/kega-fusion.png
@@ -549,13 +548,12 @@ The following assumes a new install.
    Version=1.0
    Type=Application
    Exec=/home/username/Games/Fusion/Fusion
-   
    Name=Kega Fusion
    GenericName=Sega Emulator
    Comment=Sega Emulator
    Icon=kega-fusion
-
    Categories=Game;Emulator;
+
 
 No Sound?
 *********
