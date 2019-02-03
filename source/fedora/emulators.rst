@@ -536,14 +536,14 @@ The following assumes a new install.
 
    # Fresh configuration, skip if you already have one
    % mkdir ~/.Kega\ Fusion
-   % cat > ~/.Kega\ Fusion/Fusion.ini <<EOF
+   % cat &gt; ~/.Kega\ Fusion/Fusion.ini &lt;&lt;EOF
    ALSADeviceName=default
    libmpg123path=/usr/lib/libmpg123.so.0
    EOF
    # Make a desktop file
    % mkdir -p ~/.local/share/icons/hicolor/256x256
    % wget -q -O ~/.local/share/icons/hicolor/256x256/kega-fusion.png http://trya.alwaysdata.net/linux/icons/kega-fusion.png
-   % cat > ~/.local/share/applications/Fusion.desktop <<EOF
+   % cat &gt; ~/.local/share/applications/Fusion.desktop &lt;&lt;EOF
    [Desktop Entry]
    Version=1.0
    Type=Application
