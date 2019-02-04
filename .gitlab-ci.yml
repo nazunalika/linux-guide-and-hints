@@ -2,7 +2,7 @@ image: node:alpine
 
 pages:
   script:
-  - apk --no-cache add py2-pip python-dev libc6-compat
+  - apk --no-cache add py2-pip python-dev python libc6-compat build-base automake
   - pip install sphinx
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
   - npm install
