@@ -2,10 +2,11 @@ image: alpine
 
 pages:
   script:
-  - apk --no-cache add py2-pip python-dev
+  - apk --no-cache add py2-pip python-dev npm
   - pip install sphinx
   - apk --no-cache add make
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
+  - npm install
   - make html SPHINXOPTS=-Ea
   - grunt build
   - mv build/html/ public/
