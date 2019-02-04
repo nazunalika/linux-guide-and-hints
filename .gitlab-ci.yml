@@ -2,7 +2,7 @@ image: alpine
 
 pages:
   script:
-  - apk --no-cache add py2-pip python-dev npm
+  - apk --no-cache add py2-pip python-dev npm build-base gcc
   - pip install sphinx
   - apk --no-cache add make
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
