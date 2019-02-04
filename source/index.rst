@@ -16,10 +16,6 @@ packages and system administration in |Fedora| and |CentOS|.
 .. |CentOS| replace:: CentOS\ :sup:`®`
 
 .. toctree::
-
-   xdg
-
-.. toctree::
   :maxdepth: 4
   :caption: Gentoo
   :glob:
