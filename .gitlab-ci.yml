@@ -1,10 +1,9 @@
-image: alpine
+image: node:alpine
 
 pages:
   script:
-  - apk --no-cache add py2-pip python-dev npm build-base gcc
+  - apk --no-cache add py2-pip python-dev libc6-compat
   - pip install sphinx
-  - apk --no-cache add make
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
   - npm install
   - make html SPHINXOPTS=-Ea
