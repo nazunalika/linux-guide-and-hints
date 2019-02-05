@@ -6,8 +6,8 @@
 Linux Guide and Hints
 =====================
 
-The source code for this page can be found on `Github
-<https://github.com/remyabel/linux-guide-and-hints>`_.
+The source code for this page can be found on `GitLab
+<https://gitlab.com/remyabel/linux-guide-and-hints>`_.
 
 This page contains tutorials and generally useful information regarding
 packages and system administration in |Fedora| and |CentOS|.
