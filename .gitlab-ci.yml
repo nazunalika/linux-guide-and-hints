@@ -5,7 +5,9 @@ pages:
   - apk --no-cache add py2-pip python-dev python libc6-compat build-base automake autoconf
   - pip install sphinx
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
+  - npm install
   - make html SPHINXOPTS=-Ea
+  - grunt build
   - mv build/html/ public/
   artifacts:
     paths:
