@@ -247,4 +247,8 @@ Once that's done, locate the Proton directory. It will look something like ``ste
 
 .. note::
 
+   The latest version of systemd has upped the hard limit to 524288, but the soft limit remains at 1024. However, when you start a game with Proton, the process should automatically up the soft limit as required.    So you do not need to change anything. You can verify the ulimit of any process with ``prlimit --pidof=...``.
+
+.. note::
+
    Compatibility data for each game will be different, so there is no guarantee that it will work for whatever particular non-steam game you are trying to play.
