@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Linux Guide and Hints'
-copyright = u'2018, remyabel, nazunalika'
+copyright = u'2019, remyabel, nazunalika'
 author = u'remyabel, nazunalika'
 
 # The version info for the project you're documenting, acts as replacement for
