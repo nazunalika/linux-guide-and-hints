@@ -48,11 +48,6 @@ KeePassHttp no longer works
 
 If you were using `keepasshttp-connector <https://github.com/smorks/keepasshttp-connector>`_ it is now deprecated in favor of `keepassxc-browser <https://github.com/keepassxreboot/keepassxc-browser>`_. Install smorks' `keepassnatmsg <https://github.com/smorks/keepassnatmsg>`_ plugin for compatibility with normal KeePass (instead of KeePassXC).
 
-``lm_sensors`` doesn't give detailed information
-------------------------------------------------
-
-The latest release of ``lm_sensors`` is 3.4.0, which is 3 years old and what is shipped in the Fedora repositories. However, it's still actively maintained on `Github <https://github.com/groeck/lm-sensors>`_.
-
 Firefox glitchy UI when using custom GTK theme
 ----------------------------------------------
 
