@@ -63,3 +63,8 @@ Disable TCP/IP and use sockets for MySQL
 ----------------------------------------
 
 On Linux, MySQL will create a socket in a location defined by the ``socket`` variable found in ``/etc/my.cnf``. For example, the value may be ``/usr/lib/mysql/mysql.sock``. However, by default, it will still listen on a TCP port, which may be undesirable if you don't plan on exposing your server to the Internet. Simply add ``skip-networking`` to ``/etc/my.cnf``.
+
+SELinux is preventing ``abrt-action-sav`` from write access on the directory /var/lib/rpm
+-----------------------------------------------------------------------------------------
+
+If you are receiving this error or a similar one involving ``dbenv.lock``, it means that your ``/var/lib/rpm`` directory has the wrong SELinux contexts applied to it. Verify this with ``ls -alZ /var/lib/rpm/``. You should see files/directories with the ``var_lib_t`` rather than ``rpm_var_lib_t`` label. This may be the result of `bug #1461313 <https://bugzilla.redhat.com/show_bug.cgi?id=1461313>`_ where running ``rpm --rebuilddb`` will set the wrong context on the entire directory. Fix it by running ``sudo restorecon -rv /var/lib/rpm``.
