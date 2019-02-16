@@ -33,11 +33,6 @@ Two use-cases for this are updating vim plugins or golang packages. `Zarat <http
 
 If you are using the Fish shell, you need to quote the brackets, `'{}'`. See `issue #95 <https://github.com/fish-shell/fish-shell/issues/95>`_.
 
-Firefox redirects me to a website if I type an invalid URL
-----------------------------------------------------------
-
-Example, you type ``firefox build/html/fedora/gcc.rst`` (where gcc.rst doesn't exist) and it opens up ``build.com/...``. Go to ``about:config`` and set ``browser.fixup.alternate.enabled`` to ``false``.
-
 YouCompleteMe crashes due to ``libtinfo.so`` version mismatch
 -------------------------------------------------------------
 
@@ -47,17 +42,6 @@ KeePassHttp no longer works
 ---------------------------
 
 If you were using `keepasshttp-connector <https://github.com/smorks/keepasshttp-connector>`_ it is now deprecated in favor of `keepassxc-browser <https://github.com/keepassxreboot/keepassxc-browser>`_. Install smorks' `keepassnatmsg <https://github.com/smorks/keepassnatmsg>`_ plugin for compatibility with normal KeePass (instead of KeePassXC).
-
-Firefox glitchy UI when using custom GTK theme
-----------------------------------------------
-
-If you are using a custom GTK theme for your window manager, you need to instruct Firefox to use the default theme. On XFCE, this will be something like:
-
-.. code-block:: bash
-
-   env GTK_THEME=Adwaita:light firefox
-
-If that's inconvenient, you can add the change to Firefox directly. Go to ``about:config`` and add a new key called ``widget.content.gtk-theme-override``. Set the value to ``Adwaita:light`` or whatever you prefer.
 
 Disable TCP/IP and use sockets for MySQL
 ----------------------------------------
