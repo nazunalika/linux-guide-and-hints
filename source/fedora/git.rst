@@ -35,11 +35,14 @@ GPG
 
 This summarizes the information from `Github Help <https://help.github.com/articles/signing-commits-with-gpg/>`_.
 
-* List your keys with ``gpg --list-keys``.
+* List your keys with ``gpg2 --list-keys``.
 * Configure your git signing key with ``git config --global user.signingkey <key>``.
-* Run ``gpg --armor --export <key>`` and add the key to your Github account.
+* Run ``gpg2 --armor --export <key>`` and add the key to your Github account.
 * Sign commits with ``git commit -S <...>``
 * ``git-bump`` will sign tags automatically.
+
+Note that ``gpg2`` and ``gpg`` are not interchangeable. If you decide to use ``gpg2``, you can tell git to use it with
+``git config --global gpg.program gpg2``.
 
 Ensure that your name and e-mail address match the Github account you're adding the key to.
 
