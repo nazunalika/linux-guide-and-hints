@@ -169,7 +169,7 @@ In order to reduce stuttering when using ENB, modify ``enblocal.ini`` like so:
 
 These options either should not be set to true (except in rare or for debugging cases) or are designed to reduce memory footprint at a significant cost
 to performance. ``ReservedMemorySizeMb`` should be a small value in multiples of ``128`` and ``VideoMemorySizeMb`` should be set to whatever the ENB
-``VRam size tool <http://enbdev.com/download_vramsizetest.htm>`` gives you minus 170~. While this may not necessarily improve FPS, it will get rid of stuttering,
+`VRam size tool <http://enbdev.com/download_vramsizetest.htm>`_ gives you minus 170~. While this may not necessarily improve FPS, it will get rid of stuttering,
 particularly when turning or opening the pipboy. Finally, if you are having transparency issues (i.e, in Camp Golf) set ``FixTransparencyBugs=false``.
 
 GMDX
