@@ -46,6 +46,19 @@ Note that ``gpg2`` and ``gpg`` are not interchangeable. If you decide to use ``g
 
 Ensure that your name and e-mail address match the Github account you're adding the key to.
 
+`gpg-agent` requires that you set `GPG_TTY`. For bash, this would look like:
+
+.. code-block:: bash
+
+   GPG_TTY=$(tty)
+   export GPG_TTY
+
+For fish:
+
+.. code-block:: bash
+
+   set -gx GPG_TTY (tty)
+
 Workflow
 --------
 
