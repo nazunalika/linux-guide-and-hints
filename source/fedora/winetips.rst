@@ -93,10 +93,6 @@ Mod Organizer
 While .NET is not required to run MO itself, it is required for the scripted installers. Mods will not install
 properly if their scripted installers don't run, even if you don't "require" them.
 
-.. note::
-
-    .NET installation via ``winetricks`` seems to be broken at the moment. See `issue #810 <https://github.com/Winetricks/winetricks/issues/810>`_.
-
 .. warning::
 
     Mod Organizer seems to be broken at the moment. See this `wine bug report <https://bugs.winehq.org/show_bug.cgi?id=44880>`_.
