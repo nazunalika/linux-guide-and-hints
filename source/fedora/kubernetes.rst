@@ -23,7 +23,7 @@ Fortunately, it is quite simple.
    export GOBIN=$GOPATH/bin
 
    # go get will not work here, minikube expects to have a certain directory structure
-   if [ -n "$(find $GOPATH/src/k8s.io/minikube -maxdepth 0 -empty)" ]
+   if [[ ! -d "$GOPATH/src/k8s.io/minikube" ]];
    then
        git clone https://github.com/kubernetes/minikube.git $GOPATH/src/k8s.io/minikube
    fi
