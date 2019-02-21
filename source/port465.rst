@@ -1,15 +1,14 @@
 Is port 465 deprecated?
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-**No**. Some sources like `Debian's guide on Gmail and Exim4
+No. Some sources like `Debian's guide on Gmail and Exim4
 <https://wiki.debian.org/GmailAndExim4>`_ and the StackOverflow question `What
 is the difference between ports 465 and 587?
 <https://stackoverflow.com/questions/15796530/what-is-the-difference-between-ports-465-and-587/19942206#19942206>`_
-claim that port 465 is deprecated, however, that is not the case. RFC 8314
-entitled `Cleartext Considered Obsolete: Use of Transport Layer Security (TLS)
-for Email Submission and Access <https://tools.ietf.org/html/rfc8314>`_
-recommends that you use port 465 with implicit TLS **instead of** STARTTLS on
-port 587:
+claim that port 465 is deprecated. RFC 8314 entitled `Cleartext Considered
+Obsolete: Use of Transport Layer Security (TLS) for Email Submission and Access
+<https://tools.ietf.org/html/rfc8314>`_ recommends that you use port 465 with
+implicit TLS instead of STARTTLS on port 587:
 
    In brief, this memo now recommends that:
 
@@ -37,9 +36,10 @@ More specifically:
    consistency as well as for the additional reasons discussed in
    Appendix A.
 
-However, some have conflated SMTPS with implicit TLS on port 465, which is not
-the same thing. In particular, section 7.3 of RFC 8314 explains that SMTPS was
-briefly assigned to port 465 and subsequently revoked:
+However, some have conflated `SMTPS <https://en.wikipedia.org/wiki/SMTPS>`_
+with implicit TLS on port 465, which is not the same thing. In particular,
+section 7.3 of RFC 8314 explains that SMTPS was briefly assigned to port 465
+and subsequently revoked:
 
    ...
 
@@ -52,12 +52,11 @@ briefly assigned to port 465 and subsequently revoked:
    Although STARTTLS on port 587 has been deployed, it has not replaced the
    deployed use of Implicit TLS submission on port 465.
 
-Again, "Implicit TLS submission" which is defined in section 3 is **not** the
-same as `SMTPS <https://en.wikipedia.org/wiki/SMTPS>`_ and you **should** use
-port 465 over port 587 if possible. Another point of confusion is the use of
-SSL on port 465. As a result, you'll find many resources on the Internet
-claiming not to use port 465. It is true that you should prefer TLS over SSL,
-but port 465 is not in any shape or form deprecated.
+To reiterate, "Implicit TLS submission" which is defined in section 3 is not
+the same as SMTPS and you should use port 465 over port 587 if possible.
+Another point of confusion is the use of SSL on port 465. As a result, you'll
+find many resources on the Internet claiming not to use port 465. It is true
+that you should prefer TLS over SSL, but port 465 is deprecated.
 
 .. note:
 
