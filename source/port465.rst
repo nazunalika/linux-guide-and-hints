@@ -68,5 +68,5 @@ that you should prefer TLS over SSL, but port 465 is not deprecated.
       are configured to require successful negotiation of TLS prior to
       Message Submission.
 
-  The key phrase here being "require successful negotation". If STARTTLS is not
-  configured this way, then it is less secure than Implicit TLS.
+   The key phrase here being "require successful negotation". If STARTTLS is not
+   configured this way, then it is less secure than Implicit TLS.
