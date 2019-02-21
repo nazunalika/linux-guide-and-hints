@@ -56,9 +56,9 @@ To reiterate, "Implicit TLS submission" which is defined in section 3 is not
 the same as SMTPS and you should use port 465 over port 587 if possible.
 Another point of confusion is the use of SSL on port 465. As a result, you'll
 find many resources on the Internet claiming not to use port 465. It is true
-that you should prefer TLS over SSL, but port 465 is deprecated.
+that you should prefer TLS over SSL, but port 465 is not deprecated.
 
-.. note:
+.. note::
 
    The RFC also states:
 
