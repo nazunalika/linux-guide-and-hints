@@ -52,16 +52,3 @@ SELinux is preventing ``abrt-action-sav`` from write access on the directory /va
 -----------------------------------------------------------------------------------------
 
 If you are receiving this error or a similar one involving ``dbenv.lock``, it means that your ``/var/lib/rpm`` directory has the wrong SELinux contexts applied to it. Verify this with ``ls -alZ /var/lib/rpm/``. You should see files/directories with the ``var_lib_t`` rather than ``rpm_var_lib_t`` label. This may be the result of `bug #1461313 <https://bugzilla.redhat.com/show_bug.cgi?id=1461313>`_ where running ``rpm --rebuilddb`` will set the wrong context on the entire directory. Fix it by running ``sudo restorecon -rv /var/lib/rpm``.
-
-Duplicity says decryption failed when using GPG
------------------------------------------------
-
-.. note::
-
-   TODO: more research needed.
-
-By default, Duplicity uses pinentry in order to prompt for the password. If for whatever reason this is failing, you can instruct it to connect to the GPG agent by specifying ``--use-agent``, i.e:
-
-.. code-block:: bash
-
-   duplicity --use-agent --gpg-binary='gpg2' --encrypt-sign-key your-key
