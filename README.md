@@ -2,6 +2,8 @@
 
 If you are viewing this on GitHub, this is only a mirror. Please visit [GitLab](https://gitlab.com/remyabel/linux-guide-and-hints).
 
+[![builds.sr.ht status](https://builds.sr.ht/~remyabel.svg)](https://builds.sr.ht/~remyabel?)
+
 The website is live at https://www.linuxguideandhints.com
 
 ### Dependencies
