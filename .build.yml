@@ -12,10 +12,14 @@ sources:
     - https://git.sr.ht/~remyabel/linux-guide-and-hints
 tasks:
     - setup: |
+        cd linux-guide-and-hints
         mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
         pip3 install -U --user sphinx
         npm install --save grunt
         npm install
     - build: |
+        cd linux-guide-and-hints
+        PATH=/home/build/.local/bin:$PATH
+        export PATH
         make html SPHINXOPTS=-Ea
         ./node_modules/grunt/bin/grunt build
