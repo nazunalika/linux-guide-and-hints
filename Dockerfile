@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM alpine:edge AS builder
 
 WORKDIR /app
 
@@ -9,7 +9,8 @@ RUN apk --no-cache add \
     libc6-compat \
     build-base \
     automake \
-    autoconf
+    autoconf \
+    npm
 RUN mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
 RUN pip3 install -U sphinx
 RUN npm install -g grunt
@@ -18,7 +19,7 @@ RUN npm install
 RUN make html SPHINXOPTS=-Ea
 RUN grunt build
 
-FROM node:alpine
+FROM alpine:edge
 
 WORKDIR /app
 
