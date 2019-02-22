@@ -14,31 +14,9 @@ RPMFusion (which is not compatible anyway). A few notes:
 The :doc:`fedora/negativo` article contains more information. This
 script will get you off your feet (adapted from `Louis' script <https://github.com/nazunalika/useful-scripts/blob/master/fedora/fedora-desk.sh>`_):
 
-.. code-block:: bash
+.. raw:: html
 
-   #!/bin/bash
-   if [[ $UID != 0 ]]; then
-       echo "Not root."
-       exit
-    fi
-
-    dnf config-manager --add-repo=http://negativo17.org/repos/fedora-multimedia.repo
-
-    # We explicitly list out the packages here because gstreamer1-*
-    # will pull in upstream packages that creates conflicts
-    dnf install gstreamer1-plugins-bad gstreamer1-plugins-ugly gstreamer1-plugins-bad-fluidsynth gstreamer1-libav
-    dnf install mozilla-openh264
-    dnf install vlc
-
-    dnf install ffmpeg mpg123
-
-    # kernel-devel needs to be explicitly listed to avoid pulling in the debug package
-    dnf install nvidia-settings kernel-devel vulkan-loader.i686 nvidia-driver-libs.i686
-    # You can choose dkms-nvidia if you prefer
-    dnf install akmod-nvidia
-
-    dnf clean all
-    dnf --refresh upgrade
+   <script src="https://gist.github.com/remyabel/bbebf3043860abe24a19bf0b1d67bd33.js"></script>
 
 Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the
 :doc:`fedora/pulseaudio` articles on troubleshooting tips.
