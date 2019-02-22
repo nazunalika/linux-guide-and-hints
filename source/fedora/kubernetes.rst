@@ -12,29 +12,9 @@ from the Internet and compile from source instead.
 
 Fortunately, it is quite simple.
 
-.. code-block:: bash
+.. raw:: html
 
-   #!/bin/bash
-
-   # libvirt-devel is required for building docker-machine-driver-kvm2
-   sudo dnf install glibc-static libvirt-devel
-
-   export GOPATH=$(go env GOPATH)
-   export GOBIN=$GOPATH/bin
-
-   # go get will not work here, minikube expects to have a certain directory structure
-   if [[ ! -d "$GOPATH/src/k8s.io/minikube" ]];
-   then
-       git clone https://github.com/kubernetes/minikube.git $GOPATH/src/k8s.io/minikube
-   fi
-   cd $GOPATH/src/k8s.io/minikube
-   git checkout -- .
-   git checkout $(git describe --abbrev=0 --tags)
-   make clean
-   make && make drivers
-
-   cp out/minikube $GOBIN
-   cp out/docker-machine-driver-kvm2 $GOBIN
+   <script src="https://gist.github.com/remyabel/e9c33b830da73768fe6ea2363fc27e1a.js"></script>
 
 Then simply add ``$GOBIN`` to your path.
 
