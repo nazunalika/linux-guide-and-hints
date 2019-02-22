@@ -2,8 +2,6 @@
 
 If you are viewing this on GitHub, this is only a mirror. Please visit [GitLab](https://gitlab.com/remyabel/linux-guide-and-hints).
 
-[![Build Status](https://travis-ci.org/remyabel/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/remyabel/linux-guide-and-hints)
-
 The website is live at https://www.linuxguideandhints.com
 
 ### Dependencies

@@ -25,11 +25,6 @@ slightly trickier. Ensure that your Cloudflare settings look like the following.
 The reason you enable the HTTP proxy for the CNAME is to allow Cloudflare's page rules to work. Without it, ``example.com`` (without
 the www subdomain) does not resolve correctly and the HTTP -> HTTPS redirect does not work.
 
-Travis CI
----------
-
-To skip a build, add ``[ci skip]`` to the commit message. Tags (i.e, created by ``git-bump``) are skipped automatically.
-
 GPG
 ---
 
