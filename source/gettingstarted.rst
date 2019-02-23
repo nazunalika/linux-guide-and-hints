@@ -29,8 +29,9 @@ or at least leave it on "Ask to Activate". Fortunately, it seems most of the web
 Flash in favor of moving to HTML5 for web players. I haven't had to activate Flash in a long
 time.
 
-Again, negativo17 provides Steam. However, if you have any games that are Window only,
-you need to download Steam via Wine and install the games that way.
+Again, negativo17 provides Steam. However, if you have any games that are
+Window only, you need to download Steam via Wine and install the games that way
+or use Proton. See the :doc:`fedora/winetips` article for more information.
 
 Finally, to ensure that Negativo's repo takes precedence over RPMFusion, edit ``/etc/yum.repos.d/fedora-multimedia.repo``
 and add ``priority=1`` under ``[fedora-multimedia]``.
