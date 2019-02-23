@@ -39,16 +39,45 @@ Then reload the GPG agent (either ``echo RELOADAGENT | gpg-connect-agent`` or
 Unattended backups
 ------------------
 
-It goes without saying that you should set up a cron job for your backup. However,
-two commands you may find useful are ``flock`` and ``systemd-inhibit``. ``flock`` will
-allow you to prevent cron jobs from overlapping. i.e,
+.. note::
+
+    If you intend to use systemd, it cannot be used within a (user) cron tab. It can only
+    run within a login session or be run as root.
+
+However, two commands you may find useful are ``flock`` and
+``systemd-inhibit``. ``flock`` will allow you to prevent jobs from overlapping. You can also
+wake up the system by writing a systemd unit and using the ``WakeSystem`` property. Example:
 
 .. code-block:: bash
 
-    0 23 1 * * /usr/bin/systemd-inhibit /usr/bin/flock -w 0 /path/to/cron.lock # ...
-    0 23 * * 0 /usr/bin/systemd-inhibit /usr/bin/flock -w 0 /path/to/cron.lock # ...
+    [Unit]
+    Description=Weekly backup
 
-This ensures that if there's a conflict, the monthly (i.e, full backup) job will take
+    [Timer]
+    Unit=weekly_backup.service
+    OnCalendar=Sun 23:00:00 EST
+    WakeSystem=true
+
+    [Install]
+    WantedBy=multi-user.target
+
+And the corresponding service file:
+
+.. code-block:: bash
+
+    [Unit]
+    Description=Weekly backup
+
+    [Service]
+    Type=oneshot
+    ExecStart=/bin/systemd-inhibit /bin/su -c "/usr/bin/flock -w 0 /path/to/cron.lock # ...
+
+Read ``man systemd.time`` for what format ``OnCalendar`` takes. You can verify
+the time format is correct by using ``systemd calendar``. Since ``WakeSystem``
+requires privileges, this cannot be a per-user unit. So place them inside
+``/etc/systemd/system``.
+
+``flock`` ensures that if there's a conflict, the monthly (i.e, full backup) job will take
 precedence. You can run ``fuser -v /path/to/cron.lock`` to see what processes are holding
 a lock.
 
