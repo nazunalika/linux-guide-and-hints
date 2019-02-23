@@ -72,6 +72,11 @@ And the corresponding service file:
     Type=oneshot
     ExecStart=/bin/systemd-inhibit /bin/su -c "/usr/bin/flock -w 0 /path/to/cron.lock # ...
 
+.. note::
+
+    The service files should **not** have an [Install] section. When you enable the units,
+    only enable the timers.
+
 Read ``man systemd.time`` for what format ``OnCalendar`` takes. You can verify
 the time format is correct by using ``systemd calendar``. Since ``WakeSystem``
 requires privileges, this cannot be a per-user unit. So place them inside
