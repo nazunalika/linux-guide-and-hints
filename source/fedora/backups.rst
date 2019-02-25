@@ -36,6 +36,65 @@ cached so that you can run the backups unattended. Add these to your
 Then reload the GPG agent (either ``echo RELOADAGENT | gpg-connect-agent`` or
 ``gpgconf --kill gpg-agent``).
 
+Keychain
+--------
+
+`Keychain <https://github.com/funtoo/keychain>`_ is a front-end for
+``ssh-agent`` and ``gpg-agent``. It will cache your keys and export environment
+variables (``SSH_AUTH_SOCK``, etc.) that can be sourced for non-interactive
+scripts like crontabs. At the time of writing, Fedora ships version 2.8.0,
+which is too old for our purposes. The latest version at the time of writing
+(2.8.5) allows us to use GPG2. Since it's just a shell script, installation is
+simple:
+
+.. code-block:: bash
+
+    git clone git@github.com:funtoo/keychain.git
+    cd keychain && make
+    cp keychain ~/.local/bin/
+
+Unless specified, Keychain will not start ``gpg-agent`` nor use ``gpg2``. Further,
+you need to explicitly specify which keys to use (i.e, ``id_rsa``). You will also need
+to invoke Keychain from your shell startup scripts. For Bash, this will look like:
+
+.. code-block:: bash
+
+    # Environment variables automatically sourced, no need to do it manually here
+    eval `keychain --agents gpg,ssh --gpg2 --eval id_rsa some_gpg_key_id`
+
+For Fish:
+
+.. code-block:: fish
+
+    if status is-login
+        keychain --agents gpg,ssh --gpg2 --eval id_rsa some_gpg_key_id
+    end
+
+    if test -f ~/.keychain/(hostname)-gpg-fish
+        source ~/.keychain/(hostname)-gpg-fish
+    end
+
+    if test -f ~/.keychain/(hostname)-fish
+        source ~/.keychain/(hostname)-fish
+    end
+
+.. note::
+
+    At the time of writing the Fish example in the man Keychain page is broken.
+    This example was pulled from `issue #4583
+    <https://github.com/fish-shell/fish-shell/issues/4583>`_ in the Fish issue
+    tracker.
+
+Finally, add this to the top of your cron jobs:
+
+.. code-block:: bash
+
+    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
+    [ -f $HOME/.keychain/$HOSTNAME-sh ] && \
+        . $HOME/.keychain/$HOSTNAME-sh 2>/dev/null
+    [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] && \
+        . $HOME/.keychain/$HOSTNAME-sh-gpg 2>/dev/null
+
 Unattended backups
 ------------------
 
