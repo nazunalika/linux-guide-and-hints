@@ -66,7 +66,7 @@ For Fish:
 
 .. code-block:: fish
 
-    if status is-login
+    if status --is-interactive
         keychain --agents gpg,ssh --gpg2 --eval id_rsa some_gpg_key_id
     end
 
