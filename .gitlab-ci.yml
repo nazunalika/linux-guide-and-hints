@@ -10,7 +10,7 @@ pages:
   - make html SPHINXOPTS=-Ea
   - grunt build
   - mv build/html/ public/
-  - certbot certonly -d linuxguideandhints.com --webroot public/
+  - certbot certonly -n webroot --webroot public/ -d linuxguideandhints.com
   artifacts:
     paths:
     - public
