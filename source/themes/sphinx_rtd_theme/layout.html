@@ -90,8 +90,7 @@
 </head>
 
 <body class="wy-body-for-nav" role="document">
-
-<main id='main'>
+<a class="sr-only sr-only-focusable" href="#main">Skip to main content</a>
 
   {% block extrabody %} {% endblock %}
   <div class="wy-grid-for-nav">
@@ -175,7 +174,7 @@
         <div class="rst-content">
         {% endif %}
           {% include "breadcrumbs.html" %}
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+          <main role="main" id="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
           {%- block document %}
            <div itemprop="articleBody">
             {% block body %}{% endblock %}
@@ -185,7 +184,7 @@
             {% block comments %}{% endblock %}
            </div>
            {% endif%}
-          </div>
+          </main>
           {%- endblock %}
           {% include "footer.html" %}
         </div>
@@ -196,7 +195,6 @@
 
   </div>
   {% include "versions.html" %}
-</main>
 
   {% if not embedded %}
 
