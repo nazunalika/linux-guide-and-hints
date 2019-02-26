@@ -10,8 +10,6 @@ pages:
   - make html SPHINXOPTS=-Ea
   - grunt build
   - mv build/html/ public/
-  - mkdir -p public/.well-known/acme-challenge
-  - echo "3pl-S-9KOVYJYRYNfTtzatcP6hjzYVAAB61t0PP9c8E.j3BekFOCQa2xc2PmlpL16aBn1CSeEWQRS84RD4kgcqo" >> public/.well-known/acme-challenge/3pl-S-9KOVYJYRYNfTtzatcP6hjzYVAAB61t0PP9c8E
   artifacts:
     paths:
     - public
