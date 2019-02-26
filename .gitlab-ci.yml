@@ -2,7 +2,7 @@ image: node:alpine
 
 pages:
   script:
-  - apk --no-cache add py3-setuptools python3-dev python3 libc6-compat build-base automake autoconf
+  - apk --no-cache add py3-setuptools python3-dev python3 libc6-compat build-base automake autoconf certbot
   - pip3 install -U sphinx
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
   - npm install -g grunt
@@ -10,6 +10,7 @@ pages:
   - make html SPHINXOPTS=-Ea
   - grunt build
   - mv build/html/ public/
+  - certbot certonly -d linuxguideandhints.com --webroot public/
   artifacts:
     paths:
     - public
