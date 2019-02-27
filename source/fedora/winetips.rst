@@ -102,10 +102,6 @@ Mod Organizer
 While .NET is not required to run MO itself, it is required for the scripted installers. Mods will not install
 properly if their scripted installers don't run, even if you don't "require" them.
 
-.. warning::
-
-    Mod Organizer seems to be broken at the moment. See this `wine bug report <https://bugs.winehq.org/show_bug.cgi?id=44880>`_.
-
 As a workaround, you can use A.J. Venter's `movfs4l script <https://github.com/ajventer/ksp_stuff/blob/master/movfs4l.py>`_. Modify the variables to
 point to the correct directories, then run it with ``WINEPREFIX=... python movfs4l.py``. Since Mod Organizer will pick up the symlinks (and display them as
 redundant unmanaged mods), you should run ``python movfs4l.py UNVFS`` prior to opening Mod Organizer, then rerun the script without arguments after closing
