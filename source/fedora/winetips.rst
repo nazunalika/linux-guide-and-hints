@@ -117,7 +117,7 @@ Modify the script and set ``ROOTDIR`` to the parent directory of where you want
 the mounted directory and ``MERGERDIR`` to the name of the mounted directory.
 For example, if you're using Steam:
 
-.. codeblock:: bash
+.. code-block:: bash
 
     ROOTDIR="/path/to/steam/steamapps/common/"
     MERGERDIR="$ROOTDIR/Fallout New Vegas"
