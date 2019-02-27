@@ -60,7 +60,14 @@ If you are using `ENB <http://enbdev.com/>`_, make sure to patch the following e
     nvse_loader.exe
     enbhost.exe
 
-Then launch ``nvse_loader.exe`` with the environment variable ``WINEDLLOVERRIDES="d3d9.dll=n,b"``. 
+Then launch ``nvse_loader.exe`` with the environment variable ``WINEDLLOVERRIDES="d3d9.dll=n,b"``. Alternatively, you can
+use the `FNV 4GB Patcher <https://www.nexusmods.com/newvegas/mods/62552/?>`_. This should not only apply the 4gb patch,
+but allow you to launch the game through Steam. Note that since Steam runs the launcher, any changes you make to ``Fallout.ini``
+can be overwritten. A workaround is to rename ``nvse_loader.exe`` to ``FalloutNVLauncher.exe``.
+
+.. note::
+
+    Reportedly, making ``Fallout.ini`` read-only should work, but it doesn't for me. YMMV.
 
 Modding
 *******
@@ -86,6 +93,8 @@ Some necessary mods are:
   words, if you only see crashes of this nature, NVAC is doing its job.
 
 - `New Vegas Stutter Remover <http://www.nexusmods.com/newvegas/mods/34832/?>`_. Do not use the heap replacer.
+
+- `New Vegas Tick Fix <https://www.nexusmods.com/newvegas/mods/66537>`_. A stripped down version of NVSR. Do not use the two together.
 
 Mod Organizer
 *************
