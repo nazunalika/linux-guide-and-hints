@@ -154,6 +154,16 @@ the merged directory will be unmounted. In order to test that it is actually
 working, install the JIP LN NVSE mod and type ``GetIsLAA`` in the console. You
 should get some output.
 
+THe script will also create a ``loadorder.txt`` file inside
+``$MERGERDIR/data``. However, FONV actually reads the ``esp`` and ``esm`` files
+to load from ``plugins.txt``. Locate it, then create a symlink, i.e:
+
+.. code-block:: bash
+
+    # The following path may be different on your system
+    cd /path/to/Local Settings/Application Data/FalloutNV
+    ln -s "/path/to/Fallout New Vegas/data/loadorder.txt" plugins.txt
+
 LOOT
 ****
 
