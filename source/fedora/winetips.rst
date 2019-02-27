@@ -111,6 +111,43 @@ point to the correct directories, then run it with ``WINEPREFIX=... python movfs
 redundant unmanaged mods), you should run ``python movfs4l.py UNVFS`` prior to opening Mod Organizer, then rerun the script without arguments after closing
 Mod Organizer.
 
+Another alternative is the `FalloutNVLinuxLauncher
+<https://github.com/neVERberleRfellerER/FalloutNVLinuxLauncher>`_. This script
+uses `OverlayFS <https://en.wikipedia.org/wiki/OverlayFS>`_ to merge mods and
+mount the result. The instructions are a little confusing, so these notes
+should be used in addition to the README.
+
+Modify the script and set ``ROOTDIR`` to the parent directory of where you want
+the mounted directory and ``MERGERDIR`` to the name of the mounted directory.
+For example, if you're using Steam:
+
+.. codeblock:: bash
+
+    ROOTDIR="/path/to/steam/steamapps/common/"
+    MERGERDIR="$ROOTDIR/Fallout New Vegas"
+
+All mods need to go into ``MODDATADIR`` instead of ``MODDIR``. That is, the tree would look like:
+
+.. code-block:: bash
+
+    mods/
+    ├── data
+    │   ├── 0010 JIP LN NVSE
+    │   ├── 9999 Fallout New Vegas
+    │   └── 9999 Fallout New Vegas.order
+
+This requires that you move and rename your game installation dir. Then launch the game with:
+
+.. code-block:: bash
+
+    bash FONVLaunchInMerged.sh steam steam://rungameid/22380
+
+The merged game files will be mounted in
+``/path/to/steam/steamapps/common/Fallout New Vegas``. After you close Steam,
+the merged directory will be unmounted. In order to test that it is actually
+working, install the JIP LN NVSE mod and type ``GetIsLAA`` in the console. You
+should get some output.
+
 LOOT
 ****
 
