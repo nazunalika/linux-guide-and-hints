@@ -11,6 +11,16 @@ If you are willing to `compile Wine from source <https://wiki.winehq.org/Buildin
 New Vegas
 ---------
 
+Installing via Wine
+*******************
+
+.. note::
+
+    New Vegas works perfectly with Proton/Steam Play (except you may need to
+    disable HDR/water reflections due to graphical glitches.) However, I'm
+    preserving this section if for whatever reason you choose to use vanilla
+    Wine.
+
 If you are using the GOG version, it already comes prepatched with 4GB support.
 
 - Use a 32-bit prefix
@@ -310,3 +320,17 @@ Once that's done, locate the Proton directory. It will look something like ``ste
 .. note::
 
    Compatibility data for each game will be different, so there is no guarantee that it will work for whatever particular non-steam game you are trying to play.
+
+.. note::
+
+    ``compatdata/$APP_ID/pfx`` is the Wine prefix for each game and you can interact with it just like any other Wine prefix:
+
+    .. code-block:: bash
+
+        env WINEPREFIX="/path/to/$APP_ID/pfx" winecfg
+
+    If you use Proton, omit the ``pfx`` suffix:
+
+    .. code-block:: bash
+
+        env STEAM_COMPAT_DATA_PATH="/path/to/$APP_ID" proton run # ...
