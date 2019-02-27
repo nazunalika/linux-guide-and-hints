@@ -122,7 +122,8 @@ For example, if you're using Steam:
     ROOTDIR="/path/to/steam/steamapps/common/"
     MERGERDIR="$ROOTDIR/Fallout New Vegas"
 
-All mods need to go into ``MODDATADIR`` instead of ``MODDIR``. That is, the tree would look like:
+All mods need to go into ``MODDATADIR`` instead of ``MODDIR``. That is, the
+tree would look like:
 
 .. code-block:: bash
 
@@ -132,7 +133,16 @@ All mods need to go into ``MODDATADIR`` instead of ``MODDIR``. That is, the tree
     │   ├── 9999 Fallout New Vegas
     │   └── 9999 Fallout New Vegas.order
 
-This requires that you move and rename your game installation dir. Then launch the game with:
+This requires that you move and rename your game installation dir. The script
+will warn you about mixed-case files, but doesn't rename them. As a result,
+things can break when mods do not get merged.  Install ``prename``, then run
+this from your ``mods`` folder:
+
+.. code-block:: bash
+
+    find . -depth -execdir prename 'y/A-Z/a-z/' '{}' \;
+
+Then launch the game with:
 
 .. code-block:: bash
 
