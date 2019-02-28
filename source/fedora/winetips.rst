@@ -70,14 +70,26 @@ If you are using `ENB <http://enbdev.com/>`_, make sure to patch the following e
     nvse_loader.exe
     enbhost.exe
 
-Then launch ``nvse_loader.exe`` with the environment variable ``WINEDLLOVERRIDES="d3d9.dll=n,b"``. Alternatively, you can
-use the `FNV 4GB Patcher <https://www.nexusmods.com/newvegas/mods/62552/?>`_. This should not only apply the 4gb patch,
-but allow you to launch the game through Steam. Note that since Steam runs the launcher, any changes you make to ``Fallout.ini``
-can be overwritten. A workaround is to rename ``nvse_loader.exe`` to ``FalloutNVLauncher.exe``.
+ Alternatively, you can use the `FNV 4GB Patcher
+ <https://www.nexusmods.com/newvegas/mods/62552/?>`_. This should not only
+ apply the 4gb patch, but allow you to launch the game through Steam. Note that
+ since Steam runs the launcher, any changes you make to ``Fallout.ini`` can be
+ overwritten. A workaround is to rename ``nvse_loader.exe`` to
+ ``FalloutNVLauncher.exe``.
 
 .. note::
 
     Reportedly, making ``Fallout.ini`` read-only should work, but it doesn't for me. YMMV.
+
+Then launch ``nvse_loader.exe`` with the environment variable ``WINEDLLOVERRIDES="d3d9.dll=n,b"``.
+
+When using ENB and Proton, you must install the DirectX9 DLL's. Example:
+
+.. note::
+
+    env WINEPREFIX="/path/to/proton/pfx" winetricks d3dx9 d3dcompiler_43
+
+Make sure to set ``d3d9.dll=n,b`` as above.
 
 Modding
 *******
