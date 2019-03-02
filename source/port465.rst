@@ -1,6 +1,12 @@
 Is port 465 deprecated?
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+.. note::
+
+    For a guide on how to setup Exim4 with Gmail and implicit TLS, see `How To
+    Secure A Linux Server
+    <https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#the-miscellaneous>`_.
+
 No. Some sources like `Debian's guide on Gmail and Exim4
 <https://wiki.debian.org/GmailAndExim4>`_ and the StackOverflow question `What
 is the difference between ports 465 and 587?
