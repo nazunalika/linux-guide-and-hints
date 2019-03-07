@@ -15,6 +15,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'source/_static/css',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'build/html/_static/css',
+                    ext: '.min.css'
+                }]
+            }
+        },
         uglify: {
             js: {
                 cwd: 'source/_static/js',
@@ -40,8 +51,9 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
 
-    grunt.registerTask('build', ['uglify', 'imagemin']);
+    grunt.registerTask('build', ['uglify', 'cssmin', 'imagemin']);
     grunt.registerTask('default', ['build', 'connect']);
 };
