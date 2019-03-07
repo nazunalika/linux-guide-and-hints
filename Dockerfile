@@ -10,12 +10,15 @@ RUN apk --no-cache add \
     build-base \
     automake \
     autoconf \
+    http-parser \
     npm
 RUN mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
 RUN pip3 install -U sphinx
 RUN npm install -g grunt
-COPY . ./
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
+COPY . ./
 RUN make html SPHINXOPTS=-Ea
 RUN grunt build
 
