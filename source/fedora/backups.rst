@@ -170,3 +170,52 @@ The following helper script should get you started:
 .. raw:: html
 
     <script src="https://gist.github.com/remyabel/2cac59a778fa34d0c61e246554fe3e3c.js"></script>
+
+    <noscript>
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    set -x
+    set -o pipefail
+    shopt -s dotglob
+
+    function fail {
+        echo "Fail."
+        exit 1
+    }
+
+    # Import environment variables SSH_AUTH_SOCK, etc.
+    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
+    [ -f $HOME/.keychain/$HOSTNAME-sh ] && \
+        . $HOME/.keychain/$HOSTNAME-sh 2>/dev/null
+    [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] && \
+        . $HOME/.keychain/$HOSTNAME-sh-gpg 2>/dev/null
+
+    cd $HOME/backup || fail
+    # We need to unlock the files in order to allow modifications. Note that direct
+    # mode is deprecated.
+    git annex unlock * || fail
+
+    # ...snip...
+    # Copy your files to backup here
+    # ...snip...
+
+    git annex add --include-dotfiles . || fail
+    git annex sync --content --message=$(date +%F) || fail
+
+    # For each remote we need to run sync in order to actually
+    # propagate the changes. Doing sync from the initial directory
+    # only creates a branch with the changes. Running sync in the target
+    # directory performs the merge.
+    for remote in $(git remote)
+    do
+        URL=$(git remote get-url $remote)
+        cd $URL || fail
+        git annex sync --content --message=$(date +%F) || fail
+    done
+
+.. raw:: html
+
+    </noscript>
