@@ -46,9 +46,14 @@
 
   {# RTD hosts this file, so just load on non RTD builds #}
   {%- if not READTHEDOCS %}
-    <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+    <link href="{{ pathto('_static/' + style, 1) }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="{{ pathto('_static/' + style, 1) }}" rel="stylesheet" type="text/css">
+</noscript>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></noscript>
+    <link href="{{ pathto('_static/' + 'css/prism.min.css', 1) }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="{{ pathto('_static/' + 'css/prism.min.css', 1) }}" rel="stylesheet" type="text/css">
+    </noscript>
 <script>/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
