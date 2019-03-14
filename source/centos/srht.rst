@@ -119,6 +119,12 @@ self-signed certificate if you wish.
         }
     }
 
+By default, SELinux will not allow this to work. Fix it with:
+
+.. code-block:: bash
+
+    setsebool -P httpd_can_network_connect 1
+
 Then start the server with ``systemctl start nginx``.
 
 Installing core.sr.ht
