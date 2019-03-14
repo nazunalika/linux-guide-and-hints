@@ -65,6 +65,37 @@ This is a living set of notes I have for a Git workflow.
     will continue to be amended as I use it in my workflow and see
     what works and doesn't.
 
+Keeping forks synchronized
+**************************
+
+Working on a branch out of sync with the upstream master can lead to headaches
+later on. First, in your fork, ensure you have a remote to the upstream:
+
+.. code-block:: bash
+
+    git remote add upstream upstream-url
+
+Regularly, keep your master branch up-to-date:
+
+.. code-block:: bash
+
+    git checkout master
+    git fetch upstream
+    git merge upstream/master
+
+Depending on the upstream repo's policy, they may prefer you rebase or merge
+master regularly. The rebase workflow involves ``git rebase master`` in your
+topic branch then doing a ``git push --force``. The upstream repo may then
+choose to squash the pull request into a single commit, so there is no messy
+history.
+
+For a merge workflow, then do ``git merge master``. Keep in mind that this
+leads to a lot of merge commits, which can pollute your history, but ``git push
+--force`` usually is not required.
+
+It may also be a good idea to use ``git push --force-with-lease`` to avoid
+overwriting any changes made ahead of you.
+
 Versioning
 **********
 
