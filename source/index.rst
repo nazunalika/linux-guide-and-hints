@@ -18,6 +18,7 @@ packages and system administration in |Fedora| and |CentOS|.
 .. toctree::
   :maxdepth: 4
 
+  srht
   port465
 
 .. toctree::
