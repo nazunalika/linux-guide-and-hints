@@ -18,7 +18,6 @@ packages and system administration in |Fedora| and |CentOS|.
 .. toctree::
   :maxdepth: 4
 
-  srht
   port465
 
 .. toctree::
@@ -41,6 +40,7 @@ packages and system administration in |Fedora| and |CentOS|.
   :caption: CentOS
   :glob:
   
+  centos/srht
   centos/openldap
   centos/sysadmin
   centos/freeipa
