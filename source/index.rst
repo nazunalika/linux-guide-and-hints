@@ -17,8 +17,10 @@ packages and system administration in |Fedora| and |CentOS|.
 
 .. toctree::
   :maxdepth: 4
+  :caption: Miscellaneous
+  :glob:
 
-  port465
+  misc/*
 
 .. toctree::
   :maxdepth: 4
