@@ -7,7 +7,7 @@ services: such as Git hosting, a continuous integration platform and mailing
 list software. It is completely open-source and self-hosting. Due to being in an
 alpha state, the `installation instructions
 <https://man.sr.ht/installation.md>`_ are a bit sparse. Further, the primary
-supported platform is Arch Linux. In this article, I will teach you how to set
+supported platform is Alpine Linux. In this article, I will teach you how to set
 up Sourcehut on a CentOS 7 box via Google Cloud Services for local development.
 
 Getting started
