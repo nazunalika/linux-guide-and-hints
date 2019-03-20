@@ -13,7 +13,7 @@ RUN apk --no-cache add \
     http-parser \
     npm
 RUN mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
-RUN pip3 install -U sphinx
+RUN pip3 install -U sphinx sphinx-sitemap
 RUN npm install -g grunt
 COPY package.json ./
 COPY package-lock.json ./

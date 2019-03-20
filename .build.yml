@@ -14,7 +14,7 @@ tasks:
     - setup: |
         cd linux-guide-and-hints
         mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
-        pip3 install -U --user sphinx
+        pip3 install -U --user sphinx sphinx-sitemap
         npm install --save grunt
         npm install
     - build: |

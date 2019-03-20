@@ -3,7 +3,7 @@ image: node:alpine
 pages:
   script:
   - apk --no-cache add py3-setuptools python3-dev python3 libc6-compat build-base automake autoconf
-  - pip3 install -U sphinx
+  - pip3 install -U sphinx sphinx-sitemap
   - mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
   - npm install -g grunt
   - npm install
