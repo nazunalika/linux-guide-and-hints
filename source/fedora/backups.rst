@@ -17,6 +17,9 @@ incremental backups are useless without the full backup in the chain. One thing
 I will give to Duplicity compared to Duplicacy is that the command-line
 interface is superior.
 
+However, duplicity uses Python 2.7 (which is EOL in 2020) and doesn't support
+SELinux contexts when restoring.
+
 GPG
 ---
 
