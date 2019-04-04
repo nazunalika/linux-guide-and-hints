@@ -20,6 +20,12 @@ interface is superior.
 However, duplicity uses Python 2.7 (which is EOL in 2020) and doesn't support
 SELinux contexts when restoring.
 
+.. warning::
+
+    I'm not sure if this is a bug or not, but you should be aware that for
+    include/exclude patterns, specifying a path like ``/path/to/go`` will also
+    match ``/path/to/gopher``, even when not using a wildcard.
+
 GPG
 ---
 
