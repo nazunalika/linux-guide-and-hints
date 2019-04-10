@@ -23,18 +23,35 @@ module.exports = function(grunt) {
                     src: ['*.css', '!*.min.css'],
                     dest: 'build/html/_static/css',
                     ext: '.min.css'
+                },
+                {
+                    expand: true,
+                    cwd: 'node_modules/prismjs/themes',
+                    src: ['prism.css', 'prism-okaidia.css'],
+                    dest: 'build/html/_static/css',
+                    ext: '.min.css'
                 }]
             }
         },
         uglify: {
-            js: {
-                cwd: 'source/_static/js',
-                expand: true,
-                src: ['**/*.js'],
-                dest: 'build/html/_static/js',
-                rename: function (dst, src) {
-                    return dst + '/' + src.replace('.js', '.min.js');
-                }
+            target: {
+                files: [{
+                    cwd: 'source/_static/js',
+                    expand: true,
+                    src: ['**/*.js'],
+                    dest: 'build/html/_static/js',
+                    rename: function (dst, src) {
+                        return dst + '/' + src.replace('.js', '.min.js');
+                    }
+                }, {
+                    cwd: 'node_modules/prismjs',
+                    expand: true,
+                    src: ['prism.js', 'components/prism-bash.js', 'components/prism-docker.js'],
+                    dest: 'build/html/_static/js',
+                    rename: function (dst, src) {
+                        return dst + '/' + src.replace('.js', '.min.js');
+                    }
+                }]
             }
         },
         imagemin: {

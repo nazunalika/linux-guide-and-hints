@@ -3,7 +3,9 @@
   "version": "1.4.0",
   "description": "[![Build Status](https://travis-ci.org/remyabel/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/remyabel/linux-guide-and-hints)",
   "main": "Gruntfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "prismjs": "^1.16.0"
+  },
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-contrib-connect": "^1.0.2",

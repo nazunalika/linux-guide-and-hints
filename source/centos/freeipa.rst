@@ -106,7 +106,7 @@ Installation
 
 To install the server, make sure the hostname is set to the A records and NS delegations you've put in DNS (which won't respond to a DNS lookup). If these are stand-alone, then you can just keep it at the top level (eg, example.com). You'll also need to modify /etc/hosts, set static IP addresses, and then run the ipa-server-install command.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % hostnamectl set-hostname server1.ipa.example.com
    % nmcli con mod ens192 ipv4.address 10.200.0.230/24
@@ -126,7 +126,7 @@ To install the server, make sure the hostname is set to the A records and NS del
 
 Once this is complete, it's recommended you create an admin account for yourself. In this instance, you can append "2" at the end of your login name, that way there is an obvious distinction between what's a 'normal' account (ie desktop user) and an admin account (servers). It is generally frowned upon to have one account that does both. In the case of Active Directory, environments that follow security compliance require their 'domain administrators' to have a separate account from their workstation account.
 
-.. code-block:: bash
+.. code-block:: shell
    
    % kinit admin
    % ipa user-add --first=First --last=Last --cn="First Last Admin" --gecos="First Last Admin" flast2
@@ -137,7 +137,7 @@ Replica
 
 On the replica, ensure you repeat the same steps as above.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % hostnamectl set-hostname server2.ipa.example.com
    % nmcli con mod ens192 ipv4.address 10.200.0.231/24
@@ -157,7 +157,7 @@ On the replica, ensure you repeat the same steps as above.
 
 You should now be able to see your replicas.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa-replica-manage list
    server1.ipa.example.com: master
@@ -174,7 +174,7 @@ It is possible to automate the replica installation. To automate the replica ins
 
 Once you have a server added as a client and then added to the ipaservers host group, you would run a command like this:
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa-replica-install --no-ntp --sh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
 
@@ -199,7 +199,7 @@ When the following requirements are met, you have two choices before continuning
 
 You will need to prep your master(s) for the trust. We will be enabling compat, adding sids, and adding agents so both masters can provide AD information. 
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa-adtrust-install --add-sids --add-agents --enable-compat
 
@@ -212,21 +212,21 @@ You will now need to open the necessary ports. Do this on all masters.
    TCP: 135, 138, 139, 389, 445, 1024-1300, 3268
    UDP: 138, 139, 389, 445
 
-.. code-block:: bash
+.. code-block:: shell
 
    % firewall-cmd --add-service=freeipa-trust --permanent
    % firewall-cmd --complete-reload
 
 Now you can initiate the trust. The admin account you use must be part of the domain admins group.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # If you are using POSIX ID, use ipa-ad-trust-posix.
    % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust --two-way=true --admin adminaccount --password 
 
 Once the trust is up, verify it.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa trust-show ad.example.com
     Realm name: ad.example.com
@@ -238,7 +238,7 @@ Once the trust is up, verify it.
 
 You should be able to test for the users now.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % id first.last@ad.example.com
    uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
@@ -252,7 +252,7 @@ In some cases, it is a requirement to disable *all* anonymous binds. If this is 
 
    Some applications do anonymous binds to the directory server to determine its version and it supported controls. While it is possible to disable anonymous binds completely, it is important to know that if you disable the rootdse binds, applications that do anonymous lookups to get server information will fail.
 
-.. code-block:: bash
+.. code-block:: shell
    
    % ldapmodify -xZZ -D "cn=Directory Manager" -W -h server.ipa.example.com
    Enter LDAP Password:
@@ -289,13 +289,13 @@ Mac Clients are an interesting workstation to setup as a FreeIPA client. It take
 
 Check your system's hostname. You want to make sure it has a hostname defined for it in the domain the mac sits in, even if it's dynamic via DHCP/DNS.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % sudo scutil --set HostName mac.example.com
 
 Get the IPA certificate. You'll need to double click it after you get it and import it.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % cd ~/Desktop && curl -OL http://server1.ipa.example.com/ipa/config/ca.crt
    % sudo mkdir /etc/ipa
@@ -303,14 +303,14 @@ Get the IPA certificate. You'll need to double click it after you get it and imp
 
 On the IPA server, you will need to create a host and get the keytab.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa host-add mac.example.com --macaddress="00:00:00:00:00:00"
    % ipa-getkeytab -s server1.ipa.example.com -p host/mac.example.com -k /tmp/krb5.keytab
 
 You will need to transfer that keytab to your mac.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % cd ~
    % scp user@server1.ipa.example.com:/tmp/krb5.keytab .
@@ -349,13 +349,13 @@ Configure /etc/krb5.conf
 
 You'll want to do a kinit to verify. If it works, you should be able to go to the FreeIPA webui and check that the host is "enrolled" (Identity -> Hosts).
 
-.. code-block:: bash
+.. code-block:: shell
 
    % kinit username@IPA.EXAMPLE.COM
 
 You need to modify a couple of pam files. I'll explain why they need to be changed.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % sudo vi /etc/pam.d/authorization
    # authorization: auth account
@@ -492,7 +492,7 @@ After these changes, you'll need to go into make some changes with the directory
 #. Close everything until you're back to the users & groups section of preferences
 #. Open a terminal.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % dscacheutil -flushcache
    % dscacheutil -q user -a name username
@@ -503,7 +503,7 @@ If you want to further verify users and groups after the above succeeds, open up
 
 In a terminal, you will need to create the home directories via the createmobileaccount command. [#f2]_
 
-.. code-block:: bash
+.. code-block:: shell
 
    % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
 
@@ -520,7 +520,7 @@ Log out and go back to your local account. Go to system preferences, users & gro
 
 And that's it! My own script that I made (as a reference) is below to do the work. It's highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac's.
 
-.. code-block:: bash
+.. code-block:: shell
 
    #!/bin/bash
    serverName=server1.ipa.example.com
@@ -563,7 +563,7 @@ And that's it! My own script that I made (as a reference) is below to do the wor
 
 If you want to move your local files, you will need to tread lightly here. I personally believe it's always good to start fresh though. Look into the ditto command. I suppose something like this can work:
 
-.. code-block:: bash
+.. code-block:: shell
 
    # make sure you're logged in as a different account away from your local account
    % sudo su -
@@ -579,7 +579,7 @@ HBAC
 
 When we first setup our IPA servers, we had an option set to make it so hbac wasn't allowed for everyone. This way we have to create HBAC rules for our systems. I personally do this out of habit when working with IPA. What we need to do though is create an "admin" group that can login to all machines.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa idrange-show IPA.ANGELSOFCLOCKWORK.NET_id_range
      Range name: IPA.ANGELSOFCLOCKWORK.NET_id_range
@@ -593,7 +593,7 @@ When we first setup our IPA servers, we had an option set to make it so hbac was
 
 In the event that your AD user will be an admin or what have you, you need to create an "external" group to map the user or users over. This isn't required if you don't have an AD trust.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa group-add --external linuxadm_external
    % ipa group-add-member --users=flast@ad.example.com linuxadm_external
@@ -601,7 +601,7 @@ In the event that your AD user will be an admin or what have you, you need to cr
 
 Now, let's create an HBAC for our Linux Administrator account for our group.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' all_linux
    % ipa hbacrule-add-user --groups=linuxadm all_linux
@@ -615,14 +615,14 @@ SUDO
 
 Setting up sudo is relatively easy. RHEL 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let's create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa sudorule-add --runasusercat=all --hostcat=all --cmdcat=all --desc='linux admins all sudo' all_linux_sudo
    % ipa sudorule-add-user --groups=linuxadm all_linux_sudo
 
 You can make this a little more specific, such as /bin/bash as everyone or otherwise. It's your call here. If you want to create a sudo rule and add some commands to it, you can do something like this.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa sudorule-add sudo_rule
    % ipa sudorule-add-allow-command --sudocmds="/usr/bin/less" sudo_rule
@@ -651,20 +651,20 @@ Create an ldif for your service account (optional)
 
 The solaris system account is required. So now, add it in.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif
 
 Now, set the nisdomain.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % defaultdomain ipa.example.com
    % echo 'ipa.example.com' > /etc/defaultdomain
 
 Configure kerberos.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vi /etc/krb5/krb5.conf
    [libdefaults]
@@ -696,7 +696,7 @@ Configure kerberos.
 
 Generate a keytab and bring it over.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # on the ipa server
    % ipa host-add solaris10.example.com
@@ -714,7 +714,7 @@ Generate a keytab and bring it over.
 
 Create the LDAP configurations, bring the certificate, and create an NSS database.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % mkdir /etc/ipa /var/ldap
    % cd /etc/ipa
@@ -749,7 +749,7 @@ Now init the ldap client.
 
    If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # Without AD Trust (no proxy)
    % ldapclient manual -a authenticationMethod=none \
@@ -828,7 +828,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
    In the event you don't have an AD trust, you can change the "binding" lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read "required"
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vi /etc/pam.conf
 
@@ -891,7 +891,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    # SSH Pubkey - Needed for openldap and still probably needed
    sshd-pubkey account required pam_unix_account.so.1
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vi /etc/nsswitch.conf
    
@@ -909,7 +909,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
 You can test now if you'd like.
 
-.. code-block:: bash
+.. code-block:: shell
 
    bash-3.2# ldaplist -l passwd flast2
    dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
@@ -944,20 +944,20 @@ Below is for the service account like in the previous section, here as a referen
    passwordExpirationTime: 20380119031407Z
    nsIdleTimeout: 0
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif
 
 Now, set the nisdomain.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % defaultdomain ipa.example.com
    % echo 'ipa.example.com' > /etc/defaultdomain
 
 Configure kerberos.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vi /etc/krb5/krb5.conf
    [libdefaults]
@@ -989,7 +989,7 @@ Configure kerberos.
 
 Generate a keytab and bring it over.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # on the ipa server
    % ipa host-add solaris11.example.com
@@ -1017,7 +1017,7 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
    11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems. Omnios may require a different configuration. Test 11.3 and 11.4 to verify this. You can enable sudoers debug to assist.
 
 
-.. code-block:: bash
+.. code-block:: shell
 
    % mkdir /etc/ipa /var/ldap
    % cd /etc/ipa
@@ -1051,7 +1051,7 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
 
    If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # Without AD Trust (no proxy)
    % ldapclient manual -a authenticationMethod=tls:simple \
@@ -1125,7 +1125,7 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
 
 This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/sudoer = astring: "files ldap"' 
    % /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/password = astring: "files ldap [NOTFOUND=return]"' 
@@ -1139,7 +1139,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
    In the event you don't have an AD trust, you can change the "binding" lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read "required"
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vi /etc/pam.d/login
    auth definitive         pam_user_policy.so.1
@@ -1178,7 +1178,7 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
 You can test now if you'd like.
 
-.. code-block:: bash
+.. code-block:: shell
 
    root@solaris11:~# ldaplist -l passwd flast2
    dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
@@ -1218,7 +1218,7 @@ First, create the following system account. We will need this when we are config
 Solaris 10
 ''''''''''
 
-.. code-block:: bash
+.. code-block:: shell
 
    % /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
    % /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
@@ -1236,7 +1236,7 @@ Solaris 10
 Solaris 11
 ''''''''''
 
-.. code-block:: bash
+.. code-block:: shell
 
    % pkg install autoconf libtool pkg-config automake gcc docbook
    % autoreconf -if
@@ -1247,7 +1247,7 @@ Solaris 11
 Omnios
 ''''''
 
-.. code-block:: bash
+.. code-block:: shell
 
    % pkg install developer/build/autoconf developer/build/libtool \
                  developer/pkg-config developer/build/automake    \
@@ -1261,7 +1261,7 @@ Omnios
 pam_hbac.conf
 '''''''''''''
 
-.. code-block:: bash
+.. code-block:: shell
 
    % vim /etc/pam_hbac.conf
 
@@ -1276,7 +1276,7 @@ pam_hbac.conf
 PAM Configuration
 '''''''''''''''''
 
-.. code-block:: bash
+.. code-block:: shell
 
    # Solaris 10 - /etc/pam.conf
    # Modify the other account section... It should come at the end of the account blocks.
@@ -1295,7 +1295,7 @@ Login with AD Users to Legacy Clients
 
 For AD users to be able to login to legacy clients, you have to enable system-auth to the IPA servers. Without it, users will be denied access, regardless of HBAC controls or if you're using the pam_hbac module.
 
-.. code-block:: bash
+.. code-block:: shell
 
    % ipa hbacsvc-add system-auth
    % ipa hbacrule-add legacy_client_auth
@@ -1336,7 +1336,7 @@ A common scenario is that IPA and AD will have a trust, but there will not be an
 
 On the IPA servers, you will need to set the domain resolution order. This was introduced in 4.5.0. 
 
-.. code-block:: bash
+.. code-block:: shell
 
    % kinit admin
    % ipa config-mod --domain-resolution-order="ad.example.com:ipa.example.com"
@@ -1344,7 +1344,7 @@ On the IPA servers, you will need to set the domain resolution order. This was i
 
 The below is optional. It will remove the @realm off the usernames, like on the prompt or id or whoami commands. Only do this if required.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # vi /etc/sssd/sssd.conf
 
@@ -1354,7 +1354,7 @@ The below is optional. It will remove the @realm off the usernames, like on the 
 
 This will ensure EL7 clients resolve the AD domain first when attempting logins and optionally drop the @realm off the usernames. However, for EL6 clients, additional changes on the client side is required. Since the sssd in EL6 does not support domain resolution order, you will either need to modify /etc/sssd/sssd.conf with "default_domain_suffix" or install a later version of sssd from copr. Below assumes you are using 1.13.3 from the base.
 
-.. code-block:: bash
+.. code-block:: shell
 
    # vi /etc/sssd/sssd.conf
    
