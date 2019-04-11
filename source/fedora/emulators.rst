@@ -331,77 +331,77 @@ for muted gameplay at an arbitrary speed.
 
 .. code-block:: bash
 
-	#!/bin/bash
+    #!/bin/bash
 
-	# enable ** and avoiding non-matches
-	shopt -s globstar nullglob
-	DIR="/home/tom/Downloads/games"
-	LIST=("$DIR"/**/*{.gba,.gbc,.gb,.md,.nes,.sfc,.n64})
-	SOUND="${1:-auto}"
-	SPEED="${2:-1.0}"
+    # enable ** and avoiding non-matches
+    shopt -s globstar nullglob
+    DIR="/home/tom/Downloads/games"
+    LIST=("$DIR"/**/*{.gba,.gbc,.gb,.md,.nes,.sfc,.n64})
+    SOUND="${1:-auto}"
+    SPEED="${2:-1.0}"
 
-	# geometry of zenity dialog
-	WIDTH=640
-	HEIGHT=480
+    # geometry of zenity dialog
+    WIDTH=640
+    HEIGHT=480
 
-	declare -A RESOLUTIONS
-	RESOLUTIONS=(\
-		[gb]="320x288" \
-		[gbc]="320x288" \
-		[gba]="480x320" \
-		[md]="640x480" \
-		[sfc]="640x480" \
-		[nes]="640x480" \
-		[n64]="640x480"
-	)
+    declare -A RESOLUTIONS
+    RESOLUTIONS=(\
+            [gb]="320x288" \
+            [gbc]="320x288" \
+            [gba]="480x320" \
+            [md]="640x480" \
+            [sfc]="640x480" \
+            [nes]="640x480" \
+            [n64]="640x480"
+    )
 
-	declare -A MAPPINGS
-	MAPPINGS=(\
-		[gb]="gbcolor" \
-		[gbc]="gbcolor" \
-		[gba]="gba" \
-		[md]="genesis" \
-		[sfc]="snes" \
-		[nes]="nes" \
-		[n64]="n64"
-	)
+    declare -A MAPPINGS
+    MAPPINGS=(\
+            [gb]="gbcolor" \
+            [gbc]="gbcolor" \
+            [gba]="gba" \
+            [md]="genesis" \
+            [sfc]="snes" \
+            [nes]="nes" \
+            [n64]="n64"
+    )
 
-	EXTS=()
-	for FILE in "${LIST[@]}"; do
-		FILENAME=$(basename "$FILE")
-		EXTENSION="${FILENAME##*.}"
-		EXTS+=("$EXTENSION")
-	done
+    EXTS=()
+    for FILE in "${LIST[@]}"; do
+            FILENAME=$(basename "$FILE")
+            EXTENSION="${FILENAME##*.}"
+            EXTS+=("$EXTENSION")
+    done
 
-	# zenity requires arguments to be
-	# interspersed.
-	MERGED=()
-	for INDEX in "${!LIST[@]}"; do
-		MERGED+=("${EXTS[$INDEX]}")
-		MERGED+=("$(basename "${LIST[$INDEX]}")")
-	done
+    # zenity requires arguments to be
+    # interspersed.
+    MERGED=()
+    for INDEX in "${!LIST[@]}"; do
+            MERGED+=("${EXTS[$INDEX]}")
+            MERGED+=("$(basename "${LIST[$INDEX]}")")
+    done
 
-	set -x
-	# zenity outputs choices delimited
-	# by a pipe, hence IFS
-	CHOICE=$(zenity --width=$WIDTH --height=$HEIGHT \
-		--list --print-column=ALL \
-		--column "Extension" --column "Filename" \
-		"${MERGED[@]}") IFS='|'
+    set -x
+    # zenity outputs choices delimited
+    # by a pipe, hence IFS
+    CHOICE=$(zenity --width=$WIDTH --height=$HEIGHT \
+            --list --print-column=ALL \
+            --column "Extension" --column "Filename" \
+            "${MERGED[@]}") IFS='|'
 
-	# if we didn't hit cancel
-	if [ $? -ne 1 ]; then
-		SPLIT_CHOICE=($CHOICE)
-		unset IFS
+    # if we didn't hit cancel
+    if [ $? -ne 1 ]; then
+            SPLIT_CHOICE=("$CHOICE")
+            unset IFS
 
-		EXT_CHOICE="${SPLIT_CHOICE[0]}"
-		FILE_CHOICE="${SPLIT_CHOICE[1]}"
-		
-		FILE_CHOICE=$(find "$DIR" -name "$FILE_CHOICE")
+            EXT_CHOICE="${SPLIT_CHOICE[0]}"
+            FILE_CHOICE="${SPLIT_CHOICE[1]}"
 
-		mame ${MAPPINGS[$EXT_CHOICE]} -cart "$FILE_CHOICE" -resolution \
-			${RESOLUTIONS[$EXT_CHOICE]} -sound "$SOUND" -speed "$SPEED" 
-	fi  
+            FILE_CHOICE=$(find "$DIR" -name "$FILE_CHOICE")
+
+            mame "${MAPPINGS[$EXT_CHOICE]}" -cart "$FILE_CHOICE" -resolution \
+                    "${RESOLUTIONS[$EXT_CHOICE]}" -sound "$SOUND" -speed "$SPEED"
+    fi
 
 mGBA
 ----
