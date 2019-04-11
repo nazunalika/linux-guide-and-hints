@@ -98,11 +98,11 @@ Finally, add this to the top of your cron jobs:
 
 .. code-block:: bash
 
-    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
-    [ -f $HOME/.keychain/$HOSTNAME-sh ] && \
-        . $HOME/.keychain/$HOSTNAME-sh 2>/dev/null
-    [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] && \
-        . $HOME/.keychain/$HOSTNAME-sh-gpg 2>/dev/null
+    [ -z "$HOSTNAME" ] && HOSTNAME=$(uname -n)
+    [ -f "$HOME/.keychain/$HOSTNAME-sh" ] && \
+        source "$HOME/.keychain/$HOSTNAME-sh" 2>/dev/null
+    [ -f "$HOME/.keychain/$HOSTNAME-sh-gpg" ] && \
+        source "$HOME/.keychain/$HOSTNAME-sh-gpg" 2>/dev/null
 
 Unattended backups
 ------------------
@@ -196,23 +196,23 @@ The following helper script should get you started:
     }
 
     # Import environment variables SSH_AUTH_SOCK, etc.
-    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
-    [ -f $HOME/.keychain/$HOSTNAME-sh ] && \
-        . $HOME/.keychain/$HOSTNAME-sh 2>/dev/null
-    [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] && \
-        . $HOME/.keychain/$HOSTNAME-sh-gpg 2>/dev/null
+    [ -z "$HOSTNAME" ] && HOSTNAME=$(uname -n)
+    [ -f "$HOME/.keychain/$HOSTNAME-sh" ] && \
+        source "$HOME/.keychain/$HOSTNAME-sh" 2>/dev/null
+    [ -f "$HOME/.keychain/$HOSTNAME-sh-gpg" ] && \
+        source "$HOME/.keychain/$HOSTNAME-sh-gpg" 2>/dev/null
 
-    cd $HOME/backup || fail
+    cd "$HOME/backup" || fail
     # We need to unlock the files in order to allow modifications. Note that direct
     # mode is deprecated.
-    git annex unlock * || fail
+    git annex unlock ./* || fail
 
     # ...snip...
     # Copy your files to backup here
     # ...snip...
 
     git annex add --include-dotfiles . || fail
-    git annex sync --content --message=$(date +%F) || fail
+    git annex sync --content --message="$(date +%F)" || fail
 
     # For each remote we need to run sync in order to actually
     # propagate the changes. Doing sync from the initial directory
@@ -220,9 +220,9 @@ The following helper script should get you started:
     # directory performs the merge.
     for remote in $(git remote)
     do
-        URL=$(git remote get-url $remote)
-        cd $URL || fail
-        git annex sync --content --message=$(date +%F) || fail
+        URL=$(git remote get-url "$remote")
+        cd "$URL" || fail
+        git annex sync --content --message="$(date +%F)" || fail
     done
 
 .. raw:: html
