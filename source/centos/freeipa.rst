@@ -4,7 +4,7 @@ FreeIPA
 .. meta::
     :description: How to install/configure FreeIPA on CentOS 7 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
-This tutorial goes over how to install and configure FreeIPA on CentOS 7 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
+This tutorial goes over how to install and configure FreeIPA on CentOS 7 (and later 8) servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::
 
@@ -18,7 +18,7 @@ Requirements
 
 Here are the list of requirements below.
  
-* CentOS 7 or Fedora 29+
+* CentOS 7+ or Fedora 29+
 * An active internet connection to install the packages required or available internal mirrors
 * DNS delegation (if a DNS appliance or server already exists)
 
@@ -36,34 +36,35 @@ Tutorial Preface, Notes, and Recommendations
    * Keep selinux set to **enforcing**
    * DNS - You **must** be careful when using DNS. Here are recommendations. [#f1]_
 
-     * Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes.
-     * Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - Do not attempt to hijack a domain already being used. This assumes you may have Dynamic DNS enabled in the current DNS infrastructure or perhaps everything is static addressing where A/AAAA/PTR records do not change too often.
-     * Recommendation 3: If the above is not possible, the IPA servers won't need control of DNS. Instead, it will spit out the necessary zone information for IPA for the zone you will have IPA in.
+     * Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes if you so choose.
+     * Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - It's not required for hosts to live in the subdomain to be a member of the IPA domain. Do not try to hijack a domain.
 
    * Consider setting up a trust with Active Directory if you are in a mixed environment, eg Active Directory already exists
    * IPA servers should have static assigned addresses - Configured via nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-*
+   * Try to avoid running FreeIPA without DNS - while possible, it's highly unmanageable.
 
 .. note:: Trust Information
 
-   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, ad.example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources. 
+   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, ad.example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync (which we recommend against using).
+
 .. note:: NOFILE limits
 
-   You may run into file descriptor limit problems depending on the IPA version you are using and/or patch level. Ensure that /etc/sysconfig/dirsrv.systemd has LimitNOFILE set to at least 16384.
+   You may run into file descriptor limit problems depending on the IPA version you are using and/or patch level. Ensure that /etc/sysconfig/dirsrv.systemd has LimitNOFILE set to at least 16384. By default this shouldn't happen in 7.6+
 
 
 DNS
 ---
 
-As noted in the previous section, you must keep in mind that you should not hijack a domain. While FreeIPA does have DNS capabilities and will allow you to do some things like create zones (forward/reverse) and many types of records, FreeIPA should not be considered a full on DNS solution for a network. It does not support "views", meaning you cannot have an internal view and an external view, assuming your domain is both an external and internally routable domain. In the event that you do need to have "views", you should setup a separate DNS server and perform delegation of your domain.
+As noted in the previous section, you must try not to hijack a domain. You can migrate records over to FreeIPA's DNS if you'd like, but care must be taken with that approach. 
 
-Here are some common ways you can setup FreeIPA and DNS.
+While FreeIPA can do the typical DNS server work such as forward/reverse zones and various types of records, it should not be considered a full solution. It does not support views (eg, you can't have internal and external views, assuming you have domains that are publically facing). In the event you need to have views, that's when you need a different DNS server or service to provide this to you.
 
-In this setup, it would allow clients that are DHCP to automatically update their own IP address as they come online or get a new IP automatically. They would have their own permissions to make such changes in the zones (where sssd+kerberos do the work). 
+There are two ways you can have DNS entries updated dynamically: --enable-dns-updates for ipa-client-install and DHCP dynamic DNS updates. Both are sufficient. The latter requires additional work and is outside the scope of this write up.
 
 Delegation
 ++++++++++
 
-Throughout this guide, you will find we will be using DNS delegation as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. The guide will assume you have a DNS server/appliance that controls a domain like example.com and delegates ad.example.com and ipa.example.com. Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zone (eg example.com outside of ipa.example.com).
+Throughout this guide, you will find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. The guide will assume you have a DNS server/appliance that controls a domain like example.com and delegates ipa.example.com and has AD at example.com or ad.example.com. Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones.
 
 You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner. 
 
@@ -121,10 +122,17 @@ To install the server, make sure the hostname is set to the A records and NS del
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    % firewall-cmd --complete-reload
-   % ipa-server-install --no_hbac_allow --no-ntp --setup-dns  <-- If you want to host NTP from IPA, take off --no-ntp
+   % ipa-server-install --no_hbac_allow \
+       --no-ntp \ <-- If you want to host NTP from IPA, take off --no-ntp
+       --setup-dns \
+       --realm IPA.EXAMPLE.COM \
+       --domain example.com 
+
    . . . (show steps here)
 
-Once this is complete, it's recommended you create an admin account for yourself. In this instance, you can append "2" at the end of your login name, that way there is an obvious distinction between what's a 'normal' account (ie desktop user) and an admin account (servers). It is generally frowned upon to have one account that does both. In the case of Active Directory, environments that follow security compliance require their 'domain administrators' to have a separate account from their workstation account.
+Once this is complete, it's recommended you create an admin account for yourself. In this instance, you can append "2" at the end of your login name, that way there is an obvious distinction between what's a 'normal' account (ie desktop user) and an admin account (servers). It's generally normal for people to have one single account that they login to their workstation and also happen to be a domain admin and server admin at the same time. I recommend against this as there should be a distinction between a 'normal' workstation user and a domain admin.
+
+As an example, in the case of Active Directory, environments that follow security compliance require their 'domain administrators' to have a separate account from their workstation account.
 
 .. code-block:: shell
    
@@ -178,7 +186,7 @@ Once you have a server added as a client and then added to the ipaservers host g
 
    % ipa-replica-install --no-ntp --sh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
 
-If you have forwarders, use the --forwarders option instead.
+If you have forwarders, use the --forwarders option instead. Remove --no-ntp if you are hosting NTP.
 
 Active Directory Trust
 ----------------------
@@ -1318,7 +1326,7 @@ If using domain resolution order, AD users get double uid attributes - but only 
 Solaris Weirdness
 '''''''''''''''''
 
-If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not (currently). Groups show fqdn for users, so resolution does not work.
+If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not unless you are on SRU 11.4.7.4.0 or newer.
 
 Situational Options
 -------------------

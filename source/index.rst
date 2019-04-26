@@ -46,3 +46,11 @@ packages and system administration in |Fedora| and |CentOS|.
   centos/openldap
   centos/sysadmin
   centos/freeipa
+
+.. toctree::
+  :maxdepth: 4
+  :caption: Training Resources
+  :glob:
+
+  training/*
+
