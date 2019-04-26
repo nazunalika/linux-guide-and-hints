@@ -27,9 +27,9 @@ Tutorial Preface, Notes, and Recommendations
 
 .. warning:: Potential Pitfalls!
 
-   * Leave SELinux enabled at all times. You will not run into SELinux issues.
-   * FreeIPA runs a lot better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely.
-   * FreeIPA does not run DHCP. ISC DHCP can be configured to do dynamic DNS updates to FreeIPA if FreeIPA has full control over DNS.
+   * Leave SELinux enabled at all times. You will not run into SELinux issues
+   * FreeIPA runs a lot better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely
+   * FreeIPA does not run DHCP. ISC DHCP can be configured to do dynamic DNS updates to FreeIPA or hosts can be configured to perform dynamic DNS updates
 
 .. note:: Recommended Information
 
@@ -833,7 +833,6 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
    % vi /etc/pam.conf
 
    # Console
-   # We are not using pam_ldap because there's a SVC login crash
    login auth requisite    pam_authtok_get.so.1
    login auth sufficient   pam_krb5.so.1
    login auth required     pam_unix_cred.so.1
@@ -931,6 +930,10 @@ Solaris 11 and Omnios/Illumos
 +++++++++++++++++++++++++++++
 
 Solaris 11 and Omnios share similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.
+
+.. note:: AD Groups
+
+   In Solaris 10, users who logged in with AD users (with their short name) would appear as their full name (name@domain). This allowed their groups to fully resolve. However, in Solaris 11.4, this was not the case. Short name logins will work but your groups will not resolve as the compat tree uses the full name. To avoid running into this problem, you should be on at least SRU 11.4.7.4.0
 
 Below is for the service account like in the previous section, here as a reference.
 
