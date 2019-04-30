@@ -44,6 +44,10 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 | ipa02.example.com       | 192.168.15.3  |
 +-------------------------+---------------+
 
+.. note::
+
+   IPA Servers should either have a DHCP reservation or a static address. In the even that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient for our name server.
+
 .. code-block:: shell
 
    # Examples of using ipa-server-install
@@ -58,13 +62,32 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 .. code-block:: shell
 
    # Adding a replica
-   % ipa-replica-install
+   % ipa-replica-install --setup-dns \
+       --setup-ca \
+       --no-forwarders
 
    # Adding a replica unattended without forwarders
    % ipa-client-install --realm EXAMPLE.COM
    % kinit admin
    % ipa hostgroup-add-member --hosts=ipa02.example.com ipaservers
-   % ipa-replica-install --setup-dns --setup-ca --no-forwarders --unattended
+   % ipa-replica-install --setup-dns \
+       --setup-ca \
+       --no-forwarders \
+       --unattended
+
+.. code-block:: shell
+
+   # Set a static address - It's important for your IdM servers
+   # to have static addresses or a DHCP reservation.
+   % nmcli con mod eth0 ipv4.address 192.168.15.2/24
+   % nmcli con mod eth0 ipv4.gateway 192.168.15.1
+   % nmcli con mod eth0 ipv4.method manual
+   % nmcli con mod eth0 ipv4.dns-search example.com
+
+   # You should set this if your replica serves DNS! If not, set it to
+   # one or more of your IdM replicas that do.
+   % nmcli con mod eth0 ipv4.dns 127.0.0.1
+   % nmcli con up eth0
 
 Creating Users, Groups, and Policies
 ------------------------------------
@@ -78,7 +101,7 @@ Creating Users, Groups, and Policies
 +-------------------------+---------------+-----------+----------+--------------+
 | Larry Dufus             | ldufus        | Normal    | helpdesk |              |
 +-------------------------+---------------+-----------+----------+--------------+
-| Sys Host Management     | syshostmgt    | Normal    |          | Host Manager |
+| SysHost Management      | syshostmgt    | Normal    |          | Host Manager |
 +-------------------------+---------------+-----------+----------+--------------+
 | Robert Cole             | rcole         | Staged    |          |              |
 +-------------------------+---------------+-----------+----------+--------------+
@@ -117,6 +140,39 @@ Install and configure IdM Clients
 +-------------------------+---------------+
 | nfs.example.com         | 192.168.15.11 |
 +-------------------------+---------------+
+
+.. note:: 
+
+   Depending on your architecture and setup, IdM clients should either be pointing directly at the IdM servers for DNS (at least two of them) or pointing at the DNS server in the environment that is delegating that domain to the IdM domain controllers.
+   
+   In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scnario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.
+
+.. code-block:: shell
+
+   # If your client is not pointing at the IdM DNS and you
+   # don't have another DNS server that's performing delegation,
+   # change your name servers.
+   % nmcli con mod eth0 ipv4.dns 192.168.15.2
+   % nmcli con mod eth0 +ipv4.dns 192.168.15.3
+   % nmcli con mod eth0 ipv4.dns-search example.com
+
+   # Optionally, if your clients don't have DHCP 
+   # reservations, set a static address.
+   % nmcli con mod eth0 ipv4.address 192.168.15.10/24
+   % nmcli con mod eth0 ipv4.gateway 192.168.15.1
+   % nmcli con mod eth0 ipv4.method manual
+
+   # It might be a good idea to set your hostname if you haven't already
+   % hostnamectl set-hostname client.example.com
+   % hostname client.example.com
+
+   # Install the ipa-client packages
+   % yum install ipa-client -y
+   % ipa-client-install --realm EXAMPLE.COM --domain example.com
+   . . .
+   % id admin
+   uid=686600000(admin) gid=686600000(admins) groups=686600000(admins)
+
 
 Configure roaming/automounted home directories
 ----------------------------------------------
