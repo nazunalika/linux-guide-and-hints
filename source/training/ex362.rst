@@ -50,14 +50,39 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 
 .. code-block:: shell
 
+   # Set a static address - It's important for your IdM servers
+   # to have static addresses or a DHCP reservation.
+   % nmcli con mod eth0 ipv4.address 192.168.15.2/24
+   % nmcli con mod eth0 ipv4.gateway 192.168.15.1
+   % nmcli con mod eth0 ipv4.method manual
+   % nmcli con mod eth0 ipv4.dns-search example.com
+
+   # You should set this if your replica serves DNS! If not, set it to
+   # one or more of your IdM replicas that do.
+   % nmcli con mod eth0 ipv4.dns 127.0.0.1
+   % nmcli con up eth0
+
+.. code-block:: shell
+
    # Examples of using ipa-server-install
    % ipa-server-install
    % ipa-server-install --domain example.com --realm EXAMPLE.COM \
        --reverse-zone=15.168.192.in-addr.arpa. \
        --no-forwarders \
        --no-ntp \
-       --setup-kra \
-       --setup-adtrust
+       -p Passw0rd! \
+       -a Passw0rd!
+
+.. note:: Zone Overlap
+
+   In the video demo, you may have noticed I had to use an extra switch, --allow-zone-overlap. This may be needed if your lab or systems either have direct connectivity to the internet or you don't have a DNS server already with usable A records. In a real world scenario, you wouldn't use --allow-zone-overlap, because you shouldn't be domain hijacking. For the sake of your lab (or my demo), you may need it depending on your setup.
+
+   See the FreeIPA DNS page for more information.
+
+.. code-block:: shell
+   % kinit admin
+   # We need to make sure that any A records get a corresponding PTR record
+   % ipa dnsconfig-mod --allow-sync-ptr=True
 
 .. code-block:: shell
 
@@ -74,20 +99,6 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
        --setup-ca \
        --no-forwarders \
        --unattended
-
-.. code-block:: shell
-
-   # Set a static address - It's important for your IdM servers
-   # to have static addresses or a DHCP reservation.
-   % nmcli con mod eth0 ipv4.address 192.168.15.2/24
-   % nmcli con mod eth0 ipv4.gateway 192.168.15.1
-   % nmcli con mod eth0 ipv4.method manual
-   % nmcli con mod eth0 ipv4.dns-search example.com
-
-   # You should set this if your replica serves DNS! If not, set it to
-   # one or more of your IdM replicas that do.
-   % nmcli con mod eth0 ipv4.dns 127.0.0.1
-   % nmcli con up eth0
 
 Creating Users, Groups, and Policies
 ------------------------------------
@@ -201,8 +212,110 @@ Configure and manage a certificate authority
 Back up an IdM infrastructure
 -----------------------------
 
+There are multiple ways you can backup IPA. 
+
+* Full backup: Default, shuts down IPA before performing a backup. This backs up with raw files. As such, it must be done offline.
+* Data bacup: Backs up a copy of the ldap data and the changelog (the IPA-REALM instance, DogTag, IPA backend). This can be done online.
+
+.. code-block:: shell
+
+   # Turns off IPA completely and perform a backup
+   % ipa-backup
+   # Backs up data only and doesn't take down IPA
+   % ipa-backup --data --online
+   # Backs up data only and gpg encrypts
+   % ipa-backup --gpg --gpg-keyring=/root/keys --data --online
+
+To restore a backup, the ipa-restore command is available.
+
+.. code-block:: shell
+
+   % ipa-restore /var/lib/ipa/backup/
+
 Configure IdM as an LDAP backend for external services
 ------------------------------------------------------
+
+Most services and applications that authenticate users do typically have LDAP support. IdM can be used as an LDAP backend. You typically need only a few things to authenticate users from IdM to an application.
+
+* Base DN, this always ends up being the top level of your domain: dc=example,dc=com - All accounts share this common base.
+* Bind DN, this is a system account that binds to the directory to assist with searches and authentication
+* Attribute mappings
+* Groups, depending on the application
+
+Below is a table of common DN's you may specify in an application:
+
++----------+-----------------------------------------------------+----------------------------+
+| DN's     | Path                                                | Filter (if applicable)     |
++==========+=====================================================+============================+
+| Base DN  | dc=example,dc=com                                   |                            |
++----------+-----------------------------------------------------+----------------------------+
+| User DN  | cn=users,cn=accounts,dc=example,dc=com              | uid=...                    |
++----------+-----------------------------------------------------+----------------------------+
+| Group DN | cn=groups,cn=accounts,dc=example,dc=com             | (objectClass=groupOfNames) |
++----------------------------------------------------------------+----------------------------+
+| Bind DN  | uid=account,cn=sysaccounts,cn=etc,dc=example,dc=com |                            |
++----------+-----------------------------------------------------+----------------------------+
+
+.. code-block:: shell
+   
+   % ipa user-show admin --all | grep '^dn'
+     dn: uid=admin,cn=users,cn=accounts,dc=example,dc=com
+
+Below is a table of common attributes that may be used to map user information in the application.
+
++------------+-----------+
+| Type       | Attribute |
++============+===========+
+| Login Name | uid       |
++------------+-----------+
+| First Name | givenName |
++------------+-----------+
+| Surname    | sn        |
++------------+-----------+
+| Email      | mail      |
++------------+-----------+
+| Groups     | memberOf  |
++------------+-----------+
+| Full Name  | cn        |
++------------+-----------+
+
+Below are two ways to create a bind account (bind DN). The first way is the LDAP way. The second way is the ipa-ldap-updater.
+
+.. code-block:: shell
+
+   % kinit admin
+   % ldapadd -Y GSSAPI
+   SASL/GSSAPI authentication started
+   SASL username: admin@EXAMPLE.COM
+   SASL SSF: 256
+   SASL data security layer installed.
+   dn: uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com
+   objectclass: account
+   objectclass: simplesecurityobject
+   uid: binder
+   userPassword: password123
+   passwordExpirationTime: 20380119031407Z
+   nsIdleTimeout: 0
+   # Press CTRL+d
+   adding new entry "uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com"
+
+.. code-block:: shell
+
+   % kinit admin
+   % cat << EOF > binder.update
+   dn: uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com
+   add:objectclass:account
+   add:objectclass:simplesecurityobject
+   add:uid:binder
+   add:userPassword:password123
+   add:passwordExpirationTime:20380119031407Z
+   add:nsIdleTimeout:0
+   EOF
+   % ipa-ldap-updater binder.update
+
+When this account is created, you can then specify the full DN for that object into a bind DN field, along with it's password into an accompanying bind password field.
+
+If you'd like an example of setting up Ansible Tower (or AWX, the open source version of tower) against IdM, you can click `here <https://github.com/ansible/awx/blob/devel/docs/auth/ldap.md>`__.
 
 Implement a SSO
 ---------------
