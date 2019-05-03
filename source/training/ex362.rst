@@ -252,7 +252,7 @@ Below is a table of common DN's you may specify in an application:
 | User DN  | cn=users,cn=accounts,dc=example,dc=com              | uid=...                    |
 +----------+-----------------------------------------------------+----------------------------+
 | Group DN | cn=groups,cn=accounts,dc=example,dc=com             | (objectClass=groupOfNames) |
-+----------------------------------------------------------------+----------------------------+
++----------+-----------------------------------------------------+----------------------------+
 | Bind DN  | uid=account,cn=sysaccounts,cn=etc,dc=example,dc=com |                            |
 +----------+-----------------------------------------------------+----------------------------+
 
