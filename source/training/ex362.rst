@@ -39,14 +39,16 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 +-------------------------+---------------+
 | Server Name             | IP Address    |
 +=========================+===============+
-| ipa01.example.com       | 192.168.15.2  |
+| idm1.example.com       | 192.168.15.2  |
 +-------------------------+---------------+
-| ipa02.example.com       | 192.168.15.3  |
+| idm2.example.com       | 192.168.15.3  |
 +-------------------------+---------------+
 
 .. note::
 
    IPA Servers should either have a DHCP reservation or a static address. In the even that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient for our name server.
+
+   In later versions of FreeIPA, there is support to force network manager to ensure resolv.conf is loopback without the need to set it by hand with nmcli.
 
 .. code-block:: shell
 
@@ -65,6 +67,11 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 .. code-block:: shell
 
    # Examples of using ipa-server-install
+   # RHEL 7
+   % yum install ipa-server ipa-server-dns ipa-server-trust-ad 
+   # RHEL 8
+   % yum module enable idm:DL1
+   % yum module install idm:DL1/{server,dns,adtrust,client}
    % ipa-server-install
    % ipa-server-install --domain example.com --realm EXAMPLE.COM \
        --reverse-zone=15.168.192.in-addr.arpa. \
@@ -285,10 +292,7 @@ Below are two ways to create a bind account (bind DN). The first way is the LDAP
 
    % kinit admin
    % ldapadd -Y GSSAPI
-   SASL/GSSAPI authentication started
-   SASL username: admin@EXAMPLE.COM
-   SASL SSF: 256
-   SASL data security layer installed.
+   . . .
    dn: uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com
    objectclass: account
    objectclass: simplesecurityobject

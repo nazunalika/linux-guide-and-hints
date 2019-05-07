@@ -2,9 +2,9 @@ FreeIPA
 ^^^^^^^
 
 .. meta::
-    :description: How to install/configure FreeIPA on CentOS 7 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
+    :description: How to install/configure FreeIPA on CentOS 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
-This tutorial goes over how to install and configure FreeIPA on CentOS 7 (and later 8) servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
+This tutorial goes over how to install and configure FreeIPA on CentOS 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::
 
@@ -119,7 +119,12 @@ To install the server, make sure the hostname is set to the A records and NS del
    10.200.0.230 server1.ipa.example.com
    10.200.0.231 server2.ipa.example.com
    
+   # RHEL 7
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   # RHEL 8
+   % yum module enable idm:DL1
+   % yum module install idm:DL1/{dns,adtrust,client,server}
+   # Setup
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    % firewall-cmd --complete-reload
    % ipa-server-install --no_hbac_allow \
@@ -274,10 +279,10 @@ In some cases, it is a requirement to disable *all* anonymous binds. If this is 
 Client Setup
 ------------
 
-RHEL 7
+RHEL 8
 ++++++
 
-RHEL 6
+RHEL 7
 ++++++
 
 Mac Clients
