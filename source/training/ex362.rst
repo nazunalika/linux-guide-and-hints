@@ -70,8 +70,8 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
    # RHEL 7
    % yum install ipa-server ipa-server-dns ipa-server-trust-ad 
    # RHEL 8
-   % yum module enable idm:DL1
-   % yum module install idm:DL1/{server,dns,adtrust,client}
+   % yum module enable idm:DL1/{server,dns,adtrust,client,common}
+   % yum install ipa-server ipa-server-dns ipa-server-trust-ad 
    % ipa-server-install
    % ipa-server-install --domain example.com --realm EXAMPLE.COM \
        --reverse-zone=15.168.192.in-addr.arpa. \

@@ -122,8 +122,8 @@ To install the server, make sure the hostname is set to the A records and NS del
    # RHEL 7
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # RHEL 8
-   % yum module enable idm:DL1
-   % yum module install idm:DL1/{dns,adtrust,client,server}
+   % yum module enable idm:DL1/{dns,adtrust,client,server,common}
+   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Setup
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    % firewall-cmd --complete-reload
