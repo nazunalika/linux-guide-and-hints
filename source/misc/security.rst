@@ -1,5 +1,5 @@
-Security
-^^^^^^^^
+Security and anti-patterns
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Whether you are a system administrator or developer, practicing good
 infosec hygiene is important. Downplaying the importance of security,
@@ -107,6 +107,27 @@ mitigate denial-of-service attacks. [#f3]_
 .. note::
 
     TODO: add more sections.
+
+Disabling mitigations
+---------------------
+
+There's a site (and general opinion) called https://make-linux-fast-again.com/
+making the rounds that recommends disabling all mitigations related to
+Meltdown, Spectre, MDS, et al. It is our opinion that you should not be
+following this advice. The kernel documentation has pages on `L1TF
+<https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/l1tf.html>`_ and
+`MDS <https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html>`_
+that discusses these vulnerabilities in full, the available mitigations and the
+pros and cons of disabling them. In a nutshell, since some of the mitigations
+lead to performance degradation, some people are suggesting disabling all
+mitigations.  **This is very bad advice**.
+
+The most significant performance degradation results from disabling SMT. Due to
+the trade-off between the loss of performance and the low risk of most users
+being affected by these vulnerabilities, SMT is on by default. If you care
+about performance, **no further action is needed**. Disabling the other
+mitigations exposes yourself to unnecessary risk for little to no performance
+gain.
 
 .. rubric:: Footnotes
 
