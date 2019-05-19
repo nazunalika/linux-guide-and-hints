@@ -138,7 +138,14 @@ And the corresponding service file:
 
     [Service]
     Type=oneshot
+    ExecStartPre=/bin/sleep 1m
     ExecStart=/bin/systemd-inhibit /bin/su -c "/usr/bin/flock -w 0 /path/to/cron.lock # ...
+
+We sleep before running ``systemd-inhibit`` because there's a race condition if
+it runs while the system is still waking from suspend. See this `mailing list
+post
+<https://lists.freedesktop.org/archives/systemd-devel/2019-April/042423.html>`_
+for details.
 
 .. note::
 
