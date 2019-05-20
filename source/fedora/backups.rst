@@ -123,7 +123,7 @@ wake up the system by writing a systemd unit and using the ``WakeSystem`` proper
 
     [Timer]
     Unit=weekly_backup.service
-    OnCalendar=Sun 23:00:00 EST
+    OnCalendar=Sun 23:00:00
     WakeSystem=true
 
     [Install]
