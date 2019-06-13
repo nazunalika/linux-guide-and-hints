@@ -625,7 +625,7 @@ You might want to create an HBAC rule specifically for your IPA admin accounts t
 
 .. note:: Group Types
 
-   Groups in Active Directory have three types. These three types can actually change the behavior of how SSSD on the IPA domain controllers resolve them or if they'll even be resolvable at all. The three types are 'Domain Local', 'Global', and 'Universal'. If at all possible, avoid groups being 'Global'. The reason is that global is for groups that are visible or usable within a domain forest. IPA would not sit as a child domain in an AD forest (it acts as its own forest), so global groups will either not be resolvable or if they do get resolved, there may be delays in resolution.
+   Groups in Active Directory have three types. These three types can actually change the behavior of how SSSD on the IPA domain controllers resolve them or if they'll even be resolvable at all. The three types are 'Domain Local', 'Global', and 'Universal'. If at all possible, avoid groups being 'Global'. Domain Local or Universal is recommended.
 
 SUDO
 ----
