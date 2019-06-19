@@ -104,6 +104,22 @@ storing passwords in plain-text. However, it is reasonable to cap the
 password length to something moderately high (like 512 characters) to
 mitigate denial-of-service attacks. [#f3]_
 
+Client-side hashing
++++++++++++++++++++
+
+It is our opinion that client-side hashing does not add any additional
+security.  The hashed password simply becomes the new password. While one can
+argue that it obfuscates the original password (since password reuse is
+rampant), a more effective strategy is to educate users to use password
+managers and to not reuse passwords across services. There are a few problems
+with client-side hashing:
+
+1. The user may have JavaScript disabled for security reasons.
+
+2. It requires that you trust the client (which is always a bad idea). The user
+   or an attacker can simply modify the client side code to do what they wish.
+   It also makes it easier for an attacker to impersonate the user.
+
 .. note::
 
     TODO: add more sections.
