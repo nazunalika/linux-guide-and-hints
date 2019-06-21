@@ -32,6 +32,22 @@ Resources
 
 * `FreeIPA <https://www.freeipa.org>`__
 * `Red Hat Documentation <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/>`__
+* `Trust Anatomy/SSSD Troubleshooting <https://jhrozek.wordpress.com/2015/08/19/performance-tuning-sssd-for-large-ipa-ad-trust-deployments/>`__
+* `Directory Server Tuning <https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/performance_tuning_guide/>`__
+
+Hardware Recommendations
+------------------------
+
+The minimum requirements for IdM are fairly low. 2GB of RAM, 1 core, and a 10GB disk. However, we believe that's too low, especially if we plan on scaling out. And during upgrades, you would need at least 4GB of RAM for the operations to be successful. Below are our minimum recommendations:
+
+* 2 (virtual) CPU Core
+* 4 GB of RAM
+* 10GB+ disk or partition for /var/lib/dirsrv
+
+Per the Red Hat documentation, consider that with at least 10k users and 100 groups, you would need at least 3GB of RAM and 1GB swap. If you end up having 100k users and 50k groups, then 16GB of RAM and 4GB of swap is recommended. In fact, in larger deployments, it's more effective to increase RAM than disk, as most data is stored in cache.
+
+View the resources above for directory server tuning information.
+
 
 Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 -----------------------------------------------------------------

@@ -18,9 +18,10 @@ Requirements
 
 Here are the list of requirements below.
  
-* CentOS 7+ or Fedora 29+
+* CentOS 7+ or Fedora 30+
 * An active internet connection to install the packages required or available internal mirrors
 * DNS delegation (if a DNS appliance or server already exists)
+* 2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv
 
 Tutorial Preface, Notes, and Recommendations
 --------------------------------------------
