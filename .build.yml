@@ -9,7 +9,7 @@ packages:
     - autoconf
     - npm
 secrets:
-    - c6d81f00-6932-41de-aa13-98667964e111
+    - bdbd9992-5ade-44b9-8809-453412699617
 sources:
     - https://git.sr.ht/~remyabel/linux-guide-and-hints
 tasks:
@@ -38,4 +38,6 @@ tasks:
         cp -r ~/linux-guide-and-hints/CNAME .
         git add -A .
         git commit --allow-empty -m 'Deploy to gh-pages.'
-        git push https://"$GH_TOKEN"@github.com/linux-guide-and-hints.git
+        set +x
+        git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
+        set -x
