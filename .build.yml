@@ -29,7 +29,7 @@ tasks:
         set +x
         . ~/GH_TOKEN
         set -x
-        git clone --branch='gh-pages' --depth=1 https://github.com/remyabel/linux-guide-and-hints.git \
+        git clone --branch='gh-pages' --depth=1 https://github.com/remyabel/linux-guide-and-hints.git
         git config user.email 'deploy@sr.ht'
         git config user.name 'sr.ht deployment bot'
         cp -r ~/linux-guide-and-hints/build/html .
