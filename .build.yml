@@ -8,6 +8,8 @@ packages:
     - automake
     - autoconf
     - npm
+secrets:
+    - 880b880a-6a42-46e9-b717-d91ab5b9dc84
 sources:
     - https://git.sr.ht/~remyabel/linux-guide-and-hints
 tasks:
@@ -23,3 +25,15 @@ tasks:
         export PATH
         make html SPHINXOPTS=-Ea
         ./node_modules/grunt/bin/grunt build
+    - deploy: |
+        GH_TOKEN=$(cat ~/GH_TOKEN)
+        git clone --quiet --branch='gh-pages' --depth=1 git@github.com:remyabel/linux-guide-and-hints.git \
+            > /dev/null 2>&1
+        git config user.email 'deploy@sr.ht'
+        git config user.name 'sr.ht deployment bot'
+        cp -r ~/linux-guide-and-hints/build/html .
+        cp -r ~/linux-guide-and-hints/.nojekyll .
+        cp -r ~/linux-guide-and-hints/CNAME .
+        git add -A .
+        git commit -qm 'Deploy to gh-pages.'
+        git push --quiet https://"$GH_TOKEN"@github.com/linux-guide-and-hints.git
