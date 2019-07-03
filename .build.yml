@@ -9,7 +9,7 @@ packages:
     - autoconf
     - npm
 secrets:
-    - 880b880a-6a42-46e9-b717-d91ab5b9dc84
+    - c6d81f00-6932-41de-aa13-98667964e111
 sources:
     - https://git.sr.ht/~remyabel/linux-guide-and-hints
 tasks:
@@ -26,8 +26,10 @@ tasks:
         make html SPHINXOPTS=-Ea
         ./node_modules/grunt/bin/grunt build
     - deploy: |
-        GH_TOKEN=$(cat ~/GH_TOKEN)
-        git clone --quiet --branch='gh-pages' --depth=1 git@github.com:remyabel/linux-guide-and-hints.git \
+        set +x
+        . ~/GH_TOKEN
+        set -x
+        git clone --quiet --branch='gh-pages' --depth=1 https://github.com/remyabel/linux-guide-and-hints.git \
             > /dev/null 2>&1
         git config user.email 'deploy@sr.ht'
         git config user.name 'sr.ht deployment bot'
