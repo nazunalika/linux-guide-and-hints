@@ -55,9 +55,9 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 +-------------------------+---------------+
 | Server Name             | IP Address    |
 +=========================+===============+
-| idm1.example.com       | 192.168.15.2  |
+| idm1.example.com        | 192.168.15.2  |
 +-------------------------+---------------+
-| idm2.example.com       | 192.168.15.3  |
+| idm2.example.com        | 192.168.15.3  |
 +-------------------------+---------------+
 
 .. note::
@@ -103,6 +103,7 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
    See the FreeIPA DNS page for more information.
 
 .. code-block:: shell
+
    % kinit admin
    # We need to make sure that any A records get a corresponding PTR record
    % ipa dnsconfig-mod --allow-sync-ptr=True
