@@ -37,7 +37,7 @@ tasks:
         cp -r ~/linux-guide-and-hints/.nojekyll .
         cp -r ~/linux-guide-and-hints/CNAME .
         git add -A .
-        git commit --allow-empty -m 'Deploy to gh-pages.'
+        git commit -m 'Deploy to gh-pages.'
         set +x
         git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
         set -x
