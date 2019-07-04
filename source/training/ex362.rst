@@ -55,9 +55,9 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 +-------------------------+---------------+
 | Server Name             | IP Address    |
 +=========================+===============+
-| idm1.example.com        | 192.168.15.2  |
+| idm1.example.com       | 192.168.15.2  |
 +-------------------------+---------------+
-| idm2.example.com        | 192.168.15.3  |
+| idm2.example.com       | 192.168.15.3  |
 +-------------------------+---------------+
 
 .. note::
@@ -98,12 +98,11 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 
 .. note:: Zone Overlap
 
-   In the video demo, you may have noticed I had to use an extra switch, --allow-zone-overlap. This may be needed if your lab or systems either have direct connectivity to the internet or you don't have a DNS server already with usable A records. In a real world scenario, you wouldn't use --allow-zone-overlap, because you shouldn't be domain hijacking. For the sake of your lab (or my demo), you may need it depending on your setup.
+   In the video demo, you may have noticed I had to use an extra switch, --allow-zone-overlap. This may be needed if your lab or systems either have direct connectivity to the internet or you don't have a DNS server already with usable A records. Especially in this case, we are using the 'example.com' domain which is not owned by us. In a real world scenario, you wouldn't use --allow-zone-overlap, because you shouldn't be domain hijacking. For the sake of your lab (or my demo), you may need it depending on your setup.
 
    See the FreeIPA DNS page for more information.
 
 .. code-block:: shell
-
    % kinit admin
    # We need to make sure that any A records get a corresponding PTR record
    % ipa dnsconfig-mod --allow-sync-ptr=True
@@ -180,7 +179,7 @@ Install and configure IdM Clients
 
    Depending on your architecture and setup, IdM clients should either be pointing directly at the IdM servers for DNS (at least two of them) or pointing at the DNS server in the environment that is delegating that domain to the IdM domain controllers.
    
-   In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scnario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.
+   In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scenario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.
 
 .. code-block:: shell
 
@@ -337,6 +336,11 @@ Below are two ways to create a bind account (bind DN). The first way is the LDAP
 When this account is created, you can then specify the full DN for that object into a bind DN field, along with it's password into an accompanying bind password field.
 
 If you'd like an example of setting up Ansible Tower (or AWX, the open source version of tower) against IdM, you can click `here <https://github.com/ansible/awx/blob/devel/docs/auth/ldap.md>`__.
+
+Kerberos
+++++++++
+
+On some applications, it is possible to use kerberos authentication rather than a straight bind account. The general idea is the same when picking out the base dn, attributes, and the like. However, instead you would create an account with an accompanying LDAP/... service principal to do the authentication.
 
 Implement a SSO
 ---------------
