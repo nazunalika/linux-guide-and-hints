@@ -42,7 +42,7 @@ tasks:
         if [[ $? == 1 ]]; then
             echo "Nothing to commit. Skipping deploy."
             # Exit with a good status so the build does not fail
-            return 0
+            exit 0
         else
             set +x
             git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
