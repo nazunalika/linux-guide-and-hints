@@ -38,6 +38,13 @@ tasks:
         cp -r ~/linux-guide-and-hints/CNAME .
         git add -A .
         git commit -m 'Deploy to gh-pages.'
-        set +x
-        git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
-        set -x
+        # If there was nothing to commit...
+        if [[ $? == 1 ]]; then
+            echo "Nothing to commit. Skipping deploy."
+            # Exit with a good status so the build does not fail
+            return 0
+        else
+            set +x
+            git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
+            set -x
+        fi
