@@ -6,7 +6,9 @@ The System Administrator Experience
 
 This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. 
 
-Please keep in mind, this is for Red Hat based distributions, mainly CentOS 6 and 7. You may attempt to use Scientific Linux, but just know that they modify the base repositories and make other changes that go outside of what is shipped by Red Hat, and therefore CentOS.
+Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and 8. Scientific Linux 7 is not supported.
+
+Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible.
 
 Recommendations
 ---------------
@@ -20,7 +22,7 @@ Recommendations
    * Spacewalk can be replaced with Katello/Foreman or straight Pulp (**recommended to use Katello**, but you can try both)
    * You can replace KVM with ESXi if you wish, with specific caveats listed in the steps.
    * nagios can be replaced with icinga
-   * On EL7, you can replace firewalld with the regular iptables service - This may be required for your virtual host
+   * You can replace firewalld with the regular iptables service or nftables for 8 - This may be required for your virtual host
 
 .. note:: General Notes
 
@@ -147,6 +149,8 @@ Notes and Changelog
 |                        | * Remove OpenLDAP from guide     |
 |                        | * Remove spacewalk from the guide|
 +------------------------+----------------------------------+
+|      Jul 23, 2019      | * Started conversion to EL8      |
++------------------------+----------------------------------+
 
 Begin
 -----
@@ -263,11 +267,11 @@ Next you will need to connect your Content Management to your hypervisor. View t
 Spin Up VM's Using Katello/Spacewalk
 ++++++++++++++++++++++++++++++++++++
 
-You will need to spin up two EL7 VM's via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
+You will need to spin up two EL8 VM's via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
 
 If you find the clients aren't registering on Katello, click `here <https://theforeman.org/manuals/1.15/index.html>`__.
 
-If you want examples of an EL7 kickstart you can use, click `here <https://github.com/nazunalika/useful-scripts/blob/master/centos/centos7-pci.ks>`__.
+If you want examples of a kickstart you can use, click `here <https://github.com/nazunalika/useful-scripts/blob/master/centos/centos7-pci.ks>`__.
 
 If you find that you do not want to use Katello to perform this task, then you can setup cobbler and work it out from there. **I currently do not have a tutorial for this, but there is plenty of documentation online.**
 
@@ -284,7 +288,7 @@ I recommend against setting up OpenLDAP for the case of UNIX authentication. For
 Spin Up Two VM's for Databases
 ++++++++++++++++++++++++++++++
 
-Create two new VM's from your Content Management that are EL7 and install postgresql on them.
+Create two new VM's from your Content Management that are EL8 and install postgresql on them.
 
 Do the following:
 
@@ -296,24 +300,20 @@ Do the following:
 Spin Up Configuration Management
 ++++++++++++++++++++++++++++++++
 
-While Katello has some form of puppet built in, it may be better to create a solitary configuration management VM. Spin up a VM that is EL6 or EL7 and install a master for configuration management. You have a few choices.
+While Katello has some form of puppet and ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL7 or EL8 and install a master for configuration management. You have a few choices.
 
 #. SaltStack -> Available in their own repository
-
-   #. If you want to use the most up-to-date version (recommended), consider creating your own internal repository in Katello/Spacewalk and importing the minimal RPM's, and then EPEL and the base repositories for CentOS will take care of the rest of the dependecies. You only need the salt packages for EL7. You need additional dependencies for EL6 (IUS)
-
 #. Ansible   -> Available in EPEL
-#. Puppet    -> Available in their own repository
 
-Spacewalk does support puppet in some fashion, but not SaltStack or Ansible (there are plugins though, but they are not perfect and require Salt/Ansible to run locally on the Spacewalk server). Katello was asked to include SaltStack support. There is currently a SaltStack plugin and needs a foreman proxy setup. It is trivial to setup correctly.
+It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8.
 
 Spin Up VM for NFS/iSCSI
 ++++++++++++++++++++++++
 
-This VM should be EL7. Ensure it has an extra 20GB disk attached to it. Install the following:
+This VM should be EL8. Ensure it has an extra 20GB disk attached to it. Install the following:
 
 1) An NFS server (nfs-utils)
-2) An iSCSI server (EL7: scsi-target-utils, targetcli)
+2) An iSCSI server (scsi-target-utils, targetcli)
 
 You are to:
 
@@ -321,10 +321,6 @@ You are to:
 2) Export a LUN to any server
 
 I highly recommend doing it manually first. The RHEL 6 links still apply to RHEL 7 to an extent. Below are helpful links for iSCSI.
-
-`iSCSI for RHEL 6 (target) <https://www.certdepot.net/sys-configure-an-iscsi-target/>`_
-
-`iSCSI for RHEL 6 (initiator) <https://www.certdepot.net/sys-configure-an-iscsi-initiator/>`_
 
 `iSCSI for RHEL 7 (both) <https://www.certdepot.net/rhel7-configure-iscsi-target-initiator-persistently/>`_
 
@@ -389,7 +385,7 @@ You will need to do the following:
 Setup Nagios VM
 +++++++++++++++
 
-This will be a monitoring server on EL7. You will need to set it up to use snmp to monitor the communication state of every service above. This means:
+This will be a monitoring server on EL8. You will need to set it up to use snmp to monitor the communication state of every service above. This means:
 
 1) Is the right port open?
 2) I got the right kind of response.
@@ -400,11 +396,13 @@ If you are planning to use full on SNMP, all servers will need the appropriate S
 Setup Syslog VM
 +++++++++++++++
 
-Setup this server as a syslog server. It can be EL6 or EL7. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.
+Setup this server as a syslog server. It can be EL7 or EL8. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.
 
 .. note::
 
    You will need to go to your servers and setup /etc/rsyslog.conf to send ALL logs to this syslog server
+
+Optionally, setup an all inclusive logging solution, like graylog, elastic search, mongodb, fluentd. The sky is the limit here!
 
 Document Your Work
 ++++++++++++++++++
@@ -414,10 +412,14 @@ On your new wiki, document everything you did, right now, on your new wiki.
 RPM Build Server
 ++++++++++++++++
 
-For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this.
+For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this. Optionally, you can setup koji, bodhi, the things that the Fedora project uses.
 
 Git Server
 ++++++++++
 
 Also for fun, you can setup a git server. There are many options out there. A popular opensource one is `Gitlab <https://about.gitlab.com/>`_ or even Gitea.
 
+Ansible
++++++++
+
+Consider setting up ansible and the open source tower. Automate everything via ansible.

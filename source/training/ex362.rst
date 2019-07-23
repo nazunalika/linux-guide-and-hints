@@ -93,6 +93,8 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
        --reverse-zone=15.168.192.in-addr.arpa. \
        --no-forwarders \
        --no-ntp \
+       --setup-dns \
+       --setup-adtrust \
        -p Passw0rd! \
        -a Passw0rd!
 
