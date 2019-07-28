@@ -37,6 +37,7 @@ tasks:
         cp -r ~/linux-guide-and-hints/.nojekyll .
         cp -r ~/linux-guide-and-hints/CNAME .
         git add -A .
+        set +e
         git commit -m 'Deploy to gh-pages.'
         # If there was nothing to commit...
         if [[ $? == 1 ]]; then
@@ -44,6 +45,7 @@ tasks:
             # Exit with a good status so the build does not fail
             exit 0
         else
+            set -e
             set +x
             git push https://remyabel:"$GH_TOKEN"@github.com/remyabel/linux-guide-and-hints.git
             set -x
