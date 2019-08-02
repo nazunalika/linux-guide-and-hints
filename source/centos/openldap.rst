@@ -1,6 +1,10 @@
 OpenLDAP
 ^^^^^^^^
 
+.. note:: Deprecation
+
+   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly CentOS). This document will stay here as a reference for those who are still using the server software on RHEL 7. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here.
+
 .. meta::
     :description: How to install OpenLDAP on RHEL 7, configure and set up accounts for host access, etc. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO.
 

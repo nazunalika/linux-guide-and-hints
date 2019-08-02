@@ -88,7 +88,9 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
    # RHEL 8
    % yum module enable idm:DL1/{server,dns,adtrust,client,common}
    % yum install ipa-server ipa-server-dns ipa-server-trust-ad 
+   # Installation, interactive
    % ipa-server-install
+   # Installation, mostly automatic (recommended)
    % ipa-server-install --domain example.com --realm EXAMPLE.COM \
        --reverse-zone=15.168.192.in-addr.arpa. \
        --no-forwarders \
@@ -97,12 +99,6 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
        --setup-adtrust \
        -p Passw0rd! \
        -a Passw0rd!
-
-.. note:: Zone Overlap
-
-   In the video demo, you may have noticed I had to use an extra switch, --allow-zone-overlap. This may be needed if your lab or systems either have direct connectivity to the internet or you don't have a DNS server already with usable A records. Especially in this case, we are using the 'example.com' domain which is not owned by us. In a real world scenario, you wouldn't use --allow-zone-overlap, because you shouldn't be domain hijacking. For the sake of your lab (or my demo), you may need it depending on your setup.
-
-   See the FreeIPA DNS page for more information.
 
 .. code-block:: shell
 
