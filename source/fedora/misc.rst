@@ -52,3 +52,21 @@ SELinux is preventing ``abrt-action-sav`` from write access on the directory /va
 -----------------------------------------------------------------------------------------
 
 If you are receiving this error or a similar one involving ``dbenv.lock``, it means that your ``/var/lib/rpm`` directory has the wrong SELinux contexts applied to it. Verify this with ``ls -alZ /var/lib/rpm/``. You should see files/directories with the ``var_lib_t`` rather than ``rpm_var_lib_t`` label. This may be the result of `bug #1461313 <https://bugzilla.redhat.com/show_bug.cgi?id=1461313>`_ where running ``rpm --rebuilddb`` will set the wrong context on the entire directory. Fix it by running ``sudo restorecon -rv /var/lib/rpm``.
+
+Swapping Desktop Environments
+-----------------------------
+
+It is a common question, especially in the IRC channel #fedora on how to remove gnome, after say, installing XFCE or maybe KDE. The one answer that not a lot of people provide (or may not know works) is using ``dnf swap``.
+
+.. code-block:: bash
+
+   # Example: Swapping from GNOME to KDE
+   $ sudo init 3
+   $ sudo dnf swap @gnome-desktop @kde-desktop
+
+   # Example: Swapping from GNOME to XFCE
+   # Note that xfce-desktop does exist, but it is missing a few pieces.
+   $ sudo init 3
+   $ sudo dnf swap @gnome-desktop @xfce-desktop-environment
+
+This will safely swap the package groups from one to the next, the gnome desktop environment with the kde environment. It is recommended that it is ran in multi-user.target (or init level 3 for those who remember). When the swap is complete, reboot.
