@@ -1,6 +1,12 @@
 The Euphemism Review
 ^^^^^^^^^^^^^^^^^^^^
 
+.. warning::
+
+    This is a humorous article by contributor Louis Abel. The following content
+    does not necessarily represent the viewpoints or opinions held by other
+    authors on this website.
+
 Welcome to the ported edition of the "The Euphemism Review" the journal for imprecise speech in the corporate environment.
 
 Please don't say "timeframe"
