@@ -10,15 +10,14 @@ The list of objectives can be found `here <https://www.redhat.com/en/services/tr
 .. note::
    Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
 
-   If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request.
+   If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.
 
 .. contents::
 
 Overview
 --------
 
-The video series goes over setting up FreeIPA in a lab/VM environment by following the objectives as outlined by Red Hat. The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam>`__. 
-
+The video series goes over setting up FreeIPA in a lab/VM environment by following the objectives as outlined by Red Hat. The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam>`__.
 
 Exam Information
 ----------------
@@ -46,8 +45,7 @@ The minimum requirements for IdM are fairly low. 2GB of RAM, 1 core, and a 10GB 
 
 Per the Red Hat documentation, consider that with at least 10k users and 100 groups, you would need at least 3GB of RAM and 1GB swap. If you end up having 100k users and 50k groups, then 16GB of RAM and 4GB of swap is recommended. In fact, in larger deployments, it's more effective to increase RAM than disk, as most data is stored in cache.
 
-View the resources above for directory server tuning information.
-
+View the resources above in the previous section for directory server tuning information.
 
 Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 -----------------------------------------------------------------
@@ -62,7 +60,7 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 
 .. note::
 
-   IPA Servers should either have a DHCP reservation or a static address. In the even that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient for our name server.
+   IPA Servers should either have a DHCP reservation or a static address. In the event that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient and recommended for our name server.
 
    In later versions of FreeIPA, there is support to force network manager to ensure resolv.conf is loopback without the need to set it by hand with nmcli.
 
@@ -88,9 +86,12 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
    # RHEL 8
    % yum module enable idm:DL1/{server,dns,adtrust,client,common}
    % yum install ipa-server ipa-server-dns ipa-server-trust-ad 
-   # Installation, interactive
+   # Installation, interactive, does not setup specific components
    % ipa-server-install
+
    # Installation, mostly automatic (recommended)
+   # This will setup DNS and the necessary pieces for an AD trust
+   # Optionally, you can use the --netbios-name switch to set your forest netbios name
    % ipa-server-install --domain example.com --realm EXAMPLE.COM \
        --reverse-zone=15.168.192.in-addr.arpa. \
        --no-forwarders \
@@ -103,7 +104,7 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 .. code-block:: shell
 
    % kinit admin
-   # We need to make sure that any A records get a corresponding PTR record
+   # We need to make sure that any A records get a corresponding PTR record, otherwise you're making them manually.
    % ipa dnsconfig-mod --allow-sync-ptr=True
 
 .. code-block:: shell
@@ -125,21 +126,21 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 Creating Users, Groups, and Policies
 ------------------------------------
 
-+-------------------------+---------------+-----------+----------+--------------+
-| Users                   | Login Name    | Type      | Group    | Role         |
-+=========================+===============+===========+==========+==============+
-| John Smith              | jsmith        | Normal    | admins   |              |
-+-------------------------+---------------+-----------+----------+--------------+
-| Bob Rufus               | brufus        | Normal    | corp     |              |
-+-------------------------+---------------+-----------+----------+--------------+
-| Larry Dufus             | ldufus        | Normal    | helpdesk |              |
-+-------------------------+---------------+-----------+----------+--------------+
-| SysHost Management      | syshostmgt    | Normal    |          | Host Manager |
-+-------------------------+---------------+-----------+----------+--------------+
-| Robert Cole             | rcole         | Staged    |          |              |
-+-------------------------+---------------+-----------+----------+--------------+
-| Thomas Snyder           | tsnyder       | Preserved |          |              |
-+-------------------------+---------------+-----------+----------+--------------+
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| Users                   | Login Name    | Type      | Group    | Role         | UID/GID   |
++=========================+===============+===========+==========+==============+===========+
+| John Smith              | jsmith        | Normal    | admins   |              | Auto      |
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| Bob Rufus               | brufus        | Normal    | corp     |              | Auto      |
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| Larry Dufus             | ldufus        | Normal    | helpdesk |              | Auto      |
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| Robert Cole             | rcole         | Staged    |          |              | Auto      |
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| Thomas Snyder           | tsnyder       | Preserved |          |              | Auto      |
++-------------------------+---------------+-----------+----------+--------------+-----------+
+| SysHost Management      | syshostmgt    | Normal    |          | Host Manager | 10000     |
++-------------------------+---------------+-----------+----------+--------------+-----------+
 
 +-------------------------+--------------------------+
 | Groups                  | Policy                   |
@@ -163,6 +164,70 @@ Creating Users, Groups, and Policies
 |                         | Host enrollment           |
 +-------------------------+---------------------------+
 
+.. note::
+   
+   It is possible to create the users with a custom uid/gid with the switches --uid and --gidnumber which you will see below. It is also possible to set random passwords with --random.
+
+   See ipa user-add --help for more switches.
+
+.. note::
+
+   When you make a user with the --password switch or use ipa passwd to set a password, it is automatically expired and must be changed on next login. If you want to avoid this from happening, you will need to set a random password via --password or --random, and then use kpasswd username to change it to the desired password. This does not make the account non-expiring.
+
+.. code-block:: shell
+
+   # Creating users with a password, create all the accounts from the table (except from syshost)
+   % ipa user-add --first="John" --last="Smith" --password jsmith
+
+   # Create the system account with a password of Sup3R$ecre7! and a UID of 10000
+   % ipa user-add --first="SysHost" --last="Management" --uid=10000 --gidnumber=10000 --password syshostmgt
+
+   # Stage a user
+   % ipa stageuser-add --first="Robert" --last="Cole" rcole
+
+   # Preserve a user
+   % ipa user-del tsynder --preserve
+
+   # Create a regular (POSIX) group
+   % ipa group-add corp
+
+   # Create a member only group
+   % ipa group-add --nonposix HelpDesk
+   % ipa group-add --nonposix enrollers
+
+   # Add the HelpDesk group to the helpdesk policy
+   # Add the enrollers group to the Enrollment Administrator role
+   % ipa role-add-member "helpdesk" --groups=HelpDesk
+   % ipa role-add-member "Enrollment Administrator" --groups=enrollers
+
+   # Create a role with privileges
+   % ipa role-add "Host Manager"
+   % ipa role-add-privilege "Host Manager" \
+       --privileges="Host administrators" \
+       --privileges="Host group administrators" \
+       --privileges="Netgroups administrators" \
+       --privileges="Host enrollment"
+
+   # Add the syshostmgt user as a member of the role
+   % ipa role-add-member "Host Manager" --users="syshostmgt"
+
+   # Set our user passwords to CentOS123!$ so that way we don't have to change them later
+   % kpasswd jsmith
+
+   # If we already set the password we want but we don't want it to expire without making a policy or prompt for a password change (NOT RECOMMENDED)
+   % ldapmodify -x -w 'Passw0rd!' -D 'cn=Directory Manager'
+   dn: uid=syshostmgt,cn=users,cn=accounts,dc=ipa,dc=chotel,dc=com
+   changetype: modify
+   delete: krbLastPwdChange
+
+   (Press CTRL+D)
+
+
+New Passwords Expired
++++++++++++++++++++++
+
+The common question we receive (and even the #freeipa IRC receive) is "Why can't we just set the password to not be expired right away?" See `this page <https://www.freeipa.org/page/New_Passwords_Expired>`__ for information on why this is. You may also look at the `pagure <https://pagure.io/freeipa/issue/5763>`__ page and the `Red Hat bugzilla related bug <https://bugzilla.redhat.com/show_bug.cgi?id=1317060>`__.
+
 Install and configure IdM Clients
 ---------------------------------
 
@@ -172,6 +237,8 @@ Install and configure IdM Clients
 | client.example.com      | 192.168.15.10 |
 +-------------------------+---------------+
 | nfs.example.com         | 192.168.15.11 |
++-------------------------+---------------+
+| utility.example.com     | 192.168.15.12 |
 +-------------------------+---------------+
 
 .. note:: 
@@ -210,8 +277,144 @@ Install and configure IdM Clients
 Configure roaming/automounted home directories
 ----------------------------------------------
 
+You will need to configure your NFS server to serve up roaming home directories for users and then your client should have automouting enabled.
+
+.. code-block:: shell
+
+   # IDM Steps
+   % kinit admin
+   % ipa service-add nfs/nfs.example.com
+   % ipa service-add nfs/client.example.com
+
+   # Setup the automounting locations
+   % ipa automountmap-add default auto.home
+   % ipa automountkey-add default --key "/home" --info auto.home auto.master
+   % ipa automountkey-add default --key "*" --info "-fstype=nfs4,rw,sec=krb5,soft nfs.example.com:/exports/home/&" auto.home
+
+   # NFS Server Steps
+   % yum install nfs-utils -y
+   % mkdir /exports/home
+   % vi /etc/exports
+   /exports/home *(rw,sec=sys:krb5:krb5i:krb5p)
+
+   % vi /etc/sysconfig/nfs
+   SECURE_NFS="yes"
+
+   # Make the home directories for all users and move them to /export/home
+   % mkhomedir_helper jsmith
+   % mv /home/jsmith /export/home/
+
+   # Create the necessary keytabs
+   % kinit admin
+   % ipa-getkeytab -s idm1.example.com -p nfs/nfs.example.com -k /etc/krb5.keytab
+
+   # Verify keytab
+   % klist -ket /etc/krb5.keytab
+
+   # Enable and start nfs
+   % systemctl enable nfs-server --now
+
+   # Open the necessary firewall ports
+   % firewall-cmd --add-service=nfs --permanent
+   % firewall-cmd --complete-reload
+
+   # Client steps
+   % kinit admin
+   % ipa-getkeytab -s idm1.example.com -p nfs/client.example.com -k /etc/krb5.keytab
+   % ipa-client-automount --location=default
+   
+   # Verify keytab
+   % klist -ket /etc/krb5.keytab
+
+To test, login to the system via ssh or console and verify the home directory has mounted. /var/log/messages and secure will display errors in case of failure.
+
 Use the REST api to query IdM
 -----------------------------
+
+When you invoke the `ipa` command, you are actually communicating with the API that runs on the IdM replicas. Operations done are sent via a POST with JSON data. The return data is also in JSON and translated to be readable in the terminal. Because it's JSON, custom scripts can be made with say perl or python that communicates with the API to send the calls, perhaps for specific tasks, jobs, or other operations that could be automated. You can also use `curl` to do this also if you so choose. 
+
+The question becomes, "well, how do I know the right data to send?" You can issue the -vv switch to see the request being sent.
+
+.. code-block:: shell
+
+   % ipa -vv ping
+   ipa: INFO: trying https://idm1.example.com/ipa/json
+   ipa: INFO: [try 1]: Forwarding 'schema' to json server 'https://idm1.example.com/ipa/json'
+   ipa: INFO: trying https://idm1.example.com/ipa/session/json
+   ipa: INFO: [try 1]: Forwarding 'ping/1' to json server 'https://idm1.example.com/ipa/session/json'
+   ipa: INFO: Request: {
+       "id": 0, 
+       "method": "ping/1", 
+       "params": [
+           [], 
+           {
+               "version": "2.230"
+           }
+       ]
+   }
+   ipa: INFO: Response: {
+       "error": null, 
+       "id": 0, 
+       "principal": "admin@EXAMPLE.COM", 
+       "result": {
+           "summary": "IPA server version 4.6.4. API version 2.230"
+       }, 
+       "version": "4.6.4"
+   }
+   -------------------------------------------
+   IPA server version 4.6.4. API version 2.230
+   -------------------------------------------
+
+If you look at the 'request' section, you can see the data that is sent. Each request has a `method` and `params`, where method is a command to be excuted and params is simply an array that contains positional arguments and a dictionary of options. If you take a look at say, group-show, you would see a different request.
+
+.. code-block:: shell
+
+   % ipa -vv group-show admins
+   ipa: INFO: trying https://idm1.example.com/ipa/session/json
+   ipa: INFO: [try 1]: Forwarding 'group_show/1' to json server 'https://idm1.example.com/ipa/session/json'
+   ipa: INFO: Request: {
+       "id": 0, 
+       "method": "group_show/1", 
+       "params": [
+           [
+               "admins"
+           ], 
+           {
+               "version": "2.230"
+           }
+       ]
+   }
+   ### Lots of output ###
+
+Let's say I wanted to perform that in a simple bash script that uses curl. I would perform a `kinit` and then run the script below to have it login for me via kerberos and do the work.
+
+.. code-block:: shell
+
+   #!/bin/bash
+   ipaReplica=idm1.example.com
+   cookieJar=my.cookie.jar
+   
+   # Login with Kerberos
+   curl -v \
+     -H referer:https://$ipaReplica/ipa \
+     -c $cookieJar -b $cookieJar \
+     --cacert /etc/ipa/ca.crt \
+     --negotiate -u : \
+     -X POST \
+     https://$ipaReplica/ipa/session/login_kerberos
+   
+   # Send user_find method request
+   curl -v \
+     -H referer:https://$ipaReplica/ipa \
+     -H "Content-Type:application/json" \
+     -H "Accept:applicaton/json"\
+     -c $cookieJar -b $cookieJar \
+     --cacert /etc/ipa/ca.crt \
+     -d  '{"method":"group_show/1","params":[["admins"],{}],"id":0}' \
+     -X POST \
+     https://$ipaReplica/ipa/session/json
+
+Any of the commands ran via `ipa` can be reviewed with the -vv switch so you can see what kind of call it's making and how it's making it. Thus, making it easier to tie into your own scripts. On the Web UI, you can go to IPA Server -> API Browser to find more information on the specific API calls.
 
 Configure Kerberized services
 -----------------------------
@@ -225,6 +428,8 @@ Create a trust with Active Directory
 | ad.example.net          | 192.168.15.12 |
 +-------------------------+---------------+
 
+For our trust, the AD server will need to be configured to be the example.net domain with the hostname of ad.example.net. This way, we are not colliding in DNS and both AD and IdM should be able to communicate with each other as two separate forests. It is recommended to use Windows Server 2016 (with the same domain functional level) for this setup, as experience with that product is a recommended prerequisite for the exam.
+
 Configure/control policies and user access
 ------------------------------------------
 
@@ -237,7 +442,7 @@ Back up an IdM infrastructure
 There are multiple ways you can backup IPA. 
 
 * Full backup: Default, shuts down IPA before performing a backup. This backs up with raw files. As such, it must be done offline.
-* Data bacup: Backs up a copy of the ldap data and the changelog (the IPA-REALM instance, DogTag, IPA backend). This can be done online.
+* Data backup: Backs up a copy of the ldap data and the changelog (the IPA-REALM instance, DogTag, IPA backend). This can be done online.
 
 .. code-block:: shell
 
@@ -343,3 +548,4 @@ On some applications, it is possible to use kerberos authentication rather than 
 
 Implement a SSO
 ---------------
+
