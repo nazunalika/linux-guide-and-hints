@@ -70,3 +70,8 @@ It is a common question, especially in the IRC channel #fedora on how to remove 
    $ sudo dnf swap @gnome-desktop @xfce-desktop-environment
 
 This will safely swap the package groups from one to the next, the gnome desktop environment with the kde environment. It is recommended that it is ran in multi-user.target (or init level 3 for those who remember). When the swap is complete, reboot.
+
+Upon logging into XFCE, desktop freezes until you switch to another TTY
+-----------------------------------------------------------------------
+
+If you have ``FullCompositionPipeline`` enabled in Nvidia settings, you may run into this problem. This is a long standing bug, see `#14950 <https://bugzilla.xfce.org/show_bug.cgi?id=14950>`_. The solution is to either edit or delete `$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml`. Use a different mechanism for setting up your displays.
