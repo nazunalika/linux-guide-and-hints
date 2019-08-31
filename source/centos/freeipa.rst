@@ -1393,7 +1393,173 @@ RHEL 6 SUDO and Default Domain Suffix
 
 This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
 
+Automated Kerberos Principals
+-----------------------------
+
+Once in a great while, we run into situations where we need to have an automated process for creating principals and keytabs. This section takes a look at some of those examples that we've ran into.
+
+Hadoop/Cloudera
++++++++++++++++
+
+If you are looking for the solution, skip to the 'Solution' section down below.
+
+The Story
+'''''''''
+
+In a previous life, my employer at the time was a huge user and deployer of hadoop clusters. At the time, they were deploying clusters using a customized kerberos solution and OpenLDAP (which did not have kerberos enabled and we refused to add it). Long story short, several of the components were not created the same way when looking at LDAP and there were terrible inconsistencies. Later, they had an idea to use Active Directory, but did not think to ask us for guidance. There were a few issues with this:
+
+* Cloudera Manager (or Director?) supports Active Directory out of the box and obviously not FreeIPA, the contractor insisted Active Directory must be used
+
+  * Ambari has support for FreeIPA, but as they were using Cloudera, this didn't matter too much
+
+* Hostnames in both onprem and in our cloud provider were longer than 15 characters
+
+  * The NETBIOS limit in AD is 16 characters, which is 15 + $ at the end - This means hosts were enrolling on top of themselves
+
+Naturally as a result of their failure, this caused them to seek my team's assistance on solutions to their problem. It was suggested enrolling to FreeIPA where a trust with the AD domain was enabled, so they could still use their service accounts from AD. A drawback is because of the design, Cloudera wanted direct access to kadmin and other parts of the kerberos infrastructure, which was not going to fly with FreeIPA. It is possible, however, to tell Cloudera to use a custom kerberos keytab retrieval script. 
+
+The Solution
+''''''''''''
+
+To summarize, here was my proposed solution:
+
+* Create an account called cdh
+* Create a role called "Kerberos Managers" and apply the following privileges:
+
+  * System: Manage Host Keytab
+  * System: Manage Host Keytab Permissions
+  * System: Manage Service Keytab
+  * System: Manage Service Keytab Permissions
+  * System: Manage User Principals (was not actually used, but who knows what we could use the role for later)
+
+* Apply the role to the cdh account
+* Create a custom script they could use to enroll the servers into FreeIPA (out of scope here)
+* Create a custom script that utilizes the cdh account to create services
+
+So let's create the necessary things we need.
+
+.. code-block:: shell
+
+   # Create the account
+   # Note... you may want to make this account non-expiring since it's just a service account
+   % ipa user-add --first="Cloudera" --last="Key Manager" cdh
+   
+   # Create the Kerberos Managers role
+   % ipa role-add "Kerberos Managers"
+   
+   # Create the kerberos manager privilege
+   % ipa privilege-add "Privileges - Kerberos Managers"
+   % ipa privilege-add-permission "Privileges - Kerberos Managers" \
+       --privileges="System: Manage Host Keytab" \
+       --privileges="System: Manage Host Keytab Permissions" \
+       --privileges="System: Manage Service Keytab" \
+       --privileges="System: Manage Service Keytab Permissions" \
+       --privileges="System: Manage User Principals"
+
+   # Add the privilege to the role
+   % ipa role-add-privilege "Kerberos Managers" \
+       --privileges="Privileges - Kerberos Managers"
+
+   # Add the user to the role
+   % ipa role-add-member --users=cdh "Kerberos Managers"
+
+   # Optionally, we can export the keytab for the user with a password
+   # You will see why in the next script
+   % ipa-getkeytab -p cdh@EXAMPLE.COM -k cdh.keytab -P
+
+Now we need our special kerberos keytab retrieval script.
+
+.. code-block:: shell
+
+   #!/bin/bash
+   # Created by: @nazunalika - Louis Abel
+   # Purpose: To retrieve keytabs for Cloudera / Hadoop
+   # https://github.com/nazunalika/useful-scripts
+
+   # Disclaimer: We do not take responsibilities for breaches or misconfigurations of
+   #             software. Use at your own risk
+
+   # Variables
+   # This can be anywhere, but it SHOULD be secure with at least 600 permissions
+   CDHKT="/root/.cdh/cdh.keytab"
+   CDHUSER="cdh"
+   IPAREALM="EXAMPLE.COM"
+   # This can be any server. You could make an array and have it randomly selected
+   IPASERVER="ipa01.example.com"
+
+   # Where is this going?
+   DESTINATION="$1"
+   # The full principal for the keytab in question
+   FULLPRINC="$2"
+   # Shortened name
+   PRINC=$(echo $FULLPRINC | sed "s/\@$(echo $IPAREALM)//")
+
+   00_kinitUser() {
+     # Pick what suits you best, we prefer using a keytab
+     # Password based kinit, based on the keytab we created prior!
+     # You could also have this in a file somewhere, I guess. Just
+     # has to be secured.
+     echo ThisIsAWeakPassword | kinit $CDHUSER@$IPAREALM
+
+     # Keytab based kinit, obviously we created it before right? It just needs to be
+     # on the right system, deployed in some secure manner
+     #kinit -kt $CDHKT $CDHUSER@$IPAREALM
+     if [[ $? == "1" ]]; then
+       echo FAILED TO KINIT
+       exit
+     fi
+   }
+
+   01_createPrinc() {
+     echo "INFO: Checking for existing principle"
+     if ipa service-find $FULLPRINC; then
+       echo "INFO: Principle found"
+     else
+       echo "INFO: Not found, creating"
+       ipa service-add $FULLPRINC
+     fi
+   }
+
+   02_createServiceAllows() {
+     # We need to allow the service to create and retrieve keytabs
+     echo "INFO: Ensuring service allows to create and retrieve keytabs"
+     ipa service-allow-create-keytab --users=$CDHUSER $FULLPRINC
+     ipa service-allow-retrieve-keytab --users=$CDHUSER $FULLPRINC
+
+     # Let's retrieve the keytabs
+     if ipa service-show $FULLPRINC | grep 'Keytab' | grep 'False'; then
+       echo "INFO: Creating keytab for $FULLPRINC to $DESTINATION"
+       ipa-getkeytab -s $IPASERVER -p $PRINC -k $DESTINATION
+     else
+       echo "INFO: Retriving keytab for $FULLPRINC to $DESTINATION"
+       ipa-getkeytab -r -s $IPASERVER -p $PRINC -k $DESTINATION
+     fi
+   }
+
+   00_kinitUser
+   01_createPrinc
+   02_createServiceAllows
+
+   kdestroy
+   exit 0
+
+Place the above script in a file that is accessible by the cloudera manager such as `/usr/local/bin/getKeytabsCDH.sh` and ensure it is owned by cloudera-scm with a permission set of 775.
+
+During the kerberos wizard, stop when you are verifying the "cdh" user. You will need to set the configuration for "Custom Kerberos Keytab Retrieval Script" to `/usr/local/bin/getKeytabsCDH.sh` and then you're almost there. [#f3]_
+
+An important tidbit is currently RHEL/CentOS 7+ and higher use memory based keytabs and java doesn't support them. [#f4]_ Because of this, the /etc/krb5.conf should be modified.
+
+.. code-block:: shell
+
+   % cat /etc/krb5.conf
+   . . .
+   # Make sure the below is commented
+   # default_ccache_name = KEYRING:persistent:%{uid}
+   . . .
+
 .. rubric:: Footnotes
 
 .. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`__ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`__
 .. [#f2] The -P asks for the password of the username in question, that way it is cached right away. The directory service on the system then has credentials to compare to. I have found that sometimes if you don't use -P, even if you're logged in as the account, the password does not get cached and you'll get stuck at a background image the next time you login. Again, this is only sometimes. Your mileage may vary here.
+.. [#f3] Please read `this page <https://www.cloudera.com/documentation/enterprise/latest/topics/sg_keytab_retrieval_script.html>`__ for more information.
+.. [#f4] This may have changed. However it is up to you to test if this is the case.

@@ -1,5 +1,5 @@
-EX362 Video Prep
-^^^^^^^^^^^^^^^^
+EX362 Exam Prep
+^^^^^^^^^^^^^^^
 .. meta::
        :description: Materials to prepare for the Red Hat Certified Specialist in Identity Management exam.
 
@@ -8,6 +8,7 @@ This page contains the necessary resources to help you prepare for the Red Hat C
 The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam>`__. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.
 
 .. note::
+
    Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
 
    If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.
@@ -164,13 +165,13 @@ Creating Users, Groups, and Policies
 |                         | Host enrollment           |
 +-------------------------+---------------------------+
 
-.. note::
+.. note:: Custom UID/GID
    
    It is possible to create the users with a custom uid/gid with the switches --uid and --gidnumber which you will see below. It is also possible to set random passwords with --random.
 
    See ipa user-add --help for more switches.
 
-.. note::
+.. note:: Password Expiration
 
    When you make a user with the --password switch or use ipa passwd to set a password, it is automatically expired and must be changed on next login. If you want to avoid this from happening, you will need to set a random password via --password or --random, and then use kpasswd username to change it to the desired password. This does not make the account non-expiring.
 
@@ -278,6 +279,10 @@ Configure roaming/automounted home directories
 ----------------------------------------------
 
 You will need to configure your NFS server to serve up roaming home directories for users and then your client should have automouting enabled.
+
+.. note:: Client Kerberos Service
+
+   It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side.
 
 .. code-block:: shell
 
@@ -419,6 +424,22 @@ Any of the commands ran via `ipa` can be reviewed with the -vv switch so you can
 Configure Kerberized services
 -----------------------------
 
+One of the things that you may end up doing, whether by hand or in an automated fashion, is creating kerberized services. In a previous section, we addressed creating an NFS service for both a server and a client for the purpose of automating home directory mounts on a client when a user logs in. So you already have the idea of what this entails.
+
+.. code-block:: shell
+
+   # Create kerberos service
+   % ipa service-add HTTP/http.example.com
+
+Not only that, it's probably a good idea to actually *get* the keytab.
+
+.. code-block:: shell
+
+   % kinit admin
+   % ipa-getkeytab -s idm1.example.com -p HTTP/http.example.com -k /etc/krb5.keytab
+
+For an example of automating keytab creation and retrieval, see the CentOS/FreeIPA page on this site.
+
 Create a trust with Active Directory
 ------------------------------------
 
@@ -435,6 +456,10 @@ Configure/control policies and user access
 
 Configure and manage a certificate authority
 --------------------------------------------
+
+By default FreeIPA stands up its own CA. And because of this, this allows you or your workplace to be able to issue certificates, that can be used in a wide variety of services, the most common or obvious one would be for Apache httpd.
+
+There's a couple of ways you can get a certificate signed by FreeIPA. One method is to generate your own CSR and request it to be signed by FreeIPA. Another way is you can do it all from one command, `ipa-getcert`, and optionally, either have the certificate in PEM format or an NSS database. We'll address these examples.
 
 Back up an IdM infrastructure
 -----------------------------
