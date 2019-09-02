@@ -52,7 +52,7 @@ class HTMLTranslator(BaseTranslator):
         if node.rawsource != node.astext():
             # most probably a parsed-literal block -- don't highlight
             return BaseTranslator.visit_literal_block(self, node)
-        lang = self.highlightlang
+        lang = self.builder.config.highlight_language
         if 'language' in node:
             lang = node['language']
         highlighted = node[0]
