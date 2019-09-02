@@ -489,7 +489,7 @@ There's a couple of ways you can get a certificate signed by FreeIPA. One method
            auto-renew: yes
 
    # Create an SSL certificate in the NSS format
-   % ipa-getcert request -d /etc/pki/tls/certs/nss -n 'Test' -K HTTP/np-ss01.angelsofclockwork.net -D np-ss01.angelsofclockwork.net
+   % ipa-getcert request -d /etc/pki/tls/certs/nss -n 'Test' -K HTTP/http.example.com -D http.example.com
    New signing request "20190902000756" added.
    # Verify
    % ipa-getcert list
@@ -500,17 +500,19 @@ There's a couple of ways you can get a certificate signed by FreeIPA. One method
            key pair storage: type=NSSDB,location='/etc/pki/tls/certs/nss',nickname='Test',token='NSS Certificate DB'
            certificate: type=NSSDB,location='/etc/pki/tls/certs/nss',nickname='Test',token='NSS Certificate DB'
            CA: IPA
-           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
-           subject: CN=np-ss01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           issuer: CN=Certificate Authority,O=EXAMPLE.COM
+           subject: CN=http.example.com,O=EXAMPLE.COM
            expires: 2021-09-02 00:07:57 UTC
-           dns: np-ss01.angelsofclockwork.net
-           principal name: HTTP/np-ss01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+           dns: http.example.com
+           principal name: HTTP/http.example.com@EXAMPLE.COM
            key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
            eku: id-kp-serverAuth,id-kp-clientAuth
            pre-save command:
            post-save command:
            track: yes
            auto-renew: yes
+
+By default, when a certificate request is performed (and succeeds to be signed by the IPA CA), it is typically tracked and auto-renewed by default. This is done by the certmonger service, which eliminates the need to have to renew anything by hand.
 
 Back up an IdM infrastructure
 -----------------------------
