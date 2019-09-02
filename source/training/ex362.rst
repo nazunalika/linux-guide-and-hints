@@ -282,7 +282,7 @@ You will need to configure your NFS server to serve up roaming home directories 
 
 .. note:: Client Kerberos Service
 
-   It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side.
+   It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side anyway. Creating an NFS client keytab may have been required back in the EL6 days.
 
 .. code-block:: shell
 
@@ -460,6 +460,57 @@ Configure and manage a certificate authority
 By default FreeIPA stands up its own CA. And because of this, this allows you or your workplace to be able to issue certificates, that can be used in a wide variety of services, the most common or obvious one would be for Apache httpd.
 
 There's a couple of ways you can get a certificate signed by FreeIPA. One method is to generate your own CSR and request it to be signed by FreeIPA. Another way is you can do it all from one command, `ipa-getcert`, and optionally, either have the certificate in PEM format or an NSS database. We'll address these examples.
+
+.. code-block:: shell
+
+   # Creating an SSL certificate in the PEM format
+   % ipa service-add HTTP/http.example.com
+   % ipa-getcert request -f /etc/pki/tls/certs/http.pem -k /etc/pki/tls/private/http.key -K HTTP/http.example.com -D http.example.com
+   New signing request "20190902000318" added.
+   # Verify
+   % ipa-getcert list
+   Number of certificates and requests being tracked: 1.
+   Request ID '20190902000318':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/etc/pki/tls/private/http.key'
+           certificate: type=FILE,location='/etc/pki/tls/certs/http.pem'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=EXAMPLE.COM
+           subject: CN=http.example.com,O=EXAMPLE.COM
+           expires: 2021-09-02 00:03:19 UTC
+           dns: http.example.com
+           principal name: HTTP/http.example.com@EXAMPLE.COM
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command:
+           track: yes
+           auto-renew: yes
+
+   # Create an SSL certificate in the NSS format
+   % ipa-getcert request -d /etc/pki/tls/certs/nss -n 'Test' -K HTTP/np-ss01.angelsofclockwork.net -D np-ss01.angelsofclockwork.net
+   New signing request "20190902000756" added.
+   # Verify
+   % ipa-getcert list
+   . . .
+   Request ID '20190902000756':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=NSSDB,location='/etc/pki/tls/certs/nss',nickname='Test',token='NSS Certificate DB'
+           certificate: type=NSSDB,location='/etc/pki/tls/certs/nss',nickname='Test',token='NSS Certificate DB'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=np-ss01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-09-02 00:07:57 UTC
+           dns: np-ss01.angelsofclockwork.net
+           principal name: HTTP/np-ss01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command:
+           track: yes
+           auto-renew: yes
 
 Back up an IdM infrastructure
 -----------------------------

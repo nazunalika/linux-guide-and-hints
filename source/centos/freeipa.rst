@@ -1401,27 +1401,32 @@ Once in a great while, we run into situations where we need to have an automated
 Hadoop/Cloudera
 +++++++++++++++
 
-If you are looking for the solution, skip to the 'Solution' section down below.
+This assumes you are using Cloudera Manager and not Ambari in any form.
 
-The Story
-'''''''''
+.. warning:: DNS Information
 
-In a previous life, my employer at the time was a huge user and deployer of hadoop clusters. At the time, they were deploying clusters using a customized kerberos solution and OpenLDAP (which did not have kerberos enabled and we refused to add it). Long story short, several of the components were not created the same way when looking at LDAP and there were terrible inconsistencies. Later, they had an idea to use Active Directory, but did not think to ask us for guidance. There were a few issues with this:
+   It is *highly* likely that if you are using AWS, your nodes are getting stupid names like compute.internal. While there is a `a way to change this <https://blog.cloudera.com/custom-hostname-for-cloud-instances/>`__ if you don't change it, you will need to rely on something like DNSMASQ to allow the nodes to communicate with FreeIPA. FreeIPA *will* be upset about the stupid names because it can't do a rDNS lookup.
 
-* Cloudera Manager (or Director?) supports Active Directory out of the box and obviously not FreeIPA, the contractor insisted Active Directory must be used
+Cloudera Manager Woes
+'''''''''''''''''''''
 
-  * Ambari has support for FreeIPA, but as they were using Cloudera, this didn't matter too much
+It is likely you have Cloudera/Hadoop, it is also very likely you (or another team) are deploying and using Cloudera Manager (or Director?). You may be running into issues that involve direct Active Directory integration. Maybe you're moving away from a standalone LDAP system over to Active Directory or even FreeIPA. Maybe you have FreeIPA in an AD trust but the users or contractors absolutely insist on using AD against their better judgement, despite the problems they're running into. Whatever the scenario is, we feel your pain. Here are some things you should probably know:
 
-* Hostnames in both onprem and in our cloud provider were longer than 15 characters
+* Cloudera Manager (or Director?) supports Active Directory out of the box and obviously not FreeIPA despite the devs wanting to work something out back in 2015
 
-  * The NETBIOS limit in AD is 16 characters, which is 15 + $ at the end - This means hosts were enrolling on top of themselves
+  * Ambari has support for FreeIPA, but we are focusing on Cloudera Manager here.
+  * Cloudera Manager supports custom keytab retrieval scripts
 
-Naturally as a result of their failure, this caused them to seek my team's assistance on solutions to their problem. It was suggested enrolling to FreeIPA where a trust with the AD domain was enabled, so they could still use their service accounts from AD. A drawback is because of the design, Cloudera wanted direct access to kadmin and other parts of the kerberos infrastructure, which was not going to fly with FreeIPA. It is possible, however, to tell Cloudera to use a custom kerberos keytab retrieval script. 
+* Hostnames that are longer than 15 characters, regardless of the cloud provider or onprem setup, will ultimately fail
+
+  * The NETBIOS limit in AD is 16 characters, which is 15 + $ at the end - This means hosts will enroll on top of themselves and your cluster will be broken
+
+FreeIPA does not have the name limitation and using an AD trust, AD users can freely use Hadoop when the cluster is properly setup. Enrolling the cluster nodes into FreeIPA and using a custom retrieval script will solve most (if not all) of the issues you may run into as well when it comes to keytabs, which Hadoop heavily relies on. The custom script is simply because Cloudera by default likes having direct access to the kerberos infrastructure, which is a no-go for FreeIPA.
 
 The Solution
 ''''''''''''
 
-To summarize, here was my proposed solution:
+To summarize, here is our proposed solution:
 
 * Create an account called cdh
 * Create a role called "Kerberos Managers" and apply the following privileges:
