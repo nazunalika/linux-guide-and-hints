@@ -1,7 +1,5 @@
 # Linux Guide and Hints
 
-[![builds.sr.ht status](https://builds.sr.ht/~remyabel.svg)](https://builds.sr.ht/~remyabel?)
-
 The website is live at https://www.linuxguideandhints.com
 
 ### Dependencies

@@ -42,7 +42,6 @@ packages and system administration in |Fedora| and |CentOS|.
   :caption: CentOS
   :glob:
   
-  centos/srht
   centos/openldap
   centos/sysadmin
   centos/freeipa
