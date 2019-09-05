@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             target: {
                 files: [{
                     expand: true,
-                    cwd: 'source/_static/css',
+                    cwd: 'source/themes/sphinx_theme/static/css',
                     src: ['*.css', '!*.min.css'],
                     dest: 'build/html/_static/css',
                     ext: '.min.css'
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         uglify: {
             target: {
                 files: [{
-                    cwd: 'source/_static/js',
+                    cwd: 'source/themes/sphinx_theme/static/js',
                     expand: true,
                     src: ['**/*.js'],
                     dest: 'build/html/_static/js',

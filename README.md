@@ -2,6 +2,8 @@
 
 The website is live at https://www.linuxguideandhints.com
 
+First run: `git submodule update --init --recursive`
+
 ### Dependencies
 
     npm install -g grunt-cli
