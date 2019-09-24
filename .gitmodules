@@ -1,3 +1,4 @@
 [submodule "source/themes/sphinx_theme"]
 	path = source/themes/sphinx_theme
-	url = https://github.com/remyabel/sphinx_theme.git
+	#url = https://github.com/nazunalika/sphinx_theme.git
+	url = https://github.com/readthedocs/sphinx_rtd_theme.git

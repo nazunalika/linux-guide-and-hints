@@ -118,7 +118,7 @@ html_theme = 'sphinx_theme'
 
 html_context = {
   'display_github': True,
-  'github_user': 'remyabel',
+  'github_user': 'nazunalika',
   'github_repo': 'linux-guide-and-hints',
   'github_version': 'master/source/'
 }

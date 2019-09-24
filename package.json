@@ -1,7 +1,7 @@
 {
   "name": "linux-guide-and-hints",
   "version": "1.6.0",
-  "description": "[![Build Status](https://travis-ci.org/remyabel/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/remyabel/linux-guide-and-hints)",
+  "description": "[![Build Status](https://travis-ci.org/nazunalika/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/nazunalika/linux-guide-and-hints)",
   "main": "Gruntfile.js",
   "dependencies": {
     "prismjs": "^1.17.1"
@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remyabel/linux-guide-and-hints.git"
+    "url": "git+https://github.com/nazunalika/linux-guide-and-hints.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/remyabel/linux-guide-and-hints/issues"
+    "url": "https://github.com/nazunalika/linux-guide-and-hints/issues"
   },
-  "homepage": "https://github.com/remyabel/linux-guide-and-hints#readme"
+  "homepage": "https://github.com/nazunalika/linux-guide-and-hints#readme"
 }
