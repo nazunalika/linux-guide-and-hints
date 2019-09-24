@@ -8,7 +8,7 @@ This write up provides steps on the System Administrator experience. This is not
 
 Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and 8. Scientific Linux 7 is not supported.
 
-Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible.
+Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible. As such, we will be focusing on RHEL 8.
 
 Recommendations
 ---------------
