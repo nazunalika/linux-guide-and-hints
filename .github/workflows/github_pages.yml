@@ -39,7 +39,7 @@ jobs:
 
     - name: deploy
       run: |
-        git clone --branch='gh-pages' --depth=1 https://github.com/remyabel/linux-guide-and-hints.git gh-pages
+        git clone --branch='gh-pages' --depth=1 https://github.com/nazunalika/linux-guide-and-hints.git gh-pages
         cd gh-pages
         git config user.email 'deploy@github.com'
         git config user.name 'github deployment bot'
@@ -56,5 +56,5 @@ jobs:
           exit 0
         else
           set -e
-          git push https://remyabel:"${{ secrets.GH_PAGES_TOKEN }}"@github.com/remyabel/linux-guide-and-hints.git
+          git push https://nazunalika:"${{ secrets.GH_PAGES_TOKEN }}"@github.com/nazunalika/linux-guide-and-hints.git
         fi
