@@ -12,6 +12,8 @@ The source code for this page can be found on `Github
 This page contains tutorials and generally useful information regarding
 packages and system administration in |Fedora| and |CentOS|.
 
+
+
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
 
