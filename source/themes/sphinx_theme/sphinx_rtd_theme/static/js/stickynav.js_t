@@ -1,0 +1,3 @@
+jQuery(function () {
+    SphinxRtdTheme.Navigation.enable({{ 'true' if theme_sticky_navigation|tobool else 'false' }});
+});
