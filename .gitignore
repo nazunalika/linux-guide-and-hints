@@ -3,3 +3,4 @@ build/
 *.pyc
 cert/
 node_modules/
+source/themes/sphinx_theme/.git
