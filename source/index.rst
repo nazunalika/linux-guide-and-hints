@@ -48,6 +48,7 @@ complete.
   centos/openldap
   centos/sysadmin
   centos/freeipa
+  centos/nat
 
 .. toctree::
   :maxdepth: 4
