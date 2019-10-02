@@ -203,7 +203,7 @@ To initiate a trust with your active directory domain, ensure the following requ
 
    Package installed: ipa-server-trust-ad
    DNS: Properly configured that FreeIPA can resolve the AD servers A and SRV records
-    -> This can either be forwarders to AD, a subdomain that IPA manages, or delegated subdomain from the master DNS servers in your network. This is completely dependent on your infrastructure.
+   This can either be forwarders to AD, a subdomain that IPA manages, or delegated subdomain from the master DNS servers in your network. This is completely dependent on your infrastructure.
 
 When the following requirements are met, you have two choices before continuning. You can either use POSIX or have the id range generated automatically.
 
