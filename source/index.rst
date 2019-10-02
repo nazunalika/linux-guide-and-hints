@@ -45,10 +45,7 @@ complete.
   :caption: CentOS
   :glob:
   
-  centos/openldap
-  centos/sysadmin
-  centos/freeipa
-  centos/nat
+  centos/*
 
 .. toctree::
   :maxdepth: 4
