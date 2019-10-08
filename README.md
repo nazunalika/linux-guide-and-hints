@@ -1,6 +1,6 @@
 # Linux Guide and Hints
 
-The website is NOT live at https://www.linuxguideandhints.com - We are in the process of making some changes and moving things around.
+The website is live at https://linuxguideandhints.com - We are in the process of making some changes and moving things around.
 
 First run: `git submodule update --init --recursive`
 
