@@ -1,6 +1,9 @@
 name: Linux Guide and Hints CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
