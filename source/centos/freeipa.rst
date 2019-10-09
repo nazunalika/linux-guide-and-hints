@@ -595,7 +595,7 @@ Another issue you may run into, if you have been using your Mac with a local acc
 SUSE
 ++++
 
-To setup openSUSE with FreeIPA, we'll need to do some manual work.
+To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies to SUSE 12 and up.
 
 .. code-block:: shell
    
