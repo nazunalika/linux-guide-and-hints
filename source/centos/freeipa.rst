@@ -280,11 +280,15 @@ In some cases, it is a requirement to disable *all* anonymous binds. If this is 
 Client Setup
 ------------
 
-RHEL 8
-++++++
+RHEL 7 & 8
+++++++++++
 
-RHEL 7
-++++++
+Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure your hostname is also set correctly.
+
+.. code-block:: shell
+
+   % yum install ipa-client -y
+   % ipa-client-install --realm EXAMPLE.COM --domain example.com --mkhomedir
 
 Mac Clients
 +++++++++++
@@ -587,6 +591,105 @@ If you want to move your local files, you will need to tread lightly here. I per
    root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
 
 Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It's recommended to fix those too. 
+
+SUSE
+++++
+
+To setup openSUSE with FreeIPA, we'll need to do some manual work.
+
+.. code-block:: shell
+   
+   # On an IPA server or client with the IPA utilities...
+   % ipa host-add suse.example.com
+   % /usr/sbin/ipa-getkeytab -s ipa.example.com -p host/suse.example.com -k /tmp/suse.keytab
+   % scp /tmp/suse.keytab suse.example.com:/tmp/krb5.keytab
+   
+   # On the IPA client...
+   % cp /tmp/krb5.keytab /etc
+   % chmod 600 /etc/krb5.keytab
+   % mkdir /etc/ipa
+   % curl -o /etc/ipa/ca.crt http://ipa.example.com/ipa/config/ca.crt
+   % curl -o /etc/pki/trust/anchors/ipa.example.com.crt http://ipa.example.com/ipa/config/ca.crt
+   % update-ca-certificates
+   % zypper install sssd sssd-ipa yast2-auth-client krb5-client openldap2-client cyrus-sasl-gssapi
+
+   # Setup SSSD
+   % vi /etc/sssd/sssd.conf
+   [domain/example.com]
+   cache_credentials = True
+   krb5_store_password_if_offline = True
+   ipa_domain = example.com
+   ipa_hostname = suse.example.com
+   # Client Specific Settings
+   ipa_server = _srv_, ipa.example.com
+   dns_discovery_domain = example.com
+   # If we have a trust with domain resolution order
+   #full_name_format = %1$s
+
+   id_provider = ipa
+   auth_provider = ipa
+   access_provider = ipa
+   chpass_provider = ipa
+
+   ldap_tls_cacert = /etc/ipa/ca.crt
+
+   [sssd]
+   services = nss, sudo, pam, ssh
+   domains = example.com
+
+   [nss]
+   filter_users = root,ldap,named,avahi,haldaemon,dbus,radiusd,news,nscd,tomcat,postgres
+   homedir_substring = /home
+
+   [pam]
+
+   [sudo]
+
+   [autofs]
+
+   [ssh]
+
+   # Setup kerberos
+   % vi /etc/krb5.conf
+   [libdefaults]
+     default_realm = EXAMPLE.COM
+     dns_lookup_realm = true
+     dns_lookup_kdc = true
+     rdns = false
+     dns_canonicalize_hostname = false
+     ticket_lifetime = 24h
+     forwardable = true
+     udp_preference_limit = 0
+     default_ccache_name = KEYRING:persistent:%{uid}
+
+
+   [realms]
+     EXAMPLE.COM = {
+       pkinit_anchors = FILE:/var/lib/ipa-client/pki/kdc-ca-bundle.pem
+       pkinit_pool = FILE:/var/lib/ipa-client/pki/ca-bundle.pem
+     }
+
+   [domain_realm]
+     .example.com = EXAMPLE.COM
+     example.com = EXAMPLE.COM
+     suse.example.com = EXAMPLE.COM
+
+   # Setup pam
+   % pam-config -a --sss --mkhomedir --mkhomedir-umask=0077 \
+     --pwhistory --pwhistory-remember=5 --localuser --cracklib \
+     --cracklib-minlen=14 --cracklib-dcredit=-1 --cracklib-ucredit=-1 \
+     --cracklib-lcredit=-1 --cracklib-ocredit=-1 --cracklib-retry=3 --unix-sha512
+
+   # Setup nsswitch (you can make it compat sss, but I use files sss)
+   % sed -i.bak 's/compat$/files sss/g' /etc/nsswitch.conf
+   % echo "sudoers: files sss" >> /etc/nsswitch.conf
+
+   # Start sssd
+   % systemctl enable sssd --now
+
+   # Verify
+   % id admin
+
 
 HBAC
 ----
