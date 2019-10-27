@@ -454,6 +454,55 @@ For our trust, the AD server will need to be configured to be the example.net do
 Configure/control policies and user access
 ------------------------------------------
 
+In FreeIPA, there are two sets of policies:
+
+* Role Based Access Control (RBAC) which are the permissions, delegated or otherwise, that allow (or deny) access to various pieces of FreeIPA. This can be users that have the ability to reset passwords, modify groups, or perhaps they can issue keytabs.
+* Host Based Access Control (HBAC) which are the permissions granted to a user or users to access systems on various (PAM) services, such as ssh or logging into a desktop system (eg, GDM).
+
+RBAC
+++++
+
+In FreeIPA, there are a set of predefined roles that are, for the most part, sane. You can find them using `ipa role-find`. 
+
+In a previous section, we already created roles and added groups to the roles.
+
+HBAC
+++++
+
+In FreeIPA, there is typically a rule already predefined that allows everyone to access all systems and all services. This can be removed or disabled and this removes host access to everything immediately. This is typically recommended.
+
+.. code-block:: shell
+
+   # To disable
+   % ipa hbacrule-disable allow_all
+   # To delete instead
+   % ipa hbacrule-del allow_all
+
+When performing a FreeIPA installation, it is possible to add `--no-hbac-allow` that will disable the allow_all rule.
+
+Below are some examples of adding access.
+
+.. code-block:: shell
+
+   # Allow all admins to access all systems
+   % ipa hbacrule-add --hostcat=all --servicecat=all --desc='Allow all admins to access all systems' All_Admins
+   % ipa hbacrule-add-user --groups=admins All_Admins
+
+   # And then test...
+   % ipa hbactest --rules=All_Admins --user=jsmith --host=client.example.com --service=login
+
+.. code-block:: shell
+
+   # Allow the corp users to access the client system only using the sshd pam services
+   % ipa hbacrule-add --desc='Allow corp users to access client on ssh' corp_access
+   % ipa hbacrule-add-user --groups=corp corp_access
+   % ipa hbacrule-add-host --hosts=client.example.com corp_access
+   % ipa hbacrule-add-service --hbacsvcs=sshd corp_access
+
+   # And then test...
+   % ipa hbactest --rules=corp_access --user=brufus --host=client.example.com --service=sshd
+
+
 Configure and manage a certificate authority
 --------------------------------------------
 

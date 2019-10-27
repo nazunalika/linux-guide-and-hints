@@ -2,7 +2,9 @@
 
 The website is live at https://linuxguideandhints.com - We are in the process of making some changes and moving things around.
 
-First run: `git submodule update --init --recursive`
+### Contributions
+
+If you would like to contribute or you find an error, please open an issue/PR as necessary.
 
 ### Dependencies
 
