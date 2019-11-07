@@ -194,6 +194,132 @@ Once you have a server added as a client and then added to the ipaservers host g
 
 If you have forwarders, use the --forwarders option instead. Remove --no-ntp if you are hosting NTP.
 
+Server Migration/Upgrade
+------------------------
+
+To perform a migration from RHEL 7 to RHEL 8, the following steps will have to take place:
+
+* RHEL 8 system is installed and enrolled as a client
+* RHEL 8 system is added as a replica
+
+.. code-block:: shell
+
+    % yum module enable idm:DL1
+    # Install other necessary packages, ie AD trust packages
+    % yum install ipa-server ipa-server-dns -y
+    % ipa-client-install --realm EXAMPLE.COM --domain example.com
+    % kinit admin
+    # Add other switches that you feel are necessary, such as forwarders, kra, ntp...
+    % ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
+    
+    # Verify all services are in a RUNNING state
+    % ipactl status
+    Directory Service: RUNNING
+    . . .
+
+    % ipa-csreplica-manage list
+    el7.example.com: master
+    el8.example.com: master
+
+    % ipa-csreplica-manage list --verbose el8.example.com
+    Directory Manager password:
+
+    el7.example.com
+      last init status: None
+      last init ended: 1970-01-01 00:00:00+00:00
+      last update status: Error (0) Replica acquired successfully: Incremental update succeeded
+      last update ended: 2019-11-07 22:46:15+00:00
+
+* Change CRL to RHEL 8 system and adjust settings on both replicas for pki-tomcatd and httpd
+
+.. code-block:: shell
+
+   # Change CA master to el8
+   % ipa config-mod --ca-renewal-master-server el8.example.com
+
+   # Shut down all CRL generation on EL7
+   el7% ipa-crlgen-manage status
+   CRL generation: enabled
+   . . .
+
+   el7% ipa-crlgen-manage disable
+   Stopping pki-tomcatd
+   Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
+   Starting pki-tomcatd
+   Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
+   Restarting httpd
+   CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
+   The ipa-crlgen-manage command was successful
+
+   # Verify that the /etc/httpd/conf.d/ipa-pki-proxy.conf file's RewriteRule is not commented
+   # If it is, remove the comment and restart httpd
+   % tail -n 1 /etc/httpd/conf.d/ipa-pki-proxy.conf
+   RewriteRule ^/ipa/crl/MasterCRL.bin https://el7.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
+
+   # Turn it on with EL8
+   el8% systemctl stop pki-tomcatd@pki-tomcat.service
+
+   # The values should be changed from false to true
+   el8% vi /etc/pki/pki-tomcat/ca/CS.cfg
+   ca.crl.MasterCRL.enableCRLCache=true
+   ca.crl.MasterCRL.enableCRLUpdates=true
+
+   el8% systemctl start pki-tomcatd@pki-tomcat.service
+
+   # Make sure the rewrite rule has a comment on el8
+   el8% vi /etc/httpd/conf.d/ipa-pki-proxy.conf
+   . . .
+   #RewriteRule ^/ipa/crl/MasterCRL.bin https://el8.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
+
+   el8% systemctl restart httpd
+
+* Test user is created to ensure DNA range is adjusted and replication is working
+
+.. code-block:: shell
+
+   % ipa user-add --first=testing --last=user testinguser1
+
+   # Test on both systems
+   el7% ipa user-find testinguser1
+   el8% ipa user-find testinguser1
+
+* Verify DNA range
+
+.. code-block:: shell
+
+   # There should be ranges for both replicas
+   % ipa-replica-manage dnarange-show
+   el7.example.com: ...
+   el8.example.com: ...
+
+* Stop RHEL 7 IPA services, remove replica, uninstall
+
+.. code-block:: shell
+
+   # Stop all el7 services
+   el7% ipactl stop
+
+   # Delete the el7 system from the topology
+   el8% ipa server-del el7.example.com
+
+   # Uninstall and/or power down system
+   el7% ipa-server-install --uninstall
+   el7% init 0
+
+The above is in the case of a single master installation. Let's say you have two RHEL 7 replicas instead. One approach is to install a RHEL 8 system, add it in as needed, reinstall the old RHEL 7 system to RHEL 8, and add it back. Another way is to install two new RHEL 8's, add them in as needed, and power off the RHEL 7's. Below is an example set of steps.
+
+* RHEL 8 system is installed and enrolled as a client
+* RHEL 8 system is added as a replica
+* Change CRL to RHEL 8 system and adjust settings on RHEL 7 CA master and new RHEL 8 replica for pki-tomcatd and httpd
+* Test user is created to ensure DNA range is adjusted
+* Verify DNA range
+* Stop first RHEL 7 IPA services, remove replica, uninstall, power off.
+* Second RHEL 8 system is installed and enrolled as a client
+* Second RHEL 8 system is added as a replica
+* Test user is created again to ensure DNA range is adjusted
+* Verify DNA range
+* Stop second RHEL 7 IPA services, remove replica, uninstall, power off.
+
 Active Directory Trust
 ----------------------
 
@@ -204,6 +330,7 @@ To initiate a trust with your active directory domain, ensure the following requ
    Package installed: ipa-server-trust-ad
    DNS: Properly configured that FreeIPA can resolve the AD servers A and SRV records
    This can either be forwarders to AD, a subdomain that IPA manages, or delegated subdomain from the master DNS servers in your network. This is completely dependent on your infrastructure.
+   DNS: AD forest has sites and SRV records, including priorities, are set correctly
 
 When the following requirements are met, you have two choices before continuning. You can either use POSIX or have the id range generated automatically.
 

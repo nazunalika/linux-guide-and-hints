@@ -34,6 +34,7 @@ Resources
 * `Red Hat Documentation <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/>`__
 * `Trust Anatomy/SSSD Troubleshooting <https://jhrozek.wordpress.com/2015/08/19/performance-tuning-sssd-for-large-ipa-ad-trust-deployments/>`__
 * `Directory Server Tuning <https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/performance_tuning_guide/>`__
+* `Our Page <https://linuxguideandhints.com/centos/freeipa.html>`__
 
 Hardware Recommendations
 ------------------------
