@@ -145,6 +145,26 @@ about performance, **no further action is needed**. Disabling the other
 mitigations exposes yourself to unnecessary risk for little to no performance
 gain.
 
+Disabling SELinux
+-----------------
+
+Often you will find advice on setting SELinux to ``Permissive`` or ``Off``. The
+majority of this advice either comes from antivirus vendors or people who do
+not want to deal with SELinux errors.
+
+It is our opinion that disabling SELinux to allow an antivirus to work is an
+oxymoron.  While SELinux will not prevent malware from running on your
+computer, it can mitigate privilege escalation vulnerabilities (for example,
+see `CVE-2019-5736 <https://access.redhat.com/security/cve/cve-2019-5736>`_).
+Because anti-viruses require superuser privileges and conflict with SELinux,
+they ironically open you up to a whole class of vulnerabilities that
+anti-viruses will not mitigate.
+
+If you receive an AVC denial, then you should either use ``audit2allow`` or
+report the bug for your distro so that the maintainers can fix the
+policy/module in question. Disabling SELinux wholesale to get an application to
+work is never the right answer.
+
 .. rubric:: Footnotes
 
 .. [#f1] See `How to securely hash passwords? <https://security.stackexchange.com/questions/211/how-to-securely-hash-passwords/31846#31846>`_
