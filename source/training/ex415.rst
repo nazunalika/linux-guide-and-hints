@@ -1,0 +1,394 @@
+EX415 Exam Prep
+^^^^^^^^^^^^^^^
+.. meta::
+       :description: Materials to prepare for the Red Hat Certified Specialist in Security: Linux exam.
+
+This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Security exam, EX415. This follows loosely the youtube playlist as much as possible with various examples and ideas.
+
+The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex415-red-hat-certified-specialist-security-linux-exam>`__. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.
+
+.. note::
+
+   Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
+
+   If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about the various components that you'd like to see in the videos that may fit into the objectives, we can add it also upon request.
+
+.. contents::
+
+Overview
+--------
+
+The video series goes over setting up your VM's to study for the exam as well as going over the objectives, following the objectives as outlined by Red Hat. The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex415-red-hat-certified-specialist-security-linux-exam>`__.
+
+Exam Information
+----------------
+
+The EX415 exam tests your knowledge in a real world format style test - Meaning just like any Red Hat exam, it is performance-based and you perform tasks as if you were on the job. You are evaluated on the tasks you perform and if they meet the objective criteria. The EX415 is related to various security components in the Red Hat ecosystem and counts toward the RHCA (Red Hat Certified Architect).
+
+**To take the exam, you must have at least an RHCSA. If you are attempting to become a Red Hat Certified Architect, you must have an RHCE.**
+
+Resources
+---------
+
+N/A
+
+Use Red Hat Ansible Engine
+--------------------------
+
+Install Red Hat Ansible Engine on a control node
+
+.. code:: shell
+
+   # If studying on CentOS, you will need EPEL.
+   % yum install epel-release -y
+
+   # Install ansible
+   % yum install ansible -y
+
+Configure managed nodes
+
+.. code:: shell
+
+   # On all nodes, create the ansible user with full SUDO permissions
+   % useradd ansible
+
+   % visudo -f /etc/sudoers.d/ansible
+   ansible ALL=(ALL) NOPASSWD: ALL
+
+   # Create a temporary password on all nodes to pass out the keys without
+   # performing a copy and paste
+   % passwd ansible
+
+   # On the control node, generate SSH keys
+   % su - ansible
+   ansible% ssh-keygen
+   enerating public/private rsa key pair.
+   Enter file in which to save the key (/home/ansible/.ssh/id_rsa): 
+   Enter passphrase (empty for no passphrase): 
+   Enter same passphrase again: 
+   Your identification has been saved in /home/ansible/.ssh/id_rsa.
+   Your public key has been saved in /home/ansible/.ssh/id_rsa.pub.
+   The key fingerprint is:
+   SHA256:. . . ansible@control.example.com
+   The key's randomart image is:
+   +---[RSA 2048]----+
+   . . .
+   +----[SHA256]-----+
+
+   # Pass the keys to all systems
+   ansible% ssh-copy-id control.example.com
+   ansible% ssh-copy-id node1.example.com
+   ansible% ssh-copy-id node2.example.com
+   ansible% exit
+
+   # On all systems, lock the ansible user
+   % passwd -l ansible
+
+Configure a simple inventory
+
+.. code:: shell
+   
+   % vi /etc/ansible/inventory
+   control ansible_host=192.168.10.10
+   node1 ansible_host=192.168.10.11
+   node2 ansible_host=192.168.10.12
+
+   [control]
+   control ansible_host=192.168.10.10
+
+   [nodes]
+   node1 ansible_host=192.168.10.11
+   node2 ansible_host=192.168.10.12
+
+Perform basic management of systems
+
+.. code:: shell
+
+   # Example running a command
+   % ansible all -a 'uptime'
+
+   # Example running a module
+   % ansible all -m yum -a 'name=* state=latest'
+
+Run a provided playbook against specified nodes
+
+.. code:: shell
+
+   # Generic example
+   % ansible-playbook /etc/ansible/playbook.yaml
+
+   # If it has variables you can change
+   % ansible-playbook /etc/ansible/playbook.yaml --extra-vars="host=node1"
+
+Configure Intrusion Detection
+-----------------------------
+
+Intrusion detection is a way of identifying the suspicious or malicious network, file system, or policy violations. In the case of a simple file system monitoring, we will use AIDE.
+
+.. code:: shell
+
+   % yum install aide -y
+
+   # This will create the initial baseline for the system
+   % aide --init
+   % mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+
+   # You can then run a check to see if anything has changed. (There won't be any)
+   % aide --check
+
+   # Let's add some directories to monitor
+   % mkdir /opt/static
+   % vi /etc/aide.conf
+   /opt/static DIR
+
+   % aide --update
+   % mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+   % cd /opt/static
+   % touch example
+   % chown operator:root .
+
+   # When you run the check, there should be a change
+   % aide --check
+
+   # Configure a cron job to check once a night
+   % crontab -e
+   0 0 * * * /usr/sbin/aide --check
+
+When configuring AIDE, there are many options. In fact, a lot of them are commented throughout the file.
+
+So for example, you can use ! to negate checking a particular directory. For example !/var/log/httpd/ would prevent checking the httpd log directory as it would always be changing. Here are some other various examples.
+
+.. code:: shell
+   
+   # Do not monitor any logs or spool
+   !/var/log/.*
+   !/var/spool/.*
+
+   # Log only access to a directory or file
+   APP_ACCESS = a
+   /opt/static APP_ACCESS
+
+Configure Encrypted Storage
+---------------------------
+
+When you install a CentOS 7, CentOS 8, or even Fedora, an option is given to the user if they want to encrypt their disk. Typically, the /home directory is encrypted in this scenario. The /home directory, upon being mounted at boot, requests a password to be entered. This is LUKS in action.
+
+The LUKS binaries and support should be available usually by default. But, in the package isn't available, you can install cryptsetup. That will provide the minimal required to setup a luks encrypted file system.
+
+To setup a basic encrypted partition, let's do it on node1:
+
+.. code:: shell
+
+   % cryptsetup luksFormat /dev/sdb1
+   
+   # You can then verify the headers.
+   % cryptsetup luksDump /dev/sdb1
+   LUKS header information for /dev/sdb1
+
+   Version:        1
+   Cipher name:    aes
+   Cipher mode:    xts-plain64
+   Hash spec:      sha256
+   Payload offset: 4096
+   MK bits:        512
+   MK digest:      10 dc 1c c8 5c 4f c5 30 30 58 f8 90 3d ed 61 97 dc 0b d6 4b 
+   MK salt:        e3 61 e8 c9 6b 59 a3 29 55 6c c5 4c dd 63 2f 66 
+                   fd e4 a1 72 29 48 57 a4 0b e7 f2 c9 dd 12 0f bc 
+   MK iterations:  119809
+   UUID:           b2a181b0-4078-415e-94c2-18c51a886a3b
+   
+   Key Slot 0: ENABLED
+           Iterations:             1855886
+           Salt:                   c1 6f fe 4e 66 ce 90 e5 68 19 ca fb 29 35 b1 a0 
+                                   0f d1 66 0a dc 0a cc 6e 69 4e 6c 07 d0 51 6d b8 
+           Key material offset:    8
+           AF stripes:             4000
+   Key Slot 1: DISABLED
+   Key Slot 2: DISABLED
+   Key Slot 3: DISABLED
+   Key Slot 4: DISABLED
+   Key Slot 5: DISABLED
+   Key Slot 6: DISABLED
+   Key Slot 7: DISABLED
+
+   % cryptsetup isLuks -v /dev/sdb1
+   Command successful.
+
+   # Open the partition and create a file system
+   % cryptsetup luksOpen /dev/sdb1 mnt
+   % mkfs.xfs /dev/mapper/mnt
+   % mount /dev/mapper/mnt /mnt
+   % touch /mnt/test
+   % umount /mnt
+   % cryptsetup luksClose mnt
+
+   # If you want it to mount at boot time before setting up tang/clevis
+   % vi /etc/crypttab
+   mnt /dev/sdb1 none none
+
+   % vi /etc/fstab
+   . . .
+   /dev/mapper/mnt /mnt xfs defaults 1 2
+
+When you reboot, it should ask for a passphrase. The passphrase you entered during the setup should work.
+
+Let's setup NBDE, which is Network-Bound Disk Encryption. NBDE is essentially a way to allow the user to encrypt volumes of disks, whether physical or virtual, without requiring manual intervention to enter a password at boot time. There are a few components of NBDE:
+
+* Tang: The server for binding data to network presence. In essence, it provides available data for when a system is bound to a secure network. It is stateless and does not store keys, nor identifiable information of a client.
+* Clevis: A pluggable framework for automating decryption. Clevis unlocks LUKS volumes and acts as a client.
+
+  * Pin: A plugin to the clevis framework. This pin is used to interact with the tang NBDE server.
+
+Clevis and Tang are both the client and server components for NBDE. More information can be found `here <https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Security_Guide/sec-Using_Network-Bound_Disk_Encryption.html>`__. 
+
+Setup tang on the control node.
+
+.. code:: shell
+
+   % yum install tang -y
+
+   # Enable tang. Notice it's a socket unit, not a service. It is because
+   # tang is stateless.
+   % systemctl enable tangd.socket --now
+
+   # Open the http port
+   % firewall-cmd --add-service=http
+   % firewall-cmd --runtime-to-permanent
+
+Remember the luks volume we created on one of the nodes? Let's set it up with NBDE.
+
+.. code:: shell
+
+   % yum install clevis clevis-dracut clevis-luks -y
+   % clevis bind luks -d /dev/sdb1 tang '{"url":"http://192.168.10.10"}'
+   . . .
+   Do you wish to trust these keys? [ynYN] Y
+   Do you wish to initialize /dev/sdb1? [yn] y
+   Enter existing LUKS password:
+
+   % luksmeta show -d /dev/sdb1
+   0   active empty
+   1   active STRING
+   2 inactive empty
+   3 inactive empty
+   4 inactive empty
+   5 inactive empty
+   6 inactive empty
+   7 inactive empty
+
+   # Modify /etc/fstab and /etc/cryptab like so...
+   % vi /etc/crypttab
+   mnt /dev/sdb1 none _netdev
+
+   % vi /etc/fstab
+   . . .
+   /dev/mapper/mnt /mnt xfs defaults,_netdev 1 2
+
+   % dracut -f
+
+   # Reboot the system and test.
+   % init 6
+
+Restrict USB Devices
+--------------------
+
+USB Guard is a software that can allow or block specific USB devices. This is done to prevent malicious devices from being plugged into a system or even whitelist very specific devices (such as a yubikey, but not another USB device that acts as a keyboard).
+
+.. code:: shell
+
+   % yum install usbguard -y
+
+   # Generate a base policy of what's currently plugged in
+   % usbguard generate-policy > /etc/usbguard/rules.conf
+
+The policy that is generated from above would look something like this.
+
+.. code:: shell
+
+   % cat /etc/usbguard/rules.conf
+   allow id 1d6b:0002 serial "0000:00:14.0" name "xHCI Host Controller" hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" parent-hash "G1ehGQdrl3dJ9HvW9w2HdC//pk87pKzFE1WY25bq8k4=" with-interface 09:00:00
+   allow id 1d6b:0003 serial "0000:00:14.0" name "xHCI Host Controller" hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" parent-hash "G1ehGQdrl3dJ9HvW9w2HdC//pk87pKzFE1WY25bq8k4=" with-interface 09:00:00
+   allow id 0853:0111 serial "" name "Realforce 87" hash "tFZkrWQsnTe7xB6rnXvrskg3d1fbZ8azPVGpQoMsiNo=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-1" with-interface 03:01:01
+   allow id 046d:c52b serial "" name "USB Receiver" hash "5zeNOFQHsaZg43M4KgvCUwvU8C+GNCY8Rgdlwxc+Vpk=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-2" with-interface { 03:01:01 03:01:02 03:00:00 }
+   allow id 8087:0a2b serial "" name "" hash "TtRMrWxJil9GOY/JzidUEOz0yUiwwzbLm8D7DJvGxdg=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-7" with-interface { e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 }
+   allow id 5986:2113 serial "" name "Integrated Camera" hash "8WIUHlRXRajhb9Tp+q4NUjsyob4CQFAPUUTwCr+amic=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-8" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 }
+   allow id 0bda:0316 serial "20120501030900000" name "USB3.0-CRW" hash "WG1MSC3YZsmCslTNGpjTTjT2lUvhNfU4gEVvD3gIuV4=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50
+
+So now, if we enable and start usbguard, any new usb devices plugged in will be denied.
+
+.. code:: shell
+
+   % systemctl enable usbguard --now
+   
+   # At this point, I've plugged in my yubikey.
+   % usbguard list-devices | grep block
+   15: block id 1d6b:0002 serial "0000:3c:00.0" name "xHCI Host Controller" hash "+k9gUUE6Cnbob2WB/I//KMZ1hZ1UgvI6RrqNkIDvdmQ=" parent-hash "iu6QpiQUdPs2m89ViiXPDZXOJ69o6tB9kpJnYaWdvME=" via-port "usb3" with-interface 09:00:00
+   16: block id 1d6b:0003 serial "0000:3c:00.0" name "xHCI Host Controller" hash "f/j0P3jeotLSPQLacl0JEBDT/k4mgTo84SKV39leYSc=" parent-hash "iu6QpiQUdPs2m89ViiXPDZXOJ69o6tB9kpJnYaWdvME=" via-port "usb4" with-interface 09:00:00
+
+   # Let's allow the devices
+   % usbguard allow-device --permanent 15
+   % usbguard allow-device --permanent 16
+   % usbguard list-devices | grep block
+   18: block id 1050:0407 serial "" name "YubiKey OTP+FIDO+CCID" hash "UP/fS/jaI4Elg4Fej+gf1QXLWPleJ54MqMtO16eSmr8=" parent-hash "+k9gUUE6Cnbob2WB/I//KMZ1hZ1UgvI6RrqNkIDvdmQ=" via-port "3-1" with-interface { 03:01:01 03:00:00 0b:00:00 }
+
+   # In my case, it was my controller that was blocked initially. Now that it's unblocked, the device is blocked.
+   % usbguard allow-device --permanent 18
+
+   # If I wanted to block a device even after allowing it
+   % usbguard block-device 15
+   % usbguard block-device 16
+
+In the event I want to allow another user/group to allow or block devices, you can allow it in the poolicy.
+
+.. code:: shell
+
+   # This allows anyone in the staff group to be able to modify USB device authorization states,
+   # list USB devices, listen to exception events, and list USB authorization policies.
+   % usbguard add-user -g staff --devices=modify,list,listen --policy=list --exceptions=listen
+
+It is also possible to be dynamic with the rules configuration, using the rule language to create your own rules. So for example. I only want to allow my keyboard access to port 1-1.
+
+.. code:: shell
+
+   % vi /tmp/rules.conf
+   allow id 0853:0111 serial "" name "Realforce 87" hash "tFZkrWQsnTe7xB6rnXvrskg3d1fbZ8azPVGpQoMsiNo=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-1" with-interface 03:01:01
+   reject via-port "1-1"
+
+   # Now we install it. It is also possible to just modify the file directly, but that
+   # is generally not recommended.
+   % install -m 0600 -o root -g root /tmp/rules.conf /etc/usbguard/rules.conf
+
+More information on usbguard and can found `here <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sec-using-usbguard>`__
+
+Manage System Login Security using Pluggable Authentication Modules (PAM)
+-------------------------------------------------------------------------
+
+Configure System Auditing
+-------------------------
+
+Configure SELinux
+-----------------
+
+To help you with SELinux troubleshooting, here are a list of packages that can provide helpful binaries:
+
+* setroubleshoot-server
+
+  *  sealert
+
+* policycoreutils-devel
+
+  * sepolicy
+
+* policycoreutils-python
+
+  * semanage
+  * audit2why
+  * audit2allow
+
+* setools-console
+
+  * seinfo
+
+Enforce Security Compliance
+---------------------------
+
