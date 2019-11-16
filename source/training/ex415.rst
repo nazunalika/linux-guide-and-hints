@@ -259,8 +259,9 @@ Remember the luks volume we created on one of the nodes? Let's set it up with NB
 
 .. code:: shell
 
-   % yum install clevis clevis-dracut clevis-luks -y
-   % clevis bind luks -d /dev/sdb1 tang '{"url":"http://192.168.10.10"}'
+   % yum install clevis clevis-dracut clevis-luks clevis-systemd -y
+   % CFG='{"url":"http://192.168.10.10"}'
+   % clevis bind luks -d /dev/sdb1 tang "$CFG"
    . . .
    Do you wish to trust these keys? [ynYN] Y
    Do you wish to initialize /dev/sdb1? [yn] y
@@ -285,9 +286,38 @@ Remember the luks volume we created on one of the nodes? Let's set it up with NB
    /dev/mapper/mnt /mnt xfs defaults,_netdev 1 2
 
    % dracut -f
+   % systemctl enable clevis-luks-askpass.path
 
    # Reboot the system and test.
    % init 6
+
+There may be a case where you want high availability with your tang servers. If this is the case and you have two tang servers up and running, you would configure your nodes to use both servers.
+
+.. code:: shell
+
+   % CFG='{"t":2,"pins":{"tang":[{"url":"http://192.168.10.10"},{"url":"192.168.10.20"}]}}'
+   % clevis luks bind -d /dev/sdb1 sss "$CFG"
+
+Rotating keys is fairly simple.
+
+.. code:: shell
+
+   % DB=/var/db/tang
+   % jose jwk gen -i '{"alg":"ES512"}' -o $DB/new_sig.jwk
+   % jose jwk gen -i '{"alg":"ECMR"}' -o $DB/new_exc.jwk
+   % mv $DB/old_sig.jwk $DB/.old_sig.jwk
+   % mv $DB/old_exc.jwk $DB/.old_exc.jwk
+
+The old clients will still continue to use the old keys. The old keys can be removed once the clients are using the new keys. *Removing the old keys before this can easily result in data loss.*
+
+Optionally, you can configure clevis to unlock removable media that has been encrypted with luks. The following procedure allows removable disks to be automatically unlocked when plugged in, in the case of being the GNOME environment. Otherwise, `clevis luks unlock` works just as well.
+
+.. code:: shell
+
+   % yum install clevis-udisks2 -y
+   % init 6
+   % CFG='{"url":"http://192.168.10.10"}'
+   % clevis bind luks -d /dev/sdc1 tang "$CFG"
 
 Restrict USB Devices
 --------------------
@@ -363,8 +393,91 @@ More information on usbguard and can found `here <https://access.redhat.com/docu
 Manage System Login Security using Pluggable Authentication Modules (PAM)
 -------------------------------------------------------------------------
 
+PAM has been an essential part of Linux (and Unix, where it started) for years. PAM first appeared in the Linux world on Red Hat Linux 3.0.4 in 1996. PAM serves as a way to provide dynamic authentication support for services on a Linux system as well as applications. There are four types of management groups in PAM:
+
+* Auth: Validates/verifies a user's identity. It does this in multiple ways. The most common way is requesting and checking a password.
+* Account: The account modules check that an account is a valid target under the current conditions, such as expiration, time of day, or even access to the requested service.
+* Password: These modules are responsible for updating passwords. They are generally used tightly with the auth modules. These modules can also be used to enforce strong passwords.
+* Session: These modules are responsible for the service environment. They define actions that are performed at the beginning and at the end of a session. A session starts when the user has successfully logged into the system.
+
+To configure password policies and faillock, you have two options: Manually modifying `/etc/pam.d/{system-auth,password-auth}` and `/etc/security/pwquality.conf` or using authconfig. We'll stick with `authconfig` for now and verify the pam files.
+
+.. code:: block
+
+   # Let's try to set some CIS benchmarks settings. Below we are:
+   #  * Require at least 1 lowercase letter
+   #  * Require at least 1 uppercase letter
+   #  * Require at least 1 number
+   #  * Require at least 1 other character
+   #  * Minimum of 14 characters
+   #  * Turning on faillock, locking a user after 5 failures, 15 minutes before the account is unlocked.
+   % authconfig --passminlen=14 --enablereqlower --enablerequpper --enablereqdigit --enablereqother --enablefaillock --faillockargs="audit deny=5 unlock_time=900" --updateall
+
+   # There is an odd thing that happens to the password-auth file. This is to make it consistent.
+   % cp /etc/pam.d/system-auth /etc/pam.d/password-auth
+
+   # Verify the pwquality.conf file
+   % grep -v '^#' /etc/security/pwquality.conf
+   minlen = 14
+   lcredit = -1
+   ucredit = -1
+   dcredit = -1
+   ocredit = -1
+
+   # Here's a system-auth example. As you can see, the faillock modules are surrounding the pam_unix in
+   # the auth stack, but comes before pam_unix in account. This ensures the lockout is successful. The
+   # pwquality module is set in the password module. The settings in /etc/security/pwquality.conf apply
+   # here.
+   % cat /etc/pam.d/system-auth
+
+   #%PAM-1.0
+   # This file is auto-generated.
+   # User changes will be destroyed the next time authconfig is run.
+   auth        required      pam_env.so
+   auth        required      pam_faildelay.so delay=2000000
+   auth        required      pam_faillock.so preauth silent audit deny=5 unlock_time=900
+   auth        [default=1 ignore=ignore success=ok] pam_succeed_if.so uid >= 1000 quiet
+   auth        [default=1 ignore=ignore success=ok] pam_localuser.so
+   auth        sufficient    pam_unix.so nullok try_first_pass
+   auth        requisite     pam_succeed_if.so uid >= 1000 quiet_success
+   auth        sufficient    pam_sss.so forward_pass
+   auth        required      pam_faillock.so authfail audit deny=5 unlock_time=900
+   auth        required      pam_deny.so
+   
+   account     required      pam_faillock.so
+   account     required      pam_unix.so
+   account     sufficient    pam_localuser.so
+   account     sufficient    pam_succeed_if.so uid < 1000 quiet
+   account     [default=bad success=ok user_unknown=ignore] pam_sss.so
+   account     required      pam_permit.so
+   
+   password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
+   password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
+   password    sufficient    pam_sss.so use_authtok
+   password    required      pam_deny.so
+   
+   session     optional      pam_keyinit.so revoke
+   session     required      pam_limits.so
+   -session     optional      pam_systemd.so
+   session     optional      pam_oddjob_mkhomedir.so umask=0077
+   session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
+   session     required      pam_unix.so
+   session     optional      pam_sss.so
+
+   # Optional: If you want to turn on password history, you can either add remember=5 to pam_unix.so in the password
+   #           stack or add pam_pwhistory.so. This is done in /etc/pam.d/system-auth and /etc/pam.d/password-auth
+
+   # Example 1
+   password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
+
+   # Example 2 (recommended)
+   password    requisite     pam_pwhistory.so use_authtok remember=5
+   password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
+
 Configure System Auditing
 -------------------------
+
+Auditd is a subsystem that deals in access monitoring and accounting for Linux. It was built and designed to be integrated deep into the kernel and watch for system calls, whether normal or malicious, as such to create an audit trail. It does not provide any additional security. Instead, it acts as a logger of violations and actions performed on the system. Because of the deep integration, auditd is used as the logger for SELinux.
 
 Configure SELinux
 -----------------
