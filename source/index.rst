@@ -20,17 +20,17 @@ complete.
 
 .. toctree::
   :maxdepth: 4
+  :caption: Errata
+  :glob:
+
+  errata/*
+
+.. toctree::
+  :maxdepth: 4
   :caption: Miscellaneous
   :glob:
 
   misc/*
-
-.. toctree::
-  :maxdepth: 4
-  :caption: Gentoo
-  :glob:
-
-  gentoo/*
 
 .. toctree::
   :maxdepth: 4
