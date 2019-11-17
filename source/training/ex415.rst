@@ -489,18 +489,18 @@ What you'll find when you view the initial rules is that you'll see a `-D` (whic
 .. code:: shell
 
    # Action can be always/never, filter can be task, exit, user
-   -a <action>,<filter> \
+   -a action,filter \
    # field=value specifies additional options that modify the rule to match events.
    # It can match based on arch, group ID, process ID, and many others. See man auditctl(8)
-   -F <field=value> \
+   -F field=value \
    # This is an interfield comparison. It checks whether something equals or doesn't equal another value.
    # Example, -C uid!=euid means that the UID of the event should NOT equal/match the EFFECTIVE UID
-   -C <comparison> \
+   -C comparison \
    # Specify the system call by name. Examples would be setuid, execve. See /usr/include/asm/unistd_64.h
-   -S <system call> \
+   -S system call \
    # This is a key that can be used to match against when running ausearch or aureport. This can also be
    # specified using -F key=name instead of using -k name
-   -k <key>
+   -k key
 
    # Example ruleset:
    # Delete all rules
@@ -635,7 +635,7 @@ For giggles, let's produce some audit reports on my system.
    ===============================================
    # date time event auid term sess comm data
    ===============================================
-   <no events of interest were found>
+   no events of interest were found
 
    # I can also try to search for events though.
    % ausearch --start boot -m LOGIN | head -3
