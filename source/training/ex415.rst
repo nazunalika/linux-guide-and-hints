@@ -479,6 +479,177 @@ Configure System Auditing
 
 Auditd is a subsystem that deals in access monitoring and accounting for Linux. It was built and designed to be integrated deep into the kernel and watch for system calls, whether normal or malicious, as such to create an audit trail. It does not provide any additional security. Instead, it acts as a logger of violations and actions performed on the system. Because of the deep integration, auditd is used as the logger for SELinux.
 
+There's a couple of ways to enable auditd rules. 
+
+* You can either modify `/etc/audit/rules.d/audit.rules` or drop a file appended with `.rules` and then run augenrules
+* You can run `auditctl` - Though the next time auditd or the system is restarted, the rule you have added in is lost
+
+What you'll find when you view the initial rules is that you'll see a `-D` (which deletes all current rules) and then a `-b`, which is a backlog buffer. As for the syntax of an audit rule where we are attempting to monitor something, it generally works like this:
+
+.. code:: shell
+
+   # Action can be always/never, filter can be task, exit, user
+   -a <action>,<filter> \
+   # field=value specifies additional options that modify the rule to match events.
+   # It can match based on arch, group ID, process ID, and many others. See man auditctl(8)
+   -F <field=value> \
+   # This is an interfield comparison. It checks whether something equals or doesn't equal another value.
+   # Example, -C uid!=euid means that the UID of the event should NOT equal/match the EFFECTIVE UID
+   -C <comparison> \
+   # Specify the system call by name. Examples would be setuid, execve. See /usr/include/asm/unistd_64.h
+   -S <system call> \
+   # This is a key that can be used to match against when running ausearch or aureport. This can also be
+   # specified using -F key=name instead of using -k name
+   -k <key>
+
+   # Example ruleset:
+   # Delete all rules
+   -D
+
+   # Set backlog to 8192, way above the RHEL 7 default
+   -b 8192
+
+   # Let's monitor calling su for uid's equal to or greater than 1000
+   -a always,exit -F path=/usr/bin/su -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged
+   -a always,exit -F arch=b64 -S setuid -Fa0=0 -F exe=/usr/bin/su -k privileged
+   -a always,exit -F arch=b64 -S setresuid -F a0=0 -F exe=/usr/bin/sudo -k privileged
+   -a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k privileged
+
+   # Any time the su command is called (which is a setuid binary), it is logged under the key privileged.
+   # Here's an example of me calling sudo su -
+   % ausearch -k privileged -ui 1000 -x /usr/bin/su
+   time->Sun Nov 17 14:59:00 2019
+   type=PROCTITLE msg=audit(1574027940.430:155902): proctitle=7375646F007375002D
+   type=PATH msg=audit(1574027940.430:155902): item=1 name="/lib64/ld-linux-x86-64.so.2" inode=8413547 dev=fd:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:ld_so_t:s0 nametype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+   type=PATH msg=audit(1574027940.430:155902): item=0 name="/usr/bin/sudo" inode=4414497 dev=fd:00 mode=0104111 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:sudo_exec_t:s0 nametype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+   type=EXECVE msg=audit(1574027940.430:155902): argc=3 a0="sudo" a1="su" a2="-"
+   type=SYSCALL msg=audit(1574027940.430:155902): arch=c000003e syscall=59 success=yes exit=0 a0=5558e5c69c60 a1=5558e5b54700 a2=5558e5b52c80 a3=8 items=2 ppid=13115 pid=13146 auid=1000 uid=1000 gid=1000 euid=0 suid=0 fsuid=0 egid=1000 sgid=1000 fsgid=1000 tty=pts5 ses=1 comm="sudo" exe="/usr/bin/sudo" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="privileged"
+
+What if though, you don't want to configure your own rules? Or come up with your own? What if you just want some form of compliance (like PCI DSS)? Well thankfully there is some predefined rules provided to you.
+
+.. code:: shell
+   
+   % ls /usr/share/doc/audit-2.8.5/rules | sort
+   10-base-config.rules
+   10-no-audit.rules
+   11-loginuid.rules
+   12-cont-fail.rules
+   12-ignore-error.rules
+   20-dont-audit.rules
+   21-no32bit.rules
+   22-ignore-chrony.rules
+   23-ignore-filesystems.rules
+   30-nispom.rules
+   30-ospp-v42.rules
+   30-pci-dss-v31.rules
+   30-stig.rules
+   31-privileged.rules
+   32-power-abuse.rules
+   40-local.rules
+   41-containers.rules
+   42-injection.rules
+   43-module-load.rules
+   70-einval.rules
+   71-networking.rules
+   99-finalize.rules
+   README-rules
+
+You can easily take these rules and copy them, run augenrules, and you're golden. Here's an example.
+
+.. code:: shell
+
+   % cp /usr/share/doc/audit-2.8.5/rules/30-pci-dss-v31.rules /etc/audit/rules.d/pci.rules
+   % augenrules
+   # Let's grep for a part...
+   % grep 'clock_settime' /etc/audit/audit.rules
+   -a always,exit -F arch=b32 -S clock_settime -F a0=0x0 -F key=10.4.2b-time-change
+   -a always,exit -F arch=b64 -S clock_settime -F a0=0x0 -F key=10.4.2b-time-change
+
+   # Though, you could grep for just 'always,exit' and get a much bigger result.
+
+Looks like our rules took and they're active.
+
+For giggles, let's produce some audit reports on my system.
+
+.. code:: shell
+
+   % aureport --start yesterday 00:00:00 --end today 00:00:00
+
+   Summary Report
+   ======================
+   Range of time in logs: 10/22/2019 15:56:25.579 - 11/17/2019 15:41:51.453
+   Selected time for report: 11/16/2019 00:00:00 - 11/17/2019 15:41:51
+   Number of changes in configuration: 0
+   Number of changes to accounts, groups, or roles: 0
+   Number of logins: 2
+   Number of failed logins: 0
+   Number of authentications: 11
+   Number of failed authentications: 0
+   Number of users: 3
+   Number of terminals: 13
+   Number of host names: 4
+   Number of executables: 14
+   Number of commands: 13
+   Number of files: 84
+   Number of AVC's: 0
+   Number of MAC events: 3
+   Number of failed syscalls: 8
+   Number of anomaly events: 0
+   Number of responses to anomaly events: 0
+   Number of crypto events: 191
+   Number of integrity events: 0
+   Number of virt events: 0
+   Number of keys: 8
+   Number of process IDs: 77
+   Number of events: 1110
+
+   aureport -x --summary | head
+
+   Executable Summary Report
+   =================================
+   total  file
+   =================================
+   14879  /usr/sbin/timedatex
+   14515  /usr/sbin/sshd
+   8491  /usr/libexec/platform-python3.6
+   6357  /usr/sbin/chronyd
+   2974  /usr/bin/sudo
+   # ... many more!
+
+   # Failed events only just for users (the -i translates UID into name)
+   % aureport -u --failed --summary -i
+
+   Failed User Summary Report
+   ===========================
+   total  auid
+   ===========================
+   822  ansible
+   451  nazu
+   28  unset
+
+   # Check against our TTY consoles (physical console)
+   # I haven't logged into my machine physically in some time.
+   % aureport --tty
+
+   TTY Report
+   ===============================================
+   # date time event auid term sess comm data
+   ===============================================
+   <no events of interest were found>
+
+   # I can also try to search for events though.
+   % ausearch --start boot -m LOGIN | head -3
+   ----
+   time->Tue Oct 22 20:01:38 2019
+   type=LOGIN msg=audit(1571799698.833:107001): pid=26065 uid=0 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 old-auid=4294967295 auid=1000 tty=(none) old-ses=4294967295 ses=64 res=1
+
+   # Check it out, in CSV format!
+   % ausearch --start boot -m LOGIN --format csv | head -2
+   NODE,EVENT,DATE,TIME,SERIAL_NUM,EVENT_KIND,SESSION,SUBJ_PRIME,SUBJ_SEC,SUBJ_KIND,ACTION,RESULT,OBJ_PRIME,OBJ_SEC,OBJ_KIND,HOW
+   ,LOGIN,10/22/2019,20:01:38,107001,user-login,64,system,root,privileged-acct,changed-login-id-to,success,nazu,,user-session,
+
+
+
 Configure SELinux
 -----------------
 
