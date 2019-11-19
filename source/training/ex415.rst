@@ -482,7 +482,7 @@ Auditd is a subsystem that deals in access monitoring and accounting for Linux. 
 There's a couple of ways to enable auditd rules. 
 
 * You can either modify `/etc/audit/rules.d/audit.rules` or drop a file appended with `.rules` and then run augenrules
-* You can run `auditctl` - Though the next time auditd or the system is restarted, the rule you have added in is lost
+* You can run `auditctl` - Though the next time auditd or the system is restarted, the rule you have added is lost. This should only be used as a test.
 
 What you'll find when you view the initial rules is that you'll see a `-D` (which deletes all current rules) and then a `-b`, which is a backlog buffer. As for the syntax of an audit rule where we are attempting to monitor something, it generally works like this:
 
@@ -635,7 +635,7 @@ For giggles, let's produce some audit reports on my system.
    ===============================================
    # date time event auid term sess comm data
    ===============================================
-   no events of interest were found
+   &lt;no events of interest were found&gt;
 
    # I can also try to search for events though.
    % ausearch --start boot -m LOGIN | head -3
@@ -648,7 +648,7 @@ For giggles, let's produce some audit reports on my system.
    NODE,EVENT,DATE,TIME,SERIAL_NUM,EVENT_KIND,SESSION,SUBJ_PRIME,SUBJ_SEC,SUBJ_KIND,ACTION,RESULT,OBJ_PRIME,OBJ_SEC,OBJ_KIND,HOW
    ,LOGIN,10/22/2019,20:01:38,107001,user-login,64,system,root,privileged-acct,changed-login-id-to,success,nazu,,user-session,
 
-
+A nice thing to know how to configure too is the auditd settings themselves in `/etc/audit/auditd.conf`. This configuration can be modified to control how big logs can be, what to do if the filesystem is filled up, or what to do when the logs have been maxed out.
 
 Configure SELinux
 -----------------

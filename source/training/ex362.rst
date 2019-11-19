@@ -677,3 +677,23 @@ On some applications, it is possible to use kerberos authentication rather than 
 Implement a SSO
 ---------------
 
+To setup a very, very simple SSO, you can setup a simple location that requires a login.
+
+.. code:: shell
+
+   % ipa-getkeytab -s idm1.example.com -p http/http.example.com -k /etc/httpd/conf/http.keytab
+   % vi /etc/httpd/conf.d/location.conf
+   <Location "/">
+     AuthType Kerberos
+     AuthName "IPA Kerberos Auth"
+     # Keytab
+     Krb5Keytab /etc/httpd/conf/http.keytab
+     # Kerb settings
+     KrbMethodNegotiate on
+     KrbMethodK5Passwd on
+     KrbServiceName HTTP
+     KrbAuthRealms EXAMPLE.COM
+     KrbSaveCredentials off
+     Require valid-user
+   </Location>
+
