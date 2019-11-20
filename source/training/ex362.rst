@@ -9,6 +9,8 @@ The list of objectives can be found `here <https://www.redhat.com/en/services/tr
 
 .. note::
 
+   Affiliation and Exam Information
+
    Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
 
    If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.

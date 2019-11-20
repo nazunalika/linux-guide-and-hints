@@ -9,6 +9,8 @@ The list of objectives can be found `here <https://www.redhat.com/en/services/tr
 
 .. note::
 
+   Affiliation and Exam Information
+
    Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
 
    If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If there are things about the various components that you'd like to see in the videos that may fit into the objectives, we can add it also upon request.
@@ -30,7 +32,7 @@ The EX415 exam tests your knowledge in a real world format style test - Meaning 
 Resources
 ---------
 
-N/A
+The resources will be listed in their various sections where needed.
 
 Use Red Hat Ansible Engine
 --------------------------
@@ -648,12 +650,154 @@ For giggles, let's produce some audit reports on my system.
    NODE,EVENT,DATE,TIME,SERIAL_NUM,EVENT_KIND,SESSION,SUBJ_PRIME,SUBJ_SEC,SUBJ_KIND,ACTION,RESULT,OBJ_PRIME,OBJ_SEC,OBJ_KIND,HOW
    ,LOGIN,10/22/2019,20:01:38,107001,user-login,64,system,root,privileged-acct,changed-login-id-to,success,nazu,,user-session,
 
-A nice thing to know how to configure too is the auditd settings themselves in `/etc/audit/auditd.conf`. This configuration can be modified to control how big logs can be, what to do if the filesystem is filled up, or what to do when the logs have been maxed out.
+A nice thing to know how to configure too is the auditd settings themselves in `/etc/audit/auditd.conf`. This configuration can be modified to control how big logs can be, what to do if the filesystem is filled up, or what to do when the logs have been maxed out. See `man auditd.conf 5`.
 
 Configure SELinux
 -----------------
 
-To help you with SELinux troubleshooting, here are a list of packages that can provide helpful binaries:
+If you have used RHEL or CentOS (or even Fedora) and looked up guides on how to setup or configure something, you may notice that some tend to start out the same exact way: "Disable SELinux". This is an errorneous and quite frankly, a bad set of advice to ever give to a user. Disabling the security integrity of your system to install an application should always be considered to be poor advice. There is no reason or case where you must disable the security layers of your system. From a support standpoint in fact, if you are a CentOS user and go to the IRC channel on Freenode, you will be denied support for having it disabled.
+
+"What about anti virus though? My company dictates we use $x and we have to disable it to use it." Again, you are disabling a core security component of the kernel and operating system for no gain. In fact, you could just use ClamAV and have no SELinux policy violations. But that is beyond the scope of this section.
+
+To ensure SELinux is enforcing, you can run the `getenforce` command. If it is set to "disabled", you will need to enable it and relabel your filesystem.
+
+.. code:: shell
+
+   % getenforce
+   Disabled
+   % vi /etc/selinux/config
+   #SELINUX=disabled
+   SELINUX=enforcing
+
+   % touch /.autorelabel
+   % init 6
+
+In most general use cases, there are a lot of booleans that can be set that enable or disable a specific feature. Here are some common examples using httpd (apache).
+
+.. code:: shell
+
+   % getsebool -a | grep httpd
+   . . .
+   ( lots of settings! )
+
+   # A common one to enable is httpd_unified
+   # This boolean allows apache/nginx to perform writes under httpd_sys_content_rw_t
+   % setsebool httpd_unified 1
+
+   # Another odd one is httpd_enable_homedir
+   # This allows users to have a ~/public_html directory to be accessible
+   % setsebool httpd_enable_homedirs 1
+
+All files and directories have an SELinux context. They usually have, in the general case, stock/default contexts that do fine in most cases. For example. `/var/www/html` and `/srv/www` get `httpd_sys_content_t` by default.
+
+.. code:: shell
+
+   % matchpathcon /srv/www
+   /srv/www        system_u:object_r:httpd_sys_content_t:s0
+   % matchpathcon /var/www/html
+   /var/www/html   system_u:object_r:httpd_sys_content_t:s0
+
+You can find all the contexts using the `semanage` command. You'll be surprised at the number of contexts there are.
+
+.. code:: shell
+
+   % semanage fcontext -l
+
+You will find if you run `cp` the contexts will change based on the directory the file lands. If you run `mv`, the context moves with it. If you find if a context is set incorrectly, `restorecon` will come to the rescue.
+
+.. code:: shell
+
+   % ls -lZ /tmp/id_rsa*
+   -rw-------. 1 root root unconfined_u:object_r:user_tmp_t:s0 1843 Nov 19 22:27 /tmp/id_rsa
+   -rw-r--r--. 1 root root unconfined_u:object_r:user_tmp_t:s0  415 Nov 19 22:27 /tmp/id_rsa.pub
+   % mv /tmp/id_rsa* ~/.ssh/
+   % ls -lZ ~/.ssh/
+   total 12
+   -rw-------. 1 root root unconfined_u:object_r:user_tmp_t:s0 1843 Nov 19 22:27 id_rsa
+   -rw-r--r--. 1 root root unconfined_u:object_r:user_tmp_t:s0  415 Nov 19 22:27 id_rsa.pub
+   % restorecon -v ~/.ssh/*
+   Relabeled /root/.ssh/id_rsa from unconfined_u:object_r:user_tmp_t:s0 to unconfined_u:object_r:ssh_home_t:s0
+   Relabeled /root/.ssh/id_rsa.pub from unconfined_u:object_r:user_tmp_t:s0 to unconfined_u:object_r:ssh_home_t:s0
+
+   # Not the best example, but you get the idea.
+   
+One sort of uncommon, but clever piece of SELinux is the idea of SELinux users. An SELinux User has roles. Some users have more than one role. What the role means is defined by policy. Roles dictates what domains (contexts) are possible, including transitioning between roles. Let's take a look at some defaults.
+
+.. code:: shell
+
+   % semanage login -l
+
+   Login Name           SELinux User         MLS/MCS Range        Service
+
+   __default__          unconfined_u         s0-s0:c0.c1023       *
+   admin                unconfined_u         s0-s0:c0.c1023       *
+   label                unconfined_u         s0-s0:c0.c1023       *
+   root                 unconfined_u         s0-s0:c0.c1023       *
+   tester               unconfined_u         s0-s0:c0.c1023       *
+
+   # The default is unconfined_u. Here's all the available maps.
+   % semanage user -l
+
+                   Labeling   MLS/       MLS/
+   SELinux User    Prefix     MCS Level  MCS Range                      SELinux Roles
+
+   guest_u         user       s0         s0                             guest_r
+   root            user       s0         s0-s0:c0.c1023                 staff_r sysadm_r system_r unconfined_r
+   staff_u         user       s0         s0-s0:c0.c1023                 staff_r sysadm_r system_r unconfined_r
+   sysadm_u        user       s0         s0-s0:c0.c1023                 sysadm_r
+   system_u        user       s0         s0-s0:c0.c1023                 system_r unconfined_r
+   unconfined_u    user       s0         s0-s0:c0.c1023                 system_r unconfined_r
+   user_u          user       s0         s0                             user_r
+   xguest_u        user       s0         s0                             xguest_r
+
+   # Here is what the user maps do
+   unconfined_u - do not have additional user-based SELinux restrictions.
+   user_u       - Non-admin users. "su" or "sudo" cannot be used.
+                -> user_r role applied
+   staff_u      - Regular users. "sudo" is allowed, "su" is not
+                -> staff_r and sysadm_r roles applied, user can switch between both roles using "newrole -r"
+   sysadm_u     - Direct system administrator role. "su" and "sudo" is allowed.
+                -> sysadm_r role applied
+   system_u     - User meant for system services
+                -> system_r role applied. "newrole -r" will not allow a user to switch to this.
+
+   # To set the __default__ login, you can use semanage.
+   # We'll make sure the default is user_u
+   % semanage login -m -s user_u -r s0 __default__
+
+   # I want to set my label user as sysadm_u
+   % semanage login -m -s sysadm_u label
+
+   # Maybe I want to remove it?
+   % semanage login -d -s sysadm_u label
+
+   # Actually, I want a new user in that map
+   % useradd -Z sysadm_u sysadmin
+
+   # !! NOTE ON SYSADM_U !!
+   # If a user has sysadm_u, they can only logged into locally. This means ssh to that user will fail
+   # even if you know the password. If you want to allow them to SSH:
+   % setsebool -P ssh_sysadm_login on
+
+   # Well, what if I want to prevent users and guests to not be allowed to execute in their homes?
+   % getsebool -a | grep exec_content
+   auditadm_exec_content --> on
+   dbadm_exec_content --> on
+   guest_exec_content --> on
+   logadm_exec_content --> on
+   secadm_exec_content --> on
+   staff_exec_content --> on
+   sysadm_exec_content --> on
+   user_exec_content --> on
+   xguest_exec_content --> on
+
+   % setsebool user_exec_content 0
+   % setsebool guest_exec_content 0
+
+More info on users and roles can be found `here <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-targeted_policy-confined_and_unconfined_users>`__.
+
+Package & Binary Glossary
++++++++++++++++++++++++++
 
 * setroubleshoot-server
 
@@ -669,9 +813,25 @@ To help you with SELinux troubleshooting, here are a list of packages that can p
   * audit2why
   * audit2allow
 
+* policycoreutils-newrole
+
+  * newrole
+
 * setools-console
 
   * seinfo
+
+Command Glossary
+++++++++++++++++
+
+.. code:: shell
+
+   # semanage -> SELinux Policy Management Tool
+   # Append an -l to "list"
+   semanage fcontext -> Manages file contexts
+   semanage port     -> Manages network port types
+   semanage login    -> Manages login mappings between linux and selinux confined users
+   semanage user     -> Manages confined users
 
 Enforce Security Compliance
 ---------------------------
