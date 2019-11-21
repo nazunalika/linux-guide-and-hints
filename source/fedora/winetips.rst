@@ -176,7 +176,7 @@ the merged directory will be unmounted. In order to test that it is actually
 working, install the JIP LN NVSE mod and type ``GetIsLAA`` in the console. You
 should get some output.
 
-THe script will also create a ``loadorder.txt`` file inside
+The script will also create a ``loadorder.txt`` file inside
 ``$MERGERDIR/data``. However, FONV actually reads the ``esp`` and ``esm`` files
 to load from ``plugins.txt``. Locate it, then create a symlink, i.e:
 
@@ -277,11 +277,7 @@ DirectX11 games
 ---------------
 
 If you are having rendering issues in D3D11 games (such as black screens/textures), then you may need to use `DXVK <https://github.com/doitsujin/dxvk>`_, a Vulkan-based
-D3D11 implementation. There are three ways of obtaining it. You can either use `Winetricks <https://github.com/Winetricks/winetricks>`_, download the latest `binary release <https://github.com/doitsujin/dxvk/releases>`_ or attempt to compile it.
-
-.. note::
-
-   DXVK will fail to compile for F29 until the MinGW headers are updated.
+D3D11 implementation. There are three ways of obtaining it. You can either use `Winetricks <https://github.com/Winetricks/winetricks>`_, download the latest `binary release <https://github.com/doitsujin/dxvk/releases>`_ or attempt to compile it. The ``wine-dxvk`` package is also available.
 
 In order to compile it, you need to install the following dependencies:
 
@@ -315,23 +311,26 @@ When launching the program, use the following overrides:
 Proton
 ------
 
-If you use Steam, you can play games using Steam Play, which uses `Proton <https://github.com/ValveSoftware/Proton/>`_. Proton incorporates both Wine and DXVK to allow you to play Windows games without doing any tinkering out of the box. However, if you don't plan on building it from source, you need to install a Steam Play game first to obtain it.
+If you use Steam, you can play games using Steam Play, which uses `Proton <https://github.com/ValveSoftware/Proton/>`_. Proton incorporates both Wine and DXVK to allow you to play Windows games without doing any tinkering out of the box.
+
+Proton can either be obtained by installing a Steam Play enabled game or standalone in the **Tools** section. In the library pane, select the **Games** dropdown and change it to **Tools**. Then scroll down until you find Proton.
+
+.. figure:: /_static/img/proton.png
+    :alt: Installing the standalone version of Proton.
 
 Once that's done, locate the Proton directory. It will look something like ``steam/steamapps/common/Proton 3.7``, where ``steam`` is located in one of your Steam download libraries. You can directly invoke the Proton binary to use it for non-steam games. For example:
 
 .. code-block:: bash
 
-   env PROTON_DUMP_DEBUG_COMMANDS=1 STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
+   env STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
 
 ``$APP_ID`` will be the value of whatever game you installed with Steam Play. For a performance boost, you should **not** disable ``ESYNC``. This will require that you `change your ulimit <https://github.com/lutris/lutris/wiki/How-to:-Esync>`_. If you cannot get that working, then set the ``PROTON_NO_ESYNC=1`` environment variable.
+
+You can have Proton generate a prefix for you. Create a directory, touch the ``pfx.lock`` file then point ``STEAM_COMPAT_DATA_PATH`` to it. The prefix will be generated in ``pfx``.
 
 .. note::
 
    The latest version of systemd has upped the hard limit to 524288, but the soft limit remains at 1024. However, when you start a game with Proton, the process should automatically up the soft limit as required.    So you do not need to change anything. You can verify the ulimit of any process with ``prlimit --pidof=...``.
-
-.. note::
-
-   Compatibility data for each game will be different, so there is no guarantee that it will work for whatever particular non-steam game you are trying to play.
 
 .. note::
 
