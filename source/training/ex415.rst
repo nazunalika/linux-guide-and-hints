@@ -703,6 +703,17 @@ You can find all the contexts using the `semanage` command. You'll be surprised 
 
    % semanage fcontext -l
 
+Let's say you want to make some directory outside of the norm allowable by SELinux for httpd.
+
+.. code:: shell
+
+   % mkdir /opt/www
+   % semanage fcontext -a -t httpd_sys_content_t "/opt/www(/.*)?"
+   % restorecon -Rv /opt/www
+
+   # There is also the chcon command, but it is not permanent. A restorecon or
+   # an autorelabel will wipe out the contexts.
+
 You will find if you run `cp` the contexts will change based on the directory the file lands. If you run `mv`, the context moves with it. If you find if a context is set incorrectly, `restorecon` will come to the rescue.
 
 .. code:: shell
@@ -720,7 +731,32 @@ You will find if you run `cp` the contexts will change based on the directory th
    Relabeled /root/.ssh/id_rsa.pub from unconfined_u:object_r:user_tmp_t:s0 to unconfined_u:object_r:ssh_home_t:s0
 
    # Not the best example, but you get the idea.
-   
+
+Some interesting tidbits is how the `ps` command can show the context in which a process is running under.
+
+.. code:: shell
+
+   % ps -Z -C systemd
+   LABEL                             PID TTY          TIME CMD
+   system_u:system_r:init_t:s0         1 ?        00:02:18 systemd
+   unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 2709 ? 00:00:01 systemd
+
+   # This would show you all running processes, including their contexts.
+   # Both formats support the option.
+   % ps -efZ
+   % ps auxZ
+
+Since processes run under some form of context, they do sometimes have the ability to transition. For example.
+
+.. code:: shell
+
+   # Search for allow rules with the source type of ftpd_t
+   # and a target type of public_content_t, and the class name of 'file'
+   % sesearch -A -s ftpd_t -t public_content_t -c file
+   Found 2 semantic av rules:
+      allow ftpd_t public_content_t : file { ioctl read getattr lock open } ;
+      allow ftpd_t non_security_file_type : file { ioctl read write create getattr setattr lock append unlink link rename open } ;
+
 One sort of uncommon, but clever piece of SELinux is the idea of SELinux users. An SELinux User has roles. Some users have more than one role. What the role means is defined by policy. Roles dictates what domains (contexts) are possible, including transitioning between roles. Let's take a look at some defaults.
 
 .. code:: shell
@@ -832,6 +868,10 @@ Command Glossary
    semanage port     -> Manages network port types
    semanage login    -> Manages login mappings between linux and selinux confined users
    semanage user     -> Manages confined users
+
+   # setsebool / getsebool -> SELinux boolean values
+   setsebool [-PNV] -> Sets a boolean value
+   getsebool [-a] -> Gets a or all booleans and their values
 
 Enforce Security Compliance
 ---------------------------
