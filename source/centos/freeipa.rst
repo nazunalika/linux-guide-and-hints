@@ -384,6 +384,35 @@ You should be able to test for the users now.
    % id first.last@ad.example.com
    uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
 
+Sites and AD DC's
++++++++++++++++++
+
+By creating a subdomain section in `/etc/sssd/sssd.conf` on an IPA server, it is possible to set an AD Site or AD server(s) directly in SSSD. By default, sssd tries to do location based discovery. There may be a case where this isn't possible (eg, only a set of AD servers may only be contacted in certain "air gapped" networks).
+
+.. code:: shell
+
+   [domain/ipa.example.com/ad.example.com]
+   # If you want a site
+   ad_site = Site_Name
+   # If you want a server(s)
+   ad_server = dc1.ad.example.com, dc2.ad.example.com
+   # A backup?
+   ad_backup_server = dc3.ad.example.com, dc4.ad.example.com
+
+If you don't have access or a way to find the sites using the Windows tools, you can run an ldapsearch to find it.
+
+.. code:: shell
+
+   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
+     -b 'CN=Configuration,DC=ad,DC=example,DC=com' '(CN=Sites)' site
+
+This should report back your sites. If you want to know the servers for those sites (in case you don't want to deal with the sites, but just the DC's themselves), you use ldapsearch but use the base DN of the site name.
+
+.. code:: shell
+
+   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
+     -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' dnsHostName
+
 Disable Anonymous Bind
 ----------------------
 
