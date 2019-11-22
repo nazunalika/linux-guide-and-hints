@@ -384,35 +384,6 @@ You should be able to test for the users now.
    % id first.last@ad.example.com
    uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
 
-Sites and AD DC's
-+++++++++++++++++
-
-By creating a subdomain section in `/etc/sssd/sssd.conf` on an IPA server, it is possible to set an AD Site or AD server(s) directly in SSSD. By default, sssd tries to do location based discovery. There may be a case where this isn't possible (eg, only a set of AD servers may only be contacted in certain "air gapped" networks).
-
-.. code:: shell
-
-   [domain/ipa.example.com/ad.example.com]
-   # If you want a site
-   ad_site = Site_Name
-   # If you want a server(s)
-   ad_server = dc1.ad.example.com, dc2.ad.example.com
-   # A backup?
-   ad_backup_server = dc3.ad.example.com, dc4.ad.example.com
-
-If you don't have access or a way to find the sites using the Windows tools, you can run an ldapsearch to find it.
-
-.. code:: shell
-
-   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
-     -b 'CN=Configuration,DC=ad,DC=example,DC=com' '(CN=Sites)' site
-
-This should report back your sites. If you want to know the servers for those sites (in case you don't want to deal with the sites, but just the DC's themselves), you use ldapsearch but use the base DN of the site name.
-
-.. code:: shell
-
-   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
-     -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' dnsHostName
-
 Disable Anonymous Bind
 ----------------------
 
@@ -1632,7 +1603,9 @@ The below is optional. It will remove the @realm off the usernames, like on the 
    . . .
    full_name_format = %1$s
 
-This will ensure EL7 clients resolve the AD domain first when attempting logins and optionally drop the @realm off the usernames. However, for EL6 clients, additional changes on the client side is required. Since the sssd in EL6 does not support domain resolution order, you will either need to modify /etc/sssd/sssd.conf with "default_domain_suffix" or install a later version of sssd from copr. Below assumes you are using 1.13.3 from the base.
+This will ensure EL7 and EL8 clients resolve the AD domain first when attempting logins and optionally drop the @realm off the usernames.
+
+However, for EL6 clients, additional changes on the client side is required. Since the sssd in EL6 does not support domain resolution order, you will either need to modify /etc/sssd/sssd.conf with "default_domain_suffix" or install a later version of sssd from copr. Below assumes you are using 1.13.3 from the base.
 
 .. code-block:: shell
 
@@ -1646,6 +1619,59 @@ This will ensure EL7 clients resolve the AD domain first when attempting logins 
    . . .
    default_domain_suffix = ad.example.com
 
+AD and IPA group names with short names
++++++++++++++++++++++++++++++++++++++++
+
+If your IPA domain and AD trusted domain have groups with the same names, you are using domain resolution order, and you are shortening the names, you may notice that your clients may have intermittent issues with name resolution. You may want to actually search for them to identify the errant groups and then correct them. You can correct them either on the AD or IPA side. I would opt for the IPA side.
+
+.. code:: shell
+
+   % kinit admin@IPA.EXAMPLE.COM
+   % vi /tmp/dupecheck.sh
+   #!/bin/bash
+   for x in ${ARRAY[*]} ; do
+     ldapsearch -x -h ad.example.com -LLL -w 'PASSWORD' -D '...,dc=ad,dc=example,dc=com' samaccountname="$x" samaccountname | grep -q $x
+     if [[ $? -eq 0 ]]; then
+       echo "$x: DUPLICATE NAME IN IPA"
+     fi
+   done
+
+   % bash /tmp/dupecheck.sh
+
+If you run into any duplicates, they should show up. **Note**: The "CN" and "sAMAccountName" attributes sometimes are not the same in AD. The sAMAccountName attribute is the value used to determine group names when coming from AD (this includes if you had a server enrolled in AD). This is why we are searching for that attribute, and not the CN.
+
+Sites and AD DC's
++++++++++++++++++
+
+By creating a subdomain section in `/etc/sssd/sssd.conf` on an IPA server, it is possible to set an AD Site or AD server(s) directly in SSSD. By default, sssd tries to do location based discovery. There may be a case where this isn't possible (eg, only a set of AD servers may only be contacted in certain "air gapped" networks).
+
+.. code:: shell
+
+   [domain/ipa.example.com/ad.example.com]
+   # If you want a site
+   ad_site = Site_Name
+   # If you want a server(s)
+   ad_server = dc1.ad.example.com, dc2.ad.example.com
+   # A backup?
+   ad_backup_server = dc3.ad.example.com, dc4.ad.example.com
+
+If you don't have access or a way to find the sites using the Windows tools, you can run an ldapsearch to find it (or an equivalent ldap browsing tool).
+
+.. code:: shell
+
+   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
+     -b 'CN=Configuration,DC=ad,DC=example,DC=com' '(CN=Sites)' site
+
+This should report back your sites. If you want to know the servers for those sites (in case you don't want to deal with the sites, but just the DC's themselves), you use ldapsearch but use the base DN of the site name.
+
+.. code:: shell
+
+   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
+     -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' dnsHostName
+
+.. note:: Hardcoded DC's
+
+   If the DC's change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.
 
 RHEL 6 SUDO and Default Domain Suffix
 +++++++++++++++++++++++++++++++++++++
