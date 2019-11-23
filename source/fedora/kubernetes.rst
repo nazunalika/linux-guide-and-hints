@@ -10,13 +10,7 @@ However, you will still need to obtain ``minikube`` and ``docker-machine-driver-
 download the binary and copy it to ``/usr/local/bin``, but many would prefer not to use a binary blob obtained
 from the Internet and compile from source instead.
 
-Fortunately, it is quite simple.
-
-.. raw:: html
-
-   <script src="https://gist.github.com/remyabel/e9c33b830da73768fe6ea2363fc27e1a.js"></script>
-
-   <noscript>
+Fortunately, it is quite simple. First, install ``libvirt-devel``. Then use the following script:
 
 .. code-block:: bash
 
@@ -35,34 +29,11 @@ Fortunately, it is quite simple.
    cd $GOPATH/src/k8s.io/minikube
    git checkout -- .
    git checkout $(git describe --abbrev=0 --tags)
-   git apply patch
    make clean
-   make && make drivers
+   make && make docker-machine-driver-kvm2
 
    cp out/minikube $GOBIN
    cp out/docker-machine-driver-kvm2 $GOBIN
-
-And the patch:
-
-.. code-block:: bash
-
-   diff --git a/Makefile b/Makefile
-   index 42b571bfd..8da3cf0b1 100755
-   --- a/Makefile
-   +++ b/Makefile
-   @@ -173,7 +173,7 @@ depend: out/minikube.d out/test.d out/docker-machine-driver-hyperkit.d out/stora
-    all: cross drivers e2e-cross
-
-    .PHONY: drivers
-   -drivers: out/docker-machine-driver-hyperkit out/docker-machine-driver-kvm2
-   +drivers: out/docker-machine-driver-kvm2
-
-    .PHONY: integration
-   integration: out/minikube
-
-.. raw:: html
-
-   </noscript>
 
 Then simply add ``$GOBIN`` to your path.
 
