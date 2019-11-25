@@ -10,7 +10,7 @@ If you would like to contribute or you find an error, please open an issue/PR as
 
     npm install -g grunt-cli
     npm install
-    pip install --user sphinx
+    pip3 install -U --user -r requirements.txt
 
 ### Building
 
