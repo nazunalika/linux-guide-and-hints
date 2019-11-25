@@ -1622,7 +1622,13 @@ However, for EL6 clients, additional changes on the client side is required. Sin
 AD and IPA group names with short names
 +++++++++++++++++++++++++++++++++++++++
 
-If your IPA domain and AD trusted domain have groups with the same names, you are using domain resolution order, and you are shortening the names, you may notice that your clients may have intermittent issues with name resolution. You may want to actually search for them to identify the errant groups and then correct them. You can correct them either on the AD or IPA side. I would opt for the IPA side.
+You may notice that your clients have intermittent issues with name resolution when the following are true:
+
+* Groups (or users) have the same names in both IPA and AD
+* You are using domain resolution order
+* You are shortening names on the clients
+
+You may want to actually search for them to identify the errant groups and then correct them. You can correct them either on the AD or IPA side. I would opt for the IPA side.
 
 .. code:: shell
 
@@ -1630,15 +1636,19 @@ If your IPA domain and AD trusted domain have groups with the same names, you ar
    % vi /tmp/dupecheck.sh
    #!/bin/bash
    for x in ${ARRAY[*]} ; do
-     ldapsearch -x -h ad.example.com -LLL -w 'PASSWORD' -D '...,dc=ad,dc=example,dc=com' samaccountname="$x" samaccountname | grep -q $x
+     ldapsearch -x -b "DC=ad,DC=example,DC=com" -h ad.example.com -LLL -w 'PASSWORD' -D 'username@ad.example.com' samaccountname="$x" samaccountname | grep -q $x
      if [[ $? -eq 0 ]]; then
-       echo "$x: DUPLICATE NAME IN IPA"
+       echo "$x: DUPLICATE"
      fi
    done
 
    % bash /tmp/dupecheck.sh
 
-If you run into any duplicates, they should show up. **Note**: The "CN" and "sAMAccountName" attributes sometimes are not the same in AD. The sAMAccountName attribute is the value used to determine group names when coming from AD (this includes if you had a server enrolled in AD). This is why we are searching for that attribute, and not the CN.
+If you run into any duplicates, they should show up in a list for you address.
+
+.. note:: sAMAccountName vs CN
+
+   The "CN" and "sAMAccountName" attributes are not the same in AD, depending on who made the group or other factors. The sAMAccountName attribute is the value used to determine names from AD, whether you are enrolled with AD or the IPA server SSSD is pulling the information. This is why we are searching for that attribute, and not the CN.
 
 Sites and AD DC's
 +++++++++++++++++
@@ -1659,8 +1669,8 @@ If you don't have access or a way to find the sites using the Windows tools, you
 
 .. code:: shell
 
-   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
-     -b 'CN=Configuration,DC=ad,DC=example,DC=com' '(CN=Sites)' site
+   % ldapsearch -x -h ad.example.com -s one -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
+     -b 'CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' cn
 
 This should report back your sites. If you want to know the servers for those sites (in case you don't want to deal with the sites, but just the DC's themselves), you use ldapsearch but use the base DN of the site name.
 
