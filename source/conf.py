@@ -29,8 +29,11 @@ sys.path.insert(0, os.path.abspath('exts'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['customwriter', 'sphinx_sitemap']
+extensions = ['customwriter', 'sphinx_sitemap', 'notfound.extension']
 site_url = 'https://linuxguideandhints.com/'
+
+notfound_no_urls_prefix = True
+notfound_context = {'title': 'Page not found', 'body': '<h1>Page not found</h1>\n\nIf you believe this is an error, please open an issue on Github.'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

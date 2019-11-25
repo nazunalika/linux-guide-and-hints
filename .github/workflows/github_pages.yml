@@ -24,7 +24,7 @@ jobs:
 
     - name: pip dependencies
       run: |
-        pip3 install -U --user sphinx sphinx-sitemap
+        pip3 install -U --user sphinx sphinx-sitemap sphinx-notfound-page
 
     - name: npm dependencies
       run: |
