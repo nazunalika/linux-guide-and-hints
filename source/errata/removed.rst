@@ -17,6 +17,10 @@ Removed articles
 Removed information
 -------------------
 
+11-29-2019
+
+- Removed Git workflow section
+
 11-17-2019
 
 - Removed COPR links that no longer exist.
