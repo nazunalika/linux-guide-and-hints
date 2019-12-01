@@ -1,5 +1,5 @@
-Security and anti-patterns
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Anti-patterns
+^^^^^^^^^^^^^
 
 Whether you are a system administrator or developer, practicing good
 infosec hygiene is important. Downplaying the importance of security,
@@ -8,8 +8,8 @@ costly in the long run. This article is meant to briefly touch on some
 general practices you should follow and is not meant to be a
 comprehensive guide.
 
-HTTPS
------
+Not using HTTPS
+---------------
 
 There is no reason not to use HTTPS in 2019. Services like Cloudflare
 and Let's Encrypt offer certificates for free and are easy to deploy.

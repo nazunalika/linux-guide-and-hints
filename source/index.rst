@@ -27,6 +27,13 @@ complete.
 
 .. toctree::
   :maxdepth: 4
+  :caption: Security
+  :glob:
+
+  security/*
+
+.. toctree::
+  :maxdepth: 4
   :caption: Miscellaneous
   :glob:
 
