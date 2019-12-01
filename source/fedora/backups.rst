@@ -183,6 +183,20 @@ git-annex is a location/metadata tracker that's built on top of git. It essentia
 - In v6, once a file is unlocked, it remains unlocked. If you make frequent changes to files you should
   use ``git annex unlock`` since direct mode is deprecated
 
+As far as I'm aware, git-annex doesn't track permissions or xattrs (important
+for SELinux). However, etckeeper has some helper scripts which store and
+restore metadata: `30store-metadata
+<https://git.joeyh.name/index.cgi/etckeeper.git/tree/pre-commit.d/30store-metadata>`_
+and `30restore-etckeeper
+<https://git.joeyh.name/index.cgi/etckeeper.git/tree/pre-commit.d/30store-metadata>`_
+respectively. Rename the scripts to ``git-store-metadata`` and
+``git-restore-metadata`` and add them to your ``PATH``.  You will need to set
+the ``VCS`` environment variable to ``git``.
+
+In order to restore security contexts, you can simply use ``chcon -R
+--reference=source_dir/ target_dir/``, where ``source_dir`` contains the
+context you want to apply to ``target_dir``.
+
 The following helper script should get you started:
 
 .. raw:: html
@@ -218,9 +232,15 @@ The following helper script should get you started:
 
     # ...snip...
     # Copy your files to backup here
+    # If using cp, make sure you use -a to preserve permissions and xattrs
+    # If using rsync, make sure you use -avzAX
     # ...snip...
 
-    git annex add --include-dotfiles . || fail
+    # We use git add and not git annex add here to add the files directly.
+    # Adding them to the annex would create symlinks, which do not preserve 
+    # permissions.
+    git-store-metadata
+    git add --all || fail
     git annex sync --content --message="$(date +%F)" || fail
 
     # For each remote we need to run sync in order to actually
@@ -232,6 +252,7 @@ The following helper script should get you started:
         URL=$(git remote get-url "$remote")
         cd "$URL" || fail
         git annex sync --content --message="$(date +%F)" || fail
+        git-restore-metadata
     done
 
 .. raw:: html
