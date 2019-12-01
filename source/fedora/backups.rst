@@ -170,6 +170,15 @@ can inhibit a variety of operations. By default, this is
 ``idle:sleep:shutdown`` but laptop users will find ``handle-lid-switch``
 useful.
 
+Alternatively, if you choose not to use ``systemd-inhibit``, you can simply adjust the power
+management inactivity value. For example, on XFCE this would look like:
+
+.. shell::
+
+    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/inactivity-on-ac -s 0
+
+This has the advantage of not requiring root privileges.
+
 git-annex
 ---------
 
