@@ -173,7 +173,7 @@ useful.
 Alternatively, if you choose not to use ``systemd-inhibit``, you can simply adjust the power
 management inactivity value. For example, on XFCE this would look like:
 
-.. shell::
+.. code-block:: shell
 
     xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/inactivity-on-ac -s 0
 
