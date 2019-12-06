@@ -21,6 +21,11 @@ Removed articles
 Removed information
 -------------------
 
+12-06-2019
+
+- Remove PCSX2 instructions since the RPMFusion package no longer exists. You
+  should install it via Flatpak instead.
+
 11-29-2019
 
 - Removed Git workflow section
