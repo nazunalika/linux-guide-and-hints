@@ -13,19 +13,25 @@ First, install some system dependencies:
 
 Now we need the Python dependencies. ``python3-fuse`` doesn't appear to exist,
 only ``python2-fuse``. Not only is the latter package very old, but since
-Fedora 31 there has been a mass migration from Python 2 to 3.
+Fedora 31 there has been a mass migration from Python 2 to 3. Unfortunately,
+bup hasn't fully been ported to Python 3 yet and will not start if you invoke
+it with Python 3.
 
 For simplicity, we'll use a virtualenv:
 
 .. code-block:: shell
 
-    virtualenv -p python3 ~/.venv
+    virtualenv -p python2 ~/.venv
     source ~/.venv/bin/activate
-    pip install pyxattr pylibacl
+    pip2 install pyxattr pylibacl
 
 Then build it:
 
 .. code-block:: shell
 
+    ./configure
     make
     make long-check
+
+The ``configure`` script will automatically detect which Python binary is used
+to invoke bup. Remember to run it inside the virtualenv.
