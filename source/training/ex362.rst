@@ -449,7 +449,11 @@ Create a trust with Active Directory
 
 .. note:: AD Setup
 
-   We do not cover setting up an AD forest here. This is out of scope for this series.
+   We do not cover setting up an AD forest here. This is out of scope for this series. If you are using Server 2016 or higher and you are using "core", look up the commands:
+
+   Install-WindowsFeature AD-domain-services
+   Import-Module ADDSDeployment
+   Install-ADDSForest
 
 +-------------------------+---------------+
 | Server Name             | IP Address    |
