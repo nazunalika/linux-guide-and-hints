@@ -606,27 +606,29 @@ After these changes, you'll need to go into make some changes with the directory
 
 #. Expand "users" and ensure the following for each record type. You can click the "+" to add the attribute types as needed.
 
-+-------------------------+---------------+
-| Attribute               | Mapping       |
-+=========================+===============+
-| AuthenticationAuthority | uid           |
-+-------------------------+---------------+
-| GeneratedUID            | GeneratedUID  |
-+-------------------------+---------------+
-| HomeDirectory           | #/Users/$uid$ |
-+-------------------------+---------------+
-| NFSHomeDirectory        | #/Users/$uid$ |
-+-------------------------+---------------+
-| PrimaryGroupID          | gidNumber     |
-+-------------------------+---------------+
-| RealName                | cn            |
-+-------------------------+---------------+
-| RecordName              | uid           |
-+-------------------------+---------------+
-| UniqueID                | uidNumber     |
-+-------------------------+---------------+
-| UserShell               | loginShell    |
-+-------------------------+---------------+
++-------------------------+------------------------------+
+| Attribute               | Mapping                      |
++=========================+==============================+
+| AuthenticationAuthority | uid                          |
++-------------------------+------------------------------+
+| GeneratedUID            | GeneratedUID or ipaUniqueID  |
++-------------------------+------------------------------+
+| HomeDirectory           | #/Users/$uid$                |
++-------------------------+------------------------------+
+| NFSHomeDirectory        | #/Users/$uid$                |
++-------------------------+------------------------------+
+| PrimaryGroupID          | gidNumber                    |
++-------------------------+------------------------------+
+| RealName                | cn                           |
++-------------------------+------------------------------+
+| RecordName              | uid                          |
++-------------------------+------------------------------+
+| UniqueID                | uidNumber                    |
++-------------------------+------------------------------+
+| UserShell               | loginShell                   |
++-------------------------+------------------------------+
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$ |
++-------------------------+------------------------------+
 
 #. If using custom mapping, click reach record type you created and ensure the base DN is set. 
 #. Make sure each record type is set to all subtrees.
@@ -718,6 +720,14 @@ If you want to move your local files, you will need to tread lightly here. I per
    root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
 
 Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It's recommended to fix those too. 
+
+Discovery and Settings
+''''''''''''''''''''''
+
+The directory framework in MacOS has the ability to discover settings for a particular LDAP server that it is being connected to. FreeIPA does not contain the schema, plugins, nor the infrastructure to provide the same things (for example, mDNS/Avahi, among other things). There was a (WIP) plugin created in 2017 by abbra. However, it is unclear if this works at all, nor is it clear if it ever did and will in python3 (abbra noted at the time that it "installs" into python 2 directories, which hints to not being tested or working on python 3). Please see the following resources for discussion and information.
+
+* `Pagure <https://pagure.io/freeipa/issue/4813>`__
+* `freeipa-macosx-support <https://github.com/abbra/freeipa-macosx-support>`__
 
 SUSE
 ++++
