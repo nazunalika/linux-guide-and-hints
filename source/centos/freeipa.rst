@@ -845,12 +845,17 @@ When we first setup our IPA servers, we had an option set to make it so hbac was
    % ipa group-add --gid=686610000 linuxadm
    % ipa group-add-member --users=flast linuxadm
 
-In the event that your AD user will be an admin or what have you, you need to create an "external" group to map the user or users over. This isn't required if you don't have an AD trust.
+**Note for AD Users**: In the event that your AD user or group of users will be an admin, you need to create an "external" group to map the user or users over. This isn't required if you don't have an AD trust.
 
 .. code-block:: shell
 
+   # Create an external group that the AD user/group goes into
    % ipa group-add --external linuxadm_external
-   % ipa group-add-member --users=flast@ad.example.com linuxadm_external
+   # Add the user (or group) into the external group
+   % ipa group-add-member --users=aduser1@ad.example.com linuxadm_external
+   % ipa group-add-member --users=adgroup1@ad.example.com linuxadm_external
+   # Add the external group as a member of the IPA posix group.
+   # aduser1 and adgroup1 are now effectively members of the linuxadm group in IPA.
    % ipa group-add-member --groups=linuxadm_external linuxadm
 
 Now, let's create an HBAC for our Linux Administrator account for our group.
@@ -860,9 +865,9 @@ Now, let's create an HBAC for our Linux Administrator account for our group.
    % ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' all_linux
    % ipa hbacrule-add-user --groups=linuxadm all_linux
    % ipa hbactest --rules=All_Systems --user=flast --host=server1.ipa.example.com --service=sshd
-   # or set it to user@domain to test your external users
+   % ipa hbactest --rules=All_Systems --user=aduser1@ad.example.com --host=server1.ipa.example.com --service=sshd
 
-You might want to create an HBAC rule specifically for your IPA admin accounts to have ssh access to the IPA servers too. You can follow something like the above to make it possible.
+You might want to create an HBAC rule specifically for your IPA admin accounts to have ssh access to the IPA servers too. You can follow something like the above to make it possible. Or you can just add the IPA admins group into the HBAC rule we just made above.
 
 .. note:: Group Types
 
