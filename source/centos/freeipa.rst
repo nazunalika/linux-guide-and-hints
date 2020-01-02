@@ -835,8 +835,8 @@ When we first setup our IPA servers, we had an option set to make it so hbac was
 
 .. code-block:: shell
 
-   % ipa idrange-show IPA.ANGELSOFCLOCKWORK.NET_id_range
-     Range name: IPA.ANGELSOFCLOCKWORK.NET_id_range
+   % ipa idrange-show IPA.EXAMPLE.COM_id_range
+     Range name: IPA.EXAMPLE.COM_id_range
      First Posix ID of the range: 686600000
      Number of IDs in the range: 200000
      First RID of the corresponding RID range: 1000
