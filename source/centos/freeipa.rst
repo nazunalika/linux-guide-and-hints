@@ -65,11 +65,11 @@ There are two ways you can have DNS entries updated dynamically: --enable-dns-up
 Delegation
 ++++++++++
 
-Throughout this guide, you will find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. The guide will assume you have a DNS server/appliance that controls a domain like example.com and delegates ipa.example.com and has AD at example.com or ad.example.com. Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones.
+Throughout this guide, you may find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. Majority of the examples assume both IPA and AD is delegated (when it's notmally IPA that's just delegated while AD hosts the actual parent zone). Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones.
 
 You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner. 
 
-Let's say I'm using bind, I own a domain called example.com that's already being used. My AD servers are delegated ad.example.com and IPA servers are delegated ipa.example.com. My example.com zone would have these records to deal with it:
+Below is a bind example, using example.com as the domain.
 
 .. code-block:: none
 
@@ -136,9 +136,7 @@ To install the server, make sure the hostname is set to the A records and NS del
 
    . . . (show steps here)
 
-Once this is complete, it's recommended you create an admin account for yourself. In this instance, you can append "2" at the end of your login name, that way there is an obvious distinction between what's a 'normal' account (ie desktop user) and an admin account (servers). It's generally normal for people to have one single account that they login to their workstation and also happen to be a domain admin and server admin at the same time. I recommend against this as there should be a distinction between a 'normal' workstation user and a domain admin.
-
-As an example, in the case of Active Directory, environments that follow security compliance require their 'domain administrators' to have a separate account from their workstation account.
+While not officially recommended, you could have two accounts. One for administration of servers and the domain and one for your workstation, similar to separating domain users and domain administrators in active directory. You don't have to follow this, but at least there's a form of separation.
 
 .. code-block:: shell
    
@@ -358,12 +356,12 @@ You will now need to open the necessary ports. Do this on all masters.
    % firewall-cmd --add-service=freeipa-trust --permanent
    % firewall-cmd --complete-reload
 
-Now you can initiate the trust. The admin account you use must be part of the domain admins group.
+Now you can initiate the trust. The admin account you use should be part of the domain admins group or at least have permissions to initiate a trust. The former is path of least resistance.
 
 .. code-block:: shell
 
    # If you are using POSIX ID, use ipa-ad-trust-posix.
-   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust --two-way=true --admin adminaccount --password 
+   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust --admin adminaccount --password 
 
 Once the trust is up, verify it.
 
@@ -373,7 +371,7 @@ Once the trust is up, verify it.
     Realm name: ad.example.com
     Domain NetBIOS name: AD
     Domain Security Identifier: S-X-X-XX-XXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX
-    Trust direction: Two-way trust
+    Trust direction: One-way trust
     Trust type: Active Directory domain
     UPN suffixes: ad.example.com
 
@@ -381,8 +379,8 @@ You should be able to test for the users now.
 
 .. code-block:: shell
 
-   % id first.last@ad.example.com
-   uid=XXXXX(first.last@ad.example.com) gid=XXXXX(first.last@ad.example.com) groups=XXXXX(first.last@ad.example.com)
+   % id aduser1@ad.example.com
+   uid=XXXXX(aduser1@ad.example.com) gid=XXXXX(aduser1@ad.example.com) groups=XXXXX(aduser1@ad.example.com)
 
 Disable Anonymous Bind
 ----------------------
