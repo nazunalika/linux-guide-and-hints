@@ -1,6 +1,10 @@
 VirtualBox
 ^^^^^^^^^^
 
+.. note:: KVM
+
+   While VirtualBox is available in RPMFusion, it is recommended to use libvirt, which is already built into the kernel and the various virt-* packages can be installed as needed to get a hypervisor rolling. GNOME Boxes provides the functionality out-of-the-box with a Fedora Workstation install.
+
 "Failed to start Load Kernel Modules" after uninstalling
 --------------------------------------------------------
 
@@ -22,3 +26,4 @@ Per the `RPMFusion FAQ <https://rpmfusion.org/Howto/VirtualBox>`_, run ``akmods-
     systemctl restart systemd-modules-load
 
 While RPMFusion doesn't officially support VirtualBox with SELinux enabled, it is a terrible idea to disable SELinux.
+
