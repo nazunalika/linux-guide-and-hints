@@ -1,18 +1,19 @@
 Getting started
 ^^^^^^^^^^^^^^^
 
-To save yourself time, you may prefer to download a `respin ISO <https://dl.fedoraproject.org/pub/alt/live-respins/>`_ that has updates
-preinstalled. The ``WORK`` ISO comes with GNOME. We will be using packages and
-repositories solely from `negativo17.org <https://negativo17.org/>`_ and *not*
-RPMFusion (which is not compatible anyway). A few notes:
+To save yourself time, you may prefer to download a `respin ISO <https://dl.fedoraproject.org/pub/alt/live-respins/>`_ that has updates preinstalled. The ``WORK`` ISO comes with GNOME. Fedora only supports the use of base and rpmfusion for packages. However, if you insist on using `negativo17 <https://negativo17.org>`__, you will need to either:
 
-- gstreamer 0.10 is deprecated, install gstreamer1. The good news is that the
-  myriad of packages has been reduced to about 5.
+* Not have RPMFusion enabled
+* Have RPMFusion enabled but use priorities to ensure negativo17 is used before rpmfusion
 
-- Since we are not using RPMFusion, ``libmpg123`` is now ``mpg123``
+This is because they are not compatible with each other.
 
-The :doc:`fedora/negativo` article contains more information. This
-script will get you off your feet (adapted from `Louis' script <https://github.com/nazunalika/useful-scripts/blob/master/fedora/fedora-desk.sh>`_):
+Some other notes:
+
+* gstreamer 0.10 is deprecated, install gstreamer1.
+* negativo17 users, ``libmpg123`` is now ``mpg123``
+
+The :doc:`fedora/negativo` article contains more information.
 
 .. raw:: html
 
@@ -50,18 +51,17 @@ script will get you off your feet (adapted from `Louis' script <https://github.c
 
    </noscript>
 
-Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the
-:doc:`fedora/pulseaudio` articles on troubleshooting tips.
+Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the :doc:`fedora/pulseaudio` articles on troubleshooting tips.
 
-Other things
-------------
+Other things negativo17 related
+-------------------------------
 
 negativo17 provides Flash as well, but you should probably just avoid Flash altogether,
 or at least leave it on "Ask to Activate". Fortunately, it seems most of the web has ditched
 Flash in favor of moving to HTML5 for web players. I haven't had to activate Flash in a long
 time.
 
-Again, negativo17 provides Steam. However, if you have any games that are
+negativo17 also provides Steam. However, if you have any games that are
 Window only, you need to download Steam via Wine and install the games that way
 or use Proton. See the :doc:`fedora/winetips` article for more information.
 
