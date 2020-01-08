@@ -29,3 +29,11 @@ The irc repo provides atheme (a services daemon) and charybdis (an irc daemon). 
 * `charybdis <https://github.com/charybdis-ircd/charybdis>`__
 * `atheme <https://atheme.github.io/atheme.html>`__
 
+The packages provide the following:
+
+* Standardized directories (to comply with FHS)
+* PPC64LE support
+* AARCH64 support where possible
+* No code modifications (with the exception of specific packages that may never make it upstream)
+* Default configurations with examples
+
