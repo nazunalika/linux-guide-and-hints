@@ -46,7 +46,7 @@ Tutorial Preface, Notes, and Recommendations
 
 .. note:: Trust Information
 
-   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, ad.example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync (which we recommend against using).
+   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync (which we recommend against using).
 
 .. note:: NOFILE limits
 
@@ -65,29 +65,28 @@ There are two ways you can have DNS entries updated dynamically: --enable-dns-up
 Delegation
 ++++++++++
 
-Throughout this guide, you may find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. Majority of the examples assume both IPA and AD is delegated (when it's notmally IPA that's just delegated while AD hosts the actual parent zone). Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones.
+Throughout this guide, you may find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. Majority of the examples assume both IPA and AD is delegated (when it's normally IPA that's just delegated while AD hosts the actual parent zone). Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones. **The caveat to this is SSO will fail**.
 
-You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner. 
+You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even forward example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner. 
 
-Below is a bind example, using example.com as the domain.
+Below is a bind example of what example.com would look like when delegating the IPA domain:
 
 .. code-block:: none
 
-   $ORIGIN angelsofclockwork.net.
-   ipa                     NS      np-ipa01.ipa
-                           NS      np-ipa02.ipa
-   ad                      NS      np-ad01.ad
-                           NS      np-ad02.ad
-   $ORIGIN ipa.angelsofclockwork.net.
-   np-ipa01                A       10.200.0.230
-   np-ipa02                A       10.200.0.231
-   $ORIGIN ad.angelsofclockwork.net.
+   $ORIGIN example.com.
+   @ IN SOA ... ( )
+                           NS      np-ad01
+                           NS      np-ad02
    np-ad01                 A       10.200.0.232
    np-ad02                 A       10.200.0.233
+   ; Many other records here, pertaining to AD, eg msdcs and SRV records
 
-It is recommended that your DNS server does not perform forwarding. If you are performing any forwarding, you will need to put forwarders { }; inside the zone's configuration in the named.conf.
-
-This way, both AD and IPA are both delegated their own subdomains that they control. This ensures both AD and IPA can do what they need to do, DNS wise. 
+   ; IPA records
+   $ORIGIN ipa.example.com.
+   @                       NS      np-ipa01
+                           NS      np-ipa02
+   np-ipa01                A       10.200.0.230
+   np-ipa02                A       10.200.0.231
 
 Note that AD can send nsupdates to a DNS server if given the permissions - As of this writing, FreeIPA does not do this, which is why DNS delegation is recommended.
 
@@ -361,26 +360,26 @@ Now you can initiate the trust. The admin account you use should be part of the 
 .. code-block:: shell
 
    # If you are using POSIX ID, use ipa-ad-trust-posix.
-   % ipa trust-add --type=ad ad.example.com --range-type=ipa-ad-trust --admin adminaccount --password 
+   % ipa trust-add --type=ad example.com --range-type=ipa-ad-trust --admin adminaccount --password 
 
 Once the trust is up, verify it.
 
 .. code-block:: shell
 
-   % ipa trust-show ad.example.com
-    Realm name: ad.example.com
+   % ipa trust-show example.com
+    Realm name: example.com
     Domain NetBIOS name: AD
     Domain Security Identifier: S-X-X-XX-XXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX
-    Trust direction: One-way trust
+    Trust direction: Trusting forest
     Trust type: Active Directory domain
-    UPN suffixes: ad.example.com
+    UPN suffixes: example.com
 
 You should be able to test for the users now.
 
 .. code-block:: shell
 
-   % id aduser1@ad.example.com
-   uid=XXXXX(aduser1@ad.example.com) gid=XXXXX(aduser1@ad.example.com) groups=XXXXX(aduser1@ad.example.com)
+   % id aduser1@example.com
+   uid=XXXXX(aduser1@example.com) gid=XXXXX(aduser1@example.com) groups=XXXXX(aduser1@example.com)
 
 Disable Anonymous Bind
 ----------------------
@@ -850,8 +849,8 @@ When we first setup our IPA servers, we had an option set to make it so hbac was
    # Create an external group that the AD user/group goes into
    % ipa group-add --external linuxadm_external
    # Add the user (or group) into the external group
-   % ipa group-add-member --users=aduser1@ad.example.com linuxadm_external
-   % ipa group-add-member --users=adgroup1@ad.example.com linuxadm_external
+   % ipa group-add-member --users=aduser1@example.com linuxadm_external
+   % ipa group-add-member --users=adgroup1@example.com linuxadm_external
    # Add the external group as a member of the IPA posix group.
    # aduser1 and adgroup1 are now effectively members of the linuxadm group in IPA.
    % ipa group-add-member --groups=linuxadm_external linuxadm
@@ -863,7 +862,7 @@ Now, let's create an HBAC for our Linux Administrator account for our group.
    % ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' all_linux
    % ipa hbacrule-add-user --groups=linuxadm all_linux
    % ipa hbactest --rules=All_Systems --user=flast --host=server1.ipa.example.com --service=sshd
-   % ipa hbactest --rules=All_Systems --user=aduser1@ad.example.com --host=server1.ipa.example.com --service=sshd
+   % ipa hbactest --rules=All_Systems --user=aduser1@example.com --host=server1.ipa.example.com --service=sshd
 
 You might want to create an HBAC rule specifically for your IPA admin accounts to have ssh access to the IPA servers too. You can follow something like the above to make it possible. Or you can just add the IPA admins group into the HBAC rule we just made above.
 
@@ -1603,7 +1602,7 @@ On the IPA servers, you will need to set the domain resolution order. This was i
 .. code-block:: shell
 
    % kinit admin
-   % ipa config-mod --domain-resolution-order="ad.example.com:ipa.example.com"
+   % ipa config-mod --domain-resolution-order="example.com:ipa.example.com"
 
 
 The below is optional. It will remove the @realm off the usernames, like on the prompt or id or whoami commands. Only do this if required.
@@ -1630,7 +1629,7 @@ However, for EL6 clients, additional changes on the client side is required. Sin
 
    [sssd]
    . . .
-   default_domain_suffix = ad.example.com
+   default_domain_suffix = example.com
 
 AD and IPA group names with short names
 +++++++++++++++++++++++++++++++++++++++
@@ -1649,7 +1648,7 @@ You may want to actually search for them to identify the errant groups and then 
    % vi /tmp/dupecheck.sh
    #!/bin/bash
    for x in ${ARRAY[*]} ; do
-     ldapsearch -x -b "DC=ad,DC=example,DC=com" -h ad.example.com -LLL -w 'PASSWORD' -D 'username@ad.example.com' samaccountname="$x" samaccountname | grep -q $x
+     ldapsearch -x -b "DC=example,DC=com" -h example.com -LLL -w 'PASSWORD' -D 'username@example.com' samaccountname="$x" samaccountname | grep -q $x
      if [[ $? -eq 0 ]]; then
        echo "$x: DUPLICATE"
      fi
@@ -1670,27 +1669,27 @@ By creating a subdomain section in `/etc/sssd/sssd.conf` on an IPA server, it is
 
 .. code:: shell
 
-   [domain/ipa.example.com/ad.example.com]
+   [domain/ipa.example.com/example.com]
    # If you want a site
    ad_site = Site_Name
    # If you want a server(s)
-   ad_server = dc1.ad.example.com, dc2.ad.example.com
+   ad_server = dc1.example.com, dc2.example.com
    # A backup?
-   ad_backup_server = dc3.ad.example.com, dc4.ad.example.com
+   ad_backup_server = dc3.example.com, dc4.example.com
 
 If you don't have access or a way to find the sites using the Windows tools, you can run an ldapsearch to find it (or an equivalent ldap browsing tool).
 
 .. code:: shell
 
-   % ldapsearch -x -h ad.example.com -s one -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
-     -b 'CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' cn
+   % ldapsearch -x -h example.com -s one -WD 'CN=username,CN=Users,DC=example,DC=com' \
+     -b 'CN=Sites,CN=Configuration,DC=example,DC=com' cn
 
 This should report back your sites. If you want to know the servers for those sites (in case you don't want to deal with the sites, but just the DC's themselves), you use ldapsearch but use the base DN of the site name.
 
 .. code:: shell
 
-   % ldapsearch -x -h ad.example.com -WD 'CN=username,CN=Users,DC=ad,DC=example,DC=com' \
-     -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=ad,DC=example,DC=com' dnsHostName
+   % ldapsearch -x -h example.com -WD 'CN=username,CN=Users,DC=example,DC=com' \
+     -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=example,DC=com' dnsHostName
 
 .. note:: Hardcoded DC's
 
