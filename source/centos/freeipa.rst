@@ -824,6 +824,14 @@ To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies 
    # Verify
    % id admin
 
+In the case of having an IPA-AD trust, you may need to change a line in your pam configuration.
+
+.. code-block:: shell
+
+   % sed -i 's/use_first_pass/forward_pass/g' /etc/pam.d/common-auth-pc
+
+   # The affected line should appear like the below
+   auth    sufficient      pam_sss.so      forward_pass
 
 HBAC
 ----
@@ -859,8 +867,8 @@ Now, let's create an HBAC for our Linux Administrator account for our group.
 
 .. code-block:: shell
 
-   % ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' all_linux
-   % ipa hbacrule-add-user --groups=linuxadm all_linux
+   % ipa hbacrule-add --hostcat=all --servicecat=all --desc='linux admins all access' linuxadm
+   % ipa hbacrule-add-user --groups=linuxadm linuxadm
    % ipa hbactest --rules=All_Systems --user=flast --host=server1.ipa.example.com --service=sshd
    % ipa hbactest --rules=All_Systems --user=aduser1@example.com --host=server1.ipa.example.com --service=sshd
 
