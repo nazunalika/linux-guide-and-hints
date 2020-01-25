@@ -1588,8 +1588,8 @@ Solaris Weirdness
 
 If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not unless you are on SRU 11.4.7.4.0 or newer.
 
-Situational Options
--------------------
+Domain Options
+--------------
 
 This section goes over "situational" scenarios. These scenarios are reflective of the environment in which IPA is installed and not all will fit into your environment. These are more or less common situations that could occur during an IPA deployment or even post-deployment. 
 
@@ -1612,8 +1612,16 @@ On the IPA servers, you will need to set the domain resolution order. This was i
    % kinit admin
    % ipa config-mod --domain-resolution-order="example.com:ipa.example.com"
 
+After, you will need to clear out your SSSD cache.
 
-The below is optional. It will remove the @realm off the usernames, like on the prompt or id or whoami commands. Only do this if required.
+.. code-block:: shell
+
+   # sss_cache -E is insufficient for this.
+   % systemctl stop sssd
+   % rm -rf /var/lib/sss/db/*
+   % systemctl start sssd
+
+The below is optional. It will remove the @realm off the usernames, like on the prompt or id or whoami commands. Only do this if required. **Only do this on the clients. Do not make this change on an IPA replica.**
 
 .. code-block:: shell
 
@@ -1707,6 +1715,20 @@ RHEL 6 SUDO and Default Domain Suffix
 +++++++++++++++++++++++++++++++++++++
 
 This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
+
+Set Default Shell for AD Users
+++++++++++++++++++++++++++++++
+
+By default, after a trust has been established, the shell all AD users get is /bin/sh. To change this, you must change the sssd.conf on the IPA masters.
+
+.. code:: shell
+
+   % vi /etc/sssd/sssd.conf
+   [domain/ipa.example.com]
+   . . .
+   default_shell = /bin/bash
+
+   % systemctl restart sssd
 
 Automated Kerberos Principals
 -----------------------------
