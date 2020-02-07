@@ -417,7 +417,7 @@ Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure y
 Mac Clients
 +++++++++++
 
-Mac Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings.
+MacOS Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings. **Note that as of Catalina, you may not be able to login to your account nor will creating a mobile account function as you would expect.**
 
 .. note:: Other Guides
 
@@ -442,6 +442,7 @@ Get the IPA certificate. You'll need to double click it after you get it and imp
    % cd ~/Desktop && curl -OL http://server1.ipa.example.com/ipa/config/ca.crt
    % sudo mkdir /etc/ipa
    % sudo cp ca.crt /etc/ipa/ca.crt
+   % sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /etc/ipa/ca.crt
 
 On the IPA server, you will need to create a host and get the keytab.
 

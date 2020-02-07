@@ -1,0 +1,268 @@
+EX407 Exam Prep
+^^^^^^^^^^^^^^^
+.. meta::
+       :description: Materials to prepare for the Red Hat Certified Specialist in Ansible Automation exam.
+
+This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Ansible Automation exam, EX407. This follows loosely the youtube playlist as much as possible with various examples and ideas. At the bottom, you will also find our own example practice exam for you to try your hand at to test your knowledge.
+
+The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex407-red-hat-certified-specialist-in-ansible-automation-exam>`__. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.
+
+.. note::
+
+   Affiliation and Exam Information
+
+   Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
+
+   If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.
+
+.. contents::
+
+Overview
+--------
+
+This series goes over the exam via the objectives outlined on Red Hat's website. The link is provided in the introduction and resources down below.
+
+Exam Information
+----------------
+
+The EX407 exam tests your knowledge in a real world format style test - Meaning just like any Red Hat exam, it is performance-based and you perform tasks as if you were on the job. You are evaluated on the tasks you perform and if they meet the objective criteria. The EX407 is related to Ansible Automation counts toward the RHCA (Red Hat Certified Architect). This exam does not cover Ansible Tower.
+
+**To take the exam, you must have at least an RHCSA. If you are attempting to become a Red Hat Certified Architect, you must have an RHCE.**
+
+Resources
+---------
+
+* `Ansible Documentation <https://docs.ansible.com/>`__
+
+Objectives
+----------
+
+Practice Exam
+-------------
+
+Below will be the practice exam and tasks. No answers are provided. It is up to you to configure the roles and plays as you see fit and test them.
+
+Requirements
+++++++++++++
+
++---------------------+--------------+------------+
+| Hostname            | Type         | Group      |
++=====================+==============+============+
+| control.example.com | Control Node | control    |
++---------------------+--------------+------------+
+| web1.example.com    | Managed Node | webservers |
++---------------------+--------------+------------+
+| web2.example.com    | Managed Node | webservers |
++---------------------+--------------+------------+
+| proxy.example.com   | Managed Node | proxy      |
++---------------------+--------------+------------+
+| db.example.com      | Managed Node | database   |
++---------------------+--------------+------------+
+
+Configure your control node as such that the following is true:
+
+* Create an ansible user as such that:
+
+  * SSH key generated, including access via localhost
+  * ALL sudo privileges without a password
+
+* Ansible playbooks, roles, and configuration should be in /home/ansible/auto
+* Ansible should be configured as such that:
+
+  * **Roles** are located at: /home/ansible/auto/roles
+  * **Inventory** is located at: /home/ansible/auto/inventory
+  * **Privilege escalation** is **disabled** by default
+  * **10 hosts** can be managed at once in parallel
+  * Ansible should connect to nodes using the **ansible** user
+
+* Inventory created based on the above table
+* db.example.com should have a second disk added (as sdb or vdb)
+
+Task 1: Adhoc
++++++++++++++
+
+Create a script at `/home/ansible/auto/adhoc` that does the following on all servers:
+
+* Get all mounts
+* Get all devices
+* List all block storage
+
+Task 2: Manage File Content
++++++++++++++++++++++++++++
+
+Create a playbook called `motd.yaml` that does the following on all servers:
+
+* Replace /etc/motd with text
+
+  * For proxy servers, the text should be: "This is an HAProxy server."
+  * For webservers, the text should be: "This is an Apache server."
+  * For database servers, the text should be: "This is a Database server."
+
+Task 3: Manage SSH Configuration
+++++++++++++++++++++++++++++++++
+
+Create a playbook called `sshd.yaml` that does the following on all servers:
+
+* Banner is set to /etc/motd
+* X11Forwarding should be disabled
+* PermitRootLogin should be disabled
+
+Task 4: Ansible Vault
++++++++++++++++++++++
+
+Create a vault file called `secret.yaml` using the password of redhat123 and an ID of exam, with variables as such:
+
+* userPassword: user123
+* databasePassword: database123
+
+The vault password would be in a file called `vault_key`. 
+
+The vault file you created may be used as a vars or as a stdin for vars.
+
+Task 5: Users and Groups
+++++++++++++++++++++++++
+
++-------+------+
+| User  | uid  |
++=======+======+
+| bob   | 1100 |
++-------+------+
+| alice | 1101 |
++-------+------+
+
+Using the above table, create a `vars/users.yaml` file to be used in a loop.
+
+.. code:: shell
+
+   ---
+   users:
+     - username: bob
+       uid: 1100
+       gid: 1100
+     - username: alice
+       uid: 1101
+       gid: 1101
+
+Create a playbook that uses the vault file you created earlier.
+
+* bob must have the userPassword set and added to the wheel group
+* bob's password must be in sha512
+* alice must have a locked password
+* both users should have `/bin/bash` as their shell
+
+Task 6: Scheduling Tasks
+++++++++++++++++++++++++
+
+Create a playbook called `default_tasks.yaml` that runs on the proxy servers that does the following:
+
+* Create a root crontab that runs each hour
+* The crontab must run the `date` command and output it to `/var/log/date.log`
+
+Task 7: Software Repositories
++++++++++++++++++++++++++++++
+
+Create a playbook called `repository.yaml` that runs on the web servers that does the following:
+
+* Enable the `extras` repository (centos extras)
+* Enable the `plus` repository (centos plus)
+
+Task 8: Working with Roles
+++++++++++++++++++++++++++
+
+Create a role called `postgres`. The role should satisfy the following:
+
+* Create a primary partition on /dev/sdb or /dev/vdb with a size of 900MB
+* A volume group called vg-pgsql should be created
+* A logical volume lv-pgsql should be created with the size of 512MB
+* XFS should be formated on the logical volume
+* Logical volume should be permanently mounted to /mnt/backup
+* postgresql server packages are isntalled
+* postgresql should have its db created
+* postgresql should start on boot
+* Firewall is configured to allow postgresql port
+
+The role should be called by the playbook `postgresl.yaml` that targets only database servers.
+
+Task 9: Working with Roles
+++++++++++++++++++++++++++
+
+Create a role called `apache`. The role should satisfy the following:
+
+* Install httpd and mod_ssl
+* Firewall should allow 80 and 443
+* Apache should be restarted when `/var/www/html/index.html` is modified (notify or register)
+* Create a template called `index.html.j2` that creates the following content:
+
+.. code:: shell
+
+   The address of the server is: ADDRESS
+
+**Note**: ADDRESS should be the IP address of the node
+
+Create a playbook called `apache.yaml` that calls this role for webservers.
+
+Task 10: Download roles from Galaxy
++++++++++++++++++++++++++++++++++++
+
+Use ansible galaxy to download and install geerlingguy.haproxy.
+
+Create a playbook called `haproxy.yaml` that runs on the proxy host group and does the following:
+
+* Use the role to load balance request between hosts in the webservers host group
+* Use roundrobin
+* HAProxy backend servers should be configured for HTTP only (port 80)
+* Firewall is configured to allow traffic on port 80
+
+Task 11: Security
++++++++++++++++++
+
+Create a playbook called `selinux.yaml` that runs on all servers:
+
+* Uses the selinux RHEL system role (rhel-system-roles)
+* Enables httpd_can_network_connect
+
+Task 12: Use conditionals to control play execution
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Create a playbook called `sysctl.yaml` that runs on all hosts:
+
+* If a server has 2048MB of ram, set vm.swappiness to 10
+* If a server has less, an error should be displayed
+
+Uses assert.
+
+Task 13: Use archiving
+++++++++++++++++++++++
+
+Create a playbook called `etcbkp.yaml` that runs on all hosts:
+
+* Archive /etc/passwd and /etc/group into `/tmp/id.tar.gz`
+
+Task 14: Work with facts
+++++++++++++++++++++++++
+
+Task 15: Install software
++++++++++++++++++++++++++
+
+Create a playbook called `install.yaml` that installs the following packages:
+
+* mailx
+* screen
+
+Task 16: Services
++++++++++++++++++
+
+Create a playbook called `target.yaml` that sets the default boot target to multi-user.
+
+Task 17: Create and use templates
++++++++++++++++++++++++++++++++++
+
+Create a playbook called `serverlist.yaml` that does the following:
+
+* Runs on database servers
+* /etc/serverlist.txt is owned by the ansible user
+* File permissions set to 600
+* SELinux file label should be set to net_conf_t
+* Content should be all inventory hosts, including the control node
+
+File should change if a new host is added (for loop, group magic variable)
