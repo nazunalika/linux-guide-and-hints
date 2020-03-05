@@ -37,6 +37,41 @@ Resources
 Objectives
 ----------
 
+Understand core components of Ansible
++++++++++++++++++++++++++++++++++++++
+
+* Inventories: List of managed nodes - or also called a "host file". Inventories can specify information like ip addresses for each managed node. Inventories can also organize nodes by groups.
+* Modules: Units of code that ansible executes. Almost, if all functions of ansible come from modules, from user management to creating vlans. One or more modules can be used in a playbook.
+* Variables: Variables are generally used to help deal with differences between systems. Variables can be defined in a playbook, a role, or set via a task. Variables can also be set for hosts in an inventory.
+* Facts: Variables that are generally discovered from systems. They are not set by a user and are found in ansible_facts. Facts can be disabled using `gather_facts: no` in a play. Local facts can be set on a managed node in `/etc/ansible/facts.d/NAME.fact`. It is generally possible for a node to reference information about another node. This is done by cached facts.
+* Plays: A 'play' is part of a playbook. The goal is to map a host or group of hosts to some well defined roles, represented by tasks. A task is nothing more than a call to a module.
+* Playbooks: An ordered list of tasks that can be ran repeatedly. These can include variables as well as tasks. Playbooks are written in yaml.
+* Configuration Files: The file `/etc/ansible/ansible.cfg` is generally configured for ansible use. A user can also have their own ansible.cfg file referenced in ANSIBLE_CONFIG, the present working directory, or ~/.ansible.cfg.
+
+Install and configure an Ansible control node
++++++++++++++++++++++++++++++++++++++++++++++
+
+An Ansible Control Node is where Ansible is installed and used to run commands and playbooks from said node. There can be more than one control node.
+
+.. shell:: code
+
+   # If using CentOS, you need to enable the epel repository
+   % yum install epel-release -y
+   % yum install ansible -y
+
+   # Configure ansible's inventory
+   % vi /etc/ansible/hosts
+   node1 ansible_host=10.10.10.20
+   . . .
+
+   # Create an ansible user, generate an SSH key
+   % useradd ansible
+   % su - ansible
+   % ssh-keygen
+
+   # Configure ansible.cfg for the ansible user
+   % cp /etc/ansible/ansible.cfg .
+
 Practice Exam
 -------------
 
@@ -220,6 +255,10 @@ Create a playbook called `selinux.yaml` that runs on all servers:
 
 * Uses the selinux RHEL system role (rhel-system-roles)
 * Enables httpd_can_network_connect
+
+Create a playbook called `security.yaml` that runs on all servers:
+
+* Disables ldap and ldaps ports from the firewall
 
 Task 12: Use conditionals to control play execution
 +++++++++++++++++++++++++++++++++++++++++++++++++++

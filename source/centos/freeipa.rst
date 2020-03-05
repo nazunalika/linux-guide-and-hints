@@ -163,7 +163,7 @@ On the replica, ensure you repeat the same steps as above.
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    % firewall-cmd --complete-reload
-   % ipa-replica-install --auto-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
+   % ipa-replica-install --no-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
    . . . (show steps)
 
 You should now be able to see your replicas.
@@ -1899,6 +1899,28 @@ An important tidbit is currently RHEL/CentOS 7+ and higher use memory based keyt
    # Make sure the below is commented
    # default_ccache_name = KEYRING:persistent:%{uid}
    . . .
+
+DNS Forwarding
+--------------
+
+DNS Forwarding to DoT
++++++++++++++++++++++
+
+Presently, FreeIPA does not support DoT (DNS over TLS) nor DoH (DNS over HTTPS) (this appears to be a bind limitation and we can't find documentation that says otherwise). However, it is possible to setup unbound to do the forwarding for you, in which you tell your bind servers (or in this case, the bind DNS servers in your IPA domain) to forward to that unbound server for all forwarding.
+
+.. note:: Keep it Separate
+
+   It is recommended to keep your unbound service separate from the IPA servers. Spin up another instance in your network that will run unbound or run it on a standalone bind server that you may have on a separate port.
+
+To forward to the unbound service, modify the DNS global configuration in IPA:
+
+.. code:: shell
+
+   # Replace 10.100.0.224 with the IP of your unbound instance
+   % ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224'
+
+   # Add 'port xxxx' if you have set unbound to another port
+   % ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224 port 9553'
 
 .. rubric:: Footnotes
 
