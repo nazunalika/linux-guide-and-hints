@@ -108,6 +108,13 @@ Installing FreeIPA/Red Hat IdM with replicas for growth and scale
 
 .. code-block:: shell
 
+   # Configure the firewall for RHEL 7
+   % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
+   # RHEL 8
+   % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns}
+
+.. code-block:: shell
+
    % kinit admin
    # We need to make sure that any A records get a corresponding PTR record, otherwise you're making them manually.
    % ipa dnsconfig-mod --allow-sync-ptr=True

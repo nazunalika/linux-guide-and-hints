@@ -125,7 +125,10 @@ To install the server, make sure the hostname is set to the A records and NS del
    % yum module enable idm:DL1/{dns,adtrust,client,server,common}
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Setup
+   # RHEL 7
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
+   # RHEL 8
+   % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
    % ipa-server-install --no_hbac_allow \
        --no-ntp \ <-- If you want to host NTP from IPA, take off --no-ntp
