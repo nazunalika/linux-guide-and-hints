@@ -1925,6 +1925,75 @@ To forward to the unbound service, modify the DNS global configuration in IPA:
    # Add 'port xxxx' if you have set unbound to another port
    % ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224 port 9553'
 
+Logging
+-------
+
+Audit Logs
+++++++++++
+
+By default, the audit logs in `/var/log/dirsrv/slapd-INSTANCE/audit` do not get populated. And the access logs don't show much in terms of modifications and what is being changed. There is also `/var/log/httpd/*` logs, but it may be useful to see ldif style logging for changes against FreeIPA.
+
+.. code:: shell
+
+   # Modify the DSE configuration by turning on audit logging
+   [label@ipa01 ~]# ldapmodify -D "cn=directory manager" -W -p 389 -h localhost
+   Enter LDAP Password:
+   dn: cn=config
+   changetype: modify
+   replace: nsslapd-auditlog-logging-enabled
+   nsslapd-auditlog-logging-enabled: on
+   # Press CTRL+d here
+   modifying entry "cn=config"
+    
+   # To test, I'll add a user to a group
+   [label@ipa01 ~]$ ipa group-add-member --users=jbaskets aocusers
+     Group name: aocusers
+     GID: 686600003
+     Member users: ..., jbaskets
+   -------------------------
+   Number of members added 1
+   -------------------------
+   # Let's verify the log
+   [label@ipa01 ~]$ sudo su -
+   [sudo] password for label:
+   Last login: Sun Mar 29 16:42:36 MST 2020 on pts/0
+   [root@ipa01 ~]# cd /var/log/dirsrv/slapd-EXAMPLE-NET/
+   [root@ipa01 slapd-EXAMPLE-NET]# cat audit
+   time: 20200329223754
+   dn: cn=config
+   result: 0
+   changetype: modify
+   replace: nsslapd-auditlog-logging-enabled
+   nsslapd-auditlog-logging-enabled: on
+   -
+   replace: modifiersname
+   modifiersname: cn=directory manager
+   -
+   replace: modifytimestamp
+   modifytimestamp: 20200330053754Z
+   -
+    
+           389-Directory/1.4.1.3 B2019.323.229
+           ipa01.example.net:636 (/etc/dirsrv/slapd-EXAMPLE-NET)
+
+   # Looks like right here the modification happened 
+   time: 20200329224007
+   dn: cn=aocusers,cn=groups,cn=accounts,dc=example,dc=net
+   result: 0
+   changetype: modify
+   add: member
+   member: uid=jbaskets,cn=users,cn=accounts,dc=example,dc=net
+   -
+   replace: modifiersname
+   modifiersname: uid=label,cn=users,cn=accounts,dc=example,dc=net
+   -
+   replace: modifytimestamp
+   modifytimestamp: 20200330054006Z
+   -
+   replace: entryusn
+   entryusn: 900028
+   -
+
 .. rubric:: Footnotes
 
 .. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`__ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`__
