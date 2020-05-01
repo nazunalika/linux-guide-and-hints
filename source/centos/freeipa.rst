@@ -735,6 +735,10 @@ SUSE
 
 To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies to SUSE 12 and up.
 
+.. note:: freeipa repos
+
+   There are OpenSUSE repos with the freeipa packages, though they are considered "experimental". If they show up in the base, then the below steps will be removed. However, if you are willing to use the `repo <https://software.opensuse.org/download/package?package=freeipa-client&project=openSUSE%3Ainfrastructure%3Aipsilon>`__, a lot of the steps below may not be needed. We have not tested this.
+
 .. code-block:: shell
    
    # On an IPA server or client with the IPA utilities...
