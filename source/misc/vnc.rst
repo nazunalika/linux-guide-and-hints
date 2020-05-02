@@ -20,6 +20,8 @@ Setup
    root% vi /etc/systemd/system/vncserver@.service
    # modify <USER> to username
    root% systemctl enable vncserver@:1.service
+   root% firewall-cmd --add-service=vnc-server
+   root% firewall-cmd --runtime-to-permanent
    root% su - username
    username% vncpasswd
    . . .
@@ -30,5 +32,7 @@ Setup
    # If you are using XFCE, you could put exec xfce4-session instead
    exec gnome-session --session=gnome
    username% chmod +x ~/.vnc/xstartup
-   # Reboot or logout
+   # At this point, you can start the service, logout, and call it a day. 
+   # You can also reboot, since the service is enabled. Your choice.
+   username% sudo systemctl start vncserver@:1.service
 
