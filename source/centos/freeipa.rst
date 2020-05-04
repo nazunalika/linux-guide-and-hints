@@ -1998,6 +1998,107 @@ By default, the audit logs in `/var/log/dirsrv/slapd-INSTANCE/audit` do not get 
    entryusn: 900028
    -
 
+Certificates
+------------
+
+These are notes of things I've ran into before while dealing with certificates.
+
+Renewed IPA HTTP Certificate Stuck
+++++++++++++++++++++++++++++++++++
+
+This was something I discovered sort of on accident but never really "noticed" - Though I'm sure I would've noticed sometime in 2021 when my certificate expired. I was running `ipa-healthcheck --failures-only` as I do sometimes, and noticed some weird certmonger things pop up. But it made me look at my certificate list...
+
+.. code-block:: shell
+
+   [root@ipa01 ~]# ipa-getcert list
+   Number of certificates and requests being tracked: 9.
+   Request ID '20191106025922':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/var/kerberos/krb5kdc/kdc.key'
+           certificate: type=FILE,location='/var/kerberos/krb5kdc/kdc.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=ipa01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-11-05 19:59:27 MST
+           principal name: krbtgt/ANGELSOFCLOCKWORK.NET@ANGELSOFCLOCKWORK.NET
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-pkinit-KPKdc
+           pre-save command:
+           post-save command: /usr/libexec/ipa/certmonger/renew_kdc_cert
+           track: yes
+           auto-renew: yes
+   Request ID '20200123075636':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=NSSDB,location='/etc/dirsrv/slapd-ANGELSOFCLOCKWORK-NET',nickname='Server-Cert',token='NSS Certificate DB',pinfile='/etc/dirsrv/slapd-ANGELSOFCLOCKWORK-NET/pwdfile.txt'
+           certificate: type=NSSDB,location='/etc/dirsrv/slapd-ANGELSOFCLOCKWORK-NET',nickname='Server-Cert',token='NSS Certificate DB'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=ipa01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-11-05 19:55:33 MST
+           dns: ipa01.angelsofclockwork.net
+           principal name: ldap/ipa01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command: /usr/libexec/ipa/certmonger/restart_dirsrv ANGELSOFCLOCKWORK-NET
+           track: yes
+           auto-renew: yes
+   Request ID '20200123075639':
+           status: NEWLY_ADDED_NEED_KEYINFO_READ_PIN
+           stuck: yes
+           key pair storage: type=FILE,location='/var/lib/ipa/private/httpd.key'
+           certificate: type=FILE,location='/var/lib/ipa/certs/httpd.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=ipa01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-11-05 19:55:48 MST
+           dns: ipa01.angelsofclockwork.net
+           principal name: HTTP/ipa01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command: /usr/libexec/ipa/certmonger/restart_httpd
+           track: yes
+           auto-renew: yes
+
+Interestingly, I wasn't sure what `NEWLY_ADDED_NEED_KEYINFO_READ_PIN` meant and I couldn't really find much on what would cause this to happen. And I know my certificate isn't expired, according to the output. In fact, I checked with `openssl` just in case.
+
+.. code-block:: shell
+
+   [root@ipa01 ~]# openssl x509 -text -noout -in /var/lib/ipa/certs/httpd.crt | grep 'Not After'
+               Not After : Nov  6 02:55:48 2021 GMT
+
+I'm not sure if this is just a result of migrating from CentOS 7 to 8 back last year, but it seemed easy enough to remove the tracking and put it back in, which ultimately fixed the monitoring state and now it was no longer "stuck".
+
+.. code-block:: shell
+
+   [root@ipa01 ~]# ipa-getcert stop-tracking -i 20200123075639
+   Request "20200123075639" removed.
+   [root@ipa01 ~]# ipa-getcert start-tracking -f /var/lib/ipa/certs/httpd.crt -k /var/lib/ipa/private/httpd.key -p /var/lib/ipa/passwds/ipa01.angelsofclockwork.net-443-RSA -C /usr/libexec/ipa/certmonger/restart_httpd -K HTTP/ipa01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+   New tracking request "20200504003758" added.
+   [root@ipa01 ~]# ipa-getcert list -i "20200504003758"
+   Number of certificates and requests being tracked: 9.
+   Request ID '20200504003758':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=FILE,location='/var/lib/ipa/private/httpd.key',pinfile='/var/lib/ipa/passwds/ipa01.angelsofclockwork.net-443-RSA'
+           certificate: type=FILE,location='/var/lib/ipa/certs/httpd.crt'
+           CA: IPA
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=ipa01.angelsofclockwork.net,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-11-05 19:55:48 MST
+           dns: ipa01.angelsofclockwork.net
+           principal name: HTTP/ipa01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
+           key usage: digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+           eku: id-kp-serverAuth,id-kp-clientAuth
+           pre-save command:
+           post-save command: /usr/libexec/ipa/certmonger/restart_httpd
+           track: yes
+           auto-renew: yes
+
+
 .. rubric:: Footnotes
 
 .. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`__ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`__
