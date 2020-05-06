@@ -2,9 +2,9 @@ The System Administrator Experience
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. meta::
-    :description: The System Administrator Experience for Red Hat based distributions, such as CentOS 7.
+    :description: The System Administrator Experience for Red Hat based distributions, such as CentOS 8.
 
-This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. 
+This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. But can provide a baseline for you.
 
 Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and 8. Scientific Linux 7 is not supported.
 
@@ -16,11 +16,8 @@ Recommendations
 .. note:: Software Replacements
 
    * Postgresql can be replaced with MySQL/MariaDB
-
-     * Note: Doing this will mean you will need another way to "cluster" MySQL/MariaDB. EL Distributions do not have a built-in way to do this.
-
-   * Spacewalk can be replaced with Katello/Foreman or straight Pulp (**recommended to use Katello**, but you can try both)
-   * You can replace KVM with ESXi if you wish, with specific caveats listed in the steps.
+   * Use Katello/Foreman or straight Pulp (**recommended to use Katello**, but you can try both) instead of Spacewalk
+   * You can replace KVM with ESXi if you wish, with specific caveats
    * nagios can be replaced with icinga
    * You can replace firewalld with the regular iptables service or nftables for 8 - This may be required for your virtual host
 
@@ -50,87 +47,7 @@ Recommendations
 Certification Completions
 -------------------------
 
-Going through this guide fulfills the following certification objectives for the RHCSA.
-
-  * Operate running systems
-
-    * Boot, reboot, and shut down a system normally
-    * Locate and interpret system log files and journals
-    * Access a virtual machine's console
-    * Start and stop virtual machines
-    * Start, stop, and check the status of network services
-    * Securely transfer files between systems
-
-  * Configure local storage
-
-    * List, create, delete partitions on MBR and GPT disks
-    * Create and remove physical volumes, assign physical volumes to volume groups, and create and delete logical volumes
-    * Configure systems to mount file systems at boot by Universally Unique ID (UUID) or label
-    * Add new partitions and logical volumes, and swap to a system non-destructively
-
-  * Create and configure file systems
-
-    * Mount and unmount CIFS and NFS network file systems
-    * Extend existing logical volumes
-    * Diagnose and correct file permission problems
-
-  * Deploy, configure, and maintain systems
-
-    * Configure networking and hostname resolution statically or dynamically
-    * Schedule tasks using at and cron
-    * Start and stop services and configure services to start automatically at boot
-    * Configure systems to boot into a specific target automatically
-    * Install Red Hat Enterprise Linux automatically using Kickstart
-    * Configure a physical machine to host virtual guests
-    * Install Red Hat Enterprise Linux systems as virtual guests
-    * Configure systems to launch virtual machines at boot
-    * Configure network services to start automatically at boot
-    * Configure a system to use time services
-    * Install and update software packages from Red Hat Network, a remote repository, or from the local file system (in this case, CentOS repos)
-    * Update the kernel package appropriately to ensure a bootable system
-
-  * Manage security
-
-    * Configure firewall settings using firewall-config, firewall-cmd, or iptables
-    * Set enforcing and permissive modes for SELinux
-    * List and identify SELinux file and process context
-    * Restore default file contexts
-    * Use boolean settings to modify system SELinux settings
-    * Diagnose and address routine SELinux policy violations
-
-Going through this guide fulfills the following certification objectives for the RHCE.
-
-  * System configuration and management
-
-    * Use firewalld and associated mechanisms such as rich rules, zones and custom rules, to implement packet filtering and configure network address translation (NAT)
-    * Use /proc/sys and sysctl to modify and set kernel runtime parameters
-    * Configure a system as either an iSCSI target or initiator that persistently mounts an iSCSI target
-
-  * Network services
-
-    * Install the packages needed to provide the service
-    * Configure SELinux to support the service
-    * Use SELinux port labeling to allow services to use non-standard ports
-    * Configure the service to start when the system is booted
-    * Configure the service for basic operation
-
-  * HTTP/HTTPS
-
-    * Configure a virtual host
-
-  * DNS
-
-    * Troubleshoot DNS client issues (you will also be troubleshooting server issues too)
-
-  * NFS
-
-    * Provide network shares to specific clients
-
-  * Database Services
-
-    * Install and configure MariaDB (though you may be using postgresql, consider doing a separate mariadb instance)
-    * Backup and restore a database
-    * Create a simple database schema
+Certification guidelines will be updated later.
 
 Notes and Changelog
 -------------------
@@ -150,6 +67,8 @@ Notes and Changelog
 |                        | * Remove spacewalk from the guide|
 +------------------------+----------------------------------+
 |      Jul 23, 2019      | * Started conversion to EL8      |
++------------------------+----------------------------------+
+|      May 05, 2020      | * Some changes                   |
 +------------------------+----------------------------------+
 
 Begin
@@ -236,19 +155,20 @@ When setting up DHCP and DNS:
    * Setup Dynamic DNS - This requires an almost specific configuration between dhcpd and named (bind) or FreeIPA's named.
    * Dynamic DNS needs to be aware of a domain name
    * Use SSSD for the IPA clients to update their DNS automatically (FreeIPA only) - this may not be required if dhcpd and named are configured correctly
+   * Setup an unbound service running on port 9053 that forwards to 1.1.1.1 for encrypted DNS
 
-**From this point forward, you are to ensure each of your VM's that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate to add additional entries as needed if you are implementing static A records or CNAME records.**
+**From this point forward, you are to ensure each of your VM's that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate or the ipa equivalent to add additional entries as needed if you are implementing static A records or CNAME records.**
 
 Server and Content Management
 +++++++++++++++++++++++++++++
 
-At this point, you'll need to setup Spacewalk or Katello on a VM. I recommend using Katello as **Satellite 6** has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat is phasing out **Red Hat Network Classic** and **Satellite 5**.
+At this point, you'll need to setup Katello on a VM. I recommend using Katello as **Satellite 6** has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat has phased out **Red Hat Network Classic** and **Satellite 5**.
 
 Katello, go `here <http://www.katello.org/>`__.
 
 .. note:: Heads up
 
-   * You're going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there.
+   * You're going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there. Don't try to host Fedora.
    * Spacewalk has an odd "dependency" on wanting DHCP/TFTP to exist on the server at the same time. There is no way around this. You do not have to use it unless you are using cobbler (which needs TFTP and a specific DHCP configuration).
    * Katello is resource heavy, it's you may need to tune it.
 
@@ -269,16 +189,16 @@ Spin Up VM's Using Katello/Spacewalk
 
 You will need to spin up two EL8 VM's via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
 
-If you find the clients aren't registering on Katello, click `here <https://theforeman.org/manuals/1.15/index.html>`__.
+If you find the clients aren't registering on Katello, click `here <https://theforeman.org/manuals/2.0/index.html>`__.
 
 If you want examples of a kickstart you can use, click `here <https://github.com/nazunalika/useful-scripts/blob/master/centos/centos7-pci.ks>`__.
 
-If you find that you do not want to use Katello to perform this task, then you can setup cobbler and work it out from there. **I currently do not have a tutorial for this, but there is plenty of documentation online.**
+If you find that you do not want to use Katello to perform this task, then you can setup cobbler and work it out from there. **I currently do not have a tutorial for this, but there is plenty of documentation online.** There are also ansible playbooks you could look at for examples if you wanted to go that route, but it may be time consuming and something to setup at the very end.
 
 Setup FreeIPA
 +++++++++++++
 
-Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand.
+Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand nor having Windows AD.
 
 * `FreeIPA <https://freeipa.org>`__
 * `FreeIPA Guide <https://linuxguideandhints.com/centos/freeipa.html>`__
@@ -288,24 +208,16 @@ I recommend against setting up OpenLDAP for the case of UNIX authentication. For
 Spin Up Two VM's for Databases
 ++++++++++++++++++++++++++++++
 
-Create two new VM's from your Content Management that are EL8 and install postgresql on them.
+Create two new VM's from your Content Management that are EL8 and install the default postgresql on them.
 
-Do the following:
-
-1) Install and configure pgpool-II for master-master replication
-2) If using Spacewalk, export the database of your server and import it into the cluster. Reconfigure Spacewalk to use your database cluster (this is tricky)
-
-**Step 2 is NOT required if you are using Katello/Foreman or Pulp.**
+Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in CentOS.
 
 Spin Up Configuration Management
 ++++++++++++++++++++++++++++++++
 
-While Katello has some form of puppet and ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL7 or EL8 and install a master for configuration management. You have a few choices.
+While Katello has some form of puppet or ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL7 or EL8 and install a master for configuration management.
 
-#. SaltStack -> Available in their own repository
-#. Ansible   -> Available in EPEL
-
-It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8.
+It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8. At some point, you could spin up a EL7 VM to host `AWX <https://awx.wiki/installation/repositories/centos-x86_64>`__ (an open source Ansible Tower).
 
 Spin Up VM for NFS/iSCSI
 ++++++++++++++++++++++++
@@ -320,14 +232,13 @@ You are to:
 1) Export an NFS directory
 2) Export a LUN to any server
 
-I highly recommend doing it manually first. The RHEL 6 links still apply to RHEL 7 to an extent. Below are helpful links for iSCSI.
-
-`iSCSI for RHEL 7 (both) <https://www.certdepot.net/rhel7-configure-iscsi-target-initiator-persistently/>`_
+`iSCSI for RHEL 7 <https://www.certdepot.net/rhel7-configure-iscsi-target-initiator-persistently/>`_
+`iSCSI for RHEL 8 <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_storage_devices/getting-started-with-iscsi_managing-storage-devices>`__
 
 Deploy Bacula Server
 ++++++++++++++++++++
 
-Bacula is a backup service. It is actually confusing to setup. It's not easy. There are plenty of write-ups for bacula and CentOS 6 and 7. The digital ocean write-ups are complete, but do NOT give you everything you need to know to do it "correct" or to succeed completing this portion.
+Bacula is a backup service. It is actually confusing to setup. It's not easy. There are plenty of write-ups for bacula and CentOS 7. The digital ocean write-ups are complete, but do NOT give you everything you need to know to do it "correct" or to succeed completing this portion.
 
 Your server will need the following:
 
@@ -366,7 +277,7 @@ You will need the following:
 
 .. warning:: Dynamic DNS
 
-   If you are using Dynamic DNS, you may need to run rndc sync before making changes. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.
+   If you are using Dynamic DNS, you may need to run rndc sync before making changes in the case of standalone BIND. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.
 
 Deploy Postfix VM
 +++++++++++++++++
@@ -381,6 +292,8 @@ You will need to do the following:
 
    * Create two relays as "mailhost1" and "mailhost2" for your domain with the same configurations
    * Create a CNAME for "mailhost.domain.tld" for your load balancer, forwarding port 25 to both servers
+
+     * Optionally, you can use round-robin DNS instead of HAProxy
 
 Setup Nagios VM
 +++++++++++++++
