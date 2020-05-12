@@ -825,6 +825,7 @@ To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies 
    # Setup nsswitch (you can make it compat sss, but I use files sss)
    % sed -i.bak 's/compat$/files sss/g' /etc/nsswitch.conf
    % echo "sudoers: files sss" >> /etc/nsswitch.conf
+   % echo "netgroup: files sss" >> /etc/nsswitch.conf
 
    # Start sssd
    % systemctl enable sssd --now
