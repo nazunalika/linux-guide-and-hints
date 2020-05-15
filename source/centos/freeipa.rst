@@ -1316,7 +1316,7 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
    uri ldap://server1.ipa.example.com
    sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
    pam_lookup_policy yes
-   # 11.3
+   # 11.3 and probably OminOS
    TLS_CACERTDIR /var/ldap
    TLS_CERT /var/ldap/cert8.db
    ssl on
@@ -1484,6 +1484,37 @@ Automated Scripts
 
 I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. This may or may not be of use to you. Though if you have problems, file a github issue and we can address it.
 
+AD Trust Double UID
++++++++++++++++++++
+
+Solaris 11, once in a while by way of Oracle, gets random regressions when it comes to authentication, among many other things. In a brief discussion with a user in IRC, it is possible to create ID views to chop off the domain name. It would just require Solaris' ldapclient to be pointed at the new tree.
+
+.. code:: shell
+
+   % ipa idview-add solaris
+   # You will need to run this for all applicable AD users...
+   % ipa idoverrideuser-add solaris username@ad.example.com --login=username
+   # On Solaris...
+   # Take EXTREME care with the group and passwd base DN's, they need to point
+   # to the view proper
+   % ldapclient manual -a authenticationMethod=tls:simple \
+                       -a credentialLevel=proxy \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123" \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=testing,cn=views,cn=compat,dc=angelsofclockwork,dc=net \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=solaris,cn=views,cn=compat,dc=angelsofclockwork,dc=net \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
+
 Legacy HBAC
 +++++++++++
 
@@ -1590,7 +1621,7 @@ For AD users to be able to login to legacy clients, you have to enable system-au
 Legacy Active Directory Trust Notes
 +++++++++++++++++++++++++++++++++++
 
-This section isn't really a walk through, but it's more of notes and such.
+Just a section of notes.
 
 Domain Resolution Order Oddness
 '''''''''''''''''''''''''''''''
@@ -1600,7 +1631,7 @@ If using domain resolution order, AD users get double uid attributes - but only 
 Solaris Weirdness
 '''''''''''''''''
 
-If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not unless you are on SRU 11.4.7.4.0 or newer.
+If using domain resolution order, Solaris 10 gets the group resolution correct for short named AD users. Solaris 11 does not unless you are on SRU 11.4.7.4.0 or newer. There is a way to chop off the domain name from the uid using views.
 
 Domain Options
 --------------
