@@ -1412,9 +1412,9 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
 .. code-block:: shell
 
-   % /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/sudoer = astring: "files ldap"' 
-   % /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/password = astring: "files ldap [NOTFOUND=return]"' 
-   % /usr/sbin/svccfg -s svc:/system/name-service/switch 'setprop config/group = astring: "files ldap [NOTFOUND=return]"' 
+   % /usr/sbin/svccfg -s name-service/switch setprop config/sudoer = astring: "files ldap"
+   % /usr/sbin/svccfg -s name-service/switch setprop config/password = astring: "files ldap [NOTFOUND=return]"
+   % /usr/sbin/svccfg -s name-service/switch setprop config/group = astring: "files ldap [NOTFOUND=return]"
 
    % /usr/sbin/svcadm refresh svc:/system/name-service/switch
    % /usr/sbin/svcadm restart svc:/system/name-service/switch
@@ -1487,23 +1487,26 @@ I at one point built a bunch of scripts to automate Solaris servers talking to I
 AD Trust Double UID
 +++++++++++++++++++
 
-Solaris 11, once in a while by way of Oracle, gets random regressions when it comes to authentication, among many other things. In a brief discussion with a user in IRC, it is possible to create ID views to chop off the domain name. It would just require Solaris' ldapclient to be pointed at the new tree.
+Solaris 11, once in a while by way of Oracle, gets random regressions when it comes to authentication and ID's, among many other things they randomly decide to break.
+
+In a brief discussion with a user in the #freeipa IRC channel, the user was trying to find a way to chop off the domain name for logins but also have sudo still work. We both discovered that in SRU 11.4.20.4.0, even though both UID's are present from `ldaplist -l passwd`, sudo was no longer working properly. The first thing we tried was to create an ID view and override a user with a new username. This successfully removed the domain, but did not solve the sudo problem. He instead got "no account present for that user". I wasn't able to replicate this.
+
+However, later, one thing he noticed is after creating an ID view with no overrides and pointing Solaris 11 to the view in the compat tree, Solaris 10-esque authentication ID reporting started to occur. Running `ldaplist -l passwd user` reported back the double UID as expected, but the FQDN comes first which resolved his group/sudo issues.
 
 .. code:: shell
 
+   # Create a view... no id overrides required here
    % ipa idview-add solaris
-   # You will need to run this for all applicable AD users...
-   % ipa idoverrideuser-add solaris username@ad.example.com --login=username
    # On Solaris...
    # Take EXTREME care with the group and passwd base DN's, they need to point
-   # to the view proper
+   # to the view properly
    % ldapclient manual -a authenticationMethod=tls:simple \
                        -a credentialLevel=proxy \
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123" \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
                        -a domainName=ipa.example.com \
-                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a defaultServerList="server1.angelsofclockwork.net server2.angelsofclockwork.net" \
                        -a followReferrals=true \
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
