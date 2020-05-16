@@ -917,7 +917,13 @@ This applies to Solaris, Omnios, others based on Illumos.
 Solaris 10
 ++++++++++
 
-Setting up Solaris 10 as an IPA client is interesting in the fact that if you have a trust, things change (like where to look in the directory for users).
+Setting up Solaris 10 as an IPA client is an interesting feat. However, it comes with security issues.
+
+.. warning:: No SSL or TLS Support
+
+   Note that for Solaris 10 to talk to IPA, you must use clear text communication. Solaris 10 is too old to use new ciphers. However, while LDAP may be clear text, kerberos should still be secure enough for the time being.
+
+   If you are using an AD trust, the user's passwords will be passed in clear text. Highly suggested that you decommission Solaris 10 from your environment. Solaris 10 will eventually be removed from this page.
 
 Create an ldif for your service account (optional)
 
@@ -1031,6 +1037,8 @@ Now init the ldap client.
 
    If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
 
+**Without an AD Trust**
+
 .. code-block:: shell
 
    # Without AD Trust (no proxy)
@@ -1067,6 +1075,10 @@ Now init the ldap client.
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
                        -a bindTimeLimit=5
+
+**With an AD Trust**
+
+.. code-block:: shell
 
    # With AD Trust (no proxy)
    % ldapclient manual -a authenticationMethod=none \
@@ -1208,14 +1220,14 @@ You can test now if you'd like.
 
 I recommend setting up sudo at least... if you want to use sudo, install the sudo-ldap from sudo.ws for Solaris 10.
 
-Solaris 11 and Omnios/Illumos
-+++++++++++++++++++++++++++++
+Solaris 11
+++++++++++
 
-Solaris 11 and Omnios share similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.
+Solaris 11 shares similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.
 
 .. note:: AD Groups
 
-   In Solaris 10, users who logged in with AD users (with their short name) would appear as their full name (name@domain). This allowed their groups to fully resolve. However, in Solaris 11.4, this was not the case. Short name logins will work but your groups will not resolve as the compat tree uses the full name. To avoid running into this problem, you should be on at least SRU 11.4.7.4.0
+   In Solaris 10, users who logged in with AD users (with their short name) would appear as their full name (name@domain). This allowed their groups to fully resolve. However, in Solaris 11.4, this was not the case. Short name logins will work but your groups will not resolve as the compat tree uses the full name. To avoid running into this problem, you should be on at least SRU 11.4.7.4.0. Note that on a later SRU, you may need to setup an ID view (without overrides) for groups and sudo to work again.
 
 Below is for the service account like in the previous section, here as a reference.
 
@@ -1299,8 +1311,7 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
 
 .. note:: Solaris 11.3 vs 11.4
 
-   11.3 and 11.4 require different configurations. Please take note of that if you still have 11.3 or earlier systems. Omnios may require a different configuration. Test 11.3 and 11.4 to verify this. You can enable sudoers debug to assist.
-
+   Previously we had 11.3 and 11.4 configurations. We have removed 11.3 as we no longer support it.
 
 .. code-block:: shell
 
@@ -1316,12 +1327,6 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
    uri ldap://server1.ipa.example.com
    sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
    pam_lookup_policy yes
-   # 11.3 and probably OminOS
-   TLS_CACERTDIR /var/ldap
-   TLS_CERT /var/ldap/cert8.db
-   ssl on
-   tls_checkpeer no
-   # 11.4
    TLS_CACERTDIR /var/ldap
    ssl start_tls
    tls_checkpeer no
@@ -1335,6 +1340,8 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
 .. warning:: No Service Account
 
    If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
+
+**With a proxy account**
 
 .. code-block:: shell
 
@@ -1372,6 +1379,10 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
                        -a bindTimeLimit=5
+
+**With a proxy account**
+
+.. code-block:: shell
 
    # With AD Trust (no proxy)
    % ldapclient manual -a authenticationMethod=tls:simple \
@@ -1422,7 +1433,45 @@ This should succeed. Once it succeeds, you need to configure pam and nsswitch.
 
 .. note:: AD Trust Information
 
-   In the event you don't have an AD trust, you can change the "binding" lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read "required"
+   In the event you don't have an AD trust, you can change the "binding" lines to required and remove the pam_ldap lines. Optionally, you can set pam_krb5 to "required", however sufficient should work just fine.
+
+**Without an AD Trust**
+
+.. code-block:: shell
+
+   % vi /etc/pam.d/login
+   auth definitive         pam_user_policy.so.1
+   auth requisite          pam_authtok_get.so.1
+   auth required           pam_dhkeys.so.1
+   auth sufficient         pam_krb5.so.1
+   auth required           pam_unix_cred.so.1
+   auth sufficient         pam_unix_auth.so.1 server_policy
+
+   % vi /etc/pam.d/other
+   auth definitive         pam_user_policy.so.1
+   auth requisite          pam_authtok_get.so.1
+   auth required           pam_dhkeys.so.1
+   auth sufficient         pam_krb5.so.1
+   auth required           pam_unix_cred.so.1
+   auth sufficient         pam_unix_auth.so.1 server_policy
+   
+   account requisite       pam_roles.so.1
+   account definitive      pam_user_policy.so.1
+   account required        pam_unix_account.so.1 server_policy
+   account sufficient      pam_krb5.so.1
+   
+   session definitive      pam_user_policy.so.1
+   session required        pam_unix_session.so.1
+   
+   password definitive     pam_user_policy.so.1
+   password include        pam_authtok_common
+   password sufficient     pam_krb5.so.1
+   password required       pam_authtok_store.so.1 server_policy
+   
+   % vi /etc/pam.d/sshd-pubkey
+   account required        pam_unix_account.so.1
+
+**With an AD Trust**
 
 .. code-block:: shell
 
@@ -1482,14 +1531,14 @@ You can test now if you'd like.
 Automated Scripts
 +++++++++++++++++
 
-I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. This may or may not be of use to you. Though if you have problems, file a github issue and we can address it.
+I at one point built a bunch of scripts to automate Solaris servers talking to IPA `here <https://github.com/nazunalika/useful-scripts/tree/master/freeipa>`__. However, it is likely the scripts no longer work or contain outdated information.
 
 AD Trust Double UID
 +++++++++++++++++++
 
-Solaris 11, once in a while by way of Oracle, gets random regressions when it comes to authentication and ID's, among many other things they randomly decide to break.
+Solaris 11 once in a while gets random regressions when it comes to authentication and ID's, among many other things they randomly decide to break. Big shout out to Oracle.
 
-In a brief discussion with a user in the #freeipa IRC channel, the user was trying to find a way to chop off the domain name for logins but also have sudo still work. We both discovered that in SRU 11.4.20.4.0, even though both UID's are present from `ldaplist -l passwd`, sudo was no longer working properly. The first thing we tried was to create an ID view and override a user with a new username. This successfully removed the domain, but did not solve the sudo problem. He instead got "no account present for that user". I wasn't able to replicate this.
+In a brief discussion with a user in the #freeipa IRC channel, the user was trying to find a way to chop off the domain name for logins but also have sudo still work as there were some random issues in general. We both discovered that in SRU 11.4.20.4.0, even though both UID's are present from `ldaplist -l passwd`, sudo was no longer working properly. The first thing we tried was to create an ID view and override a user with a new username. This successfully removed the domain, but did not solve the sudo problem. He instead got "no account present for that user". However, I wasn't able to replicate this.
 
 However, later, one thing he noticed is after creating an ID view with no overrides and pointing Solaris 11 to the view in the compat tree, Solaris 10-esque authentication ID reporting started to occur. Running `ldaplist -l passwd user` reported back the double UID as expected, but the FQDN comes first which resolved his group/sudo issues.
 
@@ -1511,12 +1560,32 @@ However, later, one thing he noticed is after creating an ID view with no overri
                        -a objectClassMap=shadow:shadowAccount=posixAccount \
                        -a objectClassMap=passwd:posixAccount=posixaccount \
                        -a objectClassMap=group:posixGroup=posixgroup \
-                       -a serviceSearchDescriptor=group:cn=groups,cn=testing,cn=views,cn=compat,dc=angelsofclockwork,dc=net \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=solaris,cn=views,cn=compat,dc=angelsofclockwork,dc=net \
                        -a serviceSearchDescriptor=passwd:cn=users,cn=solaris,cn=views,cn=compat,dc=angelsofclockwork,dc=net \
                        -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
                        -a bindTimeLimit=5
+   # Make sure you set your props...
+   % /usr/sbin/svccfg -s name-service/switch setprop config/sudoer = astring: "files ldap"
+   % /usr/sbin/svccfg -s name-service/switch setprop config/password = astring: "files ldap [NOTFOUND=return]"
+   % /usr/sbin/svccfg -s name-service/switch setprop config/group = astring: "files ldap [NOTFOUND=return]"
+
+   % /usr/sbin/svcadm refresh svc:/system/name-service/switch
+   % /usr/sbin/svcadm restart svc:/system/name-service/switch
+   % /usr/sbin/svcadm restart ldap/client
+   # Verify...
+   % ldaplist -l passwd adusername
+   . . .
+   % id -a adusername
+   . . .
+
+Thank you to "mewho" on freenode for finding this interesting workaround.
+
+OmniOS/Illumos
+++++++++++++++
+
+Some steps between Solaris 10 and 11 can be followed to make OmniOS work. However, we have been unable to resolve why sudo will not work when using an AD trust. If you are using a standalone FreeIPA and no trust, sudo should work just fine.
 
 Legacy HBAC
 +++++++++++
