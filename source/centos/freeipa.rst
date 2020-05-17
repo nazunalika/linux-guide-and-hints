@@ -1333,15 +1333,15 @@ Create the LDAP configurations, bring the certificate, and create an NSS databas
 
 Now init the ldap client. We actually get to use a secure connection here. Kerberos is hit or miss, could never get sasl/GSSAPI to work.
 
-.. note:: AD Trust - Different Trees
+.. note:: Different Trees - Trust or not?
 
-   If using an AD trust, you should use the second example, where it looks at the compat tree for users.
+   There are multiple examples of how to setup the trees. If using an AD trust, you should use the second example, where it looks at the compat tree for users. However, if you do not have trusts, then it is perfectly possible to still use the AD Trust example. Try both and see which works better for your environment.
 
 .. warning:: No Service Account
 
    If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.
 
-**With a proxy account**
+**Without AD Trust**
 
 .. code-block:: shell
 
@@ -1380,7 +1380,24 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
                        -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
                        -a bindTimeLimit=5
 
-**With a proxy account**
+   # Without AD Trust (Kerberos) - Only works if Solaris is in the same DNS domain as IPA
+   % ldapclient manual -a authenticationMethod=sasl/GSSAPI \
+                       -a credentialLevel=self \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
+
+**With AD Trust**
 
 .. code-block:: shell
 
@@ -1403,6 +1420,25 @@ Now init the ldap client. We actually get to use a secure connection here. Kerbe
    # With AD Trust (proxy)
    % ldapclient manual -a authenticationMethod=tls:simple \
                        -a credentialLevel=proxy \
+                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
+                       -a proxyPassword="secret123" \
+                       -a defaultSearchBase=dc=ipa,dc=example,dc=com \
+                       -a domainName=ipa.example.com \
+                       -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
+                       -a followReferrals=true \
+                       -a objectClassMap=shadow:shadowAccount=posixAccount \
+                       -a objectClassMap=passwd:posixAccount=posixaccount \
+                       -a objectClassMap=group:posixGroup=posixgroup \
+                       -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
+                       -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
+                       -a bindTimeLimit=5
+
+   # With AD Trust (Kerberos) - Only works if Solaris is in the same DNS domain as IPA
+   % ldapclient manual -a authenticationMethod=sasl/GSSAPI \
+                       -a credentialLevel=self \
                        -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
                        -a proxyPassword="secret123" \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
@@ -1549,10 +1585,9 @@ However, later, one thing he noticed is after creating an ID view with no overri
    # On Solaris...
    # Take EXTREME care with the group and passwd base DN's, they need to point
    # to the view properly
-   % ldapclient manual -a authenticationMethod=tls:simple \
-                       -a credentialLevel=proxy \
-                       -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                       -a proxyPassword="secret123" \
+   # This example uses kerberos to authenticate.
+   % ldapclient manual -a authenticationMethod=self \
+                       -a credentialLevel=sasl/GSSAPI \
                        -a defaultSearchBase=dc=ipa,dc=example,dc=com \
                        -a domainName=ipa.example.com \
                        -a defaultServerList="server1.angelsofclockwork.net server2.angelsofclockwork.net" \
