@@ -2242,6 +2242,47 @@ I'm not sure if this is just a result of migrating from CentOS 7 to 8 back last 
            track: yes
            auto-renew: yes
 
+CA Related Certificates Stuck
++++++++++++++++++++++++++++++
+
+Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it's actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert.
+
+.. code-block:: shell
+
+   [root@ipa01 alias]# getcert list -i 20200615180351
+   Number of certificates and requests being tracked: 9.
+   Request ID '20200615180351':
+           status: NEWLY_ADDED_NEED_KEYINFO_READ_PIN
+           stuck: yes
+           key pair storage: type=NSSDB,location='/etc/pki/pki-tomcat/alias',nickname='auditSigningCert cert-pki-ca'
+           certificate: type=NSSDB,location='/etc/pki/pki-tomcat/alias',nickname='auditSigningCert cert-pki-ca'
+           CA: dogtag-ipa-ca-renew-agent
+           issuer:
+           subject:
+           expires: unknown
+           pre-save command: /usr/libexec/ipa/certmonger/stop_pkicad
+           post-save command: /usr/libexec/ipa/certmonger/renew_ca_cert "auditSigningCert cert-pki-ca"
+           track: yes
+           auto-renew: yes
+
+   [root@ipa01 alias]# getcert start-tracking -i 20200615180351 -p /etc/pki/pki-tomcat/alias/pwdfile.txt
+   Request "20200615180351" modified.
+   [root@ipa01 alias]# getcert list -i 20200615180351
+   Number of certificates and requests being tracked: 9.
+   Request ID '20200615180351':
+           status: MONITORING
+           stuck: no
+           key pair storage: type=NSSDB,location='/etc/pki/pki-tomcat/alias',nickname='auditSigningCert cert-pki-ca',token='NSS Certificate DB',pinfile='/etc/pki/pki-tomcat/alias/pwdfile.txt'
+           certificate: type=NSSDB,location='/etc/pki/pki-tomcat/alias',nickname='auditSigningCert cert-pki-ca',token='NSS Certificate DB'
+           CA: dogtag-ipa-ca-renew-agent
+           issuer: CN=Certificate Authority,O=ANGELSOFCLOCKWORK.NET
+           subject: CN=CA Audit,O=ANGELSOFCLOCKWORK.NET
+           expires: 2021-03-13 23:15:41 MST
+           key usage: digitalSignature,nonRepudiation
+           pre-save command: /usr/libexec/ipa/certmonger/stop_pkicad
+           post-save command: /usr/libexec/ipa/certmonger/renew_ca_cert "auditSigningCert cert-pki-ca"
+           track: yes
+           auto-renew: yes
 
 .. rubric:: Footnotes
 

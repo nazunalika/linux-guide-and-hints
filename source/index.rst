@@ -61,3 +61,9 @@ complete.
 
   training/*
 
+.. toctree::
+  :maxdepth: 4
+  :caption: About Us
+  :glob:
+
+  about/*
