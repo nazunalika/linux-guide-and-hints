@@ -2245,7 +2245,7 @@ I'm not sure if this is just a result of migrating from CentOS 7 to 8 back last 
 CA Related Certificates Stuck
 +++++++++++++++++++++++++++++
 
-Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it's actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert.
+Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it's actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert. This seems to only occur on CentOS 8.
 
 .. code-block:: shell
 
