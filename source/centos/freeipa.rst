@@ -561,7 +561,7 @@ After these changes, you'll need to go into make some changes with the directory
 #. You may either select "rfc2307" from the dropdown or select custom. It will ask your base DN (eg, dc=ipa,dc=example,dc=com)
 
 * If you select rfc2307, it will ask for your base DN (eg, dc=ipa,dc=example,dc=com)
-* If you select "custom", you will need to do this manually for each record type. **This is recommended for most deployments.**
+* If you select "custom", you will need to do this manually for each record type. **You're better off using rfc2307 and working from there**
 
 #. Click the "+" to add a groups record type or scroll and find "groups".
 #. Select "groups", and ensure the following object classes exist. You can click the "+" to add them when needed. 
@@ -605,7 +605,7 @@ After these changes, you'll need to go into make some changes with the directory
 |                         | apple-user    |
 +-------------------------+---------------+
 
-#. Expand "users" and ensure the following for each record type. You can click the "+" to add the attribute types as needed.
+#. Expand "users" and ensure the following for each record type. You can click the "+" to add the attribute types as needed. **Do not set homeDirectory otherwise you will fail to login.**
 
 +-------------------------+------------------------------+
 | Attribute               | Mapping                      |
@@ -613,8 +613,6 @@ After these changes, you'll need to go into make some changes with the directory
 | AuthenticationAuthority | uid                          |
 +-------------------------+------------------------------+
 | GeneratedUID            | GeneratedUID or ipaUniqueID  |
-+-------------------------+------------------------------+
-| HomeDirectory           | #/Users/$uid$                |
 +-------------------------+------------------------------+
 | NFSHomeDirectory        | #/Users/$uid$                |
 +-------------------------+------------------------------+
@@ -649,15 +647,18 @@ You should get a return.
 
 If you want to further verify users and groups after the above succeeds, open up the directory utility again. Click "Directory Editor", ensure you are searching for "users" and check that they appear in a list on the right hand side, optionally doing a search. In a default setup, you shouldn't need an account to do (some) anonymous lookups. If you changed that in any way, you will need to create a readonly system account in cn=sysaccounts,cn=etc.
 
-In a terminal, you will need to create the home directories via the createmobileaccount command. [#f2]_
+Login to the account for the first time from the login screen. Once the setup has complete, log out and back to a login account. In a terminal, you will need to make a mobile account.[#f2]_ 
 
 .. code-block:: shell
 
-   % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
+   % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username
+   # Press enter
+   # OPTIONAL: Allow the mobile account to be an administrator
+   % sudo dscl . -append /Groups/admin GroupMembership username
 
-Log out and login as your IPA user. It should succeed. It takes a few moments, but you will eventually see the first login prompts that require you to hit next a couple of times. You'll get a fresh desktop.
+Go to system preferences, users & groups and ensure the account is a mobile account.
 
-Log out and go back to your local account. Go to system preferences, users & groups, find the account, set it as an administrator of the machine.
+**Note**: If you want groups from IPA to resolve to the system, you'll need to enable the compat tree when using this setup (RFC2307).
 
 .. warning:: Password Notes
 
@@ -665,6 +666,7 @@ Log out and go back to your local account. Go to system preferences, users & gro
    
    * If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.
    * If your account does not have any keytabs (eg, you haven't had your mac on or haven't logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.
+   * There have been reports in a github issue that states you can change the password in the system preferences but I've been unable to confirm this.
 
 And that's it! My own script that I made (as a reference) is below to do the work. It's highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac's.
 
