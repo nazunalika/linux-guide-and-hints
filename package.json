@@ -4,7 +4,7 @@
   "description": "[![Build Status](https://travis-ci.org/nazunalika/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/nazunalika/linux-guide-and-hints)",
   "main": "Gruntfile.js",
   "dependencies": {
-    "prismjs": "^1.17.1"
+    "prismjs": "^1.21.0"
   },
   "devDependencies": {
     "grunt": "^1.0.4",
