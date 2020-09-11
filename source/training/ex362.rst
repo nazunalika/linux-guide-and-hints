@@ -627,7 +627,48 @@ In a previous section, we already created roles and added groups to the roles.
 HBAC
 ++++
 
-In FreeIPA, there is typically a rule already predefined that allows everyone to access all systems and all services. This can be removed or disabled and this removes host access to everything immediately. This is typically recommended.
+HBAC, or Host Based Access Controls, are permissions that grant user or users access to systems via any number of services. The services are PAM services. No doubt you have looked in `/etc/pam.d` before and have seen quite a few files or even modified them by hand at some point.
+
+.. code-block:: shell
+
+   % ls -l /etc/pam.d/
+   total 80
+   -rw-r--r--. 1 root root 272 May 11  2019 atd
+   -rw-r--r--. 1 root root 232 Apr 15 15:28 config-util
+   -rw-r--r--. 1 root root 328 Nov  8  2019 crond
+   lrwxrwxrwx. 1 root root  32 Jan 14  2020 fingerprint-auth -> /etc/authselect/fingerprint-auth
+   -rw-r--r--. 1 root root  70 Apr 24 06:35 ksu
+   -rw-r--r--. 1 root root 715 Apr 24 05:38 login
+   -rw-r--r--. 1 root root 154 Apr 15 15:28 other
+   -rw-r--r--. 1 root root 168 Apr  6 20:08 passwd
+   lrwxrwxrwx. 1 root root  29 Jan 14  2020 password-auth -> /etc/authselect/password-auth
+   -rw-r--r--. 1 root root 155 Apr  8 22:00 polkit-1
+   lrwxrwxrwx. 1 root root  25 Jan 14  2020 postlogin -> /etc/authselect/postlogin
+   -rw-r--r--. 1 root root 640 Apr 24 05:38 remote
+   -rw-r--r--. 1 root root 143 Apr 24 05:38 runuser
+   -rw-r--r--. 1 root root 138 Apr 24 05:38 runuser-l
+   lrwxrwxrwx. 1 root root  30 Jan 14  2020 smartcard-auth -> /etc/authselect/smartcard-auth
+   lrwxrwxrwx. 1 root root  25 Jun 15 10:18 smtp -> /etc/alternatives/mta-pam
+   -rw-r--r--. 1 root root  76 Apr  6 20:11 smtp.postfix
+   -rw-r--r--. 1 root root 727 Feb  4  2020 sshd
+   -rw-r--r--. 1 root root 214 Apr 23 20:48 sssd-shadowutils
+   -rw-r--r--. 1 root root 566 Apr 24 05:38 su
+   -rw-r--r--. 1 root root 154 Apr 23 19:40 sudo
+   -rw-r--r--. 1 root root 178 Apr 23 19:40 sudo-i
+   -rw-r--r--. 1 root root 137 Apr 24 05:38 su-l
+   lrwxrwxrwx. 1 root root  27 Jan 14  2020 system-auth -> /etc/authselect/system-auth
+   -rw-r--r--. 1 root root 248 Jul 21 07:57 systemd-user
+   -rw-r--r--. 1 root root  84 May 11  2019 vlock
+
+On a typical Red Hat system, the most common ones (such as `su`, `sshd`, `sudo`) imports the `system-auth` file, so the login request is processed through those means. When defining HBAC rules, you either must allow "all" services or be selective. For example, if an HBAC rule allows "sshd", a user is allowed to ssh into a system, but wouldn't allow them to login locally, as that goes through `login`. If you want the user to be able to run the `su` and `sudo` commands, you would also need to allow those services. Otherwise, the user is denied, despite sudo policies being available.
+
+.. code-block:: shell
+
+   [label@mgt ~]$ sudo -i
+   [sudo] password for label:
+   sudo: PAM account management error: Permission denied
+
+In FreeIPA, there is typically a rule already predefined that allows everyone to access all systems and all services. This can be removed or disabled and this removes host access to everything immediately. This is typically recommended in most environments where there are security standards and procedures in place.
 
 .. code-block:: shell
 
