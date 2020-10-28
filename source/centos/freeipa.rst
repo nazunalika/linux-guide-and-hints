@@ -4,7 +4,7 @@ FreeIPA
 .. meta::
     :description: How to install/configure FreeIPA on CentOS 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
-This tutorial goes over how to install and configure FreeIPA on CentOS 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
+This page is a series of notes and information that goes over how to install and configure FreeIPA on CentOS 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::
 
@@ -18,10 +18,10 @@ Requirements
 
 Here are the list of requirements below.
  
-* CentOS 7+ or Fedora 30+
+* CentOS 8+ or Fedora 32+
 * An active internet connection to install the packages required or available internal mirrors
-* DNS delegation (if a DNS appliance or server already exists)
 * 2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv
+* DNS domain delegation (if a DNS appliance or server already exists)
 
 Tutorial Preface, Notes, and Recommendations
 --------------------------------------------
@@ -29,7 +29,7 @@ Tutorial Preface, Notes, and Recommendations
 .. warning:: Potential Pitfalls!
 
    * Leave SELinux enabled at all times. You will not run into SELinux issues
-   * FreeIPA runs a lot better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely
+   * FreeIPA runs better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely
    * FreeIPA does not run DHCP. ISC DHCP can be configured to do dynamic DNS updates to FreeIPA or hosts can be configured to perform dynamic DNS updates
 
 .. note:: Recommended Information
@@ -38,20 +38,15 @@ Tutorial Preface, Notes, and Recommendations
    * DNS - You **must** be careful when using DNS. Here are recommendations. [#f1]_
 
      * Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes if you so choose.
-     * Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - It's not required for hosts to live in the subdomain to be a member of the IPA domain. Do not try to hijack a domain.
+     * Recommendation 2: FreeIPA is delegated a subdomain of a domain used already in the network - It's not required for hosts to live in the subdomain to be a member of the IPA domain, but you will lose out on kerberos SSO. Do not try to hijack a domain.
 
-   * Consider setting up a trust with Active Directory if you are in a mixed environment, eg Active Directory already exists
+   * Consider setting up a trust with Active Directory if you are in a mixed environment, eg Active Directory already exists - winsync is available, but deprecated and not recommended.
    * IPA servers should have static assigned addresses - Configured via nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-*
-   * Try to avoid running FreeIPA without DNS - while possible, it's highly unmanageable.
+   * Try to avoid running FreeIPA without DNS - while possible, you are creating higher maintenance
 
 .. note:: Trust Information
 
-   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, example.com and ipa.example.com or example.com and ipa.example.com, depending on what the current DNS controllers or appliances are). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync (which we recommend against using).
-
-.. note:: NOFILE limits
-
-   You may run into file descriptor limit problems depending on the IPA version you are using and/or patch level. Ensure that /etc/sysconfig/dirsrv.systemd has LimitNOFILE set to at least 16384. By default this shouldn't happen in 7.6+
-
+   If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, example.com and ipa.example.com, or example.com and example.net). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync.
 
 DNS
 ---
@@ -65,9 +60,9 @@ There are two ways you can have DNS entries updated dynamically: --enable-dns-up
 Delegation
 ++++++++++
 
-Throughout this guide, you may find we will be using a subdomain by DNS delegation, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. Majority of the examples assume both IPA and AD is delegated (when it's normally IPA that's just delegated while AD hosts the actual parent zone). Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones. **The caveat to this is SSO will fail**.
+Throughout this guide, you may find or see examples of domain delegation where there is an AD trust, as it would be a more real world example of bringing in FreeIPA to an environment that is already in place, working, with a DNS hosted by AD or by an appliance. Majority of the examples assume both IPA and AD is delegated (when it's normally IPA that's just delegated while AD hosts the actual parent zone). Using this type of setup, it is not required for clients to have entries in the IPA domain. In fact, they can be in other domains as long as they have A/AAAA/PTR records associated with them. This assumes that there could be dynamic dns associated with DHCP or everything is static and lives in the parent zones. **The caveat to this is SSO will fail**.
 
-You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even forward example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner. 
+You can setup already existing DNS servers to delegate an entire domain or a subdomain for FreeIPA. This way, you don't overlap with a domain that's already in use. So for example, if AD owns example.com, you could have AD delegate ipa.example.com or even forward example.net. If AD is not the DNS provider for the environment, you can have the appliance delegate the domain in the same manner.
 
 Below is a bind example of what example.com would look like when delegating the IPA domain:
 
