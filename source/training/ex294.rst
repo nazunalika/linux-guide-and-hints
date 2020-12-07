@@ -190,9 +190,10 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. admonition:: Solution
+.. note:: Solution
    :class: toggle
-   You will use the ansible_default_ipv4.address variable
+
+   You will use the ansible_default_ipv4.address variable to solve the template.
 
 Task 8 - Use Archiving to backup mysql
 +++++++++++++++++++++++++++++++++++++++
@@ -218,6 +219,11 @@ Create a role called example-apache and store it in `~/automation/roles`. The ro
    The address of this server is: REPLACE_ME_IPV4VAR_OR_FACT
 
 Create a playbook `~/automation/plays/apache.yml` that uses that role only on the web host group.
+
+.. note:: Solution
+   :class: toggle
+
+   You will use the ansible_default_ipv4.address variable to solve the template.
 
 Task 10 - Download Roles from Galaxy
 ++++++++++++++++++++++++++++++++++++

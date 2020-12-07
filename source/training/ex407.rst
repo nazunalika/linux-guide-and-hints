@@ -53,7 +53,7 @@ Install and configure an Ansible control node
 
 An Ansible Control Node is where Ansible is installed and used to run commands and playbooks from said node. There can be more than one control node.
 
-.. shell:: code
+.. code:: shell
 
    # If using CentOS, you need to enable the epel repository
    % yum install epel-release -y
