@@ -157,7 +157,7 @@ Create an ansible vault file at `~/automation/plays/secrets.yml` with a password
 * user_password: redhat
 * database_password: redhat
 
-.. admonition:: Solution
+.. code:: shell
    :class: toggle
 
    # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'user_password'
