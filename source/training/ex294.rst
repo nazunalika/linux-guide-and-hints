@@ -91,7 +91,7 @@ On the *ansible-master* system, perform the following list of operations:
 
 * Run a test ping to all ansible nodes using the setup module
 
-.. admonition:: Solution
+.. code:: shell
    :class: toggle
 
    # cat ~/adhoc
@@ -117,10 +117,15 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
   * db: "Welcome to a MariaDB server"
   * proxy: "Welcome to an HAProxy server"
 
-.. admonition:: Solution
+.. code:: shell
    :class: toggle
 
-   You should use the "copy" module that fills in the content for you and use the "when" conditional.
+   - name: /etc/motd modification
+     when: inventory_hostname in groups['web']
+     copy:
+       dest: /etc/motd
+       content: |
+         Welcome to an Apache server
 
 Task 3 - Configure SSH Server
 +++++++++++++++++++++++++++++
@@ -196,10 +201,32 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 * Passwords should be SHA512
 * Each user should have an SSH key (you can use the ansible keys or create their own)
 
-.. admonition:: Solution
+.. code:: shell
    :class: toggle
 
-   You can solve this in two different ways. One way is to create two separate blocks where each work against their respective host group if you plan on using the same keys from the ansible user. Another way is to have a singular task that creates the users and their keys on their respective servers. Regardless, you will use the "when" conditional.
+   # You can solve this in two different ways. One way is to create two separate blocks where each work against their respective host group if you plan on using the same keys from the ansible user.
+   # Another way is to have a singular task that creates the users and their keys on their respective servers. Regardless, you will use the "when" conditional.
+
+   ---
+   - name: Create users on hosts
+     hosts: all
+     become: yes
+     var_files:
+       - userlist.yml
+       - secrets.yml
+
+     tasks:
+       - name: Create users
+         when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
+         user:
+           name: "{{ item.username }}"
+           password: "{{ user_password|password_hash('sha512') }}"
+           groups: wheel
+           shell: /bin/bash
+           ssh_key_file: .ssh/id_rsa
+           ssh_key_bits: 2048
+           uid: "{{ item.uid }}"
+         loop: "{{ users }}"
 
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
@@ -243,10 +270,10 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. note:: Solution
+.. code:: shell
    :class: toggle
 
-   You will use the ansible_default_ipv4.address variable to solve the template.
+   # You will use the ansible_default_ipv4.address variable to solve the template.
 
 Task 8 - Use Archiving to backup mysql
 +++++++++++++++++++++++++++++++++++++++
