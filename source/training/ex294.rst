@@ -120,12 +120,7 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
 .. admonition:: Solution
    :class: toggle
 
-   - name: /etc/motd modification
-   ..copy:
-   ....dest: /etc/motd
-   ....content: |
-   ......Welcome to an Apache server
-   ..when: inventory_hostname in groups['web']
+   You should use the "copy" module that fills in the content for you and use the "when" conditional.
 
 Task 3 - Configure SSH Server
 +++++++++++++++++++++++++++++
@@ -145,6 +140,11 @@ Create a playbook at `~/automation/plays/sshd.yml` that runs on all hosts and co
 * PermitRootLogin is set to no
 * sshd is enabled
 
+.. admonition:: Solution
+   :class: toggle
+
+   You should copy the configuration file with your necessary changes. You can also use regex, but that may or may not be clean.
+
 Task 4 - Ansible Vault
 ++++++++++++++++++++++
 
@@ -156,6 +156,12 @@ Create an ansible vault file at `~/automation/plays/secrets.yml` with a password
 
 * user_password: redhat
 * database_password: redhat
+
+.. admonition:: Solution
+   :class: toggle
+
+   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'user_password'
+   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'database_password'
 
 Task 5 - Users and Groups
 +++++++++++++++++++++++++
@@ -193,26 +199,7 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 .. admonition:: Solution
    :class: toggle
 
-   ---
-   - name: Create users on hosts
-     hosts: all
-     become: yes
-     var_files:
-     ..- userlist.yml
-     ..- secrets.yml
-
-     tasks:
-     ..- name: Create users
-     ....when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
-     ....user:
-     ......name: "{{ item.username }}"
-     ......password: "{{ user_password|password_hash('sha512') }}"
-     ......groups: wheel
-     ......shell: /bin/bash
-     ......ssh_key_file: .ssh/id_rsa
-     ......ssh_key_bits: 2048
-     ......uid: "{{ item.uid }}"
-     ....loop: "{{ users }}"
+   You can solve this in two different ways. One way is to create two separate blocks where each work against their respective host group if you plan on using the same keys from the ansible user. Another way is to have a singular task that creates the users and their keys on their respective servers. Regardless, you will use the "when" conditional.
 
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
