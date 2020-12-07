@@ -91,8 +91,23 @@ On the *ansible-master* system, perform the following list of operations:
 
 * Run a test ping to all ansible nodes using the setup module
 
+.. admonition:: Solution
+   :class: toggle
+
+   # cat ~/adhoc
+   #!/bin/bash
+   # Copy the keys using ansible adhoc
+   ansible all --ask-pass -m authorized_key -a 'user=ansible state=present key="{{lookup('file', '/home/automation/.ssh/id_rsa.pub'}}"'
+
 Task 2 - File Content
 +++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Understand core components of Ansible: Inventories, Modules, Plays, Playbooks
+   * Create Ansible plays and playbooks: Know how to work with commonly used Ansible modules
+   * Create Ansible plays and playbooks: Create playbooks to configure systems to a specific state
+   * Use Ansible modules for system administration tasks that work with: File content
 
 Create a playbook at `~/automation/plays/motd.yml` that does the following:
 
@@ -102,8 +117,25 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
   * db: "Welcome to a MariaDB server"
   * proxy: "Welcome to an HAProxy server"
 
+.. admonition:: Solution
+   :class: toggle
+
+   - name: /etc/motd modification
+     copy:
+       dest: /etc/motd
+       content: |
+         Welcome to an Apache server
+     when: inventory_hostname in groups['web']
+
 Task 3 - Configure SSH Server
 +++++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Understand core components of Ansible: Modules, Plays, Playbooks
+   * Create Ansible plays and playbooks: Know how to work with commonly used Ansible modules
+   * Create Ansible plays and playbooks: Create playbooks to configure systems to a specific state
+   * Use Ansible modules for system administration tasks that work with: Services, File content
 
 Create a playbook at `~/automation/plays/sshd.yml` that runs on all hosts and configures ssh like:
 
@@ -111,9 +143,14 @@ Create a playbook at `~/automation/plays/sshd.yml` that runs on all hosts and co
 * X11Forwarding is disabled
 * MaxAuthTries is set to 3
 * PermitRootLogin is set to no
+* sshd is enabled
 
 Task 4 - Ansible Vault
 ++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Use advanced Ansible features: Use Ansible Vault in playbooks to protect sensitive data
 
 Create an ansible vault file at `~/automation/plays/secrets.yml` with a password of **redhat** with the following variables:
 
@@ -122,6 +159,11 @@ Create an ansible vault file at `~/automation/plays/secrets.yml` with a password
 
 Task 5 - Users and Groups
 +++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Understand core components of Ansible: Inventories, Modules, Variables, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: Users and groups
 
 Create a variables file at `~/automation/vars/userlist.yml` that lists the following:
 
@@ -146,7 +188,31 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 * All users passwords should be used from the vault (user_password)
 * Shell should be `/bin/bash`
 * Passwords should be SHA512
-* Each user should have an SSH key
+* Each user should have an SSH key (you can use the ansible keys or create their own)
+
+.. admonition:: Solution
+   :class: toggle
+
+   ---
+   - name: Create users on hosts
+     hosts: all
+     become: yes
+     var_files:
+       - userlist.yml
+       - secrets.yml
+
+     tasks:
+       - name: Create users
+         when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
+         user:
+           name: "{{ item.username }}"
+           password: "{{ user_password|password_hash('sha512') }}"
+           groups: wheel
+           shell: /bin/bash
+           ssh_key_file: .ssh/id_rsa
+           ssh_key_bits: 2048
+           uid: "{{ item.uid }}"
+         loop: "{{ users }}"
 
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
@@ -190,7 +256,7 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. admonition:: Solution
+.. note:: Solution
    :class: toggle
 
    You will use the ansible_default_ipv4.address variable to solve the template.
@@ -220,7 +286,7 @@ Create a role called example-apache and store it in `~/automation/roles`. The ro
 
 Create a playbook `~/automation/plays/apache.yml` that uses that role only on the web host group.
 
-.. admonition:: Solution
+.. note:: Solution
    :class: toggle
 
    You will use the ansible_default_ipv4.address variable to solve the template.
