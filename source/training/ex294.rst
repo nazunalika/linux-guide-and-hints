@@ -121,6 +121,7 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
    :class: toggle
 
    .. code:: shell
+
       - name: /etc/motd modification
         copy:
           dest: /etc/motd
