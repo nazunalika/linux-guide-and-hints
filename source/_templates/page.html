@@ -1,6 +1,5 @@
 {% set css_files = css_files + ["_static/custom.css"] %}
 
-{% extends "!layout.html" %}
 {%- block extrahead %}
 <script type="text/javascript">
     $(document).ready(function() {
@@ -14,4 +13,5 @@
         })
     });
 </script>
+{{ super() }}
 {% endblock %}
