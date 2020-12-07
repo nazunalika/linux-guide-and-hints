@@ -190,7 +190,7 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. note:: Solution
+.. admonition:: Solution
    :class: toggle
 
    You will use the ansible_default_ipv4.address variable to solve the template.
@@ -220,7 +220,7 @@ Create a role called example-apache and store it in `~/automation/roles`. The ro
 
 Create a playbook `~/automation/plays/apache.yml` that uses that role only on the web host group.
 
-.. note:: Solution
+.. admonition:: Solution
    :class: toggle
 
    You will use the ansible_default_ipv4.address variable to solve the template.
