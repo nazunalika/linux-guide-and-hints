@@ -91,14 +91,6 @@ On the *ansible-master* system, perform the following list of operations:
 
 * Run a test ping to all ansible nodes using the setup module
 
-.. code:: shell
-   :class: toggle
-
-   # cat ~/adhoc
-   #!/bin/bash
-   # Copy the keys using ansible adhoc
-   ansible all --ask-pass -m authorized_key -a 'user=ansible state=present key="{{lookup('file', '/home/automation/.ssh/id_rsa.pub'}}"'
-
 Task 2 - File Content
 +++++++++++++++++++++
 
@@ -116,16 +108,6 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
   * web: "Welcome to an Apache server"
   * db: "Welcome to a MariaDB server"
   * proxy: "Welcome to an HAProxy server"
-
-.. code:: shell
-   :class: toggle
-
-   - name: /etc/motd modification
-     when: inventory_hostname in groups['web']
-     copy:
-       dest: /etc/motd
-       content: |
-         Welcome to an Apache server
 
 Task 3 - Configure SSH Server
 +++++++++++++++++++++++++++++
@@ -162,12 +144,6 @@ Create an ansible vault file at `~/automation/plays/secrets.yml` with a password
 * user_password: redhat
 * database_password: redhat
 
-.. code:: shell
-   :class: toggle
-
-   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'user_password'
-   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'database_password'
-
 Task 5 - Users and Groups
 +++++++++++++++++++++++++
 
@@ -201,32 +177,10 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 * Passwords should be SHA512
 * Each user should have an SSH key (you can use the ansible keys or create their own)
 
-.. code:: shell
+.. admonition:: Hint
    :class: toggle
 
-   # You can solve this in two different ways. One way is to create two separate blocks where each work against their respective host group if you plan on using the same keys from the ansible user.
-   # Another way is to have a singular task that creates the users and their keys on their respective servers. Regardless, you will use the "when" conditional.
-
-   ---
-   - name: Create users on hosts
-     hosts: all
-     become: yes
-     var_files:
-       - userlist.yml
-       - secrets.yml
-
-     tasks:
-       - name: Create users
-         when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
-         user:
-           name: "{{ item.username }}"
-           password: "{{ user_password|password_hash('sha512') }}"
-           groups: wheel
-           shell: /bin/bash
-           ssh_key_file: .ssh/id_rsa
-           ssh_key_bits: 2048
-           uid: "{{ item.uid }}"
-         loop: "{{ users }}"
+   You can solve this in two different ways. One way is to create two separate blocks where each work against their respective host group if you plan on using the same keys from the ansible user. Another way is to have a singular task that creates the users and their keys on their respective servers. Regardless, you will use the "when" conditional.
 
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
@@ -270,10 +224,10 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. code:: shell
+.. admonition:: Hint
    :class: toggle
 
-   # You will use the ansible_default_ipv4.address variable to solve the template.
+   You will use the ansible_default_ipv4.address variable to solve the template.
 
 Task 8 - Use Archiving to backup mysql
 +++++++++++++++++++++++++++++++++++++++
@@ -300,7 +254,7 @@ Create a role called example-apache and store it in `~/automation/roles`. The ro
 
 Create a playbook `~/automation/plays/apache.yml` that uses that role only on the web host group.
 
-.. note:: Solution
+.. admonition:: Hint
    :class: toggle
 
    You will use the ansible_default_ipv4.address variable to solve the template.
@@ -368,3 +322,51 @@ Create a playbook at `~/automation/plays/serverlist.yml` that does the following
 * The file `/etc/server_list.txt` should be owned by ansible with permissions of 600
 * The SELinux context should be `net_conf_t`
 
+Potential Solutions
+-------------------
+
+These are potential solutions to the tasks. Know that there are multiple ways to solve a problem.
+
+.. code:: shell
+
+   # cat ~/adhoc
+   #!/bin/bash
+   # Copy the keys using ansible adhoc
+   ansible all --ask-pass -m authorized_key -a 'user=ansible state=present key="{{lookup('file', '/home/automation/.ssh/id_rsa.pub'}}"'
+
+.. code:: shell
+
+   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'user_password'
+   # ansible-vault encrypt_string --ask-vault-pass 'redhat' --name 'database_password'
+
+.. code:: shell
+
+   ---
+   - name: Create users on hosts
+     hosts: all
+     become: yes
+     var_files:
+       - userlist.yml
+       - secrets.yml
+
+     tasks:
+       - name: Create users
+         when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
+         user:
+           name: "{{ item.username }}"
+           password: "{{ user_password|password_hash('sha512') }}"
+           groups: wheel
+           shell: /bin/bash
+           ssh_key_file: .ssh/id_rsa
+           ssh_key_bits: 2048
+           uid: "{{ item.uid }}"
+         loop: "{{ users }}"
+
+.. code:: shell
+
+   - name: /etc/motd modification
+     when: inventory_hostname in groups['web']
+     copy:
+       dest: /etc/motd
+       content: |
+         Welcome to an Apache server
