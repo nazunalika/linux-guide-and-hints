@@ -1,0 +1,284 @@
+EX294 Exam Prep
+^^^^^^^^^^^^^^^
+.. meta::
+       :description: Materials to prepare for the Red Hat Certified Engineer exam
+
+This page contains necessary resources plus a sample exam to help you prepare for the Red Hat Certified Engineer exam, EX294. For now, we do not have examples or an answer sheet to answer the tasks for the practice exam. However, we will note which objectives each task is testing for.
+
+The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex294-red-hat-certified-engineer-rhce-exam-red-hat-enterprise-linux-8?section=Objectives>`__. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.
+
+.. note::
+
+   Affiliation and Exam Information
+
+   Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.
+
+   If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.
+
+.. contents::
+
+Overview
+--------
+
+The Red Hat Certified Engineer exam for Red Hat Enterprise Linux 8 tests your knowledge of the RHCSA plus using Ansible for automation. To pass the same, you must understand the RHCSA concepts as well as be able to configure and utilize ansible.
+
+Exam Information
+----------------
+
+The EX294 exam tests your knowledge in a real world format style test - Meaning just like any Red Hat exam, it is performance-based and you perform tasks as if you were on the job. You are evaluated on the tasks you perform and if they meet the objective criteria. The EX294 supersedes the EX300 exam which was for Red Hat Enterprise Linux 7.
+
+**To take the exam, you must have at least an RHCSA. To become an RHCE, you must have an RHCSA. An RHCE is required to become and RHCA.**
+
+Resources
+---------
+
+* `Ansible Documentation <https://docs.ansible.com/>`__
+
+Required Exam VM's
+------------------
+
+* ansible-master.example.com - Ansible Control Node
+* ansible1.example.com
+* ansible2.example.com
+* ansible3.example.com
+* ansible4.example.com
+
+  * This machine should have an additional disk. 1GB is fine.
+
+Tasks
+-----
+
+Task 1 - Ansible Configuration
+++++++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Understand and use essential tools
+   * Manage users and groups
+   * Understand core components of Ansible: Inventories, Configuration files
+   * Install and configure an Ansible control node: All 5 sub-objectives
+   * Configure Ansible managed nodes: All 3 sub-objectives
+   * Script administration tasks: All 2 sub-objectives
+
+On *all systems*, perform the following list of operations:
+
+* Create the *ansible* user with a password of your choosing
+* Allow ansible to run all commands using sudo *without* a password
+
+On the *ansible-master* system, perform the following list of operations:
+
+* Install ansible
+* For the *ansible* user, perform the following:
+
+  * Create SSH keys for the *ansible* user
+  * Create a simple bash script (`~/adhoc`) to copy ssh keys to all nodes
+  * Create the directory `~/automation`
+
+* Create an `~/automation/ansible.cfg` file that does the following:
+
+  * Role path: `~/automation/roles`
+  * Inventory path: `~/automation/inventory`
+  * Privilege escalation disabled
+  * Parallelization: 10 hosts at a time
+  * User: ansible
+
+* Create an `~/automation/inventory` that lists the following:
+
+  * ansible1 is a member of proxy host group
+  * ansible2 is a member of web host group
+  * ansible3 is a member of web host group
+  * ansible4 is a member of db host group
+
+* Run a test ping to all ansible nodes using the setup module
+
+Task 2 - File Content
++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/motd.yml` that does the following:
+
+* Replace `/etc/motd` with text that depends on the host group:
+
+  * web: "Welcome to an Apache server"
+  * db: "Welcome to a MariaDB server"
+  * proxy: "Welcome to an HAProxy server"
+
+Task 3 - Configure SSH Server
++++++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/sshd.yml` that runs on all hosts and configures ssh like:
+
+* Banner is set to `/etc/motd`
+* X11Forwarding is disabled
+* MaxAuthTries is set to 3
+* PermitRootLogin is set to no
+
+Task 4 - Ansible Vault
+++++++++++++++++++++++
+
+Create an ansible vault file at `~/automation/plays/secrets.yml` with a password of **redhat** with the following variables:
+
+* user_password: redhat
+* database_password: redhat
+
+Task 5 - Users and Groups
++++++++++++++++++++++++++
+
+Create a variables file at `~/automation/vars/userlist.yml` that lists the following:
+
+.. code:: shell
+
+   ---
+   users:
+     - username: bob
+       uid: 2100
+     - username: bill
+       uid: 2101
+     - username: mary
+       uid: 2201
+     - username: vincent
+       uid: 2202
+
+Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/automation/plays/secrets.yml` to:
+
+* Users whose user ID starts with *21* should be created only on the web host group
+* Users whose user ID starts with *22* should be created only on the db host group
+* All users should be in the *wheel* group
+* All users passwords should be used from the vault (user_password)
+* Shell should be `/bin/bash`
+* Passwords should be SHA512
+* Each user should have an SSH key
+
+Task 6 - Schedulded Tasks
++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/cronjobs.yml` that runs on the proxy host group and does:
+
+* Cronjob created for the root user that runs every hour
+* Cronjob appends /var/log/time.log with the output of the `date` command
+
+Task 7 - Create Roles - Database
+++++++++++++++++++++++++++++++++
+
+Create a role called example-mysql and store it in `~/automation/roles`. The role should perform the following:
+
+* A primary partition number 1 of size 700MB on device `/dev/sdb` or `/dev/vdb` is created.
+* The LVM volume group called vg_db is created that uses the primary partition
+* lv_mysql is created of size 512MB in the volume group vg_db
+* lv_mysql should be XFS formatted
+* lv_mysql is permanently mounted on /mnt/mysql for backups.
+* firewalld is configured to allow all incoming traffic on port TCP 3306
+* mysql-server should be installed
+* mysql root user password should be set from the variable database_password in `~/automation/plays/secrets.yml`
+* mysql server should be started and enabled on boot
+* mysql server configuration file is generated from the my.cnf.j2 Jinja2 template (template is below)
+
+.. code:: shell
+
+   # cat ~/automation/plays/templates/my.cnf.j2
+   [mysqld]
+   bind_address = REPLACE_ME_IPV4VAR_OR_FACT
+   skip_name_resolve
+   datadir=/var/lib/mysql
+   socket=/var/lib/mysql/mysql.sock
+
+   symbolic-links=0
+   sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+
+   [mysqld_safe]
+   log-error=/var/log/mysqld.log
+   pid-file=/var/run/mysqld/mysqld.pid
+
+Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
+
+.. admonition:: Solution
+   :class: toggle
+   You will use the ansible_default_ipv4.address variable
+
+Task 8 - Use Archiving to backup mysql
++++++++++++++++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/archive.yml` that runs on all db hosts:
+
+* Create `/mnt/mysql/database_list.txt` that has the line: dev,test,qa,prod
+* Create a gzip of the file and started at `/mnt/mysql/archive.gz`
+
+Task 9 - Create Roles - Web
++++++++++++++++++++++++++++
+
+Create a role called example-apache and store it in `~/automation/roles`. The role should perform the following:
+
+* Install the packages httpd, mod_ssl, and php
+* firewalld is configured to allow traffic on port 80 and 443
+* The `httpd` service should be restarted each time */var/www/html/index.html* has been updated
+* Create a `index.html.j2` template that creates the index file.
+
+.. code:: shell
+
+   # cat index.html.j2
+   The address of this server is: REPLACE_ME_IPV4VAR_OR_FACT
+
+Create a playbook `~/automation/plays/apache.yml` that uses that role only on the web host group.
+
+Task 10 - Download Roles from Galaxy
++++++++++++++++++++++++++++++++++++
+
+Use Ansible Galaxy to download and install the `geerlingguy.haproxy` role into `~/automation/roles`.
+
+Create a playbook at `~/automation/plays/haproxy.yml` that runs the haproxy role on the proxy host group. It must be the following:
+
+* Load balance requests between the hosts in web
+* Use roundrobin
+* Backend servers should be using port 80 only
+* firewalld allows port 80 traffic
+
+To test the playbook on completion, run `curl http://ansible4.example.com`, which should output the IP address of one of the web servers. Run it again to check load balancing.
+
+Task 11 - Security
+++++++++++++++++++
+
+Create a playbook at `~/automation/plays/selinux.yml` and does the following:
+
+* Uses the selinux RHEL system role
+* Enables httpd_can_network_connect boolean on the web group
+* All changes must survive a reboot
+
+Task 12 - Use Conditionals
+++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/sysctl.yml` that runs on all hosts:
+
+* If a server has more than 2048MB of RAM, parameter of `vm.swappiness` is set to 10
+* If a server has less, display an error message: **Server has less than 2GB of Physical Memory**
+
+Task 13 - Custom Facts
+++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/facts.yml` that runs on hosts in the db group:
+
+* A custom Ansible fact **server_role=mysql** is created and can be retrieved from ansible_local.custom.sample_exam using the setup module.
+
+Task 14 - Install Packages
+++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/packages.yml` that installs packages like so:
+
+* On proxy hosts: tcpdump, mailx
+* On db hosts: lsof, mailx
+
+Task 15 - Managing Services
++++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/target.yml` that runs on the web group:
+
+* Set default boot target to multi-user
+
+Task 16 - Template Management
++++++++++++++++++++++++++++++
+
+Create a playbook at `~/automation/plays/serverlist.yml` that does the following:
+
+* Uses a `server_list.txt.j2` to create `/etc/server_list.txt` on all hosts in the db group
+* Content of the file should be all inventory hosts
+* The file `/etc/server_list.txt` should be owned by ansible with permissions of 600
+* The SELinux context should be `net_conf_t`
+
