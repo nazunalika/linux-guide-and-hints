@@ -120,14 +120,12 @@ Create a playbook at `~/automation/plays/motd.yml` that does the following:
 .. admonition:: Solution
    :class: toggle
 
-   .. code:: shell
-
-      - name: /etc/motd modification
-        copy:
-          dest: /etc/motd
-          content: |
-            Welcome to an Apache server
-        when: inventory_hostname in groups['web']
+   - name: /etc/motd modification
+   ..copy:
+   ....dest: /etc/motd
+   ....content: |
+   ......Welcome to an Apache server
+   ..when: inventory_hostname in groups['web']
 
 Task 3 - Configure SSH Server
 +++++++++++++++++++++++++++++
@@ -195,28 +193,26 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 .. admonition:: Solution
    :class: toggle
 
-   .. code:: shell
+   ---
+   - name: Create users on hosts
+     hosts: all
+     become: yes
+     var_files:
+     ..- userlist.yml
+     ..- secrets.yml
 
-      ---
-      - name: Create users on hosts
-        hosts: all
-        become: yes
-        var_files:
-          - userlist.yml
-          - secrets.yml
-
-        tasks:
-          - name: Create users
-            when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
-            user:
-              name: "{{ item.username }}"
-              password: "{{ user_password|password_hash('sha512') }}"
-              groups: wheel
-              shell: /bin/bash
-              ssh_key_file: .ssh/id_rsa
-              ssh_key_bits: 2048
-              uid: "{{ item.uid }}"
-            loop: "{{ users }}"
+     tasks:
+     ..- name: Create users
+     ....when: (ansible_fqdn in groups['web'] and "21" in item.uid|string) or (ansible_fqdn in groups['db'] and "22" in item.uid|string)
+     ....user:
+     ......name: "{{ item.username }}"
+     ......password: "{{ user_password|password_hash('sha512') }}"
+     ......groups: wheel
+     ......shell: /bin/bash
+     ......ssh_key_file: .ssh/id_rsa
+     ......ssh_key_bits: 2048
+     ......uid: "{{ item.uid }}"
+     ....loop: "{{ users }}"
 
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
