@@ -190,7 +190,7 @@ Create a role called example-mysql and store it in `~/automation/roles`. The rol
 
 Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs on the db host group.
 
-.. admonition:: Solution
+.. note:: Solution
    :class: toggle
    You will use the ansible_default_ipv4.address variable
 
