@@ -185,6 +185,14 @@ Create a playbook at `~/automation/plays/users.yml` that uses the vault file `~/
 Task 6 - Schedulded Tasks
 +++++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * Deploy, configure, and maintain systems: Schedule tasks using at and cron
+   * Understand core components of Ansible: Modules, Plays, Playbooks
+   * Create Ansible plays and playbooks: Know how to work with commonly used Ansible modules
+   * Create Ansible plays and playbooks: Create playbooks to configure systems to a specified state
+   * Use Ansible modules for system administration tasks that work with: Scheduled tasks
+
 Create a playbook at `~/automation/plays/cronjobs.yml` that runs on the proxy host group and does:
 
 * Cronjob created for the root user that runs every hour
@@ -192,6 +200,13 @@ Create a playbook at `~/automation/plays/cronjobs.yml` that runs on the proxy ho
 
 Task 7 - Create Roles - Database
 ++++++++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * RHCSA: Configure local storage, create and configure filesystems, deploy/configure/maintain systems
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: Software packages, services, firewall, file systems, file content
+   * Work with roles: Create roles
 
 Create a role called example-mysql and store it in `~/automation/roles`. The role should perform the following:
 
@@ -240,6 +255,13 @@ Create a playbook at `~/automation/plays/archive.yml` that runs on all db hosts:
 Task 9 - Create Roles - Web
 +++++++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * RHCSA: Deploy/configure/maintain systems
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: Software packages, services, firewall, file content
+   * Work with roles: Create roles
+
 Create a role called example-apache and store it in `~/automation/roles`. The role should perform the following:
 
 * Install the packages httpd, mod_ssl, and php
@@ -262,6 +284,10 @@ Create a playbook `~/automation/plays/apache.yml` that uses that role only on th
 Task 10 - Download Roles from Galaxy
 ++++++++++++++++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * Work with roles: Download roles from an Ansible Galaxy and use them
+
 Use Ansible Galaxy to download and install the `geerlingguy.haproxy` role into `~/automation/roles`.
 
 Create a playbook at `~/automation/plays/haproxy.yml` that runs the haproxy role on the proxy host group. It must be the following:
@@ -276,6 +302,13 @@ To test the playbook on completion, run `curl http://ansible4.example.com`, whic
 Task 11 - Security
 ++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Create Ansible plays and playbooks
+   * Use Ansible modules for system administration tasks that work with: Security
+   * Work with roles
+
 Create a playbook at `~/automation/plays/selinux.yml` and does the following:
 
 * Uses the selinux RHEL system role
@@ -285,6 +318,11 @@ Create a playbook at `~/automation/plays/selinux.yml` and does the following:
 Task 12 - Use Conditionals
 ++++++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * Create Ansible plays and playbooks: Use conditions to control play execution
+   * Create Ansible plays and playbooks: Configure error handling
+
 Create a playbook at `~/automation/plays/sysctl.yml` that runs on all hosts:
 
 * If a server has more than 2048MB of RAM, parameter of `vm.swappiness` is set to 10
@@ -293,12 +331,24 @@ Create a playbook at `~/automation/plays/sysctl.yml` that runs on all hosts:
 Task 13 - Custom Facts
 ++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * Understand core components of Ansible: Facts, Configuration Files
+
 Create a playbook at `~/automation/plays/facts.yml` that runs on hosts in the db group:
 
-* A custom Ansible fact **server_role=mysql** is created and can be retrieved from ansible_local.custom.sample_exam using the setup module.
+* A custom Ansible fact **server_role=mysql** is created
+* **server_role** can be retrieved from ansible_local.custom.sample_exam using the setup module.
 
 Task 14 - Install Packages
 ++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * RHCSA: Deploy/configure/maintain systems
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: Software packages
+   * Work with roles: Create roles
 
 Create a playbook at `~/automation/plays/packages.yml` that installs packages like so:
 
@@ -308,12 +358,25 @@ Create a playbook at `~/automation/plays/packages.yml` that installs packages li
 Task 15 - Managing Services
 +++++++++++++++++++++++++++
 
+.. note:: What objectives does this test?
+
+   * RHCSA: Deploy/configure/maintain systems
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: Services
+
 Create a playbook at `~/automation/plays/target.yml` that runs on the web group:
 
 * Set default boot target to multi-user
 
 Task 16 - Template Management
 +++++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * RHCSA: Deploy/configure/maintain systems
+   * Create Ansible plays and playbooks: Use conditions to control play execution
+   * Understand core components of Ansible: Modules, Variables, Facts, Plays, Playbooks
+   * Use Ansible modules for system administration tasks that work with: File content
 
 Create a playbook at `~/automation/plays/serverlist.yml` that does the following:
 
