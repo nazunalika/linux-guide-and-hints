@@ -244,8 +244,12 @@ Create the playbook `~/automation/plays/mysql.yml` that ruses that role and runs
 
    You will use the ansible_default_ipv4.address variable to solve the template.
 
-Task 8 - Use Archiving to backup mysql
-+++++++++++++++++++++++++++++++++++++++
+Task 8 - Use Archiving to backup mysql information
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. note:: What objectives does this test?
+
+   * Use Ansible modules for system administration tasks that work with: File content, archiving
 
 Create a playbook at `~/automation/plays/archive.yml` that runs on all db hosts:
 
@@ -433,3 +437,11 @@ These are potential solutions to the tasks. Know that there are multiple ways to
        dest: /etc/motd
        content: |
          Welcome to an Apache server
+
+.. code:: shell
+
+   - block:
+     when: ansible_facts.memtotal_mb >= 2048
+
+   - block:
+     when: ansible_facts.memtotal_mb < 2048
