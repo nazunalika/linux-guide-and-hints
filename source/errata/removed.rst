@@ -7,6 +7,13 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+12-17-2020
+
+- training/ex294 was removed, as it was not a fit for this website and could
+  not be modified to suit us and was missing credit to the original author.
+  people who are training for the ex294 are encouraged to look for the EX407
+  article on lisenet as it will be sufficient enough to train for the exam.
+
 12-01-2019
 
 - misc/security was renamed to security/antipatterns.
