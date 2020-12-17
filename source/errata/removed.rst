@@ -12,7 +12,7 @@ Removed articles
 - training/ex294 was removed, as it was not a fit for this website and was
   missing credit to the original author nor could it be modified in a manner to
   suit us. people who are training for the ex294 are encouraged to look for the
-  EX407 article on `<lisenet https://www.lisenet.com/2019/ansible-sample-exam-for-ex407/>`__
+  EX407 article on `lisenet <https://www.lisenet.com/2019/ansible-sample-exam-for-ex407/>`__
   as it will be sufficient enough to train for the exam. I personally highly
   recommend using this as a resource instead.
 
