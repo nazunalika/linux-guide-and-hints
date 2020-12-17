@@ -10,13 +10,14 @@ The source code for this page can be found on `Github
 <https://github.com/nazunalika/linux-guide-and-hints>`_.
 
 This page contains tutorials and generally useful information regarding
-packages and system administration in |Fedora| and |CentOS|.
+packages and system administration in |Fedora|, |RockyLinux| and |CentOS|.
 
 We are making some renovations. So forgive us if the site does not look
 complete.
 
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
+.. |RockyLinux| replace:: Rocky Linux\ :sup:`®`
 
 .. toctree::
   :maxdepth: 4
