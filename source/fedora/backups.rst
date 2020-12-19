@@ -208,12 +208,6 @@ context you want to apply to ``target_dir``.
 
 The following helper script should get you started:
 
-.. raw:: html
-
-    <script src="https://gist.github.com/remyabel/2cac59a778fa34d0c61e246554fe3e3c.js"></script>
-
-    <noscript>
-
 .. code-block:: bash
 
     #!/bin/bash
@@ -263,7 +257,3 @@ The following helper script should get you started:
         git annex sync --content --message="$(date +%F)" || fail
         git-restore-metadata
     done
-
-.. raw:: html
-
-    </noscript>

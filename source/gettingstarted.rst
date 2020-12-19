@@ -15,12 +15,6 @@ Some other notes:
 
 The :doc:`fedora/negativo` article contains more information.
 
-.. raw:: html
-
-   <script src="https://gist.github.com/remyabel/bbebf3043860abe24a19bf0b1d67bd33.js"></script>
-
-   <noscript>
-
 .. code-block:: bash
 
    #!/bin/bash
@@ -46,10 +40,6 @@ The :doc:`fedora/negativo` article contains more information.
 
    dnf clean all
    dnf --refresh upgrade
-
-.. raw:: html
-
-   </noscript>
 
 Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the :doc:`fedora/pulseaudio` articles on troubleshooting tips.
 
