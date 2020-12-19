@@ -32,12 +32,12 @@ The EX362 exam tests your knowledge in a real world format style test - Meaning 
 Resources
 ---------
 
-* `FreeIPA <https://www.freeipa.org>`__
-* `Red Hat Documentation <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/>`__
-* `Trust Anatomy/SSSD Troubleshooting <https://jhrozek.wordpress.com/2015/08/19/performance-tuning-sssd-for-large-ipa-ad-trust-deployments/>`__
-* `Directory Server Tuning <https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/performance_tuning_guide/>`__
-* `FreeIPA Workshop <https://github.com/freeipa/freeipa-workshop >`__
-* `Our Page <https://linuxguideandhints.com/centos/freeipa.html>`__
+* `FreeIPA <https://www.freeipa.org>`_
+* `Red Hat Documentation <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/>`_
+* `Trust Anatomy/SSSD Troubleshooting <https://jhrozek.wordpress.com/2015/08/19/performance-tuning-sssd-for-large-ipa-ad-trust-deployments/>`_
+* `Directory Server Tuning <https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/performance_tuning_guide/>`_
+* `FreeIPA Workshop <https://github.com/freeipa/freeipa-workshop>`_
+* `Our Page <https://linuxguideandhints.com/centos/freeipa.html>`_
 
 Hardware Recommendations
 ------------------------
@@ -238,7 +238,7 @@ Creating Users, Groups, and Policies
 New Passwords Expired
 +++++++++++++++++++++
 
-The common question we receive (and even the #freeipa IRC receive) is "Why can't we just set the password to not be expired right away?" See `this page <https://www.freeipa.org/page/New_Passwords_Expired>`__ for information on why this is. You may also look at the `pagure <https://pagure.io/freeipa/issue/5763>`__ page and the `Red Hat bugzilla related bug <https://bugzilla.redhat.com/show_bug.cgi?id=1317060>`__.
+The common question we receive (and even the #freeipa IRC receive) is "Why can't we just set the password to not be expired right away?" See `this page <https://www.freeipa.org/page/New_Passwords_Expired>`_ for information on why this is. You may also look at the `pagure <https://pagure.io/freeipa/issue/5763>`_ page and the `Red Hat bugzilla related bug <https://bugzilla.redhat.com/show_bug.cgi?id=1317060>`_.
 
 Install and configure IdM Clients
 ---------------------------------
