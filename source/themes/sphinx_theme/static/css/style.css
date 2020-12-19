@@ -332,3 +332,11 @@ pre {
 footer {
     color: rgb(85, 85, 85);
 }
+
+.rst-content .section ol li > ol, .rst-content .section ol li > ul, .rst-content .section ul li > ol, .rst-content .section ul li > ul {
+    margin-bottom: 0px !important;
+}
+
+.rst-content .section ol li > *, .rst-content .section ul li > * {
+    margin-top: 0px !important;
+}
