@@ -57,6 +57,13 @@ complete.
 
 .. toctree::
   :maxdepth: 4
+  :caption: MacOS
+  :glob:
+
+  macos/*
+
+.. toctree::
+  :maxdepth: 4
   :caption: Training Resources
   :glob:
 
