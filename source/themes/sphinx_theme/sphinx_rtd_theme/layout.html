@@ -7,10 +7,10 @@
   {%- set titlesuffix = "" %}
 {%- endif %}
 {%- set lang_attr = 'en' if language == None else (language | replace('_', '-')) %}
+{%- set sphinx_writer = 'writer-html5' if html5_doctype else 'writer-html4' %}
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="{{ lang_attr }}" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ lang_attr }}" > <!--<![endif]-->
+<html class="{{ sphinx_writer }}" lang="{{ lang_attr }}" >
 <head>
   <meta charset="utf-8">
   {{ metatags }}
@@ -93,7 +93,6 @@
           href="{{ pathto('_static/opensearch.xml', 1) }}"/>
     {%- endif %}
   {%- endif %}
-  {%- endblock %}
 
   {%- block linktags %}
     {%- if hasdoc('about') %}
