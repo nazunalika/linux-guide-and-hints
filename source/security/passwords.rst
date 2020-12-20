@@ -1,7 +1,7 @@
 Password management
 ^^^^^^^^^^^^^^^^^^^
 
-Our :doc:`antipatterns </security/antipatterns>` article discusses some insecure things
+Our `antipatterns <antipatterns.html>`_ article discusses some insecure things
 that can be done w.r.t. password from a system administrator or developer point
 of view. This article is aimed towards users.
 
@@ -30,7 +30,7 @@ integrations.
 Backing your databases up to your phone
 ---------------------------------------
 
-We assume you've read our :doc:`IPhone </fedora/iphone>` article. A typical mechanism for
+We assume you've read our `iPhone <../fedora/iphone.html>`_ article. A typical mechanism for
 transferring files to your phone is to either use iTunes or the cloud. However, in addition
 to iTunes working poorly on Linux, I consider it to be user unfriendly bloatware. I also do not
 like using iCloud to avoid exposing myself to unnecessary risk.

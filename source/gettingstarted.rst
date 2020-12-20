@@ -13,7 +13,7 @@ Some other notes:
 * gstreamer 0.10 is deprecated, install gstreamer1.
 * negativo17 users, ``libmpg123`` is now ``mpg123``
 
-The :doc:`fedora/negativo` article contains more information.
+The `negativo <fedora/negativo.html>`_ article contains more information.
 
 .. code-block:: bash
 
@@ -41,7 +41,7 @@ The :doc:`fedora/negativo` article contains more information.
    dnf clean all
    dnf --refresh upgrade
 
-Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the :doc:`fedora/pulseaudio` articles on troubleshooting tips.
+Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the `Pulseaudio <fedora/pulseaudio.html>`_ articles on troubleshooting tips.
 
 Other things negativo17 related
 -------------------------------
@@ -53,7 +53,7 @@ time.
 
 negativo17 also provides Steam. However, if you have any games that are
 Window only, you need to download Steam via Wine and install the games that way
-or use Proton. See the :doc:`fedora/winetips` article for more information.
+or use Proton. See the `Wine Tips <fedora/winetips.html>`_ article for more information.
 
 Finally, to ensure that Negativo's repo takes precedence over RPMFusion, edit ``/etc/yum.repos.d/fedora-multimedia.repo``
 and add ``priority=1`` under ``[fedora-multimedia]``.

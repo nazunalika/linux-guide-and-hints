@@ -76,7 +76,7 @@ On the other hand, this is what it looks like with Vulkan:
 In this particular instance, however, the issue is because mask bit emulation is yet to be backported
 to the OpenGL renderer. This article may become out of date once that's implemented.
 
-If you followed our guide on installing Nvidia drivers from :doc:`negativo`, then you can
+If you followed our guide on installing Nvidia drivers from `negativo <negativo.html>`_, then you can
 install the ``vulkan`` package.
 
 In ``retroarch.cfg``, put ``video_driver = "vulkan"``. In ``retroarch-core-options.cfg``, put ``beetle_psx_hw_renderer = "vulkan"``. 
