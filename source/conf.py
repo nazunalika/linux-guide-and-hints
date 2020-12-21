@@ -33,7 +33,7 @@ extensions = ['customwriter', 'sphinx_sitemap', 'notfound.extension']
 site_url = 'https://linuxguideandhints.com/'
 
 notfound_no_urls_prefix = True
-notfound_context = {'title': 'Page not found', 'body': '<h1>Page not found</h1>\n\nIf you believe this is an error, please open an issue on Github.'}
+notfound_context = {'title': 'Page not found', 'body': '<h1>Page not found</h1>\n\nCheck our <a href="https://linuxguideandhints.com/errata/removed.html">Errata</a> page to see if the page is listed there. Otherwise, if you believe this is an error, please open an issue on Github.'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
