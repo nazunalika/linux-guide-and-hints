@@ -15,7 +15,7 @@ Hi, the latest changes to the RPM removed the systemd files and falls back to
 previously shipped with Fedora will cause ``dnscrypt-proxy`` to not start.
 
 Try removing ``/etc/systemd/system/dnscrypt-proxy.service`` and re-run ``sudo
-dnscrypt-proxy -install service``.
+dnscrypt-proxy -service install``.
 
 Since the RPM no longer uses sockets, you might need to edit the config as well
 to specify listening addresses:
