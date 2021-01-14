@@ -2281,6 +2281,45 @@ Like with the IPA httpd certificates, I noticed at least 4 certificates stuck be
            track: yes
            auto-renew: yes
 
+Kerberos
+--------
+
+This section goes over some stuff about kerberos that we've ran into and might find useful someday.
+
+Accounts with OTP Enabled
++++++++++++++++++++++++++
+
+When logging into a machine with a password (first factor) and an OTP token (second factor), this generally works without a problem. You can easily run `klist` and you'll see that you have a ticket and everything. In the cases where you're calling kinit all by itself, this doesn't work as expected at the time of this writing.
+
+.. code:: shell
+
+   % kinit account@REALM
+   kinit: Pre-authentication failed: Invalid argument while getting initial credentials
+   
+A `bugzilla <https://bugzilla.redhat.com/show_bug.cgi?id=1510734>`__ was opened about this issue in 2017, a `pagure <https://pagure.io/freeipa/issue/4411>`__ issue was opened in 2014 about this exact scenario, where IPA is configured for password+OTP and a user has an assigned token. There is currently one workaround, which is using `kinit -n` to perform anonymous processing.
+
+.. code: shell
+
+   # On the IPA server, PKINIT needs to be enabled
+   % ipa-pkinit-manage status
+   PKINIT is enabled
+
+   # IPA Clients must have the krb5-pkinit package installed
+   % yum install krb5-pkinit
+
+   # Perform the anonymous processing
+   % kinit -n
+   % klist
+   Ticket cache: KCM:0:90387
+   Default principal: WELLKNOWN/ANONYMOUS@WELLKNOWN:ANONYMOUS
+
+   Valid starting       Expires              Service principal
+   01/14/2021 01:36:01  01/15/2021 01:36:00  krbtgt/EXAMPLE.COM@EXAMPLE.COM
+   # Using the cache value, kinit
+   # The "value" will be password+OTP instead of First Factor/Second Factor
+   % kinit -T KCM:0:90387 user@EXAMPLE.COM
+   Enter OTP Token Value:
+
 .. rubric:: Footnotes
 
 .. [#f1] For more information on DNS for FreeIPA, please read `this page <https://www.freeipa.org/page/DNS>`__ and `this page <https://www.freeipa.org/page/Deployment_Recommendations#DNS>`__
