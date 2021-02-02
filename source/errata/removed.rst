@@ -30,6 +30,11 @@ Removed articles
 Removed information
 -------------------
 
+02-02-2021
+
+- Remove manual Wine installation tips for New Vegas and outdated modding
+  instructions. Prefer Proton and the Viva New Vegas installation guide.
+
 12-06-2019
 
 - Remove PCSX2 instructions since the RPMFusion package no longer exists. You
