@@ -8,13 +8,13 @@ By default on Fedora, the directory Docker stores data in (images, etc.) is ``/v
 Rather than changing the systemd service file, you can simply create ``/etc/docker/daemon.json``::
 
    {
-       "graph": "/mnt",
-       "storage-driver": "overlay2"
+       "graph": "/mnt"
    }
    
 .. note::
 
-   ``overlay2`` should be replaced with whatever is shown in ``docker info``.
+   This page previously recommended setting the storage driver. If it's specified in both the config file
+   and as a flag (as it is in recent versions of Fedora), Docker will fail to start.
 
    ``/mnt`` should point to the root directory. For example, if you specify ``/mnt/docker``, the final
    path is ``/mnt/docker/docker``.
