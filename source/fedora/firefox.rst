@@ -30,3 +30,12 @@ run the test at https://www.cloudflare.com/ssl/encrypted-sni/ to check your
 results.
 
 Source: https://www.reddit.com/r/firefox/comments/a5evhr/configure_dns_over_https_in_firefox/
+
+Disable ``network.http.referer.spoofSource``
+--------------------------------------------
+
+Some privacy guides or tools suggest you enable this setting. However, it can
+break websites. This `article
+<https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/>`_
+suggests using setting ``network.http.referer.XOriginPolicy`` and
+``network.http.referer.XOriginTrimmingPolicy`` to ``2`` instead.
