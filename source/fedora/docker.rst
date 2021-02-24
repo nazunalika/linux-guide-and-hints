@@ -19,6 +19,13 @@ Rather than changing the systemd service file, you can simply create ``/etc/dock
    ``/mnt`` should point to the root directory. For example, if you specify ``/mnt/docker``, the final
    path is ``/mnt/docker/docker``.
 
+To ensure that the directory has the proper selinux contexts (not doing so will result in obscure errors),
+you can copy over the directory structure by doing:
+
+.. code-block:: bash
+
+    cp -aR /var/lib/docker /path/to/new/directory
+
 After that, reload the changes (it may be a good idea to delete or backup the old directory):
 
 .. code-block:: bash
