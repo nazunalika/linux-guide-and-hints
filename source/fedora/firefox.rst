@@ -17,20 +17,6 @@ If you are using a custom GTK theme for your window manager, you need to instruc
 
 If that's inconvenient, you can add the change to Firefox directly. Go to ``about:config`` and add a new key called ``widget.content.gtk-theme-override``. Set the value to ``Adwaita:light`` or whatever you prefer.
 
-Enabling Secure DNS and Encrypted SNI
--------------------------------------
-
-For some reason, this is disabled by default. First, ensure you're using
-Cloudflare's DNS servers 1.1.1.1 and 1.0.0.1. Then go to Firefox Options >
-General > Network Settings and check the box "Enable DNS over HTTPS" (by
-default this will use Mozilla's provider). Then, in ``about::config`` set
-``network.trr.bootstrapAddress`` to ``1.1.1.1`` and
-``network.security.esni.enabled`` to ``true``. After restarting your browser,
-run the test at https://www.cloudflare.com/ssl/encrypted-sni/ to check your
-results.
-
-Source: https://www.reddit.com/r/firefox/comments/a5evhr/configure_dns_over_https_in_firefox/
-
 Disable ``network.http.referer.spoofSource``
 --------------------------------------------
 

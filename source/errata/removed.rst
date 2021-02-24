@@ -30,6 +30,10 @@ Removed articles
 Removed information
 -------------------
 
+02-24-2021
+
+- Remove ESNI info which seems to be broken/vaporware at the moment.
+
 02-02-2021
 
 - Remove manual Wine installation tips for New Vegas and outdated modding
