@@ -211,3 +211,17 @@ be generated in ``pfx``.
     .. code-block:: bash
 
         env STEAM_COMPAT_DATA_PATH="/path/to/$APP_ID" proton run # ...
+
+mf_install
+**********
+
+As of Proton-6.1-GE2 I've found that some games still need the `Media
+Foundation workaround <https://github.com/z0z0z/mf-install>`_ for cutscenes and
+movies (Bulletstorm is one of them). In fact, Proton-GE doesn't have the verb
+at all anymore. However, the default installation instructions don't work.
+
+Simply run:
+
+.. code-block:: bash
+
+    PROTON="/path/to/proton/directory" WINEPREFIX="/path/to/prefix" ./mf-install.sh -proton
