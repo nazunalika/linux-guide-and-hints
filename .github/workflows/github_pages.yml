@@ -39,7 +39,6 @@ jobs:
           ${{ runner.os }}-pip-
 
     - name: pip dependencies
-      if: steps.pip-cache.outputs.cache-hit != 'true'
       run: |
         pip3 install -U --user -r requirements.txt
 
