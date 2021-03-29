@@ -194,10 +194,10 @@ git-annex is a location/metadata tracker that's built on top of git. It essentia
 
 As far as I'm aware, git-annex doesn't track permissions or xattrs (important
 for SELinux). However, etckeeper has some helper scripts which store and
-restore metadata: `30store-metadata
-<https://git.joeyh.name/index.cgi/etckeeper.git/tree/pre-commit.d/30store-metadata>`_
-and `30restore-etckeeper
-<https://git.joeyh.name/index.cgi/etckeeper.git/tree/pre-commit.d/30store-metadata>`_
+restore metadata: `20store-metadata
+<https://git.joeyh.name/index.cgi/etckeeper.git/tree/commit.d/20store-metadata>`_
+and `20restore-etckeeper
+<https://git.joeyh.name/index.cgi/etckeeper.git/tree/init.d/20restore-etckeeper>`_
 respectively. Rename the scripts to ``git-store-metadata`` and
 ``git-restore-metadata`` and add them to your ``PATH``.  You will need to set
 the ``VCS`` environment variable to ``git``.
