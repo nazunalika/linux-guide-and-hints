@@ -89,6 +89,13 @@ For Fish:
         source ~/.keychain/(hostname)-fish
     end
 
+To avoid future issues, make sure you have a permanent hostname. You can set it
+with:
+
+.. code-block:: fish
+
+    hostnamectl set-hostname hostname
+
 .. note::
 
     At the time of writing the Fish example in the man Keychain page is broken.
