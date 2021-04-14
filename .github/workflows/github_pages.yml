@@ -38,6 +38,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
+    - uses: actions/cache@v2
+      id: sphinx-cache
+      with:
+        path: $GITHUB_WORKSPACE/build/html
+        key: ${{ runner.os }}-sphinx-${{ hashFiles('**/environment.pickle') }}
+        restore-keys: |
+          ${{ runner.os }}-sphinx-
+
     - name: pip dependencies
       run: |
         pip3 install -U --user -r requirements.txt
@@ -50,7 +58,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
-        make html SPHINXBUILD=$HOME/.local/bin/sphinx-build SPHINXOPTS=-Ea
+        make html SPHINXBUILD=$HOME/.local/bin/sphinx-build
         ./node_modules/grunt/bin/grunt build
       env:
         CI: true
