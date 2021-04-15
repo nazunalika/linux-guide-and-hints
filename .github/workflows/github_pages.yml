@@ -41,7 +41,7 @@ jobs:
     - uses: actions/cache@v2
       id: sphinx-cache
       with:
-        path: $GITHUB_WORKSPACE/build/html
+        path: ${{ github.workspace }}/build/html
         key: ${{ runner.os }}-sphinx-${{ hashFiles('**/environment.pickle') }}
         restore-keys: |
           ${{ runner.os }}-sphinx-
