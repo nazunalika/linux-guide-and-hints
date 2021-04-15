@@ -75,3 +75,15 @@ Upon logging into XFCE, desktop freezes until you switch to another TTY
 -----------------------------------------------------------------------
 
 If you have ``FullCompositionPipeline`` enabled in Nvidia settings, you may run into this problem. This is a long standing bug, see `#14950 <https://bugzilla.xfce.org/show_bug.cgi?id=14950>`_. The solution is to either edit or delete `$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml`. Use a different mechanism for setting up your displays.
+
+Alternative fonts
+-----------------
+
+There is a COPR repo called `better fonts
+<https://copr.fedorainfracloud.org/coprs/dawid/better_fonts/>`_ which adds an
+alternative font stack and adds some settings for font rendering. Whether or
+not it's "better" is subjective, but it adds alternatives for fonts like Arial.
+
+Since the project is GNOME based, you will have to make a couple of manual
+changes for XFCE.  Go to **Settings** -> **Appearance** -> **Fonts**, change
+``Hinting`` to ``Slight`` and ``Sub-pixel order`` to ``RGB``.
