@@ -21,7 +21,7 @@ due to `credential stuffing attacks <https://www.owasp.org/index.php/Credential_
 Regardless of what your password ends up being or how complex your password is,
 you should be using password manager software to store your passwords. For the
 desktop, I highly recommend `KeePassXC <https://keepassxc.org/>`_ and for
-mobile `Strongbox <https://github.com/strongbox/strongbox>`_ as KeePassXC does
+mobile `Strongbox <https://github.com/strongbox-password-safe/Strongbox>`_ as KeePassXC does
 not have a mobile client. You can also use `Pass
 <https://www.passwordstore.org/>`_, which is a commandline password store that
 uses GPG to encrypt your passwords and has a plethora of third party
