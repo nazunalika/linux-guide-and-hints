@@ -30,3 +30,13 @@ will exhibit the same symptoms. However if you find the effect annoying, do:
 * Click the "Advanced tab"
 
 * Under "Fading and Colormaps", uncheck "Fade to Black when Blanking"
+
+
+Conflict with xfce-screensaver
+------------------------------
+
+XFCE now ships its own screensaver application which is known to conflict with
+xscreensaver. In **Settings**, click on the **Screensaver** icon (the one with
+a starry background) then uncheck both the **Enable Screensaver** and **Enable
+Lock Screen** options. In **Session and Startup** under **Application
+Autostart** make sure to disable xfce-screensaver as well.
