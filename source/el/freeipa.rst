@@ -2281,6 +2281,11 @@ Like with the IPA httpd certificates, I noticed at least 4 certificates stuck be
            track: yes
            auto-renew: yes
 
+Default Certificates with SAN
++++++++++++++++++++++++++++++
+
+A question that arises now and again is how to setup a load balancer for FreeIPA's LDAP servers whether it's an actual load balancer (layer 4) or some sort of DNS record with multiple A records, or perhaps with some sort of round robin DNS. The issue is that the certificate verification fails, because the certificate being presented is of the IPA server itself with no SAN. To address this, you have to create a host that has the name of the load balancer or DNS record you plan on using and allow the IPA servers to manage the host.
+
 Kerberos
 --------
 

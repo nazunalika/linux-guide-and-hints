@@ -2,9 +2,9 @@ NAT/Router
 ^^^^^^^^^^
 
 .. meta::
-       :description: How to setup and configure a router and/or a simple NAT service in CentOS
+       :description: How to setup and configure a router and/or a simple NAT service in Rocky Linux
 
-This page goes over setting up a router or a simple NAT service for CentOS.
+This page goes over setting up a router or a simple NAT service for Rocky Linux.
 
 .. contents::
 
@@ -13,7 +13,7 @@ Requirements
 
 Here are the list of requirements below.
 
-* CentOS 7, 8 or Fedora
+* Rocky Linux 7, 8 or Fedora
 * An active internet connection to install the packages required or available internal mirrors
 * A system with at least two (2) network interfaces
 
@@ -36,7 +36,7 @@ To properly setup the system, a few things have to be done.
 FirewallD
 +++++++++
 
-When using firewalld, CentOS 7+ and all Fedora's can setup a simple NAT with masquerade without having to know iptables or nftables syntax. This may be more or less ideal for some users who want to quickly get a NAT and router going. The drawback is that the syntax and knowing how the rules work are hidden behind a frontend. To setup a NAT:
+When using firewalld, Rocky Linux 7+ and all Fedora's can setup a simple NAT with masquerade without having to know iptables or nftables syntax. This may be more or less ideal for some users who want to quickly get a NAT and router going. The drawback is that the syntax and knowing how the rules work are hidden behind a frontend. To setup a NAT:
 
 .. code-block:: shell
 
@@ -59,9 +59,9 @@ When using firewalld, CentOS 7+ and all Fedora's can setup a simple NAT with mas
 iptables
 ++++++++
 
-.. warning:: CentOS 7 or older
+.. warning:: Rocky Linux 7 or older
 
-   This is for CentOS 7 or Fedora where iptables is the default. While nftables can be installed on CentOS 7, the NAT functionality does not seem to work properly. This may have changed. Use nftables at your own risk.
+   This is for Rocky Linux 7 or Fedora where iptables is the default. While nftables can be installed on Rocky Linux 7, the NAT functionality does not seem to work properly. This may have changed. Use nftables at your own risk.
 
 To setup NAT with iptables, the following will suffice as the building blocks. Assuming eth0 is the WAN and eth1 is the LAN.
 
@@ -91,11 +91,11 @@ To setup NAT with iptables, the following will suffice as the building blocks. A
 nftables
 ++++++++
 
-.. warning:: CentOS 8 or Fedora Only
+.. warning:: Rocky Linux 8 or Fedora Only
 
-   This is for CentOS 8 or Fedora where nftables is the default. While iptables exists for CentOS 8 still, it is being superseded by nftables. It is recommended to stick with nftables.
+   This is for Rocky Linux 8 or Fedora where nftables is the default. While iptables exists for Rocky Linux 8 still, it is being superseded by nftables. It is recommended to stick with nftables.
 
-The syntax for nftables is a little tricky and quite different from what we may be used to with iptables. This may be an oversimplification and may or may not work. For ideas, you can view the files in /etc/nftables. This is a rough example of what I tried on migration to CentOS 8.
+The syntax for nftables is a little tricky and quite different from what we may be used to with iptables. This may be an oversimplification and may or may not work. For ideas, you can view the files in /etc/nftables. This is a rough example of what I tried on migration to Rocky Linux 8.
 
 .. code-block:: shell
 

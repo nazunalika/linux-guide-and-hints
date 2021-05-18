@@ -3,7 +3,7 @@ OpenLDAP
 
 .. note:: Deprecation
 
-   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly CentOS). This document will stay here as a reference for those who are still using the server software on RHEL 7 and/or potentially using the OpenLDAP LTB version of the software. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
+   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on RHEL 7 and/or potentially using the OpenLDAP LTB version of the software. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
 
 .. meta::
     :description: How to install OpenLDAP on RHEL 7, configure and set up accounts for host access, etc. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO.
@@ -20,7 +20,7 @@ Requirements
 
 First and foremost, we have a list of requirements. Keep in mind, if you do not fulfill these requirements, you may run into some issues down the road.
 
-* RHEL 7 or Derivative like CentOS
+* RHEL 7 or Derivative like Rocky Linux
 * DNS Server (LDAP does NOT appreciate IP addresses for the URI)
 * An active internet connection to install the packages required
 
