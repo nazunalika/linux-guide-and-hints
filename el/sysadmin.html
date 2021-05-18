@@ -1,0 +1,1097 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta content="The System Administrator Experience for Red Hat based distributions, such as Rocky Linux 8." name="description" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' https://github.githubassets.com/ cdn.jsdelivr.net stackpath.bootstrapcdn.com; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net stackpath.bootstrapcdn.com;">
+  
+  
+  <title>The System Administrator Experience &mdash; Linux Guide and Hints</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
+    
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unbound" href="unbound.html" />
+    <link rel="prev" title="OpenLDAP" href="openldap.html" /> 
+
+  <noscript>
+      <link rel="stylesheet" href="../_static/css/nojs.css" type="text/css">
+  </noscript>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+<a class="sr-only sr-only-focusable" href="#main">Skip to main content</a>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Linux Guide and Hints
+          
+
+          
+            
+            <img src="../_static/img/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.6
+              </div>
+            
+          
+
+          
+<form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <div role="search">
+        <input type="text" aria-label="Search docs" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </div>
+</form>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Errata</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../errata/removed.html">Errata</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../errata/removed.html#removed-articles">Removed articles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../errata/removed.html#removed-information">Removed information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../errata/upcoming.html">Upcoming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../errata/upcoming.html#annoucements">Annoucements</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security/antipatterns.html">Anti-patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../security/antipatterns.html#not-using-https">Not using HTTPS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../security/antipatterns.html#insecure-requests">Insecure requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../security/antipatterns.html#using-insecure-ciphers">Using insecure ciphers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../security/antipatterns.html#password-security">Password security</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../security/antipatterns.html#using-deprecated-hashing-functions">Using deprecated hashing functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../security/antipatterns.html#arbitrary-password-lengths">Arbitrary password lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../security/antipatterns.html#client-side-hashing">Client-side hashing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../security/antipatterns.html#disabling-mitigations">Disabling mitigations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/antipatterns.html#disabling-selinux">Disabling SELinux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security/passwords.html">Password management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../security/passwords.html#backing-your-databases-up-to-your-phone">Backing your databases up to your phone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/passwords.html#faq">FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../security/passwords.html#isn-t-using-a-single-password-bad">Isn’t using a single password bad?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../security/passwords.html#but-your-master-password-can-be-stolen-by-a-keylogger">But your master password can be stolen by a keylogger</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../misc/euphemism.html">The Euphemism Review</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/euphemism.html#please-don-t-say-timeframe">Please don’t say “timeframe”</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/ipv6he.html">Hurricane Electric IPv6 Tunnel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/mingw.html">MinGW</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/mingw.html#why-not-use-wsl">Why not use WSL?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/port465.html">Is port 465 deprecated?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/vnc.html">VNC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/vnc.html#setup">Setup</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fedora</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gettingstarted.html#other-things-negativo17-related">Other things negativo17 related</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/backups.html">Backups</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/backups.html#id1">Duplicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/backups.html#gpg">GPG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/backups.html#keychain">Keychain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/backups.html#unattended-backups">Unattended backups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/backups.html#id3">git-annex</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/bup.html">Bup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/cipc.html">Cisco IP Communicator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-playonlinux">Installing via PlayOnLinux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#installing-via-regular-wine">Installing via Regular Wine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/cipc.html#pulse-audio">Pulse Audio</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/clang.html">Clang</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/clang.html#msan-line-numbers">MSan line numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/clang.html#clang-format">clang-format</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/copr.html">COPR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/copr.html#gzdoom">gzdoom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/copr.html#ircd">ircd</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/dnscrypt.html">dnscrypt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/docker.html">Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/docker.html#changing-the-data-directory">Changing the data directory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/emulators.html">Emulators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#dolphin">Dolphin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#wii-controls">Wii controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#game-idiosyncrasies">Game idiosyncrasies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/emulators.html#paper-mario-the-thousand-year-door">Paper Mario: The Thousand-Year Door</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#retroarch">RetroArch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#building-beetle-psx-libretro-mednafen">Building beetle-psx-libretro (mednafen)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#enabling-the-vulkan-renderer-and-32-bit-color">Enabling the Vulkan renderer and 32-bit color</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#shaders">Shaders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mednafen-randomly-speeds-up">mednafen randomly speeds up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#mupen64plus-unofficial-faq">Mupen64Plus unofficial FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#where-does-mupen64plus-like-to-put-files">Where does Mupen64Plus like to put files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-m-getting-a-dlopen-error">I’m getting a <code class="docutils literal notranslate"><span class="pre">dlopen</span></code> error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#keycode-values">Keycode values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#i-changed-one-of-the-hi-res-textures-and-no-change-is-visible">I changed one of the hi-res textures and no change is visible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#recommended-plugins">Recommended plugins?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#how-do-i-compile-it">How do I compile it?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#gba">GBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#id1">MAME</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/emulators.html#example-mame-ini">Example <code class="docutils literal notranslate"><span class="pre">mame.ini</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/emulators.html#example-command-line-options">Example command line options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#speed">Speed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#ui-script">UI script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#id2">mGBA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#controller-joystick-issue">Controller/joystick issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#building">Building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/emulators.html#cmake-variables">CMake variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/emulators.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#link-cable-support">Link cable support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id3">BGB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id4">mGBA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/emulators.html#kega-fusion">Kega Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id5">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#id6">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/emulators.html#no-sound">No Sound?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/firefox.html">Firefox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/firefox.html#disable-automatic-redirect-to-a-website-if-typing-an-invalid-url">Disable automatic redirect to a website if typing an invalid URL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/firefox.html#glitchy-ui-when-using-custom-gtk-theme">Glitchy UI when using custom GTK theme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/firefox.html#forcing-dark-theme">Forcing dark theme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/firefox.html#disable-network-http-referer-spoofsource">Disable <code class="docutils literal notranslate"><span class="pre">network.http.referer.spoofSource</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/gcc.html">GCC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#installing-prerequisites-gmp-mpfr-mpc">Installing prerequisites: GMP, MPFR, MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#building">Building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#docker">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gcc.html#invalid-instruction-suffix-for">“invalid instruction suffix for”</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/git.html">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/git.html#setting-up-cloudflare-and-github-pages">Setting up Cloudflare and Github pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/git.html#gpg">GPG</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/gitlab.html">Gitlab</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gitlab.html#ssh-and-git-access">SSH and Git access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gitlab.html#enabling-https-with-let-s-encrypt">Enabling HTTPS with Let’s Encrypt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/gnometips.html">GNOME Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gnometips.html#system-tray">System Tray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gnometips.html#add-minimize-maximize">Add minimize/maximize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/gnometips.html#pidgin">Pidgin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/grub.html">GRUB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/grub.html#fedora-grub-menu-missing">Fedora Grub Menu Missing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/iphone.html">iPhone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/kubernetes.html">Kubernetes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/kubernetes.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/mcafee.html">McAfee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/misc.html">Misc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#using-ld-library-path-in-fish">Using <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> in Fish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#unable-to-find-liblzma">Unable to find <code class="docutils literal notranslate"><span class="pre">LibLZMA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#unable-to-find-wxwidgets">Unable to find <code class="docutils literal notranslate"><span class="pre">wxWidgets</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#update-all-repositories-in-the-current-directory">Update all repositories in the current directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#youcompleteme-crashes-due-to-libtinfo-so-version-mismatch">YouCompleteMe crashes due to <code class="docutils literal notranslate"><span class="pre">libtinfo.so</span></code> version mismatch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#keepasshttp-no-longer-works">KeePassHttp no longer works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#disable-tcp-ip-and-use-sockets-for-mysql">Disable TCP/IP and use sockets for MySQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#selinux-is-preventing-abrt-action-sav-from-write-access-on-the-directory-var-lib-rpm">SELinux is preventing <code class="docutils literal notranslate"><span class="pre">abrt-action-sav</span></code> from write access on the directory /var/lib/rpm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#swapping-desktop-environments">Swapping Desktop Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#upon-logging-into-xfce-desktop-freezes-until-you-switch-to-another-tty">Upon logging into XFCE, desktop freezes until you switch to another TTY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/misc.html#alternative-fonts">Alternative fonts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/mpv.html">mpv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/negativo.html">negativo17 repositories and Nvidia drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/negativo.html#multimedia">Multimedia</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/negativo.html#nvidia">Nvidia</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/negativo.html#dkms">DKMS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/packaging.html">Packaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pip.html">pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/powerline.html">Powerline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#installing-via-dnf">Installing via <code class="docutils literal notranslate"><span class="pre">dnf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/powerline.html#enabling-powerline-installed-via-dnf">Enabling powerline (installed via <code class="docutils literal notranslate"><span class="pre">dnf</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#fish">Fish</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fedora/powerline.html#oh-my-fish">oh-my-fish</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#vim">vim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/powerline.html#tmux">tmux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/pulseaudio.html">Pulseaudio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#flat-volume">Flat Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/pulseaudio.html#sound-crackling">Sound Crackling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vim.html">vim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/vim.html#plugins">Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/virtualbox.html">VirtualBox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/virtualbox.html#failed-to-start-load-kernel-modules-after-uninstalling">“Failed to start Load Kernel Modules” after uninstalling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/virtualbox.html#kernel-modules-do-not-build-upon-kernel-update">Kernel modules do not build upon kernel update</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/vmware.html">VMware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/winetips.html">Wine Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#out-of-memory-errors">Out of memory errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#new-vegas">New Vegas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#modding">Modding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#loot">LOOT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#gmdx">GMDX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/winetips.html#proton">Proton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fedora/winetips.html#mf-install">mf_install</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fedora/xscreensaver.html">XScreenSaver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#gamma-or-brightness-is-too-high-when-unlocking">Gamma or brightness is too high when unlocking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#disable-fade-to-black-effect">Disable fade to black effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fedora/xscreensaver.html#conflict-with-xfce-screensaver">Conflict with xfce-screensaver</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Enterprise Linux</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="builds.html">Auto-Provisioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freeipa.html">FreeIPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#dns">DNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#delegation">Delegation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#server-setup">Server Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#required-packages">Required Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica">Replica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica-automation">Replica Automation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#server-migration-upgrade">Server Migration/Upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#active-directory-trust">Active Directory Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#disable-anonymous-bind">Disable Anonymous Bind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#client-setup">Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-7-8">RHEL 7 &amp; 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#mac-clients">Mac Clients</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#discovery-and-settings">Discovery and Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#suse">SUSE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#hbac">HBAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#sudo">SUDO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#legacy-client-setup">Legacy Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-10">Solaris 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-11">Solaris 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#automated-scripts">Automated Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ad-trust-double-uid">AD Trust Double UID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#omnios-illumos">OmniOS/Illumos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-hbac">Legacy HBAC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#id2">Solaris 10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#id3">Solaris 11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#omnios">Omnios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#pam-hbac-conf">pam_hbac.conf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#pam-configuration">PAM Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#login-with-ad-users-to-legacy-clients">Login with AD Users to Legacy Clients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-active-directory-trust-notes">Legacy Active Directory Trust Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#domain-resolution-order-oddness">Domain Resolution Order Oddness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#solaris-weirdness">Solaris Weirdness</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#domain-options">Domain Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ad-and-ipa-group-names-with-short-names">AD and IPA group names with short names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#sites-and-ad-dc-s">Sites and AD DC’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#set-default-shell-for-ad-users">Set Default Shell for AD Users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#automated-kerberos-principals">Automated Kerberos Principals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#hadoop-cloudera">Hadoop/Cloudera</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#cloudera-manager-woes">Cloudera Manager Woes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#the-solution">The Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#dns-forwarding">DNS Forwarding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#dns-forwarding-to-dot">DNS Forwarding to DoT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#logging">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#audit-logs">Audit Logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#certificates">Certificates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#renewed-ipa-http-certificate-stuck">Renewed IPA HTTP Certificate Stuck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ca-related-certificates-stuck">CA Related Certificates Stuck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#default-certificates-with-san">Default Certificates with SAN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#kerberos">Kerberos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#accounts-with-otp-enabled">Accounts with OTP Enabled</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nat.html">NAT/Router</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nat.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nat.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#interface-setup">Interface Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#firewalld">FirewallD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#iptables">iptables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#nftables">nftables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#ipv6-forwarding">IPv6 Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#dhcp">DHCP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="openldap.html">OpenLDAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#packages">Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#certificates">Certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-server-configuration">LDAP Server Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-structure">LDAP Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-migration">Add Users via Migration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-ldif">Add Users via LDIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#nfs-export-home-directories">NFS Export Home Directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#firewall">Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#client">Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#rhel-6-rhel-7-fedora-20">RHEL 6/RHEL 7/Fedora 20+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#automounting-home-directories">Automounting Home Directories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#ldap-structure-add-ons">LDAP Structure Add-ons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#sudo">SUDO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#member-groups">Member Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#referential-integrity">Referential Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#acl">ACL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#disable-anonymous-binding">Disable Anonymous Binding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-logging">LDAP Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#password-policy">Password Policy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The System Administrator Experience</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#certification-completions">Certification Completions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-and-changelog">Notes and Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#begin">Begin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup-a-kvm-hypervisor">Setup a KVM Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dhcp-and-dns">DHCP and DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#server-and-content-management">Server and Content Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connect-content-management-to-hypervisor">Connect Content Management to Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spin-up-vm-s-using-katello-spacewalk">Spin Up VM’s Using Katello/Spacewalk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-freeipa">Setup FreeIPA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spin-up-two-vm-s-for-databases">Spin Up Two VM’s for Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spin-up-configuration-management">Spin Up Configuration Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spin-up-vm-for-nfs-iscsi">Spin Up VM for NFS/iSCSI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-bacula-server">Deploy Bacula Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-four-vm-s">Deploy Four VM’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-load-balancer-vm">Deploy Load Balancer VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-postfix-vm">Deploy Postfix VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-nagios-vm">Setup Nagios VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-syslog-vm">Setup Syslog VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#document-your-work">Document Your Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rpm-build-server">RPM Build Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-server">Git Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ansible">Ansible</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="unbound.html">Unbound</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unbound.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unbound.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unbound.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unbound.html#dns-over-tls-dot">DNS over TLS (DoT)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">MacOS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../macos/image.html">Create macOS ISO Images</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Training Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex362.html">EX362 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#exam-information">Exam Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#hardware-recommendations">Hardware Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#installing-freeipa-red-hat-idm-with-replicas-for-growth-and-scale">Installing FreeIPA/Red Hat IdM with replicas for growth and scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#creating-users-groups-and-policies">Creating Users, Groups, and Policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#new-passwords-expired">New Passwords Expired</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#install-and-configure-idm-clients">Install and configure IdM Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-roaming-automounted-home-directories">Configure roaming/automounted home directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#use-the-rest-api-to-query-idm">Use the REST api to query IdM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-kerberized-services">Configure Kerberized services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#create-a-trust-with-active-directory">Create a trust with Active Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-control-policies-and-user-access">Configure/control policies and user access</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#rbac">RBAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#hbac">HBAC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-and-manage-a-certificate-authority">Configure and manage a certificate authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#back-up-an-idm-infrastructure">Back up an IdM infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-idm-as-an-ldap-backend-for-external-services">Configure IdM as an LDAP backend for external services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#kerberos">Kerberos</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#implement-a-sso">Implement a SSO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex407.html">EX407 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex407.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex415.html">EX415 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#exam-information">Exam Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#use-red-hat-ansible-engine">Use Red Hat Ansible Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-intrusion-detection">Configure Intrusion Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-encrypted-storage">Configure Encrypted Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#restrict-usb-devices">Restrict USB Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#manage-system-login-security-using-pluggable-authentication-modules-pam">Manage System Login Security using Pluggable Authentication Modules (PAM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-system-auditing">Configure System Auditing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-selinux">Configure SELinux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex415.html#package-binary-glossary">Package &amp; Binary Glossary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex415.html#command-glossary">Command Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#enforce-security-compliance">Enforce Security Compliance</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">About Us</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/contributors.html">Contributors</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Linux Guide and Hints</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The System Administrator Experience</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/el/sysadmin.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <main role="main" id="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-system-administrator-experience">
+<h1>The System Administrator Experience<a class="headerlink" href="#the-system-administrator-experience" title="Permalink to this headline">¶</a></h1>
+<p>This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. But can provide a baseline for you.</p>
+<p>Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and Rocky Linux 8. Scientific Linux 7 is not supported.</p>
+<p>Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible. As such, we will be focusing on RHEL 8.</p>
+<div class="section" id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Software Replacements</h5><ul class="simple">
+<li>Postgresql can be replaced with MySQL/MariaDB</li>
+<li>Use Katello/Foreman or straight Pulp (<strong>recommended to use Katello</strong>, but you can try both) instead of Spacewalk</li>
+<li>You can replace KVM with ESXi if you wish, with specific caveats</li>
+<li>nagios can be replaced with icinga</li>
+<li>You can replace firewalld with the regular iptables service or nftables for 8 - This may be required for your virtual host</li>
+</ul>
+</div></div>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+General Notes</h5><ul class="simple">
+<li>It’s recommended to use colored vim syntax. Root doesn’t use vim when vim-enhanced is installed. You can make an alias for vi to run vim (not recommended).</li>
+<li>Turn on syntaxing in ~/.vimrc – syntax on</li>
+<li>Make the vim colors brighter in ~/.vimrc – set background=dark</li>
+<li>Export your EDITOR variable in ~/.bash_profile – export EDITOR=vim</li>
+<li>Keep selinux set to <strong>enforcing</strong></li>
+<li>It is recommended to <a class="reference external" href="http://www.bromosapien.net/media/index.php/Linux_Disable_FirewallD">disable firewalld</a> for your lab machine. Everything else can stay.</li>
+</ul>
+</div></div>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Hardware Requirements</h5><ul class="simple">
+<li>RAM - Minimum: 8GB, Recommended: 32GB</li>
+<li>CPU - Minimum: Quad Core i5, Recommended: Quad Core with HT i7 or Xeon</li>
+<li>Storage - Minimum: 1TB, Recommended: 4TB<ul>
+<li>This should be spread out with multiple disks. Don’t use one 4TB, for example. Use 2x2TB or 4x1TB.</li>
+</ul>
+</li>
+<li>Network - 1gb link recommended</li>
+</ul>
+<p>Please consider on building an actual lab machine that you can do this on.</p>
+</div></div>
+</div>
+<div class="section" id="certification-completions">
+<h2>Certification Completions<a class="headerlink" href="#certification-completions" title="Permalink to this headline">¶</a></h2>
+<p>Certification guidelines will be updated later.</p>
+</div>
+<div class="section" id="notes-and-changelog">
+<h2>Notes and Changelog<a class="headerlink" href="#notes-and-changelog" title="Permalink to this headline">¶</a></h2>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Post Experience Notes</h5>While this write up uses KVM exclusively, you may want to enhance your learning after the fact by setting up oVirt on your virtual host and also setting up manageiq. It may require you to redesign everything or even start over, but it is something you can do to say “Yes, I’ve used that product”.</div></div>
+<table border="1" class="docutils align-default">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Date</th>
+<th class="head">Changes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>May 10, 2016</td>
+<td><ul class="first last simple">
+<li>Added information about oVirt</li>
+<li>Added information about cobbler</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>Jul 27, 2018</td>
+<td><ul class="first last simple">
+<li>Accounting for Fedora 28</li>
+<li>Remove OpenLDAP from guide</li>
+<li>Remove spacewalk from the guide</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>Jul 23, 2019</td>
+<td><ul class="first last simple">
+<li>Started conversion to EL8</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>May 05, 2020</td>
+<td><ul class="first last simple">
+<li>Some changes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="begin">
+<h2>Begin<a class="headerlink" href="#begin" title="Permalink to this headline">¶</a></h2>
+<p>We’ll now begin the system administrator experience. We will provide from beginning to end, what to do, without giving away what has to be done or has to be configured. This is on you to perform. At the end, there is a “wiki” that you create where you will have a chance to document everything you did. I recommend writing down or putting in a word document what you are doing or have done throughout so it’ll make your wiki documentation much, much better.</p>
+<div class="section" id="setup-a-kvm-hypervisor">
+<h3>Setup a KVM Hypervisor<a class="headerlink" href="#setup-a-kvm-hypervisor" title="Permalink to this headline">¶</a></h3>
+<p>Now you’ll need to setup a KVM Hypervisor. You can do this on Fedora 33+ or Rocky 8. Because Rocky 8 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.</p>
+<p>You may want to make sure your hardware supports virtualization.</p>
+<pre><code class="language-none">egrep --color 'vmx|svm' /proc/cpuinfo</code></pre><div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Recommendations and Options</h5><ul class="simple">
+<li>Create multiple datastores (storage pools where the VM images will sit)<ul>
+<li>Example, 2x2TB means you can make two datastores, 4x1TB means you can make four.</li>
+</ul>
+</li>
+<li>Attempt to use LVM as the backing for the store.<ul>
+<li>You can create a Volume Group and have the VM’s live as Logical Volumes.</li>
+<li>You can create a Volume Group and have one or more partitions to make “more” datastores</li>
+</ul>
+</li>
+<li>Destroy the “built in” network that libvirt already provides and make your own<ul>
+<li>It already makes virbr0. Make your own OR modify it to not support DHCP/DNS (eg, static only)</li>
+</ul>
+</li>
+</ul>
+</div></div>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Hints</h5><ul class="simple">
+<li>Most of your commands will be from the following:<ul>
+<li>virsh</li>
+<li>fdisk/parted</li>
+<li>pvcreate &amp; vgcreate</li>
+<li>mkfs</li>
+</ul>
+</li>
+<li>To get the most performance out of your VM’s disk wise, consider these options:<ul>
+<li>Avoid QCOW2</li>
+<li>Use virtio for the hardware whenever possible</li>
+<li>Set caching to “none” for hard disks on VM’s when using raw volumes or partitions</li>
+</ul>
+</li>
+</ul>
+</div></div>
+</div>
+<div class="section" id="dhcp-and-dns">
+<h3>DHCP and DNS<a class="headerlink" href="#dhcp-and-dns" title="Permalink to this headline">¶</a></h3>
+<p>You’ll need to setup a DHCP and DNS server. You have a few choices.</p>
+<ol class="arabic simple">
+<li>Create two VM’s to run DHCP for HA and create FreeIPA servers to handle DNS (two replicas, doubles as authentication for Linux/UNIX clients)</li>
+<li>Create two VM’s to run DHCP for HA and create two standalone BIND servers as master/slave</li>
+<li>Use your hypervisor to host DHCP and BIND (not recommended)</li>
+</ol>
+<p>It would be sensible to do “1”, if you do “2”, you at least get more exposure to how zone files are created and the like.</p>
+<p>Also, it is possible to allow cobbler handle DHCP and DNS or integrate directly into DNS such as making changes, but this is outside the scope of this write up.</p>
+<div class="card">
+<div class="card-header bg-warning">
+<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
+Do NOT run DHCP from the FreeIPA replicas. The FreeIPA servers should have STATIC addresses set.</div></div>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+When you are setting up DHCP and DNS on separate servers (such as FreeIPA replicas), the DHCP server needs to be configured to tell all the clients the true gateway (this is either a VM in on ESX/oVirt or your hypervisor if you are doing straight KVM) and the DNS servers.</div></div>
+<p>Setup a VM or your hypervisor as the gateway to the internet.</p>
+<ol class="arabic simple">
+<li>IP forwarding enabled (/etc/sysctl.conf)</li>
+<li>NAT enabled (firewalld can help you with this, check out the zones)</li>
+<li>A virtual interface (hypervisor) or a second interface for your network (as a VM)</li>
+</ol>
+<p>When setting up DHCP and DNS:</p>
+<ol class="arabic simple">
+<li>Decide on a domain name. This can be a domain you own or one you make up internally. I personally used one of my four domains for this lab. RFC expects that internal networks have world routable domains. This is up to you. <strong>Do NOT use ‘.local’ domains</strong></li>
+<li>Setup DNS forwarders to ensure your VM’s can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed in BIND or you can set them in the FreeIPA interface. You can list as many as you want. <strong>Do NOT put these extra DNS servers in your dhcpd.conf configuration</strong></li>
+<li>You need two zones. Forward Zone: This is for your domain, name to an IP. Reverse Zone: This is for reverse IP lookups, IP to a name. FreeIPA handles this for you on setup if you state you are handling a reverse zone and what the subnet is.</li>
+</ol>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Bonus Points</h5><ul class="simple">
+<li>Setup Dynamic DNS - This requires an almost specific configuration between dhcpd and named (bind) or FreeIPA’s named.</li>
+<li>Dynamic DNS needs to be aware of a domain name</li>
+<li>Use SSSD for the IPA clients to update their DNS automatically (FreeIPA only) - this may not be required if dhcpd and named are configured correctly</li>
+<li>Setup an unbound service running on port 9053 that forwards to 1.1.1.1 for encrypted DNS</li>
+</ul>
+</div></div>
+<p><strong>From this point forward, you are to ensure each of your VM’s that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate or the ipa equivalent to add additional entries as needed if you are implementing static A records or CNAME records.</strong></p>
+</div>
+<div class="section" id="server-and-content-management">
+<h3>Server and Content Management<a class="headerlink" href="#server-and-content-management" title="Permalink to this headline">¶</a></h3>
+<p>At this point, you’ll need to setup Katello on a VM. I recommend using Katello as <strong>Satellite 6</strong> has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat has phased out <strong>Red Hat Network Classic</strong> and <strong>Satellite 5</strong>.</p>
+<p>Katello, go <a class="reference external" href="http://www.katello.org/">here</a>.</p>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Heads up</h5><ul class="simple">
+<li>You’re going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there. Don’t try to host Fedora.</li>
+<li>Spacewalk has an odd “dependency” on wanting DHCP/TFTP to exist on the server at the same time. There is no way around this. You do not have to use it unless you are using cobbler (which needs TFTP and a specific DHCP configuration).</li>
+<li>Katello is resource heavy, it’s you may need to tune it.</li>
+</ul>
+</div></div>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Bonus Points</h5><ul class="simple">
+<li>Setup errata importation for the Rocky Channels/Repositories to properly see Advisories and Information for package updates</li>
+<li>Create custom kickstarts for your systems (this will help you out later)</li>
+</ul>
+</div></div>
+<p>Kickstart examples can be found at my <a class="reference external" href="https://github.com/nazunalika/useful-scripts/tree/master/centos">github</a>.</p>
+</div>
+<div class="section" id="connect-content-management-to-hypervisor">
+<h3>Connect Content Management to Hypervisor<a class="headerlink" href="#connect-content-management-to-hypervisor" title="Permalink to this headline">¶</a></h3>
+<p>Next you will need to connect your Content Management to your hypervisor. View their documentation to get an idea of how it works.</p>
+</div>
+<div class="section" id="spin-up-vm-s-using-katello-spacewalk">
+<h3>Spin Up VM’s Using Katello/Spacewalk<a class="headerlink" href="#spin-up-vm-s-using-katello-spacewalk" title="Permalink to this headline">¶</a></h3>
+<p>You will need to spin up two EL8 VM’s via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.</p>
+<p>If you find the clients aren’t registering on Katello, click <a class="reference external" href="https://theforeman.org/manuals/2.0/index.html">here</a>.</p>
+<p>If you want examples of a kickstart you can use, click <a class="reference external" href="https://github.com/nazunalika/useful-scripts/blob/master/centos/centos7-pci.ks">here</a>.</p>
+<p>If you find that you do not want to use Katello to perform this task, then you can setup cobbler and work it out from there. <strong>I currently do not have a tutorial for this, but there is plenty of documentation online.</strong> There are also ansible playbooks you could look at for examples if you wanted to go that route, but it may be time consuming and something to setup at the very end.</p>
+</div>
+<div class="section" id="setup-freeipa">
+<h3>Setup FreeIPA<a class="headerlink" href="#setup-freeipa" title="Permalink to this headline">¶</a></h3>
+<p>Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand nor having Windows AD.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://freeipa.org">FreeIPA</a></li>
+<li><a class="reference external" href="https://linuxguideandhints.com/centos/freeipa.html">FreeIPA Guide</a></li>
+</ul>
+<p>I recommend against setting up OpenLDAP for the case of UNIX authentication. For anything else, go for it.</p>
+</div>
+<div class="section" id="spin-up-two-vm-s-for-databases">
+<h3>Spin Up Two VM’s for Databases<a class="headerlink" href="#spin-up-two-vm-s-for-databases" title="Permalink to this headline">¶</a></h3>
+<p>Create two new VM’s from your Content Management that are EL8 and install the default postgresql on them.</p>
+<p>Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in Rocky.</p>
+</div>
+<div class="section" id="spin-up-configuration-management">
+<h3>Spin Up Configuration Management<a class="headerlink" href="#spin-up-configuration-management" title="Permalink to this headline">¶</a></h3>
+<p>While Katello has some form of puppet or ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL7 or EL8 and install a master for configuration management.</p>
+<p>It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8. At some point, you could spin up a EL7 VM to host <a class="reference external" href="https://awx.wiki/installation/repositories/centos-x86_64">AWX</a> (an open source Ansible Tower).</p>
+</div>
+<div class="section" id="spin-up-vm-for-nfs-iscsi">
+<h3>Spin Up VM for NFS/iSCSI<a class="headerlink" href="#spin-up-vm-for-nfs-iscsi" title="Permalink to this headline">¶</a></h3>
+<p>This VM should be EL8. Ensure it has an extra 20GB disk attached to it. Install the following:</p>
+<ol class="arabic simple">
+<li>An NFS server (nfs-utils)</li>
+<li>An iSCSI server (scsi-target-utils, targetcli)</li>
+</ol>
+<p>You are to:</p>
+<ol class="arabic simple">
+<li>Export an NFS directory</li>
+<li>Export a LUN to any server</li>
+</ol>
+<p><a class="reference external" href="https://www.certdepot.net/rhel7-configure-iscsi-target-initiator-persistently/">iSCSI for RHEL 7</a>
+<a class="reference external" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_storage_devices/getting-started-with-iscsi_managing-storage-devices">iSCSI for RHEL 8</a></p>
+</div>
+<div class="section" id="deploy-bacula-server">
+<h3>Deploy Bacula Server<a class="headerlink" href="#deploy-bacula-server" title="Permalink to this headline">¶</a></h3>
+<p>Bacula is a backup service. It is actually confusing to setup. It’s not easy. There are plenty of write-ups for bacula and CentOS 7, RHEL/Rocky 8. The digital ocean write-ups are complete, but do NOT give you everything you need to know to do it “correct” or to succeed completing this portion.</p>
+<p>Your server will need the following:</p>
+<ol class="arabic simple">
+<li>Ensure the system has a large disk or a large second disk (this can be any size, start small though) - You can also use your NFS server or iSCSI’s LUN.</li>
+<li>Ensure it is partitioned for ext4</li>
+<li>Ensure it is mounted to /bacula</li>
+<li>If using iSCSI or NFS, ensure the disk from that server is bigger than 20GB. 50 should suffice.</li>
+<li>Bakula will need to be configured to use postgresql (digital ocean does NOT use postgresql, you will need to do some reading)</li>
+<li>Register each machine you have to it, storing to flatfile</li>
+</ol>
+</div>
+<div class="section" id="deploy-four-vm-s">
+<h3>Deploy Four VM’s<a class="headerlink" href="#deploy-four-vm-s" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>First two will be web servers running apache (httpd)</li>
+<li>Next two will be tomcat servers</li>
+</ol>
+<p>This is a typical “web/app” configuration. Some shops use apache frontends to weblogic backends. Sometimes it’s tomcat backends.</p>
+<p>You will need to do the following:</p>
+<ol class="arabic simple">
+<li>Setup JBoss/Wildfly Wiki on your app servers</li>
+<li>Setup apache to forward requests to your tomcat servers for the wiki</li>
+<li>Do this as a VirtualHost configuration with the ServerName as “wiki.domain.tld”, replacing “domain.tld” with your domain</li>
+<li>Set a ServerAlias as wiki</li>
+</ol>
+</div>
+<div class="section" id="deploy-load-balancer-vm">
+<h3>Deploy Load Balancer VM<a class="headerlink" href="#deploy-load-balancer-vm" title="Permalink to this headline">¶</a></h3>
+<p>This will be considered a “VIP” of sorts for your wiki cluster. This VM can either use iptables round-robin or HAProxy. I highly recommend trying both to see what’s easier for you. <strong>HAProxy is recommended, because it’s an actual load balancer application.</strong></p>
+<p>You will need the following:</p>
+<ol class="arabic simple">
+<li>A DNS CNAME for this machine called “wiki.domain.tld”, replacing domain.tld with your domain</li>
+<li>You will need to configure apache to respond to requests for “wiki.domain.tld” (virtual host configuration) and forward them on to the app servers</li>
+<li>HAProxy will need to forward 80 and 443 requests to the two web servers</li>
+</ol>
+<div class="card">
+<div class="card-header bg-warning">
+<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
+<h5 class="card-title">
+Dynamic DNS</h5>If you are using Dynamic DNS, you may need to run rndc sync before making changes in the case of standalone BIND. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.</div></div>
+</div>
+<div class="section" id="deploy-postfix-vm">
+<h3>Deploy Postfix VM<a class="headerlink" href="#deploy-postfix-vm" title="Permalink to this headline">¶</a></h3>
+<p>You will need to do the following:</p>
+<ol class="arabic simple">
+<li>Ensure postfix is listening on all interfaces</li>
+<li>Ensure postfix is setup to send and receive messages only from your internal network</li>
+<li>Setup a gmail account or another relay to allow the above to work to outside mail (this is sort of tricky for gmail, but doable)</li>
+</ol>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+<h5 class="card-title">
+Bonus Points</h5><ul class="simple">
+<li>Create two relays as “mailhost1” and “mailhost2” for your domain with the same configurations</li>
+<li>Create a CNAME for “mailhost.domain.tld” for your load balancer, forwarding port 25 to both servers<ul>
+<li>Optionally, you can use round-robin DNS instead of HAProxy</li>
+</ul>
+</li>
+</ul>
+</div></div>
+</div>
+<div class="section" id="setup-nagios-vm">
+<h3>Setup Nagios VM<a class="headerlink" href="#setup-nagios-vm" title="Permalink to this headline">¶</a></h3>
+<p>This will be a monitoring server on EL8. You will need to set it up to use snmp to monitor the communication state of every service above. This means:</p>
+<ol class="arabic simple">
+<li>Is the right port open?</li>
+<li>I got the right kind of response.</li>
+<li>Filesystem Space, too full?</li>
+</ol>
+<p>If you are planning to use full on SNMP, all servers will need the appropriate SNMP ports open and they will need the snmpd clients installed (with a monitor snmpd account)</p>
+</div>
+<div class="section" id="setup-syslog-vm">
+<h3>Setup Syslog VM<a class="headerlink" href="#setup-syslog-vm" title="Permalink to this headline">¶</a></h3>
+<p>Setup this server as a syslog server. It can be EL7 or EL8. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.</p>
+<div class="card">
+<div class="card-header bg-info">
+<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
+You will need to go to your servers and setup /etc/rsyslog.conf to send ALL logs to this syslog server</div></div>
+<p>Optionally, setup an all inclusive logging solution, like graylog, elastic search, mongodb, fluentd. The sky is the limit here!</p>
+</div>
+<div class="section" id="document-your-work">
+<h3>Document Your Work<a class="headerlink" href="#document-your-work" title="Permalink to this headline">¶</a></h3>
+<p>On your new wiki, document everything you did, right now, on your new wiki.</p>
+</div>
+<div class="section" id="rpm-build-server">
+<h3>RPM Build Server<a class="headerlink" href="#rpm-build-server" title="Permalink to this headline">¶</a></h3>
+<p>For fun, you can setup a new server that is your designated RPM building machine. You will need to install <strong>mock</strong> to do this. Optionally, you can setup koji, bodhi, the things that the Fedora project uses.</p>
+</div>
+<div class="section" id="git-server">
+<h3>Git Server<a class="headerlink" href="#git-server" title="Permalink to this headline">¶</a></h3>
+<p>Also for fun, you can setup a git server. There are many options out there. A popular opensource one is <a class="reference external" href="https://about.gitlab.com/">Gitlab</a> or even Gitea.</p>
+</div>
+<div class="section" id="ansible">
+<h3>Ansible<a class="headerlink" href="#ansible" title="Permalink to this headline">¶</a></h3>
+<p>Consider setting up ansible and the open source tower. Automate everything via ansible.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </main>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="unbound.html" class="btn btn-neutral float-right" title="Unbound" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="openldap.html" class="btn btn-neutral" title="OpenLDAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, remyabel, nazunalika
+
+    </p>
+    <p><small>We are not affiliated with Red Hat&reg;, Fedora&reg;, Rocky Linux&reg; or CentOS&reg;. Red Hat&reg;, Fedora&reg; and CentOS&reg; are registered trademarks of Red Hat, Inc. in the United States and other countries. Linux&reg; is the registered trademark of Linus Torvalds in the U.S. and other countries. Rocky Linux&reg; is a registered trademark of the Rocky Enterprise Software Foundation. Inc. in the United States.</small></p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/js/documentation_options.js" defer></script>
+      <script type="text/javascript" src="../_static/documentation_options.js" defer></script>
+      <script type="text/javascript" src="../_static/jquery.js" defer></script>
+      <script type="text/javascript" src="../_static/underscore.js" defer></script>
+      <script type="text/javascript" src="../_static/doctools.js" defer></script>
+      <script type="text/javascript" src="../_static/js/prism.min.js" defer></script>
+      <script type="text/javascript" src="../_static/js/components/prism-bash.min.js" defer></script>
+      <script type="text/javascript" src="../_static/js/components/prism-docker.min.js" defer></script>
+      <script type="text/javascript" src="../_static/js/prism-freeipa.min.js" defer></script>
+      <script type="text/javascript" src="../_static/js/toggle.js" defer></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js" defer></script>
+  
+
+  <script type="text/javascript" src="../_static/js/stickynav.js" defer></script> 
+
+</body>
+</html>

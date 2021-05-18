@@ -4,13 +4,13 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  <meta content="Materials to prepare for the Red Hat Certified Specialist in Ansible Automation exam." name="description" />
+  <meta content="How to install/configure Unbound on Rocky for DNS forwarding for a network or a standalone machine." name="description" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' https://github.githubassets.com/ cdn.jsdelivr.net stackpath.bootstrapcdn.com; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net stackpath.bootstrapcdn.com;">
   
   
-  <title>EX407 Exam Prep &mdash; Linux Guide and Hints</title>
+  <title>Unbound &mdash; Linux Guide and Hints</title>
   
 
   
@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
     
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="EX415 Exam Prep" href="ex415.html" />
-    <link rel="prev" title="EX362 Exam Prep" href="ex362.html" /> 
+    <link rel="next" title="Create macOS ISO Images" href="../macos/image.html" />
+    <link rel="prev" title="The System Administrator Experience" href="sysadmin.html" /> 
 
   <noscript>
       <link rel="stylesheet" href="../_static/css/nojs.css" type="text/css">
@@ -363,173 +363,173 @@
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Enterprise Linux</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../el/builds.html">Auto-Provisioning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../el/freeipa.html">FreeIPA</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#dns">DNS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#delegation">Delegation</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="builds.html">Auto-Provisioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freeipa.html">FreeIPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#dns">DNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#delegation">Delegation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#server-setup">Server Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#required-packages">Required Packages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#replica">Replica</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#replica-automation">Replica Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#server-setup">Server Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#required-packages">Required Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica">Replica</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#replica-automation">Replica Automation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#server-migration-upgrade">Server Migration/Upgrade</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#active-directory-trust">Active Directory Trust</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#disable-anonymous-bind">Disable Anonymous Bind</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#client-setup">Client Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#rhel-7-8">RHEL 7 &amp; 8</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#mac-clients">Mac Clients</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#discovery-and-settings">Discovery and Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#server-migration-upgrade">Server Migration/Upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#active-directory-trust">Active Directory Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#disable-anonymous-bind">Disable Anonymous Bind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#client-setup">Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-7-8">RHEL 7 &amp; 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#mac-clients">Mac Clients</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#discovery-and-settings">Discovery and Settings</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#suse">SUSE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#suse">SUSE</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#hbac">HBAC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#sudo">SUDO</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#legacy-client-setup">Legacy Client Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#solaris-10">Solaris 10</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#solaris-11">Solaris 11</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#automated-scripts">Automated Scripts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#ad-trust-double-uid">AD Trust Double UID</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#omnios-illumos">OmniOS/Illumos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#legacy-hbac">Legacy HBAC</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#id2">Solaris 10</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#id3">Solaris 11</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#omnios">Omnios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#pam-hbac-conf">pam_hbac.conf</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#pam-configuration">PAM Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#hbac">HBAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#sudo">SUDO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#legacy-client-setup">Legacy Client Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-10">Solaris 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#solaris-11">Solaris 11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#automated-scripts">Automated Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ad-trust-double-uid">AD Trust Double UID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#omnios-illumos">OmniOS/Illumos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-hbac">Legacy HBAC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#id2">Solaris 10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#id3">Solaris 11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#omnios">Omnios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#pam-hbac-conf">pam_hbac.conf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#pam-configuration">PAM Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#login-with-ad-users-to-legacy-clients">Login with AD Users to Legacy Clients</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#legacy-active-directory-trust-notes">Legacy Active Directory Trust Notes</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#domain-resolution-order-oddness">Domain Resolution Order Oddness</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#solaris-weirdness">Solaris Weirdness</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#domain-options">Domain Options</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#ad-and-ipa-group-names-with-short-names">AD and IPA group names with short names</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#sites-and-ad-dc-s">Sites and AD DC’s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#set-default-shell-for-ad-users">Set Default Shell for AD Users</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#automated-kerberos-principals">Automated Kerberos Principals</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#hadoop-cloudera">Hadoop/Cloudera</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#cloudera-manager-woes">Cloudera Manager Woes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../el/freeipa.html#the-solution">The Solution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#login-with-ad-users-to-legacy-clients">Login with AD Users to Legacy Clients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#legacy-active-directory-trust-notes">Legacy Active Directory Trust Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#domain-resolution-order-oddness">Domain Resolution Order Oddness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#solaris-weirdness">Solaris Weirdness</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#dns-forwarding">DNS Forwarding</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#dns-forwarding-to-dot">DNS Forwarding to DoT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#domain-options">Domain Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ad-and-ipa-group-names-with-short-names">AD and IPA group names with short names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#sites-and-ad-dc-s">Sites and AD DC’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#set-default-shell-for-ad-users">Set Default Shell for AD Users</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#logging">Logging</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#audit-logs">Audit Logs</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#certificates">Certificates</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#renewed-ipa-http-certificate-stuck">Renewed IPA HTTP Certificate Stuck</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#ca-related-certificates-stuck">CA Related Certificates Stuck</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#default-certificates-with-san">Default Certificates with SAN</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/freeipa.html#kerberos">Kerberos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/freeipa.html#accounts-with-otp-enabled">Accounts with OTP Enabled</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#automated-kerberos-principals">Automated Kerberos Principals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#hadoop-cloudera">Hadoop/Cloudera</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#cloudera-manager-woes">Cloudera Manager Woes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="freeipa.html#the-solution">The Solution</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../el/nat.html">NAT/Router</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../el/nat.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/nat.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#interface-setup">Interface Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#firewalld">FirewallD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#iptables">iptables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#nftables">nftables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#ipv6-forwarding">IPv6 Forwarding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/nat.html#dhcp">DHCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#dns-forwarding">DNS Forwarding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#dns-forwarding-to-dot">DNS Forwarding to DoT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#logging">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#audit-logs">Audit Logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#certificates">Certificates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#renewed-ipa-http-certificate-stuck">Renewed IPA HTTP Certificate Stuck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#ca-related-certificates-stuck">CA Related Certificates Stuck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#default-certificates-with-san">Default Certificates with SAN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="freeipa.html#kerberos">Kerberos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="freeipa.html#accounts-with-otp-enabled">Accounts with OTP Enabled</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../el/openldap.html">OpenLDAP</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#packages">Packages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#certificates">Certificates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#ldap-server-configuration">LDAP Server Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#ldap-structure">LDAP Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#add-users-via-migration">Add Users via Migration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#add-users-via-ldif">Add Users via LDIF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#nfs-export-home-directories">NFS Export Home Directories</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#firewall">Firewall</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#client">Client</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#rhel-6-rhel-7-fedora-20">RHEL 6/RHEL 7/Fedora 20+</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#automounting-home-directories">Automounting Home Directories</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../el/openldap.html#ldap-structure-add-ons">LDAP Structure Add-ons</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#sudo">SUDO</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#member-groups">Member Groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#referential-integrity">Referential Integrity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#acl">ACL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#disable-anonymous-binding">Disable Anonymous Binding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#ldap-logging">LDAP Logging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/openldap.html#password-policy">Password Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nat.html">NAT/Router</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nat.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nat.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#interface-setup">Interface Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#firewalld">FirewallD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#iptables">iptables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#nftables">nftables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#ipv6-forwarding">IPv6 Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nat.html#dhcp">DHCP</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../el/sysadmin.html">The System Administrator Experience</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../el/sysadmin.html#recommendations">Recommendations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/sysadmin.html#certification-completions">Certification Completions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/sysadmin.html#notes-and-changelog">Notes and Changelog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/sysadmin.html#begin">Begin</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#setup-a-kvm-hypervisor">Setup a KVM Hypervisor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#dhcp-and-dns">DHCP and DNS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#server-and-content-management">Server and Content Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#connect-content-management-to-hypervisor">Connect Content Management to Hypervisor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#spin-up-vm-s-using-katello-spacewalk">Spin Up VM’s Using Katello/Spacewalk</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#setup-freeipa">Setup FreeIPA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#spin-up-two-vm-s-for-databases">Spin Up Two VM’s for Databases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#spin-up-configuration-management">Spin Up Configuration Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#spin-up-vm-for-nfs-iscsi">Spin Up VM for NFS/iSCSI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#deploy-bacula-server">Deploy Bacula Server</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#deploy-four-vm-s">Deploy Four VM’s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#deploy-load-balancer-vm">Deploy Load Balancer VM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#deploy-postfix-vm">Deploy Postfix VM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#setup-nagios-vm">Setup Nagios VM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#setup-syslog-vm">Setup Syslog VM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#document-your-work">Document Your Work</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#rpm-build-server">RPM Build Server</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#git-server">Git Server</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/sysadmin.html#ansible">Ansible</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openldap.html">OpenLDAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#packages">Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#certificates">Certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-server-configuration">LDAP Server Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-structure">LDAP Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-migration">Add Users via Migration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#add-users-via-ldif">Add Users via LDIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#nfs-export-home-directories">NFS Export Home Directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#firewall">Firewall</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#client">Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#rhel-6-rhel-7-fedora-20">RHEL 6/RHEL 7/Fedora 20+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#automounting-home-directories">Automounting Home Directories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openldap.html#ldap-structure-add-ons">LDAP Structure Add-ons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#sudo">SUDO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#member-groups">Member Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#referential-integrity">Referential Integrity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#acl">ACL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#disable-anonymous-binding">Disable Anonymous Binding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#ldap-logging">LDAP Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openldap.html#password-policy">Password Policy</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../el/unbound.html">Unbound</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../el/unbound.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../el/unbound.html#setup">Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../el/unbound.html#installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../el/unbound.html#dns-over-tls-dot">DNS over TLS (DoT)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sysadmin.html">The System Administrator Experience</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#recommendations">Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#certification-completions">Certification Completions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#notes-and-changelog">Notes and Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sysadmin.html#begin">Begin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-a-kvm-hypervisor">Setup a KVM Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#dhcp-and-dns">DHCP and DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#server-and-content-management">Server and Content Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#connect-content-management-to-hypervisor">Connect Content Management to Hypervisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-s-using-katello-spacewalk">Spin Up VM’s Using Katello/Spacewalk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-freeipa">Setup FreeIPA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-two-vm-s-for-databases">Spin Up Two VM’s for Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-configuration-management">Spin Up Configuration Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#spin-up-vm-for-nfs-iscsi">Spin Up VM for NFS/iSCSI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-bacula-server">Deploy Bacula Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-four-vm-s">Deploy Four VM’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-load-balancer-vm">Deploy Load Balancer VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#deploy-postfix-vm">Deploy Postfix VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-nagios-vm">Setup Nagios VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#setup-syslog-vm">Setup Syslog VM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#document-your-work">Document Your Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#rpm-build-server">RPM Build Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#git-server">Git Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sysadmin.html#ansible">Ansible</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Unbound</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dns-over-tls-dot">DNS over TLS (DoT)</a></li>
 </ul>
 </li>
 </ul>
@@ -540,56 +540,56 @@
 <li class="toctree-l1"><a class="reference internal" href="../macos/image.html">Create macOS ISO Images</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Training Resources</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ex362.html">EX362 Exam Prep</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#exam-information">Exam Information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#resources">Resources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#hardware-recommendations">Hardware Recommendations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#installing-freeipa-red-hat-idm-with-replicas-for-growth-and-scale">Installing FreeIPA/Red Hat IdM with replicas for growth and scale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#creating-users-groups-and-policies">Creating Users, Groups, and Policies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ex362.html#new-passwords-expired">New Passwords Expired</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex362.html">EX362 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#exam-information">Exam Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#hardware-recommendations">Hardware Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#installing-freeipa-red-hat-idm-with-replicas-for-growth-and-scale">Installing FreeIPA/Red Hat IdM with replicas for growth and scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#creating-users-groups-and-policies">Creating Users, Groups, and Policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#new-passwords-expired">New Passwords Expired</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#install-and-configure-idm-clients">Install and configure IdM Clients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#configure-roaming-automounted-home-directories">Configure roaming/automounted home directories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#use-the-rest-api-to-query-idm">Use the REST api to query IdM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#configure-kerberized-services">Configure Kerberized services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#create-a-trust-with-active-directory">Create a trust with Active Directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#configure-control-policies-and-user-access">Configure/control policies and user access</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ex362.html#rbac">RBAC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ex362.html#hbac">HBAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#install-and-configure-idm-clients">Install and configure IdM Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-roaming-automounted-home-directories">Configure roaming/automounted home directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#use-the-rest-api-to-query-idm">Use the REST api to query IdM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-kerberized-services">Configure Kerberized services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#create-a-trust-with-active-directory">Create a trust with Active Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-control-policies-and-user-access">Configure/control policies and user access</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#rbac">RBAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#hbac">HBAC</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#configure-and-manage-a-certificate-authority">Configure and manage a certificate authority</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#back-up-an-idm-infrastructure">Back up an IdM infrastructure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#configure-idm-as-an-ldap-backend-for-external-services">Configure IdM as an LDAP backend for external services</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ex362.html#kerberos">Kerberos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-and-manage-a-certificate-authority">Configure and manage a certificate authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#back-up-an-idm-infrastructure">Back up an IdM infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#configure-idm-as-an-ldap-backend-for-external-services">Configure IdM as an LDAP backend for external services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex362.html#kerberos">Kerberos</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ex362.html#implement-a-sso">Implement a SSO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#implement-a-sso">Implement a SSO</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">EX407 Exam Prep</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex407.html">EX407 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex407.html#overview">Overview</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ex415.html">EX415 Exam Prep</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#exam-information">Exam Information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#resources">Resources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#use-red-hat-ansible-engine">Use Red Hat Ansible Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#configure-intrusion-detection">Configure Intrusion Detection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#configure-encrypted-storage">Configure Encrypted Storage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#restrict-usb-devices">Restrict USB Devices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#manage-system-login-security-using-pluggable-authentication-modules-pam">Manage System Login Security using Pluggable Authentication Modules (PAM)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#configure-system-auditing">Configure System Auditing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#configure-selinux">Configure SELinux</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ex415.html#package-binary-glossary">Package &amp; Binary Glossary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ex415.html#command-glossary">Command Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training/ex415.html">EX415 Exam Prep</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#exam-information">Exam Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#use-red-hat-ansible-engine">Use Red Hat Ansible Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-intrusion-detection">Configure Intrusion Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-encrypted-storage">Configure Encrypted Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#restrict-usb-devices">Restrict USB Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#manage-system-login-security-using-pluggable-authentication-modules-pam">Manage System Login Security using Pluggable Authentication Modules (PAM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-system-auditing">Configure System Auditing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#configure-selinux">Configure SELinux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex415.html#package-binary-glossary">Package &amp; Binary Glossary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../training/ex415.html#command-glossary">Command Glossary</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ex415.html#enforce-security-compliance">Enforce Security Compliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../training/ex415.html#enforce-security-compliance">Enforce Security Compliance</a></li>
 </ul>
 </li>
 </ul>
@@ -642,14 +642,14 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>EX407 Exam Prep</li>
+      <li>Unbound</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/training/ex407.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/el/unbound.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -663,29 +663,74 @@
           <main role="main" id="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ex407-exam-prep">
-<h1><a class="toc-backref" href="#id1">EX407 Exam Prep</a><a class="headerlink" href="#ex407-exam-prep" title="Permalink to this headline">¶</a></h1>
-<p>This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Ansible Automation exam, EX407. This follows loosely the youtube playlist as much as possible with various examples and ideas. At the bottom, you will also find our own example practice exam for you to try your hand at to test your knowledge.</p>
-<p>The list of objectives can be found <a class="reference external" href="https://www.redhat.com/en/services/training/ex407-red-hat-certified-specialist-in-ansible-automation-exam">here</a>. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Affiliation and Exam Information</h5><p>Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.</p>
-<p>If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you’d like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.</p>
-</div></div>
-<div class="contents topic" id="contents">
-<p class="topic-title">Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#ex407-exam-prep" id="id1">EX407 Exam Prep</a><ul>
-<li><a class="reference internal" href="#overview" id="id2">Overview</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="unbound">
+<h1>Unbound<a class="headerlink" href="#unbound" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="overview">
-<h2><a class="toc-backref" href="#id2">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>This page once went over some ideas for passing this exam. However, the EX294 (RHCE 8) exam does handle a lot of this stuff already, as is. If you study and pass the EX294, you are very likely ready to take the EX407 and pass it as well.</p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<pre><code class="language-shell">% yum install unbound -y
+% systemctl enable unbound</code></pre></div>
+<div class="section" id="dns-over-tls-dot">
+<h3>DNS over TLS (DoT)<a class="headerlink" href="#dns-over-tls-dot" title="Permalink to this headline">¶</a></h3>
+<p>Setting up DoT with unbound is straight forward, whether you already have a DNS server already or not. Let’s go over the most basic configuration.</p>
+<pre><code class="language-shell">% vi /etc/unbound/unbound.conf
+server:
+        . . .
+        # Set the below to an IP address if you wish - as I have multiple VLAN's
+        # it is just easier for me to listen everywhere
+        interface: 0.0.0.0
+        interface: ::
+        # Optionally set a port - I have bind already running, so port 9053 works
+        interface-automatic: no
+        port: 9053
+        . . .
+        # Set access control rules here. I'll show a few examples with just two of
+        # my networks
+        # REFUSE everything
+        access-control: 0.0.0.0/0 refuse
+        access-control: ::0/0 refuse
+        # Allow localhost to snoop
+        access-control: 127.0.0.1/32 allow_snoop
+        access-control: ::1 allow_snoop
+        # Allow the entire localhost subnet
+        access-control: 127.0.0.0/8 allow
+        access-control: ::ffff:127.0.0.1 allow
+        # Allow my main network and sandbox network
+        access-control: 10.100.0.0/24 allow
+        access-control: 10.100.1.0/24 allow
+        . . .
+        # Ensure tls-cert-bundle is set
+        tls-cert-bundle: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        . . .
+# Create the forward zone for DoT queries
+forward-zone:
+        name: "."
+        forward-tls-upstream: yes
+        # Cloudflare
+        forward-addr: 1.1.1.1@853#cloudflare-dns.com
+        forward-addr: 1.0.0.1@853#cloudflare-dns.com
+        forward-addr: 2606:4700:4700::1111@853#cloudflare-dns.com
+        forward-addr: 2606:4700:4700::1001@853#cloudflare-dns.com
+        # Quad9
+        forward-addr: 9.9.9.9@853#dns.quad9.net
+        forward-addr: 149.112.112.112@853#dns.quad9.net
+
+% systemctl enable unbound --now
+# If you are using bind already with forwarders, you should edit it. Example.
+% vi /etc/named.conf
+options {
+        . . .
+        forwarders {
+                # This assumes your bind server and unbound server are on
+                # the same server like I did.
+                127.0.0.1 port 9053;
+        };
+        forward only;
+        . . .</code></pre></div>
 </div>
 </div>
 
@@ -697,10 +742,10 @@ Affiliation and Exam Information</h5><p>Please note that we are not affiliated w
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ex415.html" class="btn btn-neutral float-right" title="EX415 Exam Prep" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../macos/image.html" class="btn btn-neutral float-right" title="Create macOS ISO Images" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ex362.html" class="btn btn-neutral" title="EX362 Exam Prep" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sysadmin.html" class="btn btn-neutral" title="The System Administrator Experience" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
