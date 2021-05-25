@@ -5,7 +5,7 @@ We provide up-to-date RPM's for some packages located at our copr. They are typi
 
 * `gzdoom <https://copr.fedorainfracloud.org/coprs/nalika/gzdoom/>`__
 * `atheme <https://copr.fedorainfracloud.org/coprs/nalika/irc/>`__
-* `charybdis (ircd) <https://copr.fedorainfracloud.org/coprs/nalika/irc/>`__
+* `solanum (ircd) <https://copr.fedorainfracloud.org/coprs/nalika/irc/>`__
 
 The sources can be found `on Github <https://github.com/nazunalika>`__.
 
@@ -26,13 +26,13 @@ ircd
 
 The irc repo provides atheme (a services daemon) and charybdis (an irc daemon). At one point, we packaged inspircd, but it was removed as the developers decided to keep reinventing the wheel with how it gets built.
 
-* `charybdis <https://github.com/charybdis-ircd/charybdis>`__
+* `solanum <https://solanum.chat>`__
 * `atheme <https://atheme.github.io/atheme.html>`__
 
 The packages provide the following:
 
 * Standardized directories (to comply with FHS)
-* PPC64LE support
+* PPC64LE support where possible
 * AARCH64 support where possible
 * No code modifications (with the exception of specific packages that may never make it upstream)
 * Default configurations with examples
