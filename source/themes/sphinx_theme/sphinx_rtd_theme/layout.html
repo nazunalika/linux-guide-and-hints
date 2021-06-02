@@ -12,13 +12,13 @@
 <!DOCTYPE html>
 <html class="{{ sphinx_writer }}" lang="{{ lang_attr }}" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   {{ metatags }}
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' https://github.githubassets.com/ cdn.jsdelivr.net stackpath.bootstrapcdn.com; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net stackpath.bootstrapcdn.com;">
   {% if pagename == "index" %}
     <meta name="description" content="Tutorials and generally useful information regarding packages and system administration in Fedora® and CentOS®.">
   {% endif %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {% block htmltitle %}
   <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
   {% endblock %}
@@ -61,7 +61,14 @@
     <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
   {%- endfor %}
 
+  {# JAVASCRIPTS #}
+  {%- block scripts %}
   {%- if not embedded %}
+    {%- for scriptfile in script_files %}
+      {{ js_tag(scriptfile) }}
+    {%- endfor %}
+    <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}"></script>
+
     {# OPENSEARCH #}
     {%- if use_opensearch %}
     <link rel="search" type="application/opensearchdescription+xml"
@@ -69,6 +76,7 @@
           href="{{ pathto('_static/opensearch.xml', 1) }}"/>
     {%- endif %}
   {%- endif %}
+  {%- endblock %}
 
   {%- block linktags %}
     {%- if hasdoc('about') %}
@@ -103,11 +111,10 @@
 
   {% block extrabody %} {% endblock %}
   <div class="wy-grid-for-nav">
-
     {# SIDE NAV, TOGGLES ON MOBILE #}
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" {% if theme_style_nav_header_background %} style="background: {{theme_style_nav_header_background}}" {% endif %}>
           {% block sidebartitle %}
 
           {% if logo and theme_logo_only %}
@@ -120,7 +127,7 @@
             {# Not strictly valid HTML, but it's the only way to display/scale
                it properly, without weird scripting or heaps of work
             #}
-            <img src="{{ pathto('_static/img/' + logo, 1) }}" class="logo" alt="Logo"/>
+            <img src="{{ pathto('_static/img/' + logo, 1) }}" class="logo" alt="{{ _('Logo') }}"/>
           {% endif %}
           </a>
 
@@ -207,19 +214,7 @@
   </div>
   {% include "versions.html" %}
 
-  {% if not embedded %}
 
-  <script type="text/javascript" id="documentation_options" data-url_root="{{ pathto('', 1) }}" src="{{ pathto('_static/js/documentation_options.js', 1) }}" defer></script>
-    {%- for scriptfile in script_files %}
-      <script type="text/javascript" src="{{ pathto(scriptfile, 1) }}" defer></script>
-    {%- endfor %}
-
-  {% endif %}
-
-  {# RTD hosts this file, so just load on non RTD builds #}
-  {% if not READTHEDOCS %}
-    <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}" defer></script>
-  {% endif %}
 
   <script type="text/javascript" src="{{ pathto('_static/js/stickynav.js', 1) }}" defer></script>
 
