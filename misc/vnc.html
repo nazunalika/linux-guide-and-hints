@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' https://github.githubassets.com/ cdn.jsdelivr.net stackpath.bootstrapcdn.com; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net stackpath.bootstrapcdn.com;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>VNC &mdash; Linux Guide and Hints</title>
   
@@ -35,6 +35,19 @@
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
+
+  
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+      <script src="../_static/jquery.js"></script>
+      <script src="../_static/underscore.js"></script>
+      <script src="../_static/doctools.js"></script>
+      <script src="../_static/js/prism.min.js"></script>
+      <script src="../_static/js/components/prism-bash.min.js"></script>
+      <script src="../_static/js/components/prism-docker.min.js"></script>
+      <script src="../_static/js/prism-freeipa.min.js"></script>
+      <script src="../_static/js/toggle.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
     
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Getting started" href="../gettingstarted.html" />
@@ -51,11 +64,10 @@
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -78,13 +90,13 @@
           
 
           
-<form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <div role="search">
-        <input type="text" aria-label="Search docs" name="q" placeholder="Search docs" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-    </div>
-</form>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
 
           
         </div>
@@ -635,6 +647,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -646,7 +660,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             
               <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/misc/vnc.rst" class="fa fa-github"> Edit on GitHub</a>
             
@@ -702,23 +716,16 @@ username% sudo systemctl start vncserver@:1.service</code></pre></div>
            
           </main>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../gettingstarted.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="port465.html" class="btn btn-neutral" title="Is port 465 deprecated?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="../gettingstarted.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="port465.html" class="btn btn-neutral float-left" title="Is port 465 deprecated?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, remyabel, nazunalika
+        &#169; Copyright 2020, remyabel, nazunalika.
 
     </p>
     <p><small>We are not affiliated with Red Hat&reg;, Fedora&reg;, Rocky Linux&reg; or CentOS&reg;. Red Hat&reg;, Fedora&reg; and CentOS&reg; are registered trademarks of Red Hat, Inc. in the United States and other countries. Linux&reg; is the registered trademark of Linus Torvalds in the U.S. and other countries. Rocky Linux&reg; is a registered trademark of the Rocky Enterprise Software Foundation. Inc. in the United States.</small></p>
@@ -726,14 +733,13 @@ username% sudo systemctl start vncserver@:1.service</code></pre></div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -742,25 +748,7 @@ username% sudo systemctl start vncserver@:1.service</code></pre></div>
   </div>
   
 
-  
 
-  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/js/documentation_options.js" defer></script>
-      <script type="text/javascript" src="../_static/documentation_options.js" defer></script>
-      <script type="text/javascript" src="../_static/jquery.js" defer></script>
-      <script type="text/javascript" src="../_static/underscore.js" defer></script>
-      <script type="text/javascript" src="../_static/doctools.js" defer></script>
-      <script type="text/javascript" src="../_static/js/prism.min.js" defer></script>
-      <script type="text/javascript" src="../_static/js/components/prism-bash.min.js" defer></script>
-      <script type="text/javascript" src="../_static/js/components/prism-docker.min.js" defer></script>
-      <script type="text/javascript" src="../_static/js/prism-freeipa.min.js" defer></script>
-      <script type="text/javascript" src="../_static/js/toggle.js" defer></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js" defer></script>
-  
 
   <script type="text/javascript" src="../_static/js/stickynav.js" defer></script> 
 
