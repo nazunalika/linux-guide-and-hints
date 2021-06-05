@@ -2,9 +2,9 @@ FreeIPA
 ^^^^^^^
 
 .. meta::
-    :description: How to install/configure FreeIPA on CentOS 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
+    :description: How to install/configure FreeIPA on Enterprise Linux 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
-This page is a series of notes and information that goes over how to install and configure FreeIPA on CentOS 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
+This page is a series of notes and information that goes over how to install and configure FreeIPA on Enterprise Linux 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::
 
@@ -18,7 +18,7 @@ Requirements
 
 Here are the list of requirements below.
  
-* CentOS 8+ or Fedora 32+
+* Enterprise Linux 8+ or Fedora 32+
 * An active internet connection to install the packages required or available internal mirrors
 * 2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv
 * DNS domain delegation (if a DNS appliance or server already exists)
@@ -2038,7 +2038,7 @@ Place the above script in a file that is accessible by the cloudera manager such
 
 During the kerberos wizard, stop when you are verifying the "cdh" user. You will need to set the configuration for "Custom Kerberos Keytab Retrieval Script" to `/usr/local/bin/getKeytabsCDH.sh` and then you're almost there. [#f3]_
 
-An important tidbit is currently RHEL/CentOS 7+ and higher use memory based keytabs and java doesn't support them. [#f4]_ Because of this, the /etc/krb5.conf should be modified.
+An important tidbit is currently RHEL/Enterprise Linux 7+ and higher use memory based keytabs and java doesn't support them. [#f4]_ Because of this, the /etc/krb5.conf should be modified.
 
 .. code-block:: shell
 
@@ -2211,7 +2211,7 @@ Interestingly, I wasn't sure what `NEWLY_ADDED_NEED_KEYINFO_READ_PIN` meant and 
    [root@ipa01 ~]# openssl x509 -text -noout -in /var/lib/ipa/certs/httpd.crt | grep 'Not After'
                Not After : Nov  6 02:55:48 2021 GMT
 
-I'm not sure if this is just a result of migrating from CentOS 7 to 8 back last year, but it seemed easy enough to remove the tracking and put it back in, which ultimately fixed the monitoring state and now it was no longer "stuck".
+I'm not sure if this is just a result of migrating from Enterprise Linux 7 to 8 back last year, but it seemed easy enough to remove the tracking and put it back in, which ultimately fixed the monitoring state and now it was no longer "stuck".
 
 .. code-block:: shell
 
@@ -2242,7 +2242,7 @@ I'm not sure if this is just a result of migrating from CentOS 7 to 8 back last 
 CA Related Certificates Stuck
 +++++++++++++++++++++++++++++
 
-Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it's actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert. This seems to only occur on CentOS 8.
+Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it's actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert. This seems to only occur on Enterprise Linux 8.
 
 .. code-block:: shell
 

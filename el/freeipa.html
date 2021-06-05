@@ -4,7 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta content="How to install/configure FreeIPA on CentOS 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods." name="description" />
+  <meta content="How to install/configure FreeIPA on Enterprise Linux 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods." name="description" />
 
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
   
@@ -679,7 +679,7 @@
             
   <div class="section" id="freeipa">
 <h1><a class="toc-backref" href="#id6">FreeIPA</a><a class="headerlink" href="#freeipa" title="Permalink to this headline">¶</a></h1>
-<p>This page is a series of notes and information that goes over how to install and configure FreeIPA on CentOS 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.</p>
+<p>This page is a series of notes and information that goes over how to install and configure FreeIPA on Enterprise Linux 7 or 8 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
@@ -780,7 +780,7 @@
 <h2><a class="toc-backref" href="#id8">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>Here are the list of requirements below.</p>
 <ul class="simple">
-<li>CentOS 8+ or Fedora 32+</li>
+<li>Enterprise Linux 8+ or Fedora 32+</li>
 <li>An active internet connection to install the packages required or available internal mirrors</li>
 <li>2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv</li>
 <li>DNS domain delegation (if a DNS appliance or server already exists)</li>
@@ -2470,7 +2470,7 @@ PRINC=$(echo $FULLPRINC | sed "s/\@$(echo $IPAREALM)//")
 kdestroy
 exit 0</code></pre><p>Place the above script in a file that is accessible by the cloudera manager such as <cite>/usr/local/bin/getKeytabsCDH.sh</cite> and ensure it is owned by cloudera-scm with a permission set of 775.</p>
 <p>During the kerberos wizard, stop when you are verifying the “cdh” user. You will need to set the configuration for “Custom Kerberos Keytab Retrieval Script” to <cite>/usr/local/bin/getKeytabsCDH.sh</cite> and then you’re almost there. <a class="footnote-reference" href="#f3" id="id4">[3]</a></p>
-<p>An important tidbit is currently RHEL/CentOS 7+ and higher use memory based keytabs and java doesn’t support them. <a class="footnote-reference" href="#f4" id="id5">[4]</a> Because of this, the /etc/krb5.conf should be modified.</p>
+<p>An important tidbit is currently RHEL/Enterprise Linux 7+ and higher use memory based keytabs and java doesn’t support them. <a class="footnote-reference" href="#f4" id="id5">[4]</a> Because of this, the /etc/krb5.conf should be modified.</p>
 <pre><code class="language-shell">% cat /etc/krb5.conf
 . . .
 # Make sure the below is commented
@@ -2618,7 +2618,7 @@ Request ID '20200123075639':
         track: yes
         auto-renew: yes</code></pre><p>Interestingly, I wasn’t sure what <cite>NEWLY_ADDED_NEED_KEYINFO_READ_PIN</cite> meant and I couldn’t really find much on what would cause this to happen. And I know my certificate isn’t expired, according to the output. In fact, I checked with <cite>openssl</cite> just in case.</p>
 <pre><code class="language-shell">[root@ipa01 ~]# openssl x509 -text -noout -in /var/lib/ipa/certs/httpd.crt | grep 'Not After'
-            Not After : Nov  6 02:55:48 2021 GMT</code></pre><p>I’m not sure if this is just a result of migrating from CentOS 7 to 8 back last year, but it seemed easy enough to remove the tracking and put it back in, which ultimately fixed the monitoring state and now it was no longer “stuck”.</p>
+            Not After : Nov  6 02:55:48 2021 GMT</code></pre><p>I’m not sure if this is just a result of migrating from Enterprise Linux 7 to 8 back last year, but it seemed easy enough to remove the tracking and put it back in, which ultimately fixed the monitoring state and now it was no longer “stuck”.</p>
 <pre><code class="language-shell">[root@ipa01 ~]# ipa-getcert stop-tracking -i 20200123075639
 Request "20200123075639" removed.
 [root@ipa01 ~]# ipa-getcert start-tracking -f /var/lib/ipa/certs/httpd.crt -k /var/lib/ipa/private/httpd.key -p /var/lib/ipa/passwds/ipa01.angelsofclockwork.net-443-RSA -C /usr/libexec/ipa/certmonger/restart_httpd -K HTTP/ipa01.angelsofclockwork.net@ANGELSOFCLOCKWORK.NET
@@ -2644,7 +2644,7 @@ Request ID '20200504003758':
         auto-renew: yes</code></pre></div>
 <div class="section" id="ca-related-certificates-stuck">
 <h3><a class="toc-backref" href="#id59">CA Related Certificates Stuck</a><a class="headerlink" href="#ca-related-certificates-stuck" title="Permalink to this headline">¶</a></h3>
-<p>Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it’s actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert. This seems to only occur on CentOS 8.</p>
+<p>Like with the IPA httpd certificates, I noticed at least 4 certificates stuck because a PIN was missing. Turns out that it’s actually easy to modify the tracking request and fix the issue entirely. Below is my example doing this on the auditSigningCert. This seems to only occur on Enterprise Linux 8.</p>
 <pre><code class="language-shell">[root@ipa01 alias]# getcert list -i 20200615180351
 Number of certificates and requests being tracked: 9.
 Request ID '20200615180351':
