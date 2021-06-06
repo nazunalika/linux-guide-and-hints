@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+06-06-2021
+
+- Removed fedora/pulseaudio because Pipewire is now used by default.
+
 05-18-2021
 
 - The centos pages were renamed to el to be more general and include Rocky
