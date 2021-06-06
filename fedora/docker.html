@@ -199,6 +199,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dnscrypt.html">dnscrypt</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Docker</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#changing-the-data-directory">Changing the data directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podman">Podman</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="emulators.html">Emulators</a><ul>
@@ -691,6 +692,33 @@ you can copy over the directory structure by doing:</p>
 <pre><code class="language-bash">systemctl daemon-reload
 systemctl restart docker</code></pre><p>After that, you can view <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">info</span></code> to verify your changes.</p>
 <p>Credit goes to <a class="reference external" href="https://stackoverflow.com/a/34731550">Piotr Król’s StackOverflow answer</a>.</p>
+</div>
+<div class="section" id="podman">
+<h2>Podman<a class="headerlink" href="#podman" title="Permalink to this headline">¶</a></h2>
+<p>Although it is difficult to move away from Docker due to many projects relying
+on it, we generally recommend using <a class="reference external" href="https://podman.io/">podman</a> instead. It
+has a Docker compatible CLI, is daemonless and allows running the containers
+without root privileges. While Docker has a rootless mode now, it is
+experimental and a hacky workaround. For a <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> alternative, see
+<a class="reference external" href="https://github.com/containers/podman-compose">podman-compose</a>.</p>
+<p>Why does it matter? Docker’s security model is inherently flawed. Anyone in the
+docker group for all intents and purposes has “root” privileges and complete
+access to the socket.  Many tools also recommend you mount the docker socket
+within a container (which is terribly insecure), but developers are willing to
+take this security risk to make their lives a little easier. <a class="footnote-reference" href="#f1" id="id2">[1]</a></p>
+<p>There is a podman wrapper called <a class="reference external" href="https://fedoramagazine.org/a-quick-introduction-to-toolbox-on-fedora/">Toolbox</a> that
+allows you to transparently spin up containers as a scratch space. For example,
+you might want to build a project from source without polluting your system
+with <code class="docutils literal notranslate"><span class="pre">devel</span></code> packages.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>See
+<a class="reference external" href="https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html</a>
+and <a class="reference external" href="https://github.com/containrrr/watchtower">https://github.com/containrrr/watchtower</a>.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
