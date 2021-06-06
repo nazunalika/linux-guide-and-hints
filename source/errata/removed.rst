@@ -10,6 +10,9 @@ Removed articles
 06-06-2021
 
 - Removed fedora/pulseaudio because Pipewire is now used by default.
+- Removed fedora/bup article because it contains outdated information. The
+  README for the project is outdated, so I have no motivation to provide info
+  for it currently. I may revisit this later.
 
 05-18-2021
 
