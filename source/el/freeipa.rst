@@ -114,15 +114,15 @@ To install the server, make sure the hostname is set to the A records and NS del
    10.200.0.230 server1.ipa.example.com
    10.200.0.231 server2.ipa.example.com
    
-   # RHEL 7
+   # Enterprise Linux 7
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-   # RHEL 8
+   # Enterprise Linux 8
    % yum module enable idm:DL1/{dns,adtrust,client,server,common}
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Setup
-   # RHEL 7
+   # Enterprise Linux 7
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
-   # RHEL 8
+   # Enterprise 8
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
    % ipa-server-install --no_hbac_allow \
@@ -192,10 +192,10 @@ If you have forwarders, use the --forwarders option instead. Remove --no-ntp if 
 Server Migration/Upgrade
 ------------------------
 
-To perform a migration from RHEL 7 to RHEL 8, the following steps will have to take place:
+To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the following steps will have to take place:
 
-* RHEL 8 system is installed and enrolled as a client
-* RHEL 8 system is added as a replica
+* Enterprise Linux 8 system is installed and enrolled as a client
+* Enterprise Linux 8 system is added as a replica
 
 .. code-block:: shell
 
@@ -225,7 +225,7 @@ To perform a migration from RHEL 7 to RHEL 8, the following steps will have to t
       last update status: Error (0) Replica acquired successfully: Incremental update succeeded
       last update ended: 2019-11-07 22:46:15+00:00
 
-* Change CRL to RHEL 8 system and adjust settings on both replicas for pki-tomcatd and httpd
+* Change CRL to Enterprise Linux 8 system and adjust settings on both replicas for pki-tomcatd and httpd
 
 .. code-block:: shell
 
@@ -287,7 +287,7 @@ To perform a migration from RHEL 7 to RHEL 8, the following steps will have to t
    el7.example.com: ...
    el8.example.com: ...
 
-* Stop RHEL 7 IPA services, remove replica, uninstall
+* Stop Enterprise Linux 7 IPA services, remove replica, uninstall
 
 .. code-block:: shell
 
@@ -301,19 +301,19 @@ To perform a migration from RHEL 7 to RHEL 8, the following steps will have to t
    el7% ipa-server-install --uninstall
    el7% init 0
 
-The above is in the case of a single master installation. Let's say you have two RHEL 7 replicas instead. One approach is to install a RHEL 8 system, add it in as needed, reinstall the old RHEL 7 system to RHEL 8, and add it back. Another way is to install two new RHEL 8's, add them in as needed, and power off the RHEL 7's. Below is an example set of steps.
+The above is in the case of a single master installation. Let's say you have two Enterprise Linux 7 replicas instead. One approach is to install a Enterprise Linux 8 system, add it in as needed, reinstall the old Enterprise Linux 7 system to Enterprise Linux 8, and add it back. Another way is to install two new Enterprise Linux 8's, add them in as needed, and power off the Enterprise Linux 7's. Below is an example set of steps.
 
-* RHEL 8 system is installed and enrolled as a client
-* RHEL 8 system is added as a replica
-* Change CRL to RHEL 8 system and adjust settings on RHEL 7 CA master and new RHEL 8 replica for pki-tomcatd and httpd
+* Enterprise Linux 8 system is installed and enrolled as a client
+* Enterprise Linux 8 system is added as a replica
+* Change CRL to Enterprise Linux 8 system and adjust settings on Enterprise Linux 7 CA master and new Enterprise Linux 8 replica for pki-tomcatd and httpd
 * Test user is created to ensure DNA range is adjusted
 * Verify DNA range
-* Stop first RHEL 7 IPA services, remove replica, uninstall, power off.
-* Second RHEL 8 system is installed and enrolled as a client
-* Second RHEL 8 system is added as a replica
+* Stop first Enterprise Linux 7 IPA services, remove replica, uninstall, power off.
+* Second Enterprise Linux 8 system is installed and enrolled as a client
+* Second Enterprise Linux 8 system is added as a replica
 * Test user is created again to ensure DNA range is adjusted
 * Verify DNA range
-* Stop second RHEL 7 IPA services, remove replica, uninstall, power off.
+* Stop second Enterprise Linux 7 IPA services, remove replica, uninstall, power off.
 
 Active Directory Trust
 ----------------------
@@ -339,7 +339,7 @@ You will need to prep your master(s) for the trust. We will be enabling compat, 
 
    % ipa-adtrust-install --add-sids --add-agents --enable-compat
 
-This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.
+This will do what we need. If you do not have legacy clients (Enterprise Linux 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.
 
 You will now need to open the necessary ports. Do this on all masters.
 
@@ -402,8 +402,8 @@ In some cases, it is a requirement to disable *all* anonymous binds. If this is 
 Client Setup
 ------------
 
-RHEL 7 & 8
-++++++++++
+Enterprise Linux & Fedora
++++++++++++++++++++++++++
 
 Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure your hostname is also set correctly.
 
@@ -892,7 +892,7 @@ You might want to create an HBAC rule specifically for your IPA admin accounts t
 SUDO
 ----
 
-Setting up sudo is relatively easy. RHEL 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let's create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.
+Setting up sudo is relatively easy. Enterprise Linux 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let's create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.
 
 .. code-block:: shell
 
@@ -1860,10 +1860,10 @@ This should report back your sites. If you want to know the servers for those si
 
    If the DC's change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.
 
-RHEL 6 SUDO and Default Domain Suffix
+Enterprise Linux 6 SUDO and Default Domain Suffix
 +++++++++++++++++++++++++++++++++++++
 
-This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
+This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for Enterprise Linux 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
 
 Set Default Shell for AD Users
 ++++++++++++++++++++++++++++++
@@ -2038,7 +2038,7 @@ Place the above script in a file that is accessible by the cloudera manager such
 
 During the kerberos wizard, stop when you are verifying the "cdh" user. You will need to set the configuration for "Custom Kerberos Keytab Retrieval Script" to `/usr/local/bin/getKeytabsCDH.sh` and then you're almost there. [#f3]_
 
-An important tidbit is currently RHEL/Enterprise Linux 7+ and higher use memory based keytabs and java doesn't support them. [#f4]_ Because of this, the /etc/krb5.conf should be modified.
+An important tidbit is currently Enterprise Linux 7+ and higher use memory based keytabs and java doesn't support them. [#f4]_ Because of this, the /etc/krb5.conf should be modified.
 
 .. code-block:: shell
 
