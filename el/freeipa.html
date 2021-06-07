@@ -391,7 +391,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#active-directory-trust">Active Directory Trust</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#disable-anonymous-bind">Disable Anonymous Bind</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#client-setup">Client Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#rhel-7-8">RHEL 7 &amp; 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enterprise-linux-fedora">Enterprise Linux &amp; Fedora</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mac-clients">Mac Clients</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#discovery-and-settings">Discovery and Settings</a></li>
 </ul>
@@ -427,7 +427,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#remove-realm-for-ad-users">Remove &#64;realm for AD users</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ad-and-ipa-group-names-with-short-names">AD and IPA group names with short names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sites-and-ad-dc-s">Sites and AD DC’s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rhel-6-sudo-and-default-domain-suffix">RHEL 6 SUDO and Default Domain Suffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enterprise-linux-6-sudo-and-default-domain-suffix">Enterprise Linux 6 SUDO and Default Domain Suffix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-default-shell-for-ad-users">Set Default Shell for AD Users</a></li>
 </ul>
 </li>
@@ -697,7 +697,7 @@
 <li><a class="reference internal" href="#active-directory-trust" id="id18">Active Directory Trust</a></li>
 <li><a class="reference internal" href="#disable-anonymous-bind" id="id19">Disable Anonymous Bind</a></li>
 <li><a class="reference internal" href="#client-setup" id="id20">Client Setup</a><ul>
-<li><a class="reference internal" href="#rhel-7-8" id="id21">RHEL 7 &amp; 8</a></li>
+<li><a class="reference internal" href="#enterprise-linux-fedora" id="id21">Enterprise Linux &amp; Fedora</a></li>
 <li><a class="reference internal" href="#mac-clients" id="id22">Mac Clients</a><ul>
 <li><a class="reference internal" href="#discovery-and-settings" id="id23">Discovery and Settings</a></li>
 </ul>
@@ -733,7 +733,7 @@
 <li><a class="reference internal" href="#remove-realm-for-ad-users" id="id44">Remove &#64;realm for AD users</a></li>
 <li><a class="reference internal" href="#ad-and-ipa-group-names-with-short-names" id="id45">AD and IPA group names with short names</a></li>
 <li><a class="reference internal" href="#sites-and-ad-dc-s" id="id46">Sites and AD DC’s</a></li>
-<li><a class="reference internal" href="#rhel-6-sudo-and-default-domain-suffix" id="id47">RHEL 6 SUDO and Default Domain Suffix</a></li>
+<li><a class="reference internal" href="#enterprise-linux-6-sudo-and-default-domain-suffix" id="id47">Enterprise Linux 6 SUDO and Default Domain Suffix</a></li>
 <li><a class="reference internal" href="#set-default-shell-for-ad-users" id="id48">Set Default Shell for AD Users</a></li>
 </ul>
 </li>
@@ -866,15 +866,15 @@ np-ipa02                A       10.200.0.231</code></pre><p>Note that AD can sen
 10.200.0.230 server1.ipa.example.com
 10.200.0.231 server2.ipa.example.com
 
-# RHEL 7
+# Enterprise Linux 7
 % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-# RHEL 8
+# Enterprise Linux 8
 % yum module enable idm:DL1/{dns,adtrust,client,server,common}
 % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
 # Setup
-# RHEL 7
+# Enterprise Linux 7
 % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
-# RHEL 8
+# Enterprise 8
 % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
 % firewall-cmd --complete-reload
 % ipa-server-install --no_hbac_allow \
@@ -922,10 +922,10 @@ server2.ipa.example.com: master</code></pre></div>
 </div>
 <div class="section" id="server-migration-upgrade">
 <h2><a class="toc-backref" href="#id17">Server Migration/Upgrade</a><a class="headerlink" href="#server-migration-upgrade" title="Permalink to this headline">¶</a></h2>
-<p>To perform a migration from RHEL 7 to RHEL 8, the following steps will have to take place:</p>
+<p>To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the following steps will have to take place:</p>
 <ul class="simple">
-<li>RHEL 8 system is installed and enrolled as a client</li>
-<li>RHEL 8 system is added as a replica</li>
+<li>Enterprise Linux 8 system is installed and enrolled as a client</li>
+<li>Enterprise Linux 8 system is added as a replica</li>
 </ul>
 <pre><code class="language-shell">% yum module enable idm:DL1
 # Install other necessary packages, ie AD trust packages
@@ -952,7 +952,7 @@ el7.example.com
   last init ended: 1970-01-01 00:00:00+00:00
   last update status: Error (0) Replica acquired successfully: Incremental update succeeded
   last update ended: 2019-11-07 22:46:15+00:00</code></pre><ul class="simple">
-<li>Change CRL to RHEL 8 system and adjust settings on both replicas for pki-tomcatd and httpd</li>
+<li>Change CRL to Enterprise Linux 8 system and adjust settings on both replicas for pki-tomcatd and httpd</li>
 </ul>
 <pre><code class="language-shell"># Change CA master to el8
 % ipa config-mod --ca-renewal-master-server el8.example.com
@@ -1005,7 +1005,7 @@ el8% ipa user-find testinguser1</code></pre><ul class="simple">
 % ipa-replica-manage dnarange-show
 el7.example.com: ...
 el8.example.com: ...</code></pre><ul class="simple">
-<li>Stop RHEL 7 IPA services, remove replica, uninstall</li>
+<li>Stop Enterprise Linux 7 IPA services, remove replica, uninstall</li>
 </ul>
 <pre><code class="language-shell"># Stop all el7 services
 el7% ipactl stop
@@ -1015,19 +1015,19 @@ el8% ipa server-del el7.example.com
 
 # Uninstall and/or power down system
 el7% ipa-server-install --uninstall
-el7% init 0</code></pre><p>The above is in the case of a single master installation. Let’s say you have two RHEL 7 replicas instead. One approach is to install a RHEL 8 system, add it in as needed, reinstall the old RHEL 7 system to RHEL 8, and add it back. Another way is to install two new RHEL 8’s, add them in as needed, and power off the RHEL 7’s. Below is an example set of steps.</p>
+el7% init 0</code></pre><p>The above is in the case of a single master installation. Let’s say you have two Enterprise Linux 7 replicas instead. One approach is to install a Enterprise Linux 8 system, add it in as needed, reinstall the old Enterprise Linux 7 system to Enterprise Linux 8, and add it back. Another way is to install two new Enterprise Linux 8’s, add them in as needed, and power off the Enterprise Linux 7’s. Below is an example set of steps.</p>
 <ul class="simple">
-<li>RHEL 8 system is installed and enrolled as a client</li>
-<li>RHEL 8 system is added as a replica</li>
-<li>Change CRL to RHEL 8 system and adjust settings on RHEL 7 CA master and new RHEL 8 replica for pki-tomcatd and httpd</li>
+<li>Enterprise Linux 8 system is installed and enrolled as a client</li>
+<li>Enterprise Linux 8 system is added as a replica</li>
+<li>Change CRL to Enterprise Linux 8 system and adjust settings on Enterprise Linux 7 CA master and new Enterprise Linux 8 replica for pki-tomcatd and httpd</li>
 <li>Test user is created to ensure DNA range is adjusted</li>
 <li>Verify DNA range</li>
-<li>Stop first RHEL 7 IPA services, remove replica, uninstall, power off.</li>
-<li>Second RHEL 8 system is installed and enrolled as a client</li>
-<li>Second RHEL 8 system is added as a replica</li>
+<li>Stop first Enterprise Linux 7 IPA services, remove replica, uninstall, power off.</li>
+<li>Second Enterprise Linux 8 system is installed and enrolled as a client</li>
+<li>Second Enterprise Linux 8 system is added as a replica</li>
 <li>Test user is created again to ensure DNA range is adjusted</li>
 <li>Verify DNA range</li>
-<li>Stop second RHEL 7 IPA services, remove replica, uninstall, power off.</li>
+<li>Stop second Enterprise Linux 7 IPA services, remove replica, uninstall, power off.</li>
 </ul>
 </div>
 <div class="section" id="active-directory-trust">
@@ -1048,7 +1048,7 @@ DNS: AD forest has sites and SRV records, including priorities, are set correctl
 <h5 class="card-title">
 POSIX vs Non-POSIX</h5>If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides if you already have that information for current users (assuming this is not a new setup for the environment, ie you already have UID’s for people). If you are not planning a migration from pure AD over to IPA with a trust, it is recommended to note that information so you can setup the ID overrides. Afterwards, any new users will get UID/GID’s that you will not have to manage yourself.</div></div>
 <p>You will need to prep your master(s) for the trust. We will be enabling compat, adding sids, and adding agents so both masters can provide AD information.</p>
-<pre><code class="language-shell">% ipa-adtrust-install --add-sids --add-agents --enable-compat</code></pre><p>This will do what we need. If you do not have legacy clients (RHEL 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.</p>
+<pre><code class="language-shell">% ipa-adtrust-install --add-sids --add-agents --enable-compat</code></pre><p>This will do what we need. If you do not have legacy clients (Enterprise Linux 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.</p>
 <p>You will now need to open the necessary ports. Do this on all masters.</p>
 <div class="card">
 <div class="card-header bg-info">
@@ -1087,8 +1087,8 @@ nsslapd-allow-anonymous-access: rootdse
 modifying entry "cn=config"</code></pre></div>
 <div class="section" id="client-setup">
 <h2><a class="toc-backref" href="#id20">Client Setup</a><a class="headerlink" href="#client-setup" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="rhel-7-8">
-<h3><a class="toc-backref" href="#id21">RHEL 7 &amp; 8</a><a class="headerlink" href="#rhel-7-8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="enterprise-linux-fedora">
+<h3><a class="toc-backref" href="#id21">Enterprise Linux &amp; Fedora</a><a class="headerlink" href="#enterprise-linux-fedora" title="Permalink to this headline">¶</a></h3>
 <p>Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure your hostname is also set correctly.</p>
 <pre><code class="language-shell">% yum install ipa-client -y
 % ipa-client-install --realm EXAMPLE.COM --domain example.com --mkhomedir</code></pre></div>
@@ -1547,7 +1547,7 @@ Group Types</h5>Groups in Active Directory have three types. These three types c
 </div>
 <div class="section" id="sudo">
 <h2><a class="toc-backref" href="#id26">SUDO</a><a class="headerlink" href="#sudo" title="Permalink to this headline">¶</a></h2>
-<p>Setting up sudo is relatively easy. RHEL 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let’s create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.</p>
+<p>Setting up sudo is relatively easy. Enterprise Linux 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let’s create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.</p>
 <pre><code class="language-shell">% ipa sudorule-add --runasusercat=all --hostcat=all --cmdcat=all --desc='linux admins all sudo' all_linux_sudo
 % ipa sudorule-add-user --groups=linuxadm all_linux_sudo</code></pre><p>You can make this a little more specific, such as /bin/bash as everyone or otherwise. It’s your call here. If you want to create a sudo rule and add some commands to it, you can do something like this.</p>
 <pre><code class="language-shell">% ipa sudorule-add sudo_rule
@@ -2308,9 +2308,9 @@ ad_backup_server = dc3.example.com, dc4.example.com</code></pre><p>If you don’
 <h5 class="card-title">
 Hardcoded DC’s</h5>If the DC’s change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.</div></div>
 </div>
-<div class="section" id="rhel-6-sudo-and-default-domain-suffix">
-<h3><a class="toc-backref" href="#id47">RHEL 6 SUDO and Default Domain Suffix</a><a class="headerlink" href="#rhel-6-sudo-and-default-domain-suffix" title="Permalink to this headline">¶</a></h3>
-<p>This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for RHEL 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.</p>
+<div class="section" id="enterprise-linux-6-sudo-and-default-domain-suffix">
+<h3><a class="toc-backref" href="#id47">Enterprise Linux 6 SUDO and Default Domain Suffix</a><a class="headerlink" href="#enterprise-linux-6-sudo-and-default-domain-suffix" title="Permalink to this headline">¶</a></h3>
+<p>This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for Enterprise Linux 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.</p>
 </div>
 <div class="section" id="set-default-shell-for-ad-users">
 <h3><a class="toc-backref" href="#id48">Set Default Shell for AD Users</a><a class="headerlink" href="#set-default-shell-for-ad-users" title="Permalink to this headline">¶</a></h3>
@@ -2465,7 +2465,7 @@ PRINC=$(echo $FULLPRINC | sed "s/\@$(echo $IPAREALM)//")
 kdestroy
 exit 0</code></pre><p>Place the above script in a file that is accessible by the cloudera manager such as <cite>/usr/local/bin/getKeytabsCDH.sh</cite> and ensure it is owned by cloudera-scm with a permission set of 775.</p>
 <p>During the kerberos wizard, stop when you are verifying the “cdh” user. You will need to set the configuration for “Custom Kerberos Keytab Retrieval Script” to <cite>/usr/local/bin/getKeytabsCDH.sh</cite> and then you’re almost there. <a class="footnote-reference" href="#f3" id="id4">[3]</a></p>
-<p>An important tidbit is currently RHEL/Enterprise Linux 7+ and higher use memory based keytabs and java doesn’t support them. <a class="footnote-reference" href="#f4" id="id5">[4]</a> Because of this, the /etc/krb5.conf should be modified.</p>
+<p>An important tidbit is currently Enterprise Linux 7+ and higher use memory based keytabs and java doesn’t support them. <a class="footnote-reference" href="#f4" id="id5">[4]</a> Because of this, the /etc/krb5.conf should be modified.</p>
 <pre><code class="language-shell">% cat /etc/krb5.conf
 . . .
 # Make sure the below is commented
