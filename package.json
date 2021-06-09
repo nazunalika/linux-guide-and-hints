@@ -1,27 +1,15 @@
 {
   "name": "linux-guide-and-hints",
   "version": "1.6.0",
-  "description": "[![Build Status](https://travis-ci.org/nazunalika/linux-guide-and-hints.svg?branch=master)](https://travis-ci.org/nazunalika/linux-guide-and-hints)",
-  "main": "Gruntfile.js",
+  "description": "This page contains tutorials and generally useful information regarding packages and system administration in Fedora®, Rocky® and CentOS®.",
   "dependencies": {
     "prismjs": "^1.23.0"
-  },
-  "devDependencies": {
-    "grunt": "^1.4.1",
-    "grunt-contrib-connect": "^3.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^4.0.0",
-    "grunt-contrib-imagemin": "^4.0.0",
-    "grunt-contrib-uglify": "^5.0.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nazunalika/linux-guide-and-hints.git"
   },
-  "author": "",
+  "author": "remyabel, nazunalika",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nazunalika/linux-guide-and-hints/issues"

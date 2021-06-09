@@ -57,9 +57,7 @@ jobs:
     - name: sphinx build
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir -p cert && touch cert/server.key && touch cert/server.crt && touch cert/ca.crt
         make html SPHINXBUILD=$HOME/.local/bin/sphinx-build
-        ./node_modules/grunt/bin/grunt build
       env:
         CI: true
 

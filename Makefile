@@ -53,6 +53,11 @@ clean:
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	cp node_modules/prismjs/prism.js $(BUILDDIR)/html/_static/js/
+	mkdir -p $(BUILDDIR)/html/_static/js/components/
+	cp node_modules/prismjs/components/prism-bash.min.js $(BUILDDIR)/html/_static/js/components/
+	cp node_modules/prismjs/components/prism-docker.min.js $(BUILDDIR)/html/_static/js/components/
+	cp node_modules/prismjs/themes/prism-okaidia.css $(BUILDDIR)/html/_static/css/
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 

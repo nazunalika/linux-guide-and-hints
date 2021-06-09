@@ -10,21 +10,15 @@ If you would like to contribute or you find an error, please open an issue/PR as
 
 ### Dependencies
 
-    npm install -g grunt-cli
     npm install
     pip3 install -U --user -r requirements.txt
 
 ### Building
 
     make html SPHINXOPTS=-Ea
-    grunt build
 
-It's important to run the commands in that order. `make html` will build the docs, then `grunt build` does copying and minifying.
+### Test locally
 
-### Livereload
+    ./serve.py
 
-    grunt connect
-
-Add `localhost.ssl` to your `/etc/hosts`, then visit `https://localhost.ssl:8443`. 
-
-You will need a self-signed certificate. Run the convenience script `generate-cert.sh` provided in this repo.
+Then open https://localhost:8443/ in your browser.
