@@ -1861,7 +1861,7 @@ This should report back your sites. If you want to know the servers for those si
    If the DC's change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.
 
 Enterprise Linux 6 SUDO and Default Domain Suffix
-+++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This issue with the above section is that once you do this, sudo rules will begin failing, they will no longer work for Enterprise Linux 6. This is because sssd was changed to look for cn=sudo rather than ou=sudoers. To enable the compatibility fall back, you will need to install the latest SSSD from COPR.
 
