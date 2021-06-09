@@ -673,7 +673,8 @@ terminal’s color scheme “bleeds” into vim’s. This is a result of tmux
 not using a 256 color terminal. It is covered in the tmux FAQ <a class="reference external" href="http://tmux.cvs.sourceforge.net/viewvc/tmux/tmux/FAQ">“How do I
 use a 256 colour terminal?”</a>. The following
 is a complete excerpt but edited for formatting purposes.</p>
-<blockquote>
+<blockquote class="pull-quote">
+<div><blockquote>
 <div>If you attach to your tmux session and <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$TERM</span></code> says something
 like <code class="docutils literal notranslate"><span class="pre">screen</span></code>, then you know something’s wrong. Before attaching to
 your tmux session, do <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$TERM</span></code> (it may be something like
@@ -689,7 +690,8 @@ terminfo entry and by looking for the string “256col” in the TERM environmen
 variable.</p>
 <p>If both these methods fail, the -2 flag may be passed to tmux when attaching
 to a session to indicate the terminal supports 256 colours.</p>
-<pre><code class="language-bash">tmux -2 attach</code></pre></div>
+<pre><code class="language-bash">tmux -2 attach</code></pre></div></blockquote>
+</div>
 
 
            </div>
