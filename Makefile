@@ -51,13 +51,17 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
+min_css_sources := source/themes/sphinx_theme/static/css/style.css \
+				   node_modules/prismjs/themes/prism-okaidia.css
+min_js_sources := node_modules/prismjs/prism.js \
+				  node_modules/prismjs/components/prism-bash.min.js \
+				  node_modules/prismjs/components/prism-docker.min.js \
+				  source/themes/sphinx_theme/static/js/prism-freeipa.js
+
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
-	cp node_modules/prismjs/prism.js $(BUILDDIR)/html/_static/js/
-	mkdir -p $(BUILDDIR)/html/_static/js/components/
-	cp node_modules/prismjs/components/prism-bash.min.js $(BUILDDIR)/html/_static/js/components/
-	cp node_modules/prismjs/components/prism-docker.min.js $(BUILDDIR)/html/_static/js/components/
-	cp node_modules/prismjs/themes/prism-okaidia.css $(BUILDDIR)/html/_static/css/
+	./node_modules/clean-css-cli/bin/cleancss $(min_css_sources) > $(BUILDDIR)/html/_static/css/bundle.min.css
+	./node_modules/uglify-js/bin/uglifyjs --compress --mangle -- $(min_js_sources) > $(BUILDDIR)/html/_static/js/bundle.min.js
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
