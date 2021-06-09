@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta content="How to install/configure FreeIPA on Enterprise Linux 7/8 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods." name="description" />
 
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self';">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
@@ -19,6 +19,8 @@
   
   
   
+    <link rel="canonical" href="https://linuxguideandhints.com/el/freeipa.html"/>
+  
 
   
 
@@ -30,12 +32,10 @@
 
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
 
   
       <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -46,7 +46,6 @@
       <script src="../_static/js/components/prism-bash.min.js"></script>
       <script src="../_static/js/components/prism-docker.min.js"></script>
       <script src="../_static/js/prism-freeipa.min.js"></script>
-      <script src="../_static/js/toggle.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
@@ -783,21 +782,19 @@
 </div>
 <div class="section" id="tutorial-preface-notes-and-recommendations">
 <h2><a class="toc-backref" href="#id9">Tutorial Preface, Notes, and Recommendations</a><a class="headerlink" href="#tutorial-preface-notes-and-recommendations" title="Permalink to this headline">¶</a></h2>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-Potential Pitfalls!</h5><ul class="simple">
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Potential Pitfalls!</p>
+<ul class="last simple">
 <li>Leave SELinux enabled at all times. You will not run into SELinux issues</li>
 <li>FreeIPA runs better when it controls the DNS domain that it is given - It is recommended DNS is delegated or that FreeIPA run DNS entirely</li>
 <li>FreeIPA does not run DHCP. ISC DHCP can be configured to do dynamic DNS updates to FreeIPA or hosts can be configured to perform dynamic DNS updates</li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Recommended Information</h5><ul class="simple">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Recommended Information</p>
+<ul class="last simple">
 <li>Keep selinux set to <strong>enforcing</strong></li>
 <li>DNS - You <strong>must</strong> be careful when using DNS. Here are recommendations. <a class="footnote-reference" href="#f1" id="id1">[1]</a><ul>
 <li>Recommendation 1: FreeIPA runs your entire DNS for your network - This requires the DHCP servers to set the DNS servers to the IPA servers. This will be useful in the case that your clients will have their SSH keys added as SSHFP records to DNS when enrolled as clients. This also gives you the added benefit of a client updating its own DNS entries (A and PTR records) if the client is DHCP enabled and the IP changes if you so choose.</li>
@@ -808,12 +805,12 @@ Recommended Information</h5><ul class="simple">
 <li>IPA servers should have static assigned addresses - Configured via nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-*</li>
 <li>Try to avoid running FreeIPA without DNS - while possible, you are creating higher maintenance</li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Trust Information</h5>If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, example.com and ipa.example.com, or example.com and example.net). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync.</div></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Trust Information</p>
+<p class="last">If you are in a mixed environment (both Windows and Linux/UNIX), it is recommended to setup a trust between FreeIPA and Active Directory. Because of this, they will need to be in different domains (eg, example.com and ipa.example.com, or example.com and example.net). This way, you do not have to create duplicate users if a windows user logs into Linux resources nor use winsync.</p>
+</div>
 </div>
 <div class="section" id="dns">
 <h2><a class="toc-backref" href="#id10">DNS</a><a class="headerlink" href="#dns" title="Permalink to this headline">¶</a></h2>
@@ -1033,29 +1030,29 @@ el7% init 0</code></pre><p>The above is in the case of a single master installat
 <div class="section" id="active-directory-trust">
 <h2><a class="toc-backref" href="#id18">Active Directory Trust</a><a class="headerlink" href="#active-directory-trust" title="Permalink to this headline">¶</a></h2>
 <p>To initiate a trust with your active directory domain, ensure the following requirements are met.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Requirements</h5>Package installed: ipa-server-trust-ad
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Requirements</p>
+<p class="last">Package installed: ipa-server-trust-ad
 DNS: Properly configured that FreeIPA can resolve the AD servers A and SRV records
 This can either be forwarders to AD, a subdomain that IPA manages, or delegated subdomain from the master DNS servers in your network. This is completely dependent on your infrastructure.
-DNS: AD forest has sites and SRV records, including priorities, are set correctly</div></div>
+DNS: AD forest has sites and SRV records, including priorities, are set correctly</p>
+</div>
 <p>When the following requirements are met, you have two choices before continuning. You can either use POSIX or have the id range generated automatically.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-POSIX vs Non-POSIX</h5>If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides if you already have that information for current users (assuming this is not a new setup for the environment, ie you already have UID’s for people). If you are not planning a migration from pure AD over to IPA with a trust, it is recommended to note that information so you can setup the ID overrides. Afterwards, any new users will get UID/GID’s that you will not have to manage yourself.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>POSIX vs Non-POSIX</p>
+<p class="last">If you decide to use POSIX, your AD users are expected to have uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will need to setup ID overrides if you already have that information for current users (assuming this is not a new setup for the environment, ie you already have UID’s for people). If you are not planning a migration from pure AD over to IPA with a trust, it is recommended to note that information so you can setup the ID overrides. Afterwards, any new users will get UID/GID’s that you will not have to manage yourself.</p>
+</div>
 <p>You will need to prep your master(s) for the trust. We will be enabling compat, adding sids, and adding agents so both masters can provide AD information.</p>
 <pre><code class="language-shell">% ipa-adtrust-install --add-sids --add-agents --enable-compat</code></pre><p>This will do what we need. If you do not have legacy clients (Enterprise Linux 5, Solaris, HP-UX, AIX, SLES 11.4, the list goes on), then you do not need to enable compat mode. Though, it could be useful to have it for certain apps or scenarios.</p>
 <p>You will now need to open the necessary ports. Do this on all masters.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Ports</h5>TCP: 135, 138, 139, 389, 445, 1024-1300, 3268
-UDP: 138, 139, 389, 445</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Ports</p>
+<p class="last">TCP: 135, 138, 139, 389, 445, 1024-1300, 3268
+UDP: 138, 139, 389, 445</p>
+</div>
 <pre><code class="language-shell">% firewall-cmd --add-service=freeipa-trust --permanent
 % firewall-cmd --complete-reload</code></pre><p>Now you can initiate the trust. The admin account you use should be part of the domain admins group or at least have permissions to initiate a trust. The former is path of least resistance.</p>
 <pre><code class="language-shell"># If you are using POSIX ID, use ipa-ad-trust-posix.
@@ -1072,11 +1069,11 @@ uid=XXXXX(aduser1@example.com) gid=XXXXX(aduser1@example.com) groups=XXXXX(aduse
 <div class="section" id="disable-anonymous-bind">
 <h2><a class="toc-backref" href="#id19">Disable Anonymous Bind</a><a class="headerlink" href="#disable-anonymous-bind" title="Permalink to this headline">¶</a></h2>
 <p>In some cases, it is a requirement to disable <em>all</em> anonymous binds. If this is the case, you will need to modify cn=config on each master as it is not replicated.</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-rootdse</h5>Some applications do anonymous binds to the directory server to determine its version and it supported controls. While it is possible to disable anonymous binds completely, it is important to know that if you disable the rootdse binds, applications that do anonymous lookups to get server information will fail.</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>rootdse</p>
+<p class="last">Some applications do anonymous binds to the directory server to determine its version and it supported controls. While it is possible to disable anonymous binds completely, it is important to know that if you disable the rootdse binds, applications that do anonymous lookups to get server information will fail.</p>
+</div>
 <pre><code class="language-shell">% ldapmodify -xZZ -D "cn=Directory Manager" -W -h server.ipa.example.com
 Enter LDAP Password:
 dn: cn=config
@@ -1095,18 +1092,17 @@ modifying entry "cn=config"</code></pre></div>
 <div class="section" id="mac-clients">
 <h3><a class="toc-backref" href="#id22">Mac Clients</a><a class="headerlink" href="#mac-clients" title="Permalink to this headline">¶</a></h3>
 <p>MacOS Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings. <strong>Note that as of Catalina, you may not be able to login to your account nor will creating a mobile account function as you would expect.</strong></p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Other Guides</h5><p>There are a couple of guides out there that you may have found before (if you looked) that help setup IPA for Mac. There’s one for much older (I think Lion) and one for Sierra. This section was made mostly for my own reference because I found some things in both of those guides didn’t address issues I ran into one way or another and couldn’t find any information on. The FreeIPA users mail list didn’t have any archives with people having similar issues.</p>
-<p>If you are interested in the other guides to compare to, you may see them <a class="reference external" href="https://www.freeipa.org/page/HowTo/Setup_FreeIPA_Services_for_Mac_OS_X_10.12">here (recent)</a> and <a class="reference external" href="https://annvix.com/using_freeipa_for_user_authentication#Mac_OS_X_10.7.2F10.8">here (older)</a></p>
-</div></div>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-AD Users</h5>You cannot login as AD users on a Mac when going through FreeIPA. You can, in theory, point to the cn=compat tree and set the attribute mapping to rfc2307. In my tests, I have never been able to get this to work. This section, I am going to assume you are going to be logging in as a user in IPA. If you are in a mixed environment, add your Mac to your AD domain instead.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Other Guides</p>
+<p>There are a couple of guides out there that you may have found before (if you looked) that help setup IPA for Mac. There’s one for much older (I think Lion) and one for Sierra. This section was made mostly for my own reference because I found some things in both of those guides didn’t address issues I ran into one way or another and couldn’t find any information on. The FreeIPA users mail list didn’t have any archives with people having similar issues.</p>
+<p class="last">If you are interested in the other guides to compare to, you may see them <a class="reference external" href="https://www.freeipa.org/page/HowTo/Setup_FreeIPA_Services_for_Mac_OS_X_10.12">here (recent)</a> and <a class="reference external" href="https://annvix.com/using_freeipa_for_user_authentication#Mac_OS_X_10.7.2F10.8">here (older)</a></p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>AD Users</p>
+<p class="last">You cannot login as AD users on a Mac when going through FreeIPA. You can, in theory, point to the cn=compat tree and set the attribute mapping to rfc2307. In my tests, I have never been able to get this to work. This section, I am going to assume you are going to be logging in as a user in IPA. If you are in a mixed environment, add your Mac to your AD domain instead.</p>
+</div>
 <p>Check your system’s hostname. You want to make sure it has a hostname defined for it in the domain the mac sits in, even if it’s dynamic via DHCP/DNS.</p>
 <pre><code class="language-shell">% sudo scutil --set HostName mac.example.com</code></pre><p>Get the IPA certificate. You’ll need to double click it after you get it and import it.</p>
 <pre><code class="language-shell">% cd ~/Desktop && curl -OL http://server1.ipa.example.com/ipa/config/ca.crt
@@ -1224,10 +1220,10 @@ Encrypt using SSL (selected)</code></pre><ol class="arabic simple">
 </tr>
 </tbody>
 </table>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-“groupOfNames” is optional here, because it seems that the directory utility doesn’t understand this concept.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">“groupOfNames” is optional here, because it seems that the directory utility doesn’t understand this concept.</p>
+</div>
 <ol class="arabic simple">
 <li>Expand “groups” and ensure the following for each record type. You can click the “+” to add the attribute types as needed.</li>
 </ol>
@@ -1341,17 +1337,16 @@ Encrypt using SSL (selected)</code></pre><ol class="arabic simple">
 # OPTIONAL: Allow the mobile account to be an administrator
 % sudo dscl . -append /Groups/admin GroupMembership username</code></pre><p>Go to system preferences, users &amp; groups and ensure the account is a mobile account.</p>
 <p><strong>Note</strong>: If you want groups from IPA to resolve to the system, you’ll need to enable the compat tree when using this setup (RFC2307).</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-Password Notes</h5><p>There are a couple of problems with this setup that you should be aware of.</p>
-<ul class="simple">
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Password Notes</p>
+<p>There are a couple of problems with this setup that you should be aware of.</p>
+<ul class="last simple">
 <li>If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.</li>
 <li>If your account does not have any keytabs (eg, you haven’t had your mac on or haven’t logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.</li>
 <li>There have been reports in a github issue that states you can change the password in the system preferences but I’ve been unable to confirm this.</li>
 </ul>
-</div></div>
+</div>
 <p>And that’s it! My own script that I made (as a reference) is below to do the work. It’s highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac’s.</p>
 <pre><code class="language-shell">#!/bin/bash
 serverName=server1.ipa.example.com
@@ -1409,11 +1404,11 @@ root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmo
 <div class="section" id="suse">
 <h3><a class="toc-backref" href="#id24">SUSE</a><a class="headerlink" href="#suse" title="Permalink to this headline">¶</a></h3>
 <p>To setup openSUSE with FreeIPA, we’ll need to do some manual work. This applies to SUSE 12 and up.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-freeipa repos</h5>There are OpenSUSE repos with the freeipa packages, though they are considered “experimental”. If they show up in the base, then the below steps will be removed. However, if you are willing to use the <a class="reference external" href="https://software.opensuse.org/download/package?package=freeipa-client&amp;project=openSUSE%3Ainfrastructure%3Aipsilon">repo</a>, a lot of the steps below may not be needed. We have not tested this.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>freeipa repos</p>
+<p class="last">There are OpenSUSE repos with the freeipa packages, though they are considered “experimental”. If they show up in the base, then the below steps will be removed. However, if you are willing to use the <a class="reference external" href="https://software.opensuse.org/download/package?package=freeipa-client&amp;project=openSUSE%3Ainfrastructure%3Aipsilon">repo</a>, a lot of the steps below may not be needed. We have not tested this.</p>
+</div>
 <pre><code class="language-shell"># On an IPA server or client with the IPA utilities...
 % ipa host-add suse.example.com
 % /usr/sbin/ipa-getkeytab -s ipa.example.com -p host/suse.example.com -k /tmp/suse.keytab
@@ -1539,11 +1534,11 @@ auth    sufficient      pam_sss.so      forward_pass</code></pre></div>
 % ipa hbacrule-add-user --groups=linuxadm linuxadm
 % ipa hbactest --rules=All_Systems --user=flast --host=server1.ipa.example.com --service=sshd
 % ipa hbactest --rules=All_Systems --user=aduser1@example.com --host=server1.ipa.example.com --service=sshd</code></pre><p>You might want to create an HBAC rule specifically for your IPA admin accounts to have ssh access to the IPA servers too. You can follow something like the above to make it possible. Or you can just add the IPA admins group into the HBAC rule we just made above.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Group Types</h5>Groups in Active Directory have three types. These three types can actually change the behavior of how SSSD on the IPA domain controllers resolve them or if they’ll even be resolvable at all. The three types are ‘Domain Local’, ‘Global’, and ‘Universal’. If at all possible, avoid groups being ‘Global’. Domain Local or Universal is recommended.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Group Types</p>
+<p class="last">Groups in Active Directory have three types. These three types can actually change the behavior of how SSSD on the IPA domain controllers resolve them or if they’ll even be resolvable at all. The three types are ‘Domain Local’, ‘Global’, and ‘Universal’. If at all possible, avoid groups being ‘Global’. Domain Local or Universal is recommended.</p>
+</div>
 </div>
 <div class="section" id="sudo">
 <h2><a class="toc-backref" href="#id26">SUDO</a><a class="headerlink" href="#sudo" title="Permalink to this headline">¶</a></h2>
@@ -1558,13 +1553,12 @@ Group Types</h5>Groups in Active Directory have three types. These three types c
 <div class="section" id="solaris-10">
 <h3><a class="toc-backref" href="#id28">Solaris 10</a><a class="headerlink" href="#solaris-10" title="Permalink to this headline">¶</a></h3>
 <p>Setting up Solaris 10 as an IPA client is an interesting feat. However, it comes with security issues.</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-No SSL or TLS Support</h5><p>Note that for Solaris 10 to talk to IPA, you must use clear text communication. Solaris 10 is too old to use new ciphers. However, while LDAP may be clear text, kerberos should still be secure enough for the time being.</p>
-<p>If you are using an AD trust, the user’s passwords will be passed in clear text. Highly suggested that you decommission Solaris 10 from your environment. Solaris 10 will eventually be removed from this page.</p>
-</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>No SSL or TLS Support</p>
+<p>Note that for Solaris 10 to talk to IPA, you must use clear text communication. Solaris 10 is too old to use new ciphers. However, while LDAP may be clear text, kerberos should still be secure enough for the time being.</p>
+<p class="last">If you are using an AD trust, the user’s passwords will be passed in clear text. Highly suggested that you decommission Solaris 10 from your environment. Solaris 10 will eventually be removed from this page.</p>
+</div>
 <p>Create an ldif for your service account (optional)</p>
 <pre><code class="language-ldif">dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
 objectclass: account
@@ -1634,21 +1628,21 @@ timelimit 120
 uri ldap://server1.ipa.example.com
 sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
 pam_lookup_policy yes</code></pre><p>Now init the ldap client.</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-No Secure Connection</h5>When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on.</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-AD Trust - Different Trees</h5>If using an AD trust, you should use the second example, where it looks at the compat tree for users.</div></div>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-No Service Account</h5>If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>No Secure Connection</p>
+<p class="last">When using this, you are not creating a secure connection. The Solaris 10 SSL libraries are so old that they cannot work with the ciphers that FreeIPA has turned on.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AD Trust - Different Trees</p>
+<p class="last">If using an AD trust, you should use the second example, where it looks at the compat tree for users.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>No Service Account</p>
+<p class="last">If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.</p>
+</div>
 <p><strong>Without an AD Trust</strong></p>
 <pre><code class="language-shell"># Without AD Trust (no proxy)
 % ldapclient manual -a authenticationMethod=none \
@@ -1718,11 +1712,11 @@ No Service Account</h5>If you have configured FreeIPA to not allow any anonymous
                     -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
                     -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
                     -a bindTimeLimit=5</code></pre><p>This should succeed. Once it succeeds, you need to configure pam and nsswitch.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-AD Trust Information</h5>In the event you don’t have an AD trust, you can change the “binding” lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read “required”</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AD Trust Information</p>
+<p class="last">In the event you don’t have an AD trust, you can change the “binding” lines to required, remove the pam_ldap lines, and change pam_krb5 lines to read “required”</p>
+</div>
 <pre><code class="language-shell">% vi /etc/pam.conf
 
 # Console
@@ -1811,11 +1805,11 @@ dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
 <div class="section" id="solaris-11">
 <h3><a class="toc-backref" href="#id29">Solaris 11</a><a class="headerlink" href="#solaris-11" title="Permalink to this headline">¶</a></h3>
 <p>Solaris 11 shares similar configuration to Solaris 10. There are a couple of manual things we have to do, but they are trivial. Solaris 11/Omnios will use TLS and sudo should just work.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-AD Groups</h5>In Solaris 10, users who logged in with AD users (with their short name) would appear as their full name (<a class="reference external" href="mailto:name&#37;&#52;&#48;domain">name<span>&#64;</span>domain</a>). This allowed their groups to fully resolve. However, in Solaris 11.4, this was not the case. Short name logins will work but your groups will not resolve as the compat tree uses the full name. To avoid running into this problem, you should be on at least SRU 11.4.7.4.0. Note that on a later SRU, you may need to setup an ID view (without overrides) for groups and sudo to work again.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AD Groups</p>
+<p class="last">In Solaris 10, users who logged in with AD users (with their short name) would appear as their full name (<a class="reference external" href="mailto:name&#37;&#52;&#48;domain">name<span>&#64;</span>domain</a>). This allowed their groups to fully resolve. However, in Solaris 11.4, this was not the case. Short name logins will work but your groups will not resolve as the compat tree uses the full name. To avoid running into this problem, you should be on at least SRU 11.4.7.4.0. Note that on a later SRU, you may need to setup an ID view (without overrides) for groups and sudo to work again.</p>
+</div>
 <p>Below is for the service account like in the previous section, here as a reference.</p>
 <pre><code class="language-ldif">dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
 objectclass: account
@@ -1871,11 +1865,11 @@ forwardable= true
 
 # Test that you can kinit
 % kinit flast2@IPA.EXAMPLE.COM</code></pre><p>Create the LDAP configurations, bring the certificate, and create an NSS database.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Solaris 11.3 vs 11.4</h5>Previously we had 11.3 and 11.4 configurations. We have removed 11.3 as we no longer support it.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Solaris 11.3 vs 11.4</p>
+<p class="last">Previously we had 11.3 and 11.4 configurations. We have removed 11.3 as we no longer support it.</p>
+</div>
 <pre><code class="language-shell">% mkdir /etc/ipa /var/ldap
 % cd /etc/ipa
 % wget -O ipa.pem http://server1.ipa.example.com/ipa/config/ca.crt
@@ -1891,16 +1885,16 @@ pam_lookup_policy yes
 TLS_CACERTDIR /var/ldap
 ssl start_tls
 tls_checkpeer no</code></pre><p>Now init the ldap client. We actually get to use a secure connection here. Kerberos is hit or miss, could never get sasl/GSSAPI to work.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Different Trees - Trust or not?</h5>There are multiple examples of how to setup the trees. If using an AD trust, you should use the second example, where it looks at the compat tree for users. However, if you do not have trusts, then it is perfectly possible to still use the AD Trust example. Try both and see which works better for your environment.</div></div>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-No Service Account</h5>If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Different Trees - Trust or not?</p>
+<p class="last">There are multiple examples of how to setup the trees. If using an AD trust, you should use the second example, where it looks at the compat tree for users. However, if you do not have trusts, then it is perfectly possible to still use the AD Trust example. Try both and see which works better for your environment.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>No Service Account</p>
+<p class="last">If you have configured FreeIPA to not allow any anonymous connections, you will need to use a proxy account. We have provided the examples for this configuration.</p>
+</div>
 <p><strong>Without AD Trust</strong></p>
 <pre><code class="language-shell"># Without AD Trust (no proxy)
 % ldapclient manual -a authenticationMethod=tls:simple \
@@ -2012,11 +2006,11 @@ No Service Account</h5>If you have configured FreeIPA to not allow any anonymous
 
 % /usr/sbin/svcadm refresh svc:/system/name-service/switch
 % /usr/sbin/svcadm restart svc:/system/name-service/switch
-% /usr/sbin/svcadm restart ldap/client</code></pre><div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-AD Trust Information</h5>In the event you don’t have an AD trust, you can change the “binding” lines to required and remove the pam_ldap lines. Optionally, you can set pam_krb5 to “required”, however sufficient should work just fine.</div></div>
+% /usr/sbin/svcadm restart ldap/client</code></pre><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AD Trust Information</p>
+<p class="last">In the event you don’t have an AD trust, you can change the “binding” lines to required and remove the pam_ldap lines. Optionally, you can set pam_krb5 to “required”, however sufficient should work just fine.</p>
+</div>
 <p><strong>Without an AD Trust</strong></p>
 <pre><code class="language-shell">% vi /etc/pam.d/login
 auth definitive         pam_user_policy.so.1
@@ -2234,13 +2228,12 @@ account required        pam_hbac.so ignore_unknown_user ignore_authinfo_unavail<
 <div class="section" id="remove-realm-for-ad-users">
 <h3><a class="toc-backref" href="#id44">Remove &#64;realm for AD users</a><a class="headerlink" href="#remove-realm-for-ad-users" title="Permalink to this headline">¶</a></h3>
 <p>A common scenario is that IPA and AD will have a trust, but there will not be any IPA users with the exception of the engineering team for managing IPA itself. The common theme is that because of this, the engineers and customers would rather not login with <a class="reference external" href="mailto:username&#37;&#52;&#48;realm">username<span>&#64;</span>realm</a>.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Info</h5><p>The following is only applicable in an IPA-AD trust. An IPA-only scenario would not require any of these steps and most pieces would work natively (no &#64;realm, sudo, hbac).</p>
-<p>In the event that you are in an IPA-AD scenario, please take note that this can adversely affect legacy clients. This will cause ldapsearches that are done in the compat tree to display multiple uid attributes. In most cases, this is fine and the user can still login without the realm name. The whoami and id commands will show the domain. There’s no workaround for this.</p>
-</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Info</p>
+<p>The following is only applicable in an IPA-AD trust. An IPA-only scenario would not require any of these steps and most pieces would work natively (no &#64;realm, sudo, hbac).</p>
+<p class="last">In the event that you are in an IPA-AD scenario, please take note that this can adversely affect legacy clients. This will cause ldapsearches that are done in the compat tree to display multiple uid attributes. In most cases, this is fine and the user can still login without the realm name. The whoami and id commands will show the domain. There’s no workaround for this.</p>
+</div>
 <p>On the IPA servers, you will need to set the domain resolution order. This was introduced in 4.5.0.</p>
 <pre><code class="language-shell">% kinit admin
 % ipa config-mod --domain-resolution-order="example.com:ipa.example.com"</code></pre><p>After, you will need to clear out your SSSD cache.</p>
@@ -2283,11 +2276,11 @@ for x in ${ARRAY[*]} ; do
 done
 
 % bash /tmp/dupecheck.sh</code></pre><p>If you run into any duplicates, they should show up in a list for you address.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-sAMAccountName vs CN</h5>The “CN” and “sAMAccountName” attributes are not the same in AD, depending on who made the group or other factors. The sAMAccountName attribute is the value used to determine names from AD, whether you are enrolled with AD or the IPA server SSSD is pulling the information. This is why we are searching for that attribute, and not the CN.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>sAMAccountName vs CN</p>
+<p class="last">The “CN” and “sAMAccountName” attributes are not the same in AD, depending on who made the group or other factors. The sAMAccountName attribute is the value used to determine names from AD, whether you are enrolled with AD or the IPA server SSSD is pulling the information. This is why we are searching for that attribute, and not the CN.</p>
+</div>
 </div>
 <div class="section" id="sites-and-ad-dc-s">
 <h3><a class="toc-backref" href="#id46">Sites and AD DC’s</a><a class="headerlink" href="#sites-and-ad-dc-s" title="Permalink to this headline">¶</a></h3>
@@ -2302,11 +2295,11 @@ ad_backup_server = dc3.example.com, dc4.example.com</code></pre><p>If you don’
 <pre><code class="language-shell">% ldapsearch -x -h example.com -s one -WD 'CN=username,CN=Users,DC=example,DC=com' \
   -b 'CN=Sites,CN=Configuration,DC=example,DC=com' cn</code></pre><p>This should report back your sites. If you want to know the servers for those sites (in case you don’t want to deal with the sites, but just the DC’s themselves), you use ldapsearch but use the base DN of the site name.</p>
 <pre><code class="language-shell">% ldapsearch -x -h example.com -WD 'CN=username,CN=Users,DC=example,DC=com' \
-  -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=example,DC=com' dnsHostName</code></pre><div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Hardcoded DC’s</h5>If the DC’s change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.</div></div>
+  -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=example,DC=com' dnsHostName</code></pre><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Hardcoded DC’s</p>
+<p class="last">If the DC’s change at any time and they are harded in your sssd.conf, it is up to you to know when new controllers are being added or removed as to not disrupt the connectivity from IPA to AD when performing user or group lookups.</p>
+</div>
 </div>
 <div class="section" id="enterprise-linux-6-sudo-and-default-domain-suffix">
 <h3><a class="toc-backref" href="#id47">Enterprise Linux 6 SUDO and Default Domain Suffix</a><a class="headerlink" href="#enterprise-linux-6-sudo-and-default-domain-suffix" title="Permalink to this headline">¶</a></h3>
@@ -2328,11 +2321,11 @@ default_shell = /bin/bash
 <div class="section" id="hadoop-cloudera">
 <h3><a class="toc-backref" href="#id50">Hadoop/Cloudera</a><a class="headerlink" href="#hadoop-cloudera" title="Permalink to this headline">¶</a></h3>
 <p>This assumes you are using Cloudera Manager and not Ambari in any form.</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-DNS Information</h5>It is <em>highly</em> likely that if you are using AWS, your nodes are getting stupid names like compute.internal. While there is a <a class="reference external" href="https://blog.cloudera.com/custom-hostname-for-cloud-instances/">a way to change this</a> if you don’t change it, you will need to rely on something like DNSMASQ to allow the nodes to communicate with FreeIPA. FreeIPA <em>will</em> be upset about the stupid names because it can’t do a rDNS lookup.</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>DNS Information</p>
+<p class="last">It is <em>highly</em> likely that if you are using AWS, your nodes are getting stupid names like compute.internal. While there is a <a class="reference external" href="https://blog.cloudera.com/custom-hostname-for-cloud-instances/">a way to change this</a> if you don’t change it, you will need to rely on something like DNSMASQ to allow the nodes to communicate with FreeIPA. FreeIPA <em>will</em> be upset about the stupid names because it can’t do a rDNS lookup.</p>
+</div>
 <div class="section" id="cloudera-manager-woes">
 <h4><a class="toc-backref" href="#id51">Cloudera Manager Woes</a><a class="headerlink" href="#cloudera-manager-woes" title="Permalink to this headline">¶</a></h4>
 <p>It is likely you have Cloudera/Hadoop, it is also very likely you (or another team) are deploying and using Cloudera Manager (or Director?). You may be running into issues that involve direct Active Directory integration. Maybe you’re moving away from a standalone LDAP system over to Active Directory or even FreeIPA. Maybe you have FreeIPA in an AD trust but the users or contractors absolutely insist on using AD against their better judgement, despite the problems they’re running into. Whatever the scenario is, we feel your pain. Here are some things you should probably know:</p>
@@ -2478,11 +2471,11 @@ exit 0</code></pre><p>Place the above script in a file that is accessible by the
 <div class="section" id="dns-forwarding-to-dot">
 <h3><a class="toc-backref" href="#id54">DNS Forwarding to DoT</a><a class="headerlink" href="#dns-forwarding-to-dot" title="Permalink to this headline">¶</a></h3>
 <p>Presently, FreeIPA does not support DoT (DNS over TLS) nor DoH (DNS over HTTPS) (this appears to be a bind limitation and we can’t find documentation that says otherwise). However, it is possible to setup unbound to do the forwarding for you, in which you tell your bind servers (or in this case, the bind DNS servers in your IPA domain) to forward to that unbound server for all forwarding.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Keep it Separate</h5>It is recommended to keep your unbound service separate from the IPA servers. Spin up another instance in your network that will run unbound or run it on a standalone bind server that you may have on a separate port.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Keep it Separate</p>
+<p class="last">It is recommended to keep your unbound service separate from the IPA servers. Spin up another instance in your network that will run unbound or run it on a standalone bind server that you may have on a separate port.</p>
+</div>
 <p>To forward to the unbound service, modify the DNS global configuration in IPA:</p>
 <pre><code class="language-shell"># Replace 10.100.0.224 with the IP of your unbound instance
 % ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224'

@@ -1,11 +1,11 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self';">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
@@ -18,6 +18,8 @@
   
   
   
+    <link rel="canonical" href="https://linuxguideandhints.com/fedora/virtualbox.html"/>
+  
 
   
 
@@ -29,12 +31,10 @@
 
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
 
   
       <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -45,7 +45,6 @@
       <script src="../_static/js/components/prism-bash.min.js"></script>
       <script src="../_static/js/components/prism-docker.min.js"></script>
       <script src="../_static/js/prism-freeipa.min.js"></script>
-      <script src="../_static/js/toggle.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
@@ -673,11 +672,11 @@
             
   <div class="section" id="virtualbox">
 <h1>VirtualBox<a class="headerlink" href="#virtualbox" title="Permalink to this headline">¶</a></h1>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-KVM</h5>While VirtualBox is available in RPMFusion, it is recommended to use libvirt, which is already built into the kernel and the various virt-* packages can be installed as needed to get a hypervisor rolling. GNOME Boxes provides the functionality out-of-the-box with a Fedora Workstation install.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>KVM</p>
+<p class="last">While VirtualBox is available in RPMFusion, it is recommended to use libvirt, which is already built into the kernel and the various virt-* packages can be installed as needed to get a hypervisor rolling. GNOME Boxes provides the functionality out-of-the-box with a Fedora Workstation install.</p>
+</div>
 <div class="section" id="failed-to-start-load-kernel-modules-after-uninstalling">
 <h2>“Failed to start Load Kernel Modules” after uninstalling<a class="headerlink" href="#failed-to-start-load-kernel-modules-after-uninstalling" title="Permalink to this headline">¶</a></h2>
 <p>If <code class="docutils literal notranslate"><span class="pre">journalctl</span></code> shows that you still get <code class="docutils literal notranslate"><span class="pre">could</span> <span class="pre">not</span> <span class="pre">insert</span> <span class="pre">vboxdrv</span></code> errors, run <code class="docutils literal notranslate"><span class="pre">dracut</span> <span class="pre">-v</span> <span class="pre">-f</span></code> then restart your computer.</p>

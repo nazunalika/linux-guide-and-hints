@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta content="Materials to prepare for the Red Hat Certified Specialist in Identity Management exam." name="description" />
 
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self';">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
@@ -19,6 +19,8 @@
   
   
   
+    <link rel="canonical" href="https://linuxguideandhints.com/training/ex362.html"/>
+  
 
   
 
@@ -30,12 +32,10 @@
 
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
 
   
       <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -46,7 +46,6 @@
       <script src="../_static/js/components/prism-bash.min.js"></script>
       <script src="../_static/js/components/prism-docker.min.js"></script>
       <script src="../_static/js/prism-freeipa.min.js"></script>
-      <script src="../_static/js/toggle.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
@@ -676,13 +675,12 @@
 <h1><a class="toc-backref" href="#id1">EX362 Exam Prep</a><a class="headerlink" href="#ex362-exam-prep" title="Permalink to this headline">¶</a></h1>
 <p>This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Identity Management exam, EX362. This follows loosely the youtube playlist as much as possible with various examples and ideas. At the bottom, you will also find our own example practice exam for you to try your hand at to test your knowledge.</p>
 <p>The list of objectives can be found <a class="reference external" href="https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam">here</a>. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Affiliation and Exam Information</h5><p>Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.</p>
-<p>If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you’d like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.</p>
-</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Affiliation and Exam Information</p>
+<p>Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.</p>
+<p class="last">If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you’d like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.</p>
+</div>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
@@ -769,11 +767,11 @@ Affiliation and Exam Information</h5><p>Please note that we are not affiliated w
 </tr>
 </tbody>
 </table>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-IPA Servers should either have a DHCP reservation or a static address. In the event that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient and recommended for our name server.</h5>In later versions of FreeIPA, there is support to force network manager to ensure resolv.conf is loopback without the need to set it by hand with nmcli.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>IPA Servers should either have a DHCP reservation or a static address. In the event that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient and recommended for our name server.</p>
+<p class="last">In later versions of FreeIPA, there is support to force network manager to ensure resolv.conf is loopback without the need to set it by hand with nmcli.</p>
+</div>
 <pre><code class="language-shell"># Set a static address - It's important for your IdM servers
 # to have static addresses or a DHCP reservation.
 % nmcli con mod eth0 ipv4.address 192.168.15.2/24
@@ -933,18 +931,17 @@ IPA Servers should either have a DHCP reservation or a static address. In the ev
 </tr>
 </tbody>
 </table>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Custom UID/GID</h5><p>It is possible to create the users with a custom uid/gid with the switches –uid and –gidnumber which you will see below. It is also possible to set random passwords with –random.</p>
-<p>See ipa user-add –help for more switches.</p>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Password Expiration</h5>When you make a user with the –password switch or use ipa passwd to set a password, it is automatically expired and must be changed on next login. If you want to avoid this from happening, you will need to set a random password via –password or –random, and then use kpasswd username to change it to the desired password. This does not make the account non-expiring.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Custom UID/GID</p>
+<p>It is possible to create the users with a custom uid/gid with the switches –uid and –gidnumber which you will see below. It is also possible to set random passwords with –random.</p>
+<p class="last">See ipa user-add –help for more switches.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Password Expiration</p>
+<p class="last">When you make a user with the –password switch or use ipa passwd to set a password, it is automatically expired and must be changed on next login. If you want to avoid this from happening, you will need to set a random password via –password or –random, and then use kpasswd username to change it to the desired password. This does not make the account non-expiring.</p>
+</div>
 <pre><code class="language-shell"># Creating users with a password, create all the accounts from the table (except from syshost)
 % ipa user-add --first="John" --last="Smith" --password jsmith
 
@@ -1018,11 +1015,11 @@ delete: krbLastPwdChange
 </tr>
 </tbody>
 </table>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Depending on your architecture and setup, IdM clients should either be pointing directly at the IdM servers for DNS (at least two of them) or pointing at the DNS server in the environment that is delegating that domain to the IdM domain controllers.</h5>In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scenario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Depending on your architecture and setup, IdM clients should either be pointing directly at the IdM servers for DNS (at least two of them) or pointing at the DNS server in the environment that is delegating that domain to the IdM domain controllers.</p>
+<p class="last">In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scenario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.</p>
+</div>
 <pre><code class="language-shell"># If your client is not pointing at the IdM DNS and you
 # don't have another DNS server that's performing delegation,
 # change your name servers.
@@ -1049,11 +1046,11 @@ uid=686600000(admin) gid=686600000(admins) groups=686600000(admins)</code></pre>
 <div class="section" id="configure-roaming-automounted-home-directories">
 <h2><a class="toc-backref" href="#id10">Configure roaming/automounted home directories</a><a class="headerlink" href="#configure-roaming-automounted-home-directories" title="Permalink to this headline">¶</a></h2>
 <p>You will need to configure your NFS server to serve up roaming home directories for users and then your client should have automouting enabled.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Client Kerberos Service</h5>It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side anyway. Creating an NFS client keytab may have been required back in the EL6 days.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Client Kerberos Service</p>
+<p class="last">It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side anyway. Creating an NFS client keytab may have been required back in the EL6 days.</p>
+</div>
 <pre><code class="language-shell"># IDM Steps
 % kinit admin
 % ipa service-add nfs/nfs.example.com
@@ -1180,15 +1177,14 @@ curl -v \
 </div>
 <div class="section" id="create-a-trust-with-active-directory">
 <h2><a class="toc-backref" href="#id13">Create a trust with Active Directory</a><a class="headerlink" href="#create-a-trust-with-active-directory" title="Permalink to this headline">¶</a></h2>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-AD Setup</h5><p>We do not cover setting up an AD forest here. This is out of scope for this series. If you are using Server 2016 or higher and you are using “core”, look up the commands:</p>
-<p>Install-WindowsFeature AD-domain-services
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AD Setup</p>
+<p>We do not cover setting up an AD forest here. This is out of scope for this series. If you are using Server 2016 or higher and you are using “core”, look up the commands:</p>
+<p class="last">Install-WindowsFeature AD-domain-services
 Import-Module ADDSDeployment
 Install-ADDSForest</p>
-</div></div>
+</div>
 <table border="1" class="docutils align-default">
 <colgroup>
 <col width="63%" />

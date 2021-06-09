@@ -1,11 +1,11 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self';">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
@@ -18,6 +18,8 @@
   
   
   
+    <link rel="canonical" href="https://linuxguideandhints.com/fedora/gitlab.html"/>
+  
 
   
 
@@ -29,12 +31,10 @@
 
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
 
   
       <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -45,7 +45,6 @@
       <script src="../_static/js/components/prism-bash.min.js"></script>
       <script src="../_static/js/components/prism-docker.min.js"></script>
       <script src="../_static/js/prism-freeipa.min.js"></script>
-      <script src="../_static/js/toggle.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
@@ -701,11 +700,11 @@ in <code class="docutils literal notranslate"><span class="pre">gitlab.rb</span>
 external_url 'https://gitlab.example.com'
 letsencrypt['contact_emails'] = ['foo@email.com']</code></pre><p>You will need firewall rules for both port 80 and 443:</p>
 <pre><code class="language-bash">gcloud compute firewall-rules create allow-http --allow=tcp:80
-gcloud compute firewall-rules create allow-https --allow=tcp:443</code></pre><div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-If you are using Cloudflare, ensure that you whitelist their IP’s. You may
-also need to disable “Full (Strict)” until your certificate is issued.</div></div>
+gcloud compute firewall-rules create allow-https --allow=tcp:443</code></pre><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using Cloudflare, ensure that you whitelist their IP’s. You may
+also need to disable “Full (Strict)” until your certificate is issued.</p>
+</div>
 <p>Temporarily clear any source range settings by appending <code class="docutils literal notranslate"><span class="pre">--source-ranges=</span></code> to
 the command. Otherwise, Let’s Encrypt will not be able to perform the challenge.</p>
 <p>You can revoke any certificates by using <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">revoke</span> <span class="pre">--cert-path</span>

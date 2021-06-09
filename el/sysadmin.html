@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta content="The System Administrator Experience for Red Hat based distributions, such as Rocky Linux 8." name="description" />
 
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self' cdn.jsdelivr.net; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' cdn.jsdelivr.net;">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self';">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
@@ -19,6 +19,8 @@
   
   
   
+    <link rel="canonical" href="https://linuxguideandhints.com/el/sysadmin.html"/>
+  
 
   
 
@@ -30,12 +32,10 @@
 
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/prism-okaidia.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/style.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/toggle.css" type="text/css" />
 
   
       <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -46,7 +46,6 @@
       <script src="../_static/js/components/prism-bash.min.js"></script>
       <script src="../_static/js/components/prism-docker.min.js"></script>
       <script src="../_static/js/prism-freeipa.min.js"></script>
-      <script src="../_static/js/toggle.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
@@ -679,23 +678,21 @@
 <p>Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible. As such, we will be focusing on RHEL 8.</p>
 <div class="section" id="recommendations">
 <h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Software Replacements</h5><ul class="simple">
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Software Replacements</p>
+<ul class="last simple">
 <li>Postgresql can be replaced with MySQL/MariaDB</li>
 <li>Use Katello/Foreman or straight Pulp (<strong>recommended to use Katello</strong>, but you can try both) instead of Spacewalk</li>
 <li>You can replace KVM with ESXi if you wish, with specific caveats</li>
 <li>nagios can be replaced with icinga</li>
 <li>You can replace firewalld with the regular iptables service or nftables for 8 - This may be required for your virtual host</li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-General Notes</h5><ul class="simple">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>General Notes</p>
+<ul class="last simple">
 <li>It’s recommended to use colored vim syntax. Root doesn’t use vim when vim-enhanced is installed. You can make an alias for vi to run vim (not recommended).</li>
 <li>Turn on syntaxing in ~/.vimrc – syntax on</li>
 <li>Make the vim colors brighter in ~/.vimrc – set background=dark</li>
@@ -703,12 +700,11 @@ General Notes</h5><ul class="simple">
 <li>Keep selinux set to <strong>enforcing</strong></li>
 <li>It is recommended to <a class="reference external" href="http://www.bromosapien.net/media/index.php/Linux_Disable_FirewallD">disable firewalld</a> for your lab machine. Everything else can stay.</li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Hardware Requirements</h5><ul class="simple">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Hardware Requirements</p>
+<ul class="simple">
 <li>RAM - Minimum: 8GB, Recommended: 32GB</li>
 <li>CPU - Minimum: Quad Core i5, Recommended: Quad Core with HT i7 or Xeon</li>
 <li>Storage - Minimum: 1TB, Recommended: 4TB<ul>
@@ -717,8 +713,8 @@ Hardware Requirements</h5><ul class="simple">
 </li>
 <li>Network - 1gb link recommended</li>
 </ul>
-<p>Please consider on building an actual lab machine that you can do this on.</p>
-</div></div>
+<p class="last">Please consider on building an actual lab machine that you can do this on.</p>
+</div>
 </div>
 <div class="section" id="certification-completions">
 <h2>Certification Completions<a class="headerlink" href="#certification-completions" title="Permalink to this headline">¶</a></h2>
@@ -726,11 +722,11 @@ Hardware Requirements</h5><ul class="simple">
 </div>
 <div class="section" id="notes-and-changelog">
 <h2>Notes and Changelog<a class="headerlink" href="#notes-and-changelog" title="Permalink to this headline">¶</a></h2>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Post Experience Notes</h5>While this write up uses KVM exclusively, you may want to enhance your learning after the fact by setting up oVirt on your virtual host and also setting up manageiq. It may require you to redesign everything or even start over, but it is something you can do to say “Yes, I’ve used that product”.</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Post Experience Notes</p>
+<p class="last">While this write up uses KVM exclusively, you may want to enhance your learning after the fact by setting up oVirt on your virtual host and also setting up manageiq. It may require you to redesign everything or even start over, but it is something you can do to say “Yes, I’ve used that product”.</p>
+</div>
 <table border="1" class="docutils align-default">
 <colgroup>
 <col width="41%" />
@@ -779,11 +775,10 @@ Post Experience Notes</h5>While this write up uses KVM exclusively, you may want
 <h3>Setup a KVM Hypervisor<a class="headerlink" href="#setup-a-kvm-hypervisor" title="Permalink to this headline">¶</a></h3>
 <p>Now you’ll need to setup a KVM Hypervisor. You can do this on Fedora 33+ or Rocky 8. Because Rocky 8 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.</p>
 <p>You may want to make sure your hardware supports virtualization.</p>
-<pre><code class="language-none">egrep --color 'vmx|svm' /proc/cpuinfo</code></pre><div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Recommendations and Options</h5><ul class="simple">
+<pre><code class="language-none">egrep --color 'vmx|svm' /proc/cpuinfo</code></pre><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Recommendations and Options</p>
+<ul class="last simple">
 <li>Create multiple datastores (storage pools where the VM images will sit)<ul>
 <li>Example, 2x2TB means you can make two datastores, 4x1TB means you can make four.</li>
 </ul>
@@ -798,12 +793,11 @@ Recommendations and Options</h5><ul class="simple">
 </ul>
 </li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Hints</h5><ul class="simple">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Hints</p>
+<ul class="last simple">
 <li>Most of your commands will be from the following:<ul>
 <li>virsh</li>
 <li>fdisk/parted</li>
@@ -818,7 +812,7 @@ Hints</h5><ul class="simple">
 </ul>
 </li>
 </ul>
-</div></div>
+</div>
 </div>
 <div class="section" id="dhcp-and-dns">
 <h3>DHCP and DNS<a class="headerlink" href="#dhcp-and-dns" title="Permalink to this headline">¶</a></h3>
@@ -830,14 +824,14 @@ Hints</h5><ul class="simple">
 </ol>
 <p>It would be sensible to do “1”, if you do “2”, you at least get more exposure to how zone files are created and the like.</p>
 <p>Also, it is possible to allow cobbler handle DHCP and DNS or integrate directly into DNS such as making changes, but this is outside the scope of this write up.</p>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-Do NOT run DHCP from the FreeIPA replicas. The FreeIPA servers should have STATIC addresses set.</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-When you are setting up DHCP and DNS on separate servers (such as FreeIPA replicas), the DHCP server needs to be configured to tell all the clients the true gateway (this is either a VM in on ESX/oVirt or your hypervisor if you are doing straight KVM) and the DNS servers.</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do NOT run DHCP from the FreeIPA replicas. The FreeIPA servers should have STATIC addresses set.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you are setting up DHCP and DNS on separate servers (such as FreeIPA replicas), the DHCP server needs to be configured to tell all the clients the true gateway (this is either a VM in on ESX/oVirt or your hypervisor if you are doing straight KVM) and the DNS servers.</p>
+</div>
 <p>Setup a VM or your hypervisor as the gateway to the internet.</p>
 <ol class="arabic simple">
 <li>IP forwarding enabled (/etc/sysctl.conf)</li>
@@ -850,42 +844,39 @@ When you are setting up DHCP and DNS on separate servers (such as FreeIPA replic
 <li>Setup DNS forwarders to ensure your VM’s can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed in BIND or you can set them in the FreeIPA interface. You can list as many as you want. <strong>Do NOT put these extra DNS servers in your dhcpd.conf configuration</strong></li>
 <li>You need two zones. Forward Zone: This is for your domain, name to an IP. Reverse Zone: This is for reverse IP lookups, IP to a name. FreeIPA handles this for you on setup if you state you are handling a reverse zone and what the subnet is.</li>
 </ol>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Bonus Points</h5><ul class="simple">
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Bonus Points</p>
+<ul class="last simple">
 <li>Setup Dynamic DNS - This requires an almost specific configuration between dhcpd and named (bind) or FreeIPA’s named.</li>
 <li>Dynamic DNS needs to be aware of a domain name</li>
 <li>Use SSSD for the IPA clients to update their DNS automatically (FreeIPA only) - this may not be required if dhcpd and named are configured correctly</li>
 <li>Setup an unbound service running on port 9053 that forwards to 1.1.1.1 for encrypted DNS</li>
 </ul>
-</div></div>
+</div>
 <p><strong>From this point forward, you are to ensure each of your VM’s that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate or the ipa equivalent to add additional entries as needed if you are implementing static A records or CNAME records.</strong></p>
 </div>
 <div class="section" id="server-and-content-management">
 <h3>Server and Content Management<a class="headerlink" href="#server-and-content-management" title="Permalink to this headline">¶</a></h3>
 <p>At this point, you’ll need to setup Katello on a VM. I recommend using Katello as <strong>Satellite 6</strong> has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat has phased out <strong>Red Hat Network Classic</strong> and <strong>Satellite 5</strong>.</p>
 <p>Katello, go <a class="reference external" href="http://www.katello.org/">here</a>.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Heads up</h5><ul class="simple">
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Heads up</p>
+<ul class="last simple">
 <li>You’re going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there. Don’t try to host Fedora.</li>
 <li>Spacewalk has an odd “dependency” on wanting DHCP/TFTP to exist on the server at the same time. There is no way around this. You do not have to use it unless you are using cobbler (which needs TFTP and a specific DHCP configuration).</li>
 <li>Katello is resource heavy, it’s you may need to tune it.</li>
 </ul>
-</div></div>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Bonus Points</h5><ul class="simple">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Bonus Points</p>
+<ul class="last simple">
 <li>Setup errata importation for the Rocky Channels/Repositories to properly see Advisories and Information for package updates</li>
 <li>Create custom kickstarts for your systems (this will help you out later)</li>
 </ul>
-</div></div>
+</div>
 <p>Kickstart examples can be found at my <a class="reference external" href="https://github.com/nazunalika/useful-scripts/tree/master/centos">github</a>.</p>
 </div>
 <div class="section" id="connect-content-management-to-hypervisor">
@@ -970,11 +961,11 @@ Bonus Points</h5><ul class="simple">
 <li>You will need to configure apache to respond to requests for “wiki.domain.tld” (virtual host configuration) and forward them on to the app servers</li>
 <li>HAProxy will need to forward 80 and 443 requests to the two web servers</li>
 </ol>
-<div class="card">
-<div class="card-header bg-warning">
-<i class='fa fa-exclamation-circle'></i> Warning</div><div class="card-body">
-<h5 class="card-title">
-Dynamic DNS</h5>If you are using Dynamic DNS, you may need to run rndc sync before making changes in the case of standalone BIND. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.</div></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Dynamic DNS</p>
+<p class="last">If you are using Dynamic DNS, you may need to run rndc sync before making changes in the case of standalone BIND. You will want to use the nsupdate command to make changes to your Dynamic Zones. If you are using FreeIPA DNS this is not required.</p>
+</div>
 </div>
 <div class="section" id="deploy-postfix-vm">
 <h3>Deploy Postfix VM<a class="headerlink" href="#deploy-postfix-vm" title="Permalink to this headline">¶</a></h3>
@@ -984,18 +975,17 @@ Dynamic DNS</h5>If you are using Dynamic DNS, you may need to run rndc sync befo
 <li>Ensure postfix is setup to send and receive messages only from your internal network</li>
 <li>Setup a gmail account or another relay to allow the above to work to outside mail (this is sort of tricky for gmail, but doable)</li>
 </ol>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-<h5 class="card-title">
-Bonus Points</h5><ul class="simple">
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Bonus Points</p>
+<ul class="last simple">
 <li>Create two relays as “mailhost1” and “mailhost2” for your domain with the same configurations</li>
 <li>Create a CNAME for “mailhost.domain.tld” for your load balancer, forwarding port 25 to both servers<ul>
 <li>Optionally, you can use round-robin DNS instead of HAProxy</li>
 </ul>
 </li>
 </ul>
-</div></div>
+</div>
 </div>
 <div class="section" id="setup-nagios-vm">
 <h3>Setup Nagios VM<a class="headerlink" href="#setup-nagios-vm" title="Permalink to this headline">¶</a></h3>
@@ -1010,10 +1000,10 @@ Bonus Points</h5><ul class="simple">
 <div class="section" id="setup-syslog-vm">
 <h3>Setup Syslog VM<a class="headerlink" href="#setup-syslog-vm" title="Permalink to this headline">¶</a></h3>
 <p>Setup this server as a syslog server. It can be EL7 or EL8. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.</p>
-<div class="card">
-<div class="card-header bg-info">
-<i class='fa fa-exclamation-circle'></i> Note</div><div class="card-body">
-You will need to go to your servers and setup /etc/rsyslog.conf to send ALL logs to this syslog server</div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will need to go to your servers and setup /etc/rsyslog.conf to send ALL logs to this syslog server</p>
+</div>
 <p>Optionally, setup an all inclusive logging solution, like graylog, elastic search, mongodb, fluentd. The sky is the limit here!</p>
 </div>
 <div class="section" id="document-your-work">
