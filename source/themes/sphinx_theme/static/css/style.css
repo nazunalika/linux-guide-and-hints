@@ -10,6 +10,30 @@ a:hover {
     color: rgb(0, 83, 173);
 }
 
+/**
+ * Override font-stack from RTD theme.
+ */
+body,
+.btn,
+figure[data-type=quote],
+h1, h2, h3, h4, h5, h6, legend,
+header,
+input[type],
+nav.wy-docs-nav h3,
+.redactor-dropdown,
+.redactor-editor,
+.rst-content .toctree-wrapper > p.caption,
+.sidebar .sidebar-title,
+textarea,
+th,
+thead,
+.wy-figure-controls,
+.wy-modal header
+.wy-tag-input-group
+{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif !important;
+}
+
 /* sidebar
  * ------
  */
