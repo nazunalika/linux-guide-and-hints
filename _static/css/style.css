@@ -182,6 +182,10 @@ footer {
    color: #060f17;
 }
 
+.admonition *:not(.first) .pre {
+   color: #aaffe3;
+}
+
 .rst-content .toc-backref {
    color: inherit;
 }
