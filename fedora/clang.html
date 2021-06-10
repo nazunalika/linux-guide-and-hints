@@ -675,8 +675,8 @@
 <div class="section" id="clang-format">
 <h2>clang-format<a class="headerlink" href="#clang-format" title="Permalink to this headline">¶</a></h2>
 <p>Installing <code class="docutils literal notranslate"><span class="pre">clang</span></code> via the package manager only grabs the <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> binary, which doesn’t have vim integration. Grab the python script from llvm directly, i.e their <a class="reference external" href="https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-format/clang-format.py">github page</a>. Put it somewhere then add the following to your <code class="docutils literal notranslate"><span class="pre">.vimrc</span></code>:</p>
-<pre><code class="language-bash">map <C-K> :py3f /home/tom/Test/C++/clang-format.py<cr>
-imap <C-K> <c-o>:py3f /home/tom/Test/C++/clang-format.py<cr></code></pre><p>This script requires the <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> binary to be installed. Note that I’m deliberately using <code class="docutils literal notranslate"><span class="pre">py3f</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pyf</span></code> under the assumption that you are running at least one Python 3 plugin. Otherwise stick with <code class="docutils literal notranslate"><span class="pre">pyf</span></code>.</p>
+<pre><code class="language-bash">map &lt;C-K&gt; :py3f /home/tom/Test/C++/clang-format.py&lt;cr&gt;
+imap &lt;C-K&gt; &lt;c-o&gt;:py3f /home/tom/Test/C++/clang-format.py&lt;cr&gt;</code></pre><p>This script requires the <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> binary to be installed. Note that I’m deliberately using <code class="docutils literal notranslate"><span class="pre">py3f</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pyf</span></code> under the assumption that you are running at least one Python 3 plugin. Otherwise stick with <code class="docutils literal notranslate"><span class="pre">pyf</span></code>.</p>
 </div>
 </div>
 

@@ -13,7 +13,7 @@ Installing ``clang`` via the package manager only grabs the ``clang-format`` bin
 
 .. code-block:: bash
 
-  map <C-K> :py3f /home/tom/Test/C++/clang-format.py<cr>
-  imap <C-K> <c-o>:py3f /home/tom/Test/C++/clang-format.py<cr>
+  map &lt;C-K&gt; :py3f /home/tom/Test/C++/clang-format.py&lt;cr&gt;
+  imap &lt;C-K&gt; &lt;c-o&gt;:py3f /home/tom/Test/C++/clang-format.py&lt;cr&gt;
 
 This script requires the ``clang-format`` binary to be installed. Note that I'm deliberately using ``py3f`` instead of ``pyf`` under the assumption that you are running at least one Python 3 plugin. Otherwise stick with ``pyf``.
