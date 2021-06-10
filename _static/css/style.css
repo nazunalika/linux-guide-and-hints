@@ -3,11 +3,27 @@
  */
 
 a {
-    color: rgb(27, 85, 126);
+    color: #dff0ff;
 }
 
 a:hover {
-    color: rgb(0, 83, 173);
+    color: #01aee6;
+}
+
+a:visited {
+    color: #d9eaf9;
+}
+
+a:visited:hover {
+    color: #00c0ff;
+}
+
+h1 {
+    color: #e7d1fd;
+}
+
+h2 {
+    color: #d6b0fb;
 }
 
 /**
@@ -32,6 +48,11 @@ thead,
 .wy-tag-input-group
 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif !important;
+}
+
+body, html, .wy-nav-content {
+    background: #0e1317;
+    color: #93cbfb;
 }
 
 /* sidebar
@@ -102,13 +123,13 @@ thead,
 .rst-content :not(pre) > code {
     padding: 2px 4px;
     font-size: 90%;
-    color: #c7254e;
-    background-color: #f9f2f4;
+    color: #aaffe3;
+    background-color: #0e1317;
     border-radius: 4px;
 }
 
 .rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
-    color: rgb(151, 32, 18);
+    color: #aaffe3;
 }
 
 .btn.btn-default {
@@ -138,7 +159,7 @@ pre {
 }
 
 footer {
-    color: rgb(85, 85, 85);
+    color: #FFF;
 }
 
 .rst-content .section ol li > ol, .rst-content .section ol li > ul, .rst-content .section ul li > ol, .rst-content .section ul li > ul {
@@ -147,4 +168,24 @@ footer {
 
 .rst-content .section ol li > *, .rst-content .section ul li > * {
     margin-top: 0px !important;
+}
+
+.rst-content table.docutils:not(.field-list) tr:nth-child(2n-1) td, .wy-table-backed, .wy-table-odd td, .wy-table-striped tr:nth-child(2n-1) td {
+    background-color: #121517;
+}
+
+.rst-content table.docutils thead, .rst-content table.field-list thead, .wy-table thead {
+   color: inherit;
+}
+
+.admonition *:not(.first) {
+   color: #060f17;
+}
+
+.rst-content .toc-backref {
+   color: inherit;
+}
+
+.rst-content table.docutils.footnote, html.writer-html4 .rst-content table.docutils.citation, html.writer-html5 .rst-content dl.footnote {
+   color: #FFF;
 }
