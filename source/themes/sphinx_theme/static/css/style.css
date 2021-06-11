@@ -62,6 +62,9 @@ body, html, .wy-nav-content {
 /* The original style uses data:
  * which violates the CSP policy
  */
+.wy-nav-side {
+    background-color: #151d24;
+}
 .wy-body-for-nav {
     background-image: none !important;
 }
@@ -93,11 +96,13 @@ body, html, .wy-nav-content {
 
 .wy-menu-vertical a {
     font-size: inherit;
+    color: #dff0ff;
 }
 
 .wy-menu-vertical a:hover,
 .wy-menu-vertical a:focus {
-    color: #FFFFFF;
+    background-color: inherit;
+    color: #ffc000;
 }
 
 .wy-side-nav-search > a {
