@@ -23,28 +23,28 @@ complete.
 .. |Rocky| replace:: Rocky\ :sup:`®`
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Errata
   :glob:
 
   errata/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Security
   :glob:
 
   security/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Miscellaneous
   :glob:
 
   misc/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Fedora
   :glob:
 
@@ -52,28 +52,28 @@ complete.
   fedora/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Enterprise Linux
   :glob:
   
   el/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: MacOS
   :glob:
 
   macos/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: Training Resources
   :glob:
 
   training/*
 
 .. toctree::
-  :maxdepth: 4
+  :maxdepth: 1
   :caption: About Us
   :glob:
 
