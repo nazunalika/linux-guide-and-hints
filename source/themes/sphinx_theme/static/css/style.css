@@ -137,10 +137,6 @@ body, html, .wy-nav-content {
     color: #aaffe3;
 }
 
-.btn.btn-default {
-    color: #333;
-}
-
 .breadcrumb {
     background-color: #e3f2fd;
 }
@@ -157,10 +153,6 @@ pre[class*="language-"] {
 
 pre {
     border: 0;
-}
-
-.btn:active {
-    padding: 6px 12px;
 }
 
 footer {
