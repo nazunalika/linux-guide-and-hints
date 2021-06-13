@@ -117,6 +117,15 @@ body, html, .wy-nav-content {
  * -------
  */
 
+.btn-neutral, .btn-neutral:visited {
+    background: #282828 !important;
+    color: #ffc000 !important;
+}
+
+.btn-neutral:hover {
+    background: #6a5000 !important;
+}
+
 .wy-nav-content {
     max-width: unset;
 }
