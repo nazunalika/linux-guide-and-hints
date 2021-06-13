@@ -117,6 +117,15 @@ body, html, .wy-nav-content {
  * -------
  */
 
+.btn-neutral, .btn-neutral:visited {
+    background: #282828 !important;
+    color: #ffc000 !important;
+}
+
+.btn-neutral:hover {
+    background: #6a5000 !important;
+}
+
 .wy-nav-content {
     max-width: unset;
 }
@@ -137,10 +146,6 @@ body, html, .wy-nav-content {
     color: #aaffe3;
 }
 
-.btn.btn-default {
-    color: #333;
-}
-
 .breadcrumb {
     background-color: #e3f2fd;
 }
@@ -157,10 +162,6 @@ pre[class*="language-"] {
 
 pre {
     border: 0;
-}
-
-.btn:active {
-    padding: 6px 12px;
 }
 
 footer {
