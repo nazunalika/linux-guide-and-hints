@@ -51,12 +51,12 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
-min_css_sources := source/themes/sphinx_theme/static/css/style.css \
-				   source/themes/sphinx_theme/static/css/prism-gruvbox-dark.css
+min_css_sources := source/_static/css/style.css \
+				   source/_static/css/prism-gruvbox-dark.css
 min_js_sources := node_modules/prismjs/prism.js \
 				  node_modules/prismjs/components/prism-bash.min.js \
 				  node_modules/prismjs/components/prism-docker.min.js \
-				  source/themes/sphinx_theme/static/js/prism-freeipa.js
+				  source/_static/js/prism-freeipa.js
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html

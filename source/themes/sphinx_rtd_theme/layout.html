@@ -66,6 +66,10 @@
     {%- for scriptfile in script_files %}
       {{ js_tag(scriptfile) }}
     {%- endfor %}
+
+    {%- for scriptfile in extra_script_files %}
+      {{ js_tag(scriptfile) }}
+    {%- endfor %}
     <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}"></script>
 
     {# OPENSEARCH #}
