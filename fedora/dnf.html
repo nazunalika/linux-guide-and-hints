@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Packaging &mdash; Linux Guide and Hints</title>
+  <title>dnf &mdash; Linux Guide and Hints</title>
   
 
   
@@ -18,7 +18,7 @@
   
   
   
-    <link rel="canonical" href="https://linuxguideandhints.com/fedora/packaging.html"/>
+    <link rel="canonical" href="https://linuxguideandhints.com/fedora/dnf.html"/>
   
 
   
@@ -42,8 +42,8 @@
 
     
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pip" href="pip.html" />
-    <link rel="prev" title="negativo17 repositories and Nvidia drivers" href="negativo.html" /> 
+    <link rel="next" title="dnscrypt" href="dnscrypt.html" />
+    <link rel="prev" title="COPR" href="copr.html" /> 
 
   <noscript>
       <link rel="stylesheet" href="../_static/css/nojs.css" type="text/css">
@@ -188,7 +188,7 @@
 <li class="toctree-l2"><a class="reference internal" href="copr.html#ircd">ircd</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dnf.html">dnf</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">dnf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dnscrypt.html">dnscrypt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docker.html#changing-the-data-directory">Changing the data directory</a></li>
@@ -314,7 +314,7 @@
 <li class="toctree-l2"><a class="reference internal" href="negativo.html#dkms">DKMS</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Packaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pip.html">pip</a></li>
 <li class="toctree-l1"><a class="reference internal" href="powerline.html">Powerline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="powerline.html#installing-via-dnf">Installing via <code class="docutils literal notranslate"><span class="pre">dnf</span></code></a></li>
@@ -643,14 +643,14 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Packaging</li>
+      <li>dnf</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
             
-              <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/fedora/packaging.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/nazunalika/linux-guide-and-hints/blob/master/source/fedora/dnf.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -664,47 +664,30 @@
           <main role="main" id="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="packaging">
-<h1>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://github.com/iovation/git-build-rpm">git-build-rpm</a> is a tool (that
-installs itself as a git subcommand) for packaging RPM’s. Conveniently, it
-handles submodules while tito and rpkg do not. First, grab the dependencies:</p>
-<pre><code class="language-bash">sudo dnf install git rpm-build perl-rpm-build-perl perl-IPC-System-Simple \
-            perl-Path-Class perl-Test-Pod perl-Module-Build
-pip3 install --user git-archive-all</code></pre><p>Then build and install:</p>
-<pre><code class="language-bash">perl Build.PL
-./Build
-./bin/git-build-rpm --package-name git-build-rpm
-sudo dnf install git-build-rpm*.rpm</code></pre><p>At the time of writing, it does not copy over SRPM’s (which is what we really
-want to upload to COPR), so apply this patch:</p>
-<pre><code class="language-diff">diff --git a/bin/git-build-rpm b/bin/git-build-rpm
-index 69bea6f..1d18c47 100755
---- a/bin/git-build-rpm
-+++ b/bin/git-build-rpm
-@@ -128,11 +128,20 @@ runx 'rpmbuild', '-ba', '--define', "_topdir $dir",
- $dir->subdir('RPMS')->recurse(callback => sub {
-     my $rpm = shift;
-     my $bn = $rpm->basename;
--    return if $bn !~ /[.]rpm$/;
-+    return if $bn !~ /rpm$/;
-     move $rpm, $bn;
-     print "* Copy $bn\n" unless $opts{quiet};
- });
+  <div class="section" id="dnf">
+<h1>dnf<a class="headerlink" href="#dnf" title="Permalink to this headline">¶</a></h1>
+<p>dnf comes with <a class="reference external" href="https://dnf-plugins-extras.readthedocs.io/en/latest/index.html">plugins</a> that some
+people are not aware of. Tracer allows you to see what applications need
+restarting after upgrading packages. This is necessary to ensure stability of
+your system. Otherwise you may experience weird behavior or crashing overtime.
+Sometimes if there’s too many applications or critical applications to restart
+you should just reboot your system, otherwise tracer can tell you which
+applications to restart.</p>
+<p>First, install <cite>dnf-plugins-extras-tracer</cite>. Then the next time you upgrade your
+packages you should see output like:</p>
+<pre><code class="language-none">You should restart:
+  * Some applications using:
+      sudo systemctl restart NetworkManager
 
-+$dir->subdir('SRPMS')->recurse(callback => sub {
-+    my $rpm = shift;
-+    my $bn = $rpm->basename;
-+    return if $bn !~ /rpm$/;
-+    move $rpm, $bn;
-+    print "* Copy $bn\n" unless $opts{quiet};
-+});
-+
-+
- sub _pod2usage {
-     require Pod::Usage;
-     Pod::Usage::pod2usage(</code></pre><p>Now you should be able to build the SRPM and upload it to COPR like so:</p>
-<pre><code class="language-bash">git build-rpm --spec example.spec --package-name example
-copr-cli build your-project /path/to/srpm.src.rpm</code></pre></div>
+  * These applications manually:
+      dnf
+      firefox
+      pipewire-media-session
+
+For more information run:
+    sudo tracer -iat 1624024025.9470344</code></pre><p>You can run the command shown above to ensure nothing else needs to be
+restarted.</p>
+</div>
 
 
            </div>
@@ -712,8 +695,8 @@ copr-cli build your-project /path/to/srpm.src.rpm</code></pre></div>
           </main>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="pip.html" class="btn btn-neutral float-right" title="pip" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="negativo.html" class="btn btn-neutral float-left" title="negativo17 repositories and Nvidia drivers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dnscrypt.html" class="btn btn-neutral float-right" title="dnscrypt" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="copr.html" class="btn btn-neutral float-left" title="COPR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
