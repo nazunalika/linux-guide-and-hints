@@ -673,7 +673,7 @@ your system. Otherwise you may experience weird behavior or crashing overtime.
 Sometimes if there’s too many applications or critical applications to restart
 you should just reboot your system, otherwise tracer can tell you which
 applications to restart.</p>
-<p>First, install <cite>dnf-plugins-extras-tracer</cite>. Then the next time you upgrade your
+<p>First, install <code class="docutils literal notranslate"><span class="pre">dnf-plugins-extras-tracer</span></code>. Then the next time you upgrade your
 packages you should see output like:</p>
 <pre><code class="language-none">You should restart:
   * Some applications using:
@@ -687,6 +687,12 @@ packages you should see output like:</p>
 For more information run:
     sudo tracer -iat 1624024025.9470344</code></pre><p>You can run the command shown above to ensure nothing else needs to be
 restarted.</p>
+<p>Note that running <code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">upgrade</span></code> inside a desktop environment is technically
+unsupported.  It is recommended that you either run it from a tty or by using
+<code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">offline-upgrade</span></code> like so:</p>
+<pre><code class="language-bash">dnf offline-upgrade download
+dnf offline-upgrade reboot</code></pre><p>If you want dnf to automatically download and install upgrades in the
+background, you can use <a class="reference external" href="https://dnf.readthedocs.io/en/latest/automatic.html">dnf-automatic</a>.</p>
 </div>
 
 
@@ -705,7 +711,7 @@ restarted.</p>
     <p>
         &#169; Copyright 2020, remyabel, nazunalika.
       <span class="lastupdated">
-        Last updated on Jun 18, 2021.
+        Last updated on Jun 27, 2021.
       </span>
 
     </p>
