@@ -10,7 +10,7 @@ Sometimes if there's too many applications or critical applications to restart
 you should just reboot your system, otherwise tracer can tell you which
 applications to restart.
 
-First, install `dnf-plugins-extras-tracer`. Then the next time you upgrade your
+First, install ``dnf-plugins-extras-tracer``. Then the next time you upgrade your
 packages you should see output like:
 
 .. code-block:: none
@@ -29,3 +29,16 @@ packages you should see output like:
 
 You can run the command shown above to ensure nothing else needs to be
 restarted.
+
+Note that running ``dnf upgrade`` inside a desktop environment is technically
+unsupported.  It is recommended that you either run it from a tty or by using
+``dnf offline-upgrade`` like so:
+
+.. code-block:: bash
+
+    dnf offline-upgrade download
+    dnf offline-upgrade reboot
+
+If you want dnf to automatically download and install upgrades in the
+background, you can use `dnf-automatic
+<https://dnf.readthedocs.io/en/latest/automatic.html>`_.
