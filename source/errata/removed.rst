@@ -7,6 +7,12 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+06-28-2021
+
+- Removed fedora/virtualbox and fedora/vmware. We recommend using KVM and
+  virt-manager instead. Also, I don't use either so I wouldn't be able to keep
+  the articles up to date anyway.
+
 06-06-2021
 
 - Removed fedora/pulseaudio because Pipewire is now used by default.
