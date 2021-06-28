@@ -41,7 +41,7 @@ The `negativo <fedora/negativo.html>`_ article contains more information.
    dnf clean all
    dnf --refresh upgrade
 
-Please don't use Skype unless you enjoy having the NSA read your messages. Finally, check out the `Pulseaudio <fedora/pulseaudio.html>`_ articles on troubleshooting tips.
+Please don't use Skype unless you enjoy having the NSA read your messages.
 
 Other things negativo17 related
 -------------------------------
