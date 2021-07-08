@@ -8,6 +8,7 @@ Removed articles
 ----------------
 
 07-08-2021
+
 - Removed gettingstarted because it contains outdated information.
 
 06-28-2021
