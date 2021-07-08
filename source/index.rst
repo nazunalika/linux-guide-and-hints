@@ -48,7 +48,6 @@ complete.
   :caption: Fedora
   :glob:
 
-  gettingstarted
   fedora/*
 
 .. toctree::
