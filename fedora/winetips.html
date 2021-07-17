@@ -101,7 +101,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Errata</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Errata</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../errata/removed.html">Errata</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../errata/removed.html#removed-articles">Removed articles</a></li>
@@ -113,7 +113,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Security</span></p>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../security/antipatterns.html">Anti-patterns</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../security/antipatterns.html#not-using-https">Not using HTTPS</a><ul>
@@ -141,7 +141,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Miscellaneous</span></p>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../misc/euphemism.html">The Euphemism Review</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../misc/euphemism.html#please-don-t-say-timeframe">Please don’t say “timeframe”</a></li>
@@ -158,7 +158,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Fedora</span></p>
+<p class="caption" role="heading"><span class="caption-text">Fedora</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backups.html">Backups</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="backups.html#id1">Duplicity</a></li>
@@ -351,7 +351,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Enterprise Linux</span></p>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Linux</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../el/builds.html">Auto-Provisioning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../el/freeipa.html">FreeIPA</a><ul>
@@ -524,11 +524,11 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">MacOS</span></p>
+<p class="caption" role="heading"><span class="caption-text">MacOS</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../macos/image.html">Create macOS ISO Images</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Training Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Training Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../training/ex362.html">EX362 Exam Prep</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../training/ex362.html#overview">Overview</a></li>
@@ -582,7 +582,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">About Us</span></p>
+<p class="caption" role="heading"><span class="caption-text">About Us</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about/contributors.html">Contributors</a></li>
 </ul>
@@ -766,24 +766,6 @@ and unzip it to <cite>$HOME/.local/share/Steam/compatibilitytools.d/</cite>. Aft
 restart Steam, it should show up when you select a custom Steam Play tool.</p>
 <p>If you need to enable logging, go to any Proton installation directory and move
 <code class="docutils literal notranslate"><span class="pre">user_settings.sample.py</span></code> to <code class="docutils literal notranslate"><span class="pre">user_settings.py</span></code>.</p>
-<p>You can directly invoke the Proton binary to use
-it for non-steam games. For example:</p>
-<pre><code class="language-bash">env STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"</code></pre><p><code class="docutils literal notranslate"><span class="pre">$APP_ID</span></code> will be the value of whatever game you installed with Steam Play.
-For a performance boost, you should <strong>not</strong> disable <code class="docutils literal notranslate"><span class="pre">ESYNC</span></code>. This will
-require that you <a class="reference external" href="https://github.com/lutris/lutris/wiki/How-to:-Esync">change your ulimit</a>. If you cannot get that
-working, then set the <code class="docutils literal notranslate"><span class="pre">PROTON_NO_ESYNC=1</span></code> environment variable.</p>
-<p>You can have Proton generate a prefix for you. Create a directory, touch the
-<code class="docutils literal notranslate"><span class="pre">pfx.lock</span></code> file then point <code class="docutils literal notranslate"><span class="pre">STEAM_COMPAT_DATA_PATH</span></code> to it. The prefix will
-be generated in <code class="docutils literal notranslate"><span class="pre">pfx</span></code>.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The latest version of systemd has upped the hard limit to 524288, but the soft limit remains at 1024. However, when you start a game with Proton, the process should automatically up the soft limit as required. So you do not need to change anything. You can verify the ulimit of any process with <code class="docutils literal notranslate"><span class="pre">prlimit</span> <span class="pre">--pidof=...</span></code>.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">compatdata/$APP_ID/pfx</span></code> is the Wine prefix for each game and you can interact with it just like any other Wine prefix:</p>
-<pre><code class="language-bash">env WINEPREFIX="/path/to/$APP_ID/pfx" winecfg</code></pre><p>If you use Proton, omit the <code class="docutils literal notranslate"><span class="pre">pfx</span></code> suffix:</p>
-<pre><code class="language-bash">env STEAM_COMPAT_DATA_PATH="/path/to/$APP_ID" proton run # ...</code></pre></div>
 <div class="section" id="mf-install">
 <h3>mf_install<a class="headerlink" href="#mf-install" title="Permalink to this headline">¶</a></h3>
 <p>As of Proton-6.1-GE2 I’ve found that some games still need the <a class="reference external" href="https://github.com/z0z0z/mf-install">Media
@@ -811,7 +793,7 @@ at all anymore. However, the default installation instructions don’t work.</p>
     <p>
         &#169; Copyright 2020, remyabel, nazunalika.
       <span class="lastupdated">
-        Last updated on Jul 08, 2021.
+        Last updated on Jul 17, 2021.
       </span>
 
     </p>
