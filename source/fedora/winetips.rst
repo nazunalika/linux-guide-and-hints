@@ -177,41 +177,6 @@ restart Steam, it should show up when you select a custom Steam Play tool.
 If you need to enable logging, go to any Proton installation directory and move
 ``user_settings.sample.py`` to ``user_settings.py``.
 
-You can directly invoke the Proton binary to use
-it for non-steam games. For example:
-
-.. code-block:: bash
-
-   env STEAM_COMPAT_DATA_PATH=$PATH_TO_STEAM_LIBRARY/steam/steamapps/compatdata/$APP_ID $PATH_TO_STEAM_LIBRARY/steam/steamapps/common/Proton\ 3.7/proton run "some_game.exe"
-
-``$APP_ID`` will be the value of whatever game you installed with Steam Play.
-For a performance boost, you should **not** disable ``ESYNC``. This will
-require that you `change your ulimit
-<https://github.com/lutris/lutris/wiki/How-to:-Esync>`_. If you cannot get that
-working, then set the ``PROTON_NO_ESYNC=1`` environment variable.
-
-You can have Proton generate a prefix for you. Create a directory, touch the
-``pfx.lock`` file then point ``STEAM_COMPAT_DATA_PATH`` to it. The prefix will
-be generated in ``pfx``.
-
-.. note::
-
-   The latest version of systemd has upped the hard limit to 524288, but the soft limit remains at 1024. However, when you start a game with Proton, the process should automatically up the soft limit as required. So you do not need to change anything. You can verify the ulimit of any process with ``prlimit --pidof=...``.
-
-.. note::
-
-    ``compatdata/$APP_ID/pfx`` is the Wine prefix for each game and you can interact with it just like any other Wine prefix:
-
-    .. code-block:: bash
-
-        env WINEPREFIX="/path/to/$APP_ID/pfx" winecfg
-
-    If you use Proton, omit the ``pfx`` suffix:
-
-    .. code-block:: bash
-
-        env STEAM_COMPAT_DATA_PATH="/path/to/$APP_ID" proton run # ...
-
 mf_install
 **********
 

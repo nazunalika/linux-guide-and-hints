@@ -52,6 +52,11 @@ Removed articles
 Removed information
 -------------------
 
+07-17-2021
+
+- Removed information on running Proton manually as it is not supported and
+  doesn't seem to work reliably with the latest version of Proton-GE.
+
 02-24-2021
 
 - Remove ESNI info which seems to be broken/vaporware at the moment.
