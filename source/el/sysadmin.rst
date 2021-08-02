@@ -2,11 +2,11 @@ The System Administrator Experience
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. meta::
-    :description: The System Administrator Experience for Red Hat based distributions, such as Rocky Linux 8.
+    :description: The System Administrator Experience for Red Hat based distributions, such as Enterprise Linux 8.
 
 This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. But can provide a baseline for you.
 
-Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and Rocky Linux 8. Scientific Linux 7 is not supported.
+Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and Enterprise Linux 8. Scientific Linux 7 is not supported.
 
 Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible. As such, we will be focusing on RHEL 8.
 
@@ -79,7 +79,7 @@ We'll now begin the system administrator experience. We will provide from beginn
 Setup a KVM Hypervisor
 ++++++++++++++++++++++
 
-Now you'll need to setup a KVM Hypervisor. You can do this on Fedora 33+ or Rocky 8. Because Rocky 8 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.
+Now you'll need to setup a KVM Hypervisor. You can do this on Fedora 33+ or Enterprise Linux 8. Because EL8 is a stable platform for libvirt, I recommend using going that route. If you want the latest features for the cost of some stability, Fedora will work for you.
 
 You may want to make sure your hardware supports virtualization.
 
@@ -174,7 +174,7 @@ Katello, go `here <http://www.katello.org/>`__.
 
 .. note:: Bonus Points
 
-   * Setup errata importation for the Rocky Channels/Repositories to properly see Advisories and Information for package updates
+   * Setup errata importation for the Enterprise Linux Channels/Repositories to properly see Advisories and Information for package updates
    * Create custom kickstarts for your systems (this will help you out later)
 
 Kickstart examples can be found at my `github <https://github.com/nazunalika/useful-scripts/tree/master/centos>`_.
@@ -210,7 +210,7 @@ Spin Up Two VM's for Databases
 
 Create two new VM's from your Content Management that are EL8 and install the default postgresql on them.
 
-Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in Rocky.
+Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in Enterprise Linux.
 
 Spin Up Configuration Management
 ++++++++++++++++++++++++++++++++
@@ -238,7 +238,7 @@ You are to:
 Deploy Bacula Server
 ++++++++++++++++++++
 
-Bacula is a backup service. It is actually confusing to setup. It's not easy. There are plenty of write-ups for bacula and CentOS 7, RHEL/Rocky 8. The digital ocean write-ups are complete, but do NOT give you everything you need to know to do it "correct" or to succeed completing this portion.
+Bacula is a backup service. It is actually confusing to setup. It's not easy. There are plenty of write-ups for bacula and CentOS 7, RHEL/Enterprise Linux 8. The digital ocean write-ups are complete, but do NOT give you everything you need to know to do it "correct" or to succeed completing this portion.
 
 Your server will need the following:
 

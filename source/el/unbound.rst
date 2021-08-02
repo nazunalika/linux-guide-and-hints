@@ -2,7 +2,7 @@ Unbound
 ^^^^^^^
 
 .. meta::
-    :description: How to install/configure Unbound on Rocky for DNS forwarding for a network or a standalone machine.
+    :description: How to install/configure Unbound on Enterprise Linux for DNS forwarding for a network or a standalone machine.
 
 Requirements
 ------------

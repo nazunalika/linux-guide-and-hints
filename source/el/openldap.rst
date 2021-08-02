@@ -20,7 +20,7 @@ Requirements
 
 First and foremost, we have a list of requirements. Keep in mind, if you do not fulfill these requirements, you may run into some issues down the road.
 
-* RHEL 7 or Derivative like Rocky Linux
+* RHEL 7 or Derivative of Enterprise Linux
 * DNS Server (LDAP does NOT appreciate IP addresses for the URI)
 * An active internet connection to install the packages required
 
