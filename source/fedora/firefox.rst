@@ -69,3 +69,16 @@ break websites. This `article
 <https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/>`_
 suggests using setting ``network.http.referer.XOriginPolicy`` and
 ``network.http.referer.XOriginTrimmingPolicy`` to ``2`` instead.
+
+Minimizing ram usage
+--------------------
+
+Firefox uses multiple processes for tabs which can lead to increased RAM usage
+over time. While you can go to ``about:memory`` and run the garbage collector,
+it has a marginal effect.  Restarting the browser is needed to keep RAM usage
+down. However, there are two things you can do to mitigate high RAM usage:
+
+* in ``about:config``, set ``browser.newtab.preload`` to false. This will
+  prevent tabs from loading until you click on them
+* Install `Auto Tab Discard <https://add0n.com/tab-discard.html>`_ which will
+  put tabs to sleep automatically if not in use
