@@ -66,3 +66,23 @@ then remove the 415.18 directory.
 .. code-block:: bash
 
    rm -r /var/lib/dkms/nvidia/415.18
+
+Suspend doesn't work
+--------------------
+
+If your computer immediately wakes up upon suspending and you see an error message like the following:
+
+.. code-block:: none
+
+    PreserveVideoMemoryAllocations module parameter is set. System Power
+    Management attempted without driver procfs suspend interface. Please refer
+    to the 'Configuring Power Management Support' section in the driver README.
+
+Then you need to enable the systemd services for Nvidia:
+
+.. code-block:: bash
+
+    systemctl enable nvidia-suspend.service
+    systemctl enable nvidia-resume.service
+
+See `the Nvidia forums <https://forums.developer.nvidia.com/t/resuming-from-suspend-issue-driver-450-57-fedora-32-modesetting-enabled-gtx-750-ti/146265>`_ for more details.
