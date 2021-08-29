@@ -51,7 +51,8 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
-min_css_sources := source/_static/css/style.css \
+min_css_sources := source/themes/sphinx_rtd_theme/static/css/theme.css \
+				   source/_static/css/style.css \
 				   source/_static/css/prism-gruvbox-dark.css
 min_js_sources := node_modules/prismjs/prism.js \
 				  node_modules/prismjs/components/prism-bash.min.js \

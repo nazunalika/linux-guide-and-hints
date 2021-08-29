@@ -126,9 +126,6 @@ html_context = {
   'github_version': 'master/source/',
   'script_files': [
   ],
-  'extra_css_files': [
-      '_static/css/bundle.min.css',
-  ],
   'extra_script_files': [
       '_static/js/bundle.min.js',
   ]
