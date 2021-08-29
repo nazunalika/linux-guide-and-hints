@@ -7,16 +7,11 @@ Linux Guide and Hints
 =====================
 
 The source code for this page can be found on `Github
-<https://github.com/nazunalika/linux-guide-and-hints>`_.
-
-This website is also available over `Gemini
-<gemini://tilde.team/~remyabel/linux-guide-and-hints.cgi>`_.
-
-This page contains tutorials and generally useful information regarding
-packages and system administration in |Fedora|, |Rocky| and |CentOS|.
-
-We are making some renovations. So forgive us if the site does not look
-complete.
+<https://github.com/nazunalika/linux-guide-and-hints>`_.  This website is also
+available over `Gemini
+<gemini://tilde.team/~remyabel/linux-guide-and-hints.cgi>`_. This page contains
+tutorials and generally useful information regarding packages and system
+administration in |Fedora|, |Rocky| and |CentOS|.
 
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
@@ -28,6 +23,20 @@ complete.
   :glob:
 
   errata/*
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Training Resources
+  :glob:
+
+  training/*
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Enterprise Linux
+  :glob:
+
+  el/*
 
 .. toctree::
   :maxdepth: 1
@@ -52,24 +61,10 @@ complete.
 
 .. toctree::
   :maxdepth: 1
-  :caption: Enterprise Linux
-  :glob:
-  
-  el/*
-
-.. toctree::
-  :maxdepth: 1
   :caption: MacOS
   :glob:
 
   macos/*
-
-.. toctree::
-  :maxdepth: 1
-  :caption: Training Resources
-  :glob:
-
-  training/*
 
 .. toctree::
   :maxdepth: 1
