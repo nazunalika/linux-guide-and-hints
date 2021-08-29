@@ -124,6 +124,8 @@ html_context = {
   'github_user': 'nazunalika',
   'github_repo': 'linux-guide-and-hints',
   'github_version': 'master/source/',
+  'script_files': [
+  ],
   'extra_css_files': [
       '_static/css/bundle.min.css',
   ],

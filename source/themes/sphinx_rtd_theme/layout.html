@@ -1,6 +1,4 @@
 {# TEMPLATE VAR SETTINGS #}
-{%- set url_root = pathto('', 1) %}
-{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
 {%- if not embedded and docstitle %}
   {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
 {%- else %}
@@ -66,7 +64,6 @@
     {%- for scriptfile in extra_script_files %}
       {{ js_tag(scriptfile) }}
     {%- endfor %}
-    <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}"></script>
 
     {# OPENSEARCH #}
     {%- if use_opensearch %}
@@ -214,8 +211,6 @@
   {% include "versions.html" %}
 
 
-
-  <script type="text/javascript" src="{{ pathto('_static/js/stickynav.js', 1) }}" defer></script>
 
   {%- block footer %} {% endblock %}
 
