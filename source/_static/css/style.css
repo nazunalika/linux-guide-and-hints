@@ -65,11 +65,12 @@ body, html, .wy-nav-content {
 .wy-nav-side {
     background-color: #151d24;
 }
+
 .wy-body-for-nav {
     background-image: none !important;
 }
 
-.wy-side-scroll {
+.wy-menu-vertical {
     position: relative;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -84,10 +85,6 @@ body, html, .wy-nav-content {
     font-size: 17.3333px;
     margin-top: 9px;
     margin-left: 15px;
-}
-
-.wy-menu-vertical {
-    width: 290px;
 }
 
 .wy-menu-vertical header, .wy-menu-vertical p.caption {
@@ -111,6 +108,19 @@ body, html, .wy-nav-content {
 
 .wy-side-nav-search > a:hover {
     color: #FFFFFF;
+}
+
+.wy-menu-vertical li ul {
+    display: block;
+}
+
+.wy-menu-vertical ul li ul li a {
+    padding: 0.4045em 2.427em;
+}
+
+.wy-menu-vertical li > a {
+    font-weight: 700;
+    padding: 0.4045em 1.618em;
 }
 
 /* content
