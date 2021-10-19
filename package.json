@@ -3,9 +3,9 @@
   "version": "1.6.0",
   "description": "This page contains tutorials and generally useful information regarding packages and system administration in Fedora®, Rocky® and CentOS®.",
   "dependencies": {
-    "clean-css-cli": "^5.3.3",
-    "prismjs": "^1.24.1",
-    "uglify-js": "^3.14.1"
+    "clean-css-cli": "^5.4.1",
+    "prismjs": "^1.25.0",
+    "uglify-js": "^3.14.2"
   },
   "repository": {
     "type": "git",
