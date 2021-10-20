@@ -190,3 +190,11 @@ Simply run:
 .. code-block:: bash
 
     PROTON="/path/to/proton/directory" WINEPREFIX="/path/to/prefix" ./mf-install.sh -proton
+
+proton-caller
+*************
+
+It is not recommended to run Proton outside of Steam, even when using
+proton-ge, so it can be a little tricky. There is a program called
+`proton-caller <https://github.com/caverym/Proton-Caller/>`_ that does the job,
+although the disadvantage is it only supports one prefix.
