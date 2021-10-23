@@ -50,6 +50,22 @@ Transferring your files to your iphone using ``ifuse`` is very straightforward:
 
 It is a quick operation and you can start using the database on your phone instantly.
 
+Checking your passwords against a HIBP dump
+-------------------------------------------
+
+haveibeenpwned.com provides `password hashes
+<https://haveibeenpwned.com/Passwords>`_ that you can use to compare against
+your password database to see if your passwords have appeared in any breaches.
+You can either use 1Password's watchtower feature (read: online, paid service)
+or compare it offline using KeepassXC. With KeepassXC the command is simple:
+
+.. code-block:: bash
+
+    keepassxc-cli analyze -H pwned-passwords-sha1-ordered-by-count-v7.txt ~/NewDatabase.kdbx -k ~/NewDatabase.key
+
+Warning: the password file is HUGE and it will take a long time to finish the
+comparisons.
+
 FAQ
 ---
 
