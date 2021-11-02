@@ -86,3 +86,12 @@ Then you need to enable the systemd services for Nvidia:
     systemctl enable nvidia-resume.service
 
 See `the Nvidia forums <https://forums.developer.nvidia.com/t/resuming-from-suspend-issue-driver-450-57-fedora-32-modesetting-enabled-gtx-750-ti/146265>`_ for more details.
+
+Module doesn't load upon upgrade to Fedora 35
+---------------------------------------------
+
+It is unclear why this is happening, however the following workaround works:
+
+.. code-block:: bash
+
+    grubby --update-kernel=ALL --args "modprobe.blacklist=nouveau"
