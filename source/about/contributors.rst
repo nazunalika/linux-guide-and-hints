@@ -7,7 +7,7 @@ Contributors
 Linux in any capacity. You can also find me at `tilde.team
 <https://tilde.team/~remyabel>`_.
 
-.. raw::
+.. raw:: html
 
     <a rel="me" href="https://tilde.zone/@remyabel">Mastodon</a>
 
