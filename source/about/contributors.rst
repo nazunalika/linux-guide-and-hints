@@ -7,5 +7,9 @@ Contributors
 Linux in any capacity. You can also find me at `tilde.team
 <https://tilde.team/~remyabel>`_.
 
+.. raw::
+
+    <a rel="me" href="https://tilde.zone/@remyabel">Mastodon</a>
+
 `xamiel <https://github.com/xamiel>`__ - Security engineer
 
