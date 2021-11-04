@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+11-04-2021
+
+- Removed gitlab page because GitLab sucks.
+
 07-08-2021
 
 - Removed gettingstarted because it contains outdated information.
