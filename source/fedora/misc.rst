@@ -87,3 +87,8 @@ not it's "better" is subjective, but it adds alternatives for fonts like Arial.
 Since the project is GNOME based, you will have to make a couple of manual
 changes for XFCE.  Go to **Settings** -> **Appearance** -> **Fonts**, change
 ``Hinting`` to ``Slight`` and ``Sub-pixel order`` to ``RGB``.
+
+Video thumbnails
+----------------
+
+If you use XFCE and Thunar, video thumbnails might not work out of the box. You need to install `tumbler-extras` **and** `gstreamer1-libav`. While the latter is not listed as a dependency, it will cause mysterious errors because the thumbnailer uses ffmpeg (libav is a ffmpeg fork) under the hood.
