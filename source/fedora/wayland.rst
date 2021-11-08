@@ -1,8 +1,10 @@
-# Wayland
+Wayland
+^^^^^^^
 
 If you are running Wayland, there may be a few apps that don't work out of the box without extra tweaks or command line parameters. This page will list some of those.
 
-## Discord
+Discord
+-------
 
 .. code-block:: bash
 
