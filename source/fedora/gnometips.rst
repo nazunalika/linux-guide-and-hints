@@ -28,3 +28,11 @@ When using Pidgin in GNOME, there's no default tray for it to live in. You will 
 
 In pidgin, click tools -> plugins, enable Ubuntu Indicator and restart pidgin.
 
+Use curses dialog for password input
+------------------------------------
+
+GNOME uses a modal GUI dialog for password input and they refuse to change this behavior. It makes it inconvenient to copy/paste passwords from a password manager. You can force it to use a curses-based dialog (for GPG at least) by doing:
+
+.. code-block:: bash
+
+    echo "pinentry-program /usr/bin/pinentry-curses" >> ~/.gnupg/gpg-agent.conf
