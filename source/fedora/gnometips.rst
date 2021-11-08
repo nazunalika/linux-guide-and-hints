@@ -36,3 +36,21 @@ GNOME uses a modal GUI dialog for password input and they refuse to change this 
 .. code-block:: bash
 
     echo "pinentry-program /usr/bin/pinentry-curses" >> ~/.gnupg/gpg-agent.conf
+
+Disable emoji input
+-------------------
+
+I was not able to find where to disable this in the GUI, but when you press ``CTRL+SHIFT+E``, GNOME uses this for emoji input. Disable this with:
+
+.. code-block:: bash
+
+    gsettings set org.freedesktop.ibus.panel.emoji hotkey []
+
+Swap caps lock and escape
+-------------------------
+
+Either look under Additional Layouts in Gnome Tweaks, or run:
+
+.. code-block:: bash
+
+    dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']"
