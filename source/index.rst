@@ -7,14 +7,11 @@ Linux Guide and Hints
 =====================
 
 The source code for this page can be found on `Github
-<https://github.com/nazunalika/linux-guide-and-hints>`_.  This website is also
-available over `Gemini
-<gemini://tilde.team/~remyabel/>`_. This page contains
+<https://github.com/nazunalika/linux-guide-and-hints>`_. This page contains
 tutorials and generally useful information regarding packages and system
 administration in |Fedora|, |Rocky| and |CentOS|.
 
-This page is also mirrored at `neocities <https://remyabel.neocities.org/>`_
-and `tilde <https://tilde.team/~remyabel/linuxguideandhints>`_.
+This page is also mirrored at `neocities <https://remyabel.neocities.org/>`_.
 
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
