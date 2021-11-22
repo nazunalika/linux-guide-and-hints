@@ -259,7 +259,7 @@ Colors and backgrounds are perfectly possible, even in an EFI setup. We'll need 
 
 The background would be `/var/lib/tftpboot/bg.png` in this example. Selected items will appear to be cyan and the typical gray selection box is now transparent, which is done by setting it to black. Everything else should appear as white text with a transparent background. Example below.
 
-.. image:: /static/img/grub_ex.png
+.. image:: /_static/img/grub_ex.png
 
 Special Submenus
 ++++++++++++++++
@@ -285,7 +285,7 @@ Submenus are easily created using `submenu` in the grub configuration. For examp
 
 This now means "Fedora Linux" will show up as a menu option and it will take you to a brand new menu with the two listed items, and another color scheme. Note that we created color items because submenus will reset the theme options. Example of how it looks is below.
 
-.. image:: /static/img/grub_ex_fedora.png
+.. image:: /_static/img/grub_ex_fedora.png
 
 It is also possible to place everything into separate source-able files. Note that when you do this, you will need to symlink those files just like you did with `grub.cfg`.
 
