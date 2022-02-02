@@ -95,3 +95,13 @@ It is unclear why this is happening, however the following workaround works:
 .. code-block:: bash
 
     grubby --update-kernel=ALL --args "modprobe.blacklist=nouveau"
+
+Automatically signing modules for secure boot
+---------------------------------------------
+
+Neither negativo nor rpmfusion automatically sign the kernel modules. This is
+because it requires manual intervention by the user where a key has to be
+created and enrolled into MOK. After that, you can use a script that will sign
+the modules after they are built automatically. See `akmod-sign-modules
+<https://github.com/larsks/akmod-sign-modules>`_ for akmods. There is a DKMS
+version available on the Internet.
