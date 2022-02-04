@@ -288,6 +288,7 @@ small {
 .rst-content .caution,
 .rst-content .code-block-caption .headerlink:before,
 .rst-content .danger,
+.rst-content .eqno .headerlink:before,
 .rst-content .error,
 .rst-content .hint,
 .rst-content .important,
@@ -303,6 +304,7 @@ small {
 .rst-content h4 .headerlink:before,
 .rst-content h5 .headerlink:before,
 .rst-content h6 .headerlink:before,
+.rst-content p .headerlink:before,
 .rst-content p.caption .headerlink:before,
 .rst-content table > caption .headerlink:before,
 .rst-content tt.download span:first-child:before,
@@ -312,11 +314,11 @@ small {
 .wy-inline-validate.wy-inline-validate-info .wy-input-context:before,
 .wy-inline-validate.wy-inline-validate-success .wy-input-context:before,
 .wy-inline-validate.wy-inline-validate-warning .wy-input-context:before,
-.wy-menu-vertical li span.toctree-expand:before,
+.wy-menu-vertical li button.toctree-expand:before,
 .wy-menu-vertical li.current > a,
-.wy-menu-vertical li.current > a span.toctree-expand:before,
+.wy-menu-vertical li.current > a button.toctree-expand:before,
 .wy-menu-vertical li.on a,
-.wy-menu-vertical li.on a span.toctree-expand:before,
+.wy-menu-vertical li.on a button.toctree-expand:before,
 .wy-nav-top a,
 .wy-side-nav-search .wy-dropdown > a,
 .wy-side-nav-search > a,
@@ -353,6 +355,7 @@ textarea {
   float: left
 }
 .rst-content .code-block-caption .pull-left.headerlink,
+.rst-content .eqno .pull-left.headerlink,
 .rst-content .pull-left.admonition-title,
 .rst-content code.download span.pull-left:first-child,
 .rst-content dl dt .pull-left.headerlink,
@@ -362,15 +365,16 @@ textarea {
 .rst-content h4 .pull-left.headerlink,
 .rst-content h5 .pull-left.headerlink,
 .rst-content h6 .pull-left.headerlink,
-.rst-content p.caption .pull-left.headerlink,
+.rst-content p .pull-left.headerlink,
 .rst-content table > caption .pull-left.headerlink,
 .rst-content tt.download span.pull-left:first-child,
-.wy-menu-vertical li span.pull-left.toctree-expand,
-.wy-menu-vertical li.current > a span.pull-left.toctree-expand,
-.wy-menu-vertical li.on a span.pull-left.toctree-expand {
+.wy-menu-vertical li button.pull-left.toctree-expand,
+.wy-menu-vertical li.current > a button.pull-left.toctree-expand,
+.wy-menu-vertical li.on a button.pull-left.toctree-expand {
   margin-right: .3em
 }
 .rst-content .code-block-caption .pull-right.headerlink,
+.rst-content .eqno .pull-right.headerlink,
 .rst-content .pull-right.admonition-title,
 .rst-content code.download span.pull-right:first-child,
 .rst-content dl dt .pull-right.headerlink,
@@ -380,12 +384,12 @@ textarea {
 .rst-content h4 .pull-right.headerlink,
 .rst-content h5 .pull-right.headerlink,
 .rst-content h6 .pull-right.headerlink,
-.rst-content p.caption .pull-right.headerlink,
+.rst-content p .pull-right.headerlink,
 .rst-content table > caption .pull-right.headerlink,
 .rst-content tt.download span.pull-right:first-child,
-.wy-menu-vertical li span.pull-right.toctree-expand,
-.wy-menu-vertical li.current > a span.pull-right.toctree-expand,
-.wy-menu-vertical li.on a span.pull-right.toctree-expand {
+.wy-menu-vertical li button.pull-right.toctree-expand,
+.wy-menu-vertical li.current > a button.pull-right.toctree-expand,
+.wy-menu-vertical li.on a button.pull-right.toctree-expand {
   margin-left: .3em
 }
 .sr-only {
@@ -409,6 +413,7 @@ textarea {
 }
 .rst-content .admonition-title,
 .rst-content .code-block-caption .headerlink,
+.rst-content .eqno .headerlink,
 .rst-content code.download span:first-child,
 .rst-content dl dt .headerlink,
 .rst-content h1 .headerlink,
@@ -417,6 +422,7 @@ textarea {
 .rst-content h4 .headerlink,
 .rst-content h5 .headerlink,
 .rst-content h6 .headerlink,
+.rst-content p .headerlink,
 .rst-content p.caption .headerlink,
 .rst-content table > caption .headerlink,
 .rst-content tt.download span:first-child,
@@ -425,12 +431,13 @@ textarea {
 .wy-inline-validate.wy-inline-validate-info .wy-input-context,
 .wy-inline-validate.wy-inline-validate-success .wy-input-context,
 .wy-inline-validate.wy-inline-validate-warning .wy-input-context,
-.wy-menu-vertical li span.toctree-expand,
-.wy-menu-vertical li.current > a span.toctree-expand,
-.wy-menu-vertical li.on a span.toctree-expand {
+.wy-menu-vertical li button.toctree-expand,
+.wy-menu-vertical li.current > a button.toctree-expand,
+.wy-menu-vertical li.on a button.toctree-expand {
   font-family: inherit
 }
 .rst-content .code-block-caption a .headerlink,
+.rst-content .eqno a .headerlink,
 .rst-content a .admonition-title,
 .rst-content code.download a span:first-child,
 .rst-content dl dt a .headerlink,
@@ -440,14 +447,16 @@ textarea {
 .rst-content h4 a .headerlink,
 .rst-content h5 a .headerlink,
 .rst-content h6 a .headerlink,
+.rst-content p a .headerlink,
 .rst-content p.caption a .headerlink,
 .rst-content table > caption a .headerlink,
 .rst-content tt.download a span:first-child,
-.wy-menu-vertical li a span.toctree-expand,
-.wy-menu-vertical li.current > a span.toctree-expand,
-.wy-menu-vertical li.on a span.toctree-expand,
+.wy-menu-vertical li a button.toctree-expand,
+.wy-menu-vertical li.current > a button.toctree-expand,
+.wy-menu-vertical li.on a button.toctree-expand,
 a .rst-content .admonition-title,
 a .rst-content .code-block-caption .headerlink,
+a .rst-content .eqno .headerlink,
 a .rst-content code.download span:first-child,
 a .rst-content dl dt .headerlink,
 a .rst-content h1 .headerlink,
@@ -456,15 +465,17 @@ a .rst-content h3 .headerlink,
 a .rst-content h4 .headerlink,
 a .rst-content h5 .headerlink,
 a .rst-content h6 .headerlink,
+a .rst-content p .headerlink,
 a .rst-content p.caption .headerlink,
 a .rst-content table > caption .headerlink,
 a .rst-content tt.download span:first-child,
-a .wy-menu-vertical li span.toctree-expand {
+a .wy-menu-vertical li button.toctree-expand {
   display: inline-block;
   text-decoration: inherit
 }
 .btn .rst-content .admonition-title,
 .btn .rst-content .code-block-caption .headerlink,
+.btn .rst-content .eqno .headerlink,
 .btn .rst-content code.download span:first-child,
 .btn .rst-content dl dt .headerlink,
 .btn .rst-content h1 .headerlink,
@@ -473,16 +484,17 @@ a .wy-menu-vertical li span.toctree-expand {
 .btn .rst-content h4 .headerlink,
 .btn .rst-content h5 .headerlink,
 .btn .rst-content h6 .headerlink,
-.btn .rst-content p.caption .headerlink,
+.btn .rst-content p .headerlink,
 .btn .rst-content table > caption .headerlink,
 .btn .rst-content tt.download span:first-child,
-.btn .wy-menu-vertical li span.toctree-expand,
-.btn .wy-menu-vertical li.current > a span.toctree-expand,
-.btn .wy-menu-vertical li.on a span.toctree-expand,
+.btn .wy-menu-vertical li button.toctree-expand,
+.btn .wy-menu-vertical li.current > a button.toctree-expand,
+.btn .wy-menu-vertical li.on a button.toctree-expand,
 .nav .fa,
 .nav .icon,
 .nav .rst-content .admonition-title,
 .nav .rst-content .code-block-caption .headerlink,
+.nav .rst-content .eqno .headerlink,
 .nav .rst-content code.download span:first-child,
 .nav .rst-content dl dt .headerlink,
 .nav .rst-content h1 .headerlink,
@@ -491,15 +503,17 @@ a .wy-menu-vertical li span.toctree-expand {
 .nav .rst-content h4 .headerlink,
 .nav .rst-content h5 .headerlink,
 .nav .rst-content h6 .headerlink,
-.nav .rst-content p.caption .headerlink,
+.nav .rst-content p .headerlink,
 .nav .rst-content table > caption .headerlink,
 .nav .rst-content tt.download span:first-child,
-.nav .wy-menu-vertical li span.toctree-expand,
-.nav .wy-menu-vertical li.current > a span.toctree-expand,
-.nav .wy-menu-vertical li.on a span.toctree-expand,
+.nav .wy-menu-vertical li button.toctree-expand,
+.nav .wy-menu-vertical li.current > a button.toctree-expand,
+.nav .wy-menu-vertical li.on a button.toctree-expand,
 .rst-content .btn .admonition-title,
 .rst-content .code-block-caption .btn .headerlink,
 .rst-content .code-block-caption .nav .headerlink,
+.rst-content .eqno .btn .headerlink,
+.rst-content .eqno .nav .headerlink,
 .rst-content .nav .admonition-title,
 .rst-content code.download .btn span:first-child,
 .rst-content code.download .nav span:first-child,
@@ -517,23 +531,24 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h5 .nav .headerlink,
 .rst-content h6 .btn .headerlink,
 .rst-content h6 .nav .headerlink,
-.rst-content p.caption .btn .headerlink,
-.rst-content p.caption .nav .headerlink,
+.rst-content p .btn .headerlink,
+.rst-content p .nav .headerlink,
 .rst-content table > caption .btn .headerlink,
 .rst-content table > caption .nav .headerlink,
 .rst-content tt.download .btn span:first-child,
 .rst-content tt.download .nav span:first-child,
-.wy-menu-vertical li .btn span.toctree-expand,
-.wy-menu-vertical li .nav span.toctree-expand,
-.wy-menu-vertical li.current > a .btn span.toctree-expand,
-.wy-menu-vertical li.current > a .nav span.toctree-expand,
-.wy-menu-vertical li.on a .btn span.toctree-expand,
-.wy-menu-vertical li.on a .nav span.toctree-expand {
+.wy-menu-vertical li .btn button.toctree-expand,
+.wy-menu-vertical li .nav button.toctree-expand,
+.wy-menu-vertical li.current > a .btn button.toctree-expand,
+.wy-menu-vertical li.current > a .nav button.toctree-expand,
+.wy-menu-vertical li.on a .btn button.toctree-expand,
+.wy-menu-vertical li.on a .nav button.toctree-expand {
   display: inline
 }
 .btn .fa-large.icon,
 .btn .fa.fa-large,
 .btn .rst-content .code-block-caption .fa-large.headerlink,
+.btn .rst-content .eqno .fa-large.headerlink,
 .btn .rst-content .fa-large.admonition-title,
 .btn .rst-content code.download span.fa-large:first-child,
 .btn .rst-content dl dt .fa-large.headerlink,
@@ -543,13 +558,14 @@ a .wy-menu-vertical li span.toctree-expand {
 .btn .rst-content h4 .fa-large.headerlink,
 .btn .rst-content h5 .fa-large.headerlink,
 .btn .rst-content h6 .fa-large.headerlink,
-.btn .rst-content p.caption .fa-large.headerlink,
+.btn .rst-content p .fa-large.headerlink,
 .btn .rst-content table > caption .fa-large.headerlink,
 .btn .rst-content tt.download span.fa-large:first-child,
-.btn .wy-menu-vertical li span.fa-large.toctree-expand,
+.btn .wy-menu-vertical li button.fa-large.toctree-expand,
 .nav .fa-large.icon,
 .nav .fa.fa-large,
 .nav .rst-content .code-block-caption .fa-large.headerlink,
+.nav .rst-content .eqno .fa-large.headerlink,
 .nav .rst-content .fa-large.admonition-title,
 .nav .rst-content code.download span.fa-large:first-child,
 .nav .rst-content dl dt .fa-large.headerlink,
@@ -559,13 +575,15 @@ a .wy-menu-vertical li span.toctree-expand {
 .nav .rst-content h4 .fa-large.headerlink,
 .nav .rst-content h5 .fa-large.headerlink,
 .nav .rst-content h6 .fa-large.headerlink,
-.nav .rst-content p.caption .fa-large.headerlink,
+.nav .rst-content p .fa-large.headerlink,
 .nav .rst-content table > caption .fa-large.headerlink,
 .nav .rst-content tt.download span.fa-large:first-child,
-.nav .wy-menu-vertical li span.fa-large.toctree-expand,
+.nav .wy-menu-vertical li button.fa-large.toctree-expand,
 .rst-content .btn .fa-large.admonition-title,
 .rst-content .code-block-caption .btn .fa-large.headerlink,
 .rst-content .code-block-caption .nav .fa-large.headerlink,
+.rst-content .eqno .btn .fa-large.headerlink,
+.rst-content .eqno .nav .fa-large.headerlink,
 .rst-content .nav .fa-large.admonition-title,
 .rst-content code.download .btn span.fa-large:first-child,
 .rst-content code.download .nav span.fa-large:first-child,
@@ -583,19 +601,20 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h5 .nav .fa-large.headerlink,
 .rst-content h6 .btn .fa-large.headerlink,
 .rst-content h6 .nav .fa-large.headerlink,
-.rst-content p.caption .btn .fa-large.headerlink,
-.rst-content p.caption .nav .fa-large.headerlink,
+.rst-content p .btn .fa-large.headerlink,
+.rst-content p .nav .fa-large.headerlink,
 .rst-content table > caption .btn .fa-large.headerlink,
 .rst-content table > caption .nav .fa-large.headerlink,
 .rst-content tt.download .btn span.fa-large:first-child,
 .rst-content tt.download .nav span.fa-large:first-child,
-.wy-menu-vertical li .btn span.fa-large.toctree-expand,
-.wy-menu-vertical li .nav span.fa-large.toctree-expand {
+.wy-menu-vertical li .btn button.fa-large.toctree-expand,
+.wy-menu-vertical li .nav button.fa-large.toctree-expand {
   line-height: .9em
 }
 .btn .fa-spin.icon,
 .btn .fa.fa-spin,
 .btn .rst-content .code-block-caption .fa-spin.headerlink,
+.btn .rst-content .eqno .fa-spin.headerlink,
 .btn .rst-content .fa-spin.admonition-title,
 .btn .rst-content code.download span.fa-spin:first-child,
 .btn .rst-content dl dt .fa-spin.headerlink,
@@ -605,13 +624,14 @@ a .wy-menu-vertical li span.toctree-expand {
 .btn .rst-content h4 .fa-spin.headerlink,
 .btn .rst-content h5 .fa-spin.headerlink,
 .btn .rst-content h6 .fa-spin.headerlink,
-.btn .rst-content p.caption .fa-spin.headerlink,
+.btn .rst-content p .fa-spin.headerlink,
 .btn .rst-content table > caption .fa-spin.headerlink,
 .btn .rst-content tt.download span.fa-spin:first-child,
-.btn .wy-menu-vertical li span.fa-spin.toctree-expand,
+.btn .wy-menu-vertical li button.fa-spin.toctree-expand,
 .nav .fa-spin.icon,
 .nav .fa.fa-spin,
 .nav .rst-content .code-block-caption .fa-spin.headerlink,
+.nav .rst-content .eqno .fa-spin.headerlink,
 .nav .rst-content .fa-spin.admonition-title,
 .nav .rst-content code.download span.fa-spin:first-child,
 .nav .rst-content dl dt .fa-spin.headerlink,
@@ -621,10 +641,10 @@ a .wy-menu-vertical li span.toctree-expand {
 .nav .rst-content h4 .fa-spin.headerlink,
 .nav .rst-content h5 .fa-spin.headerlink,
 .nav .rst-content h6 .fa-spin.headerlink,
-.nav .rst-content p.caption .fa-spin.headerlink,
+.nav .rst-content p .fa-spin.headerlink,
 .nav .rst-content table > caption .fa-spin.headerlink,
 .nav .rst-content tt.download span.fa-spin:first-child,
-.nav .wy-menu-vertical li span.fa-spin.toctree-expand,
+.nav .wy-menu-vertical li button.fa-spin.toctree-expand,
 .rst-content .btn .fa-spin.admonition-title,
 .rst-content .code-block-caption .btn .fa-spin.headerlink,
 .rst-content .code-block-caption .nav .fa-spin.headerlink,
@@ -645,20 +665,21 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h5 .nav .fa-spin.headerlink,
 .rst-content h6 .btn .fa-spin.headerlink,
 .rst-content h6 .nav .fa-spin.headerlink,
-.rst-content p.caption .btn .fa-spin.headerlink,
-.rst-content p.caption .nav .fa-spin.headerlink,
+.rst-content p .btn .fa-spin.headerlink,
+.rst-content p .nav .fa-spin.headerlink,
 .rst-content table > caption .btn .fa-spin.headerlink,
 .rst-content table > caption .nav .fa-spin.headerlink,
 .rst-content tt.download .btn span.fa-spin:first-child,
 .rst-content tt.download .nav span.fa-spin:first-child,
-.wy-menu-vertical li .btn span.fa-spin.toctree-expand,
-.wy-menu-vertical li .nav span.fa-spin.toctree-expand {
+.wy-menu-vertical li .btn button.fa-spin.toctree-expand,
+.wy-menu-vertical li .nav button.fa-spin.toctree-expand {
   display: inline-block
 }
 .btn.fa:before,
 .btn.icon:before,
 .rst-content .btn.admonition-title:before,
 .rst-content .code-block-caption .btn.headerlink:before,
+.rst-content .eqno .btn.headerlink:before,
 .rst-content code.download span.btn:first-child:before,
 .rst-content dl dt .btn.headerlink:before,
 .rst-content h1 .btn.headerlink:before,
@@ -667,10 +688,10 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h4 .btn.headerlink:before,
 .rst-content h5 .btn.headerlink:before,
 .rst-content h6 .btn.headerlink:before,
-.rst-content p.caption .btn.headerlink:before,
+.rst-content p .btn.headerlink:before,
 .rst-content table > caption .btn.headerlink:before,
 .rst-content tt.download span.btn:first-child:before,
-.wy-menu-vertical li span.btn.toctree-expand:before {
+.wy-menu-vertical li button.btn.toctree-expand:before {
   opacity: .5;
   -webkit-transition: opacity .05s ease-in;
   -moz-transition: opacity .05s ease-in;
@@ -680,6 +701,7 @@ a .wy-menu-vertical li span.toctree-expand {
 .btn.icon:hover:before,
 .rst-content .btn.admonition-title:hover:before,
 .rst-content .code-block-caption .btn.headerlink:hover:before,
+.rst-content .eqno .btn.headerlink:hover:before,
 .rst-content code.download span.btn:first-child:hover:before,
 .rst-content dl dt .btn.headerlink:hover:before,
 .rst-content h1 .btn.headerlink:hover:before,
@@ -688,16 +710,17 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h4 .btn.headerlink:hover:before,
 .rst-content h5 .btn.headerlink:hover:before,
 .rst-content h6 .btn.headerlink:hover:before,
-.rst-content p.caption .btn.headerlink:hover:before,
+.rst-content p .btn.headerlink:hover:before,
 .rst-content table > caption .btn.headerlink:hover:before,
 .rst-content tt.download span.btn:first-child:hover:before,
-.wy-menu-vertical li span.btn.toctree-expand:hover:before {
+.wy-menu-vertical li button.btn.toctree-expand:hover:before {
   opacity: 1
 }
 .btn-mini .fa:before,
 .btn-mini .icon:before,
 .btn-mini .rst-content .admonition-title:before,
 .btn-mini .rst-content .code-block-caption .headerlink:before,
+.btn-mini .rst-content .eqno .headerlink:before,
 .btn-mini .rst-content code.download span:first-child:before,
 .btn-mini .rst-content dl dt .headerlink:before,
 .btn-mini .rst-content h1 .headerlink:before,
@@ -706,12 +729,13 @@ a .wy-menu-vertical li span.toctree-expand {
 .btn-mini .rst-content h4 .headerlink:before,
 .btn-mini .rst-content h5 .headerlink:before,
 .btn-mini .rst-content h6 .headerlink:before,
-.btn-mini .rst-content p.caption .headerlink:before,
+.btn-mini .rst-content p .headerlink:before,
 .btn-mini .rst-content table > caption .headerlink:before,
 .btn-mini .rst-content tt.download span:first-child:before,
-.btn-mini .wy-menu-vertical li span.toctree-expand:before,
+.btn-mini .wy-menu-vertical li button.toctree-expand:before,
 .rst-content .btn-mini .admonition-title:before,
 .rst-content .code-block-caption .btn-mini .headerlink:before,
+.rst-content .eqno .btn-mini .headerlink:before,
 .rst-content code.download .btn-mini span:first-child:before,
 .rst-content dl dt .btn-mini .headerlink:before,
 .rst-content h1 .btn-mini .headerlink:before,
@@ -720,10 +744,10 @@ a .wy-menu-vertical li span.toctree-expand {
 .rst-content h4 .btn-mini .headerlink:before,
 .rst-content h5 .btn-mini .headerlink:before,
 .rst-content h6 .btn-mini .headerlink:before,
-.rst-content p.caption .btn-mini .headerlink:before,
+.rst-content p .btn-mini .headerlink:before,
 .rst-content table > caption .btn-mini .headerlink:before,
 .rst-content tt.download .btn-mini span:first-child:before,
-.wy-menu-vertical li .btn-mini span.toctree-expand:before {
+.wy-menu-vertical li .btn-mini button.toctree-expand:before {
   font-size: 14px;
   vertical-align: -15%
 }
@@ -2183,6 +2207,7 @@ code.code-large {
 }
 .rst-content .section ul,
 .rst-content .toctree-wrapper ul,
+.rst-content section ul,
 .wy-plain-list-disc,
 article ul {
   list-style: disc;
@@ -2191,6 +2216,7 @@ article ul {
 }
 .rst-content .section ul li,
 .rst-content .toctree-wrapper ul li,
+.rst-content section ul li,
 .wy-plain-list-disc li,
 article ul li {
   list-style: disc;
@@ -2200,6 +2226,8 @@ article ul li {
 .rst-content .section ul li ul,
 .rst-content .toctree-wrapper ul li p:last-child,
 .rst-content .toctree-wrapper ul li ul,
+.rst-content section ul li p:last-child,
+.rst-content section ul li ul,
 .wy-plain-list-disc li p:last-child,
 .wy-plain-list-disc li ul,
 article ul li p:last-child,
@@ -2208,24 +2236,31 @@ article ul li ul {
 }
 .rst-content .section ul li li,
 .rst-content .toctree-wrapper ul li li,
+.rst-content section ul li li,
 .wy-plain-list-disc li li,
 article ul li li {
   list-style: circle
 }
 .rst-content .section ul li li li,
 .rst-content .toctree-wrapper ul li li li,
+.rst-content section ul li li li,
 .wy-plain-list-disc li li li,
 article ul li li li {
   list-style: square
 }
 .rst-content .section ul li ol li,
 .rst-content .toctree-wrapper ul li ol li,
+.rst-content section ul li ol li,
 .wy-plain-list-disc li ol li,
 article ul li ol li {
   list-style: decimal
 }
 .rst-content .section ol,
-.rst-content ol.arabic,
+.rst-content .section ol.arabic,
+.rst-content .toctree-wrapper ol,
+.rst-content .toctree-wrapper ol.arabic,
+.rst-content section ol,
+.rst-content section ol.arabic,
 .wy-plain-list-decimal,
 article ol {
   list-style: decimal;
@@ -2233,7 +2268,11 @@ article ol {
   margin-bottom: 24px
 }
 .rst-content .section ol li,
-.rst-content ol.arabic li,
+.rst-content .section ol.arabic li,
+.rst-content .toctree-wrapper ol li,
+.rst-content .toctree-wrapper ol.arabic li,
+.rst-content section ol li,
+.rst-content section ol.arabic li,
 .wy-plain-list-decimal li,
 article ol li {
   list-style: decimal;
@@ -2241,8 +2280,13 @@ article ol li {
 }
 .rst-content .section ol li p:last-child,
 .rst-content .section ol li ul,
-.rst-content ol.arabic li p:last-child,
-.rst-content ol.arabic li ul,
+.rst-content .section ol.arabic li ul,
+.rst-content .toctree-wrapper ol li p:last-child,
+.rst-content .toctree-wrapper ol li ul,
+.rst-content .toctree-wrapper ol.arabic li ul,
+.rst-content section ol li p:last-child,
+.rst-content section ol li ul,
+.rst-content section ol.arabic li ul,
 .wy-plain-list-decimal li p:last-child,
 .wy-plain-list-decimal li ul,
 article ol li p:last-child,
@@ -2250,7 +2294,11 @@ article ol li ul {
   margin-bottom: 0
 }
 .rst-content .section ol li ul li,
-.rst-content ol.arabic li ul li,
+.rst-content .section ol.arabic li ul li,
+.rst-content .toctree-wrapper ol li ul li,
+.rst-content .toctree-wrapper ol.arabic li ul li,
+.rst-content section ol li ul li,
+.rst-content section ol.arabic li ul li,
 .wy-plain-list-decimal li ul li,
 article ol li ul li {
   list-style: disc
@@ -2387,13 +2435,15 @@ html {
   padding-left: 0;
   padding-right: 0
 }
-.wy-menu-vertical li span.toctree-expand {
+.wy-menu-vertical li button.toctree-expand {
   display: block;
   float: left;
   margin-left: -1.2em;
-  font-size: .8em;
-  line-height: 1.6em;
-  color: #4d4d4d
+  line-height: 18px;
+  color: #4d4d4d;
+  border: none;
+  background: 0 0;
+  padding: 0
 }
 .wy-menu-vertical li.current > a,
 .wy-menu-vertical li.on a {
@@ -2408,15 +2458,14 @@ html {
 .wy-menu-vertical li.on a:hover {
   background: #fcfcfc
 }
-.wy-menu-vertical li.current > a:hover span.toctree-expand,
-.wy-menu-vertical li.on a:hover span.toctree-expand {
+.wy-menu-vertical li.current > a:hover button.toctree-expand,
+.wy-menu-vertical li.on a:hover button.toctree-expand {
   color: grey
 }
-.wy-menu-vertical li.current > a span.toctree-expand,
-.wy-menu-vertical li.on a span.toctree-expand {
+.wy-menu-vertical li.current > a button.toctree-expand,
+.wy-menu-vertical li.on a button.toctree-expand {
   display: block;
-  font-size: .8em;
-  line-height: 1.6em;
+  line-height: 18px;
   color: #333
 }
 .wy-menu-vertical li.toctree-l1.current > a {
@@ -2462,15 +2511,15 @@ html {
 .wy-menu-vertical li.toctree-l9 a {
   color: #404040
 }
-.wy-menu-vertical li.toctree-l10 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l2 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l3 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l4 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l5 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l6 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l7 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l8 a:hover span.toctree-expand,
-.wy-menu-vertical li.toctree-l9 a:hover span.toctree-expand {
+.wy-menu-vertical li.toctree-l10 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l2 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l3 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l4 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l5 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l6 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l7 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l8 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l9 a:hover button.toctree-expand {
   color: grey
 }
 .wy-menu-vertical li.toctree-l10.current li.toctree-l11 > a,
@@ -2487,53 +2536,69 @@ html {
 .wy-menu-vertical li.toctree-l2.current > a {
   padding: .4045em 2.427em
 }
-.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
+  padding: .4045em 1.618em .4045em 4.045em
+}
 .wy-menu-vertical li.toctree-l3.current > a {
   padding: .4045em 4.045em
 }
-.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
+  padding: .4045em 1.618em .4045em 5.663em
+}
 .wy-menu-vertical li.toctree-l4.current > a {
   padding: .4045em 5.663em
 }
-.wy-menu-vertical li.toctree-l4.current li.toctree-l5 > a,
+.wy-menu-vertical li.toctree-l4.current li.toctree-l5 > a {
+  padding: .4045em 1.618em .4045em 7.281em
+}
 .wy-menu-vertical li.toctree-l5.current > a {
   padding: .4045em 7.281em
 }
-.wy-menu-vertical li.toctree-l5.current li.toctree-l6 > a,
+.wy-menu-vertical li.toctree-l5.current li.toctree-l6 > a {
+  padding: .4045em 1.618em .4045em 8.899em
+}
 .wy-menu-vertical li.toctree-l6.current > a {
   padding: .4045em 8.899em
 }
-.wy-menu-vertical li.toctree-l6.current li.toctree-l7 > a,
+.wy-menu-vertical li.toctree-l6.current li.toctree-l7 > a {
+  padding: .4045em 1.618em .4045em 10.517em
+}
 .wy-menu-vertical li.toctree-l7.current > a {
   padding: .4045em 10.517em
 }
-.wy-menu-vertical li.toctree-l7.current li.toctree-l8 > a,
+.wy-menu-vertical li.toctree-l7.current li.toctree-l8 > a {
+  padding: .4045em 1.618em .4045em 12.135em
+}
 .wy-menu-vertical li.toctree-l8.current > a {
   padding: .4045em 12.135em
 }
-.wy-menu-vertical li.toctree-l8.current li.toctree-l9 > a,
+.wy-menu-vertical li.toctree-l8.current li.toctree-l9 > a {
+  padding: .4045em 1.618em .4045em 13.753em
+}
 .wy-menu-vertical li.toctree-l9.current > a {
   padding: .4045em 13.753em
 }
-.wy-menu-vertical li.toctree-l10.current > a,
 .wy-menu-vertical li.toctree-l9.current li.toctree-l10 > a {
+  padding: .4045em 1.618em .4045em 15.371em
+}
+.wy-menu-vertical li.toctree-l10.current > a {
   padding: .4045em 15.371em
 }
 .wy-menu-vertical li.toctree-l10.current li.toctree-l11 > a {
-  padding: .4045em 16.989em
+  padding: .4045em 1.618em .4045em 16.989em
 }
 .wy-menu-vertical li.toctree-l2.current > a,
 .wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
   background: #c9c9c9
 }
-.wy-menu-vertical li.toctree-l2 span.toctree-expand {
+.wy-menu-vertical li.toctree-l2 button.toctree-expand {
   color: #a3a3a3
 }
 .wy-menu-vertical li.toctree-l3.current > a,
 .wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
   background: #bdbdbd
 }
-.wy-menu-vertical li.toctree-l3 span.toctree-expand {
+.wy-menu-vertical li.toctree-l3 button.toctree-expand {
   color: #969696
 }
 .wy-menu-vertical li.current ul {
@@ -2560,7 +2625,7 @@ html {
   background-color: #4e4a4a;
   cursor: pointer
 }
-.wy-menu-vertical a:hover span.toctree-expand {
+.wy-menu-vertical a:hover button.toctree-expand {
   color: #d9d9d9
 }
 .wy-menu-vertical a:active {
@@ -2568,7 +2633,7 @@ html {
   cursor: pointer;
   color: #fff
 }
-.wy-menu-vertical a:active span.toctree-expand {
+.wy-menu-vertical a:active button.toctree-expand {
   color: #fff
 }
 .wy-side-nav-search {
@@ -2603,7 +2668,8 @@ html {
   font-weight: 700;
   display: inline-block;
   padding: 4px 6px;
-  margin-bottom: .809em
+  margin-bottom: .809em;
+  max-width: 100%
 }
 .wy-side-nav-search .wy-dropdown > a:hover,
 .wy-side-nav-search > a:hover {
@@ -2895,6 +2961,7 @@ footer span.commit code {
   clear: both
 }
 .rst-content .code-block-caption .rst-versions .rst-current-version .headerlink,
+.rst-content .eqno .rst-versions .rst-current-version .headerlink,
 .rst-content .rst-versions .rst-current-version .admonition-title,
 .rst-content code.download .rst-versions .rst-current-version span:first-child,
 .rst-content dl dt .rst-versions .rst-current-version .headerlink,
@@ -2904,13 +2971,14 @@ footer span.commit code {
 .rst-content h4 .rst-versions .rst-current-version .headerlink,
 .rst-content h5 .rst-versions .rst-current-version .headerlink,
 .rst-content h6 .rst-versions .rst-current-version .headerlink,
-.rst-content p.caption .rst-versions .rst-current-version .headerlink,
+.rst-content p .rst-versions .rst-current-version .headerlink,
 .rst-content table > caption .rst-versions .rst-current-version .headerlink,
 .rst-content tt.download .rst-versions .rst-current-version span:first-child,
 .rst-versions .rst-current-version .fa,
 .rst-versions .rst-current-version .icon,
 .rst-versions .rst-current-version .rst-content .admonition-title,
 .rst-versions .rst-current-version .rst-content .code-block-caption .headerlink,
+.rst-versions .rst-current-version .rst-content .eqno .headerlink,
 .rst-versions .rst-current-version .rst-content code.download span:first-child,
 .rst-versions .rst-current-version .rst-content dl dt .headerlink,
 .rst-versions .rst-current-version .rst-content h1 .headerlink,
@@ -2919,11 +2987,11 @@ footer span.commit code {
 .rst-versions .rst-current-version .rst-content h4 .headerlink,
 .rst-versions .rst-current-version .rst-content h5 .headerlink,
 .rst-versions .rst-current-version .rst-content h6 .headerlink,
-.rst-versions .rst-current-version .rst-content p.caption .headerlink,
+.rst-versions .rst-current-version .rst-content p .headerlink,
 .rst-versions .rst-current-version .rst-content table > caption .headerlink,
 .rst-versions .rst-current-version .rst-content tt.download span:first-child,
-.rst-versions .rst-current-version .wy-menu-vertical li span.toctree-expand,
-.wy-menu-vertical li .rst-versions .rst-current-version span.toctree-expand {
+.rst-versions .rst-current-version .wy-menu-vertical li button.toctree-expand,
+.wy-menu-vertical li .rst-versions .rst-current-version button.toctree-expand {
   color: #fcfcfc
 }
 .rst-versions .rst-current-version .fa-book,
@@ -3007,24 +3075,39 @@ footer span.commit code {
     display: block
   }
 }
+.rst-content .toctree-wrapper > p.caption,
+.rst-content h1,
+.rst-content h2,
+.rst-content h3,
+.rst-content h4,
+.rst-content h5,
+.rst-content h6 {
+  margin-bottom: 24px
+}
 .rst-content img {
   max-width: 100%;
   height: auto
 }
-.rst-content div.figure {
+.rst-content div.figure,
+.rst-content figure {
   margin-bottom: 24px
 }
-.rst-content div.figure p.caption {
+.rst-content div.figure .caption-text,
+.rst-content figure .caption-text {
   font-style: italic
 }
-.rst-content div.figure p:last-child.caption {
+.rst-content div.figure p:last-child.caption,
+.rst-content figure p:last-child.caption {
   margin-bottom: 0
 }
-.rst-content div.figure.align-center {
+.rst-content div.figure.align-center,
+.rst-content figure.align-center {
   text-align: center
 }
 .rst-content .section > a > img,
-.rst-content .section > img {
+.rst-content .section > img,
+.rst-content section > a > img,
+.rst-content section > img {
   margin-bottom: 24px
 }
 .rst-content abbr[title] {
@@ -3085,9 +3168,17 @@ footer span.commit code {
   font-size: 12px;
   line-height: 1.4
 }
-.rst-content div.highlight .gp {
+.rst-content div.highlight .gp,
+.rst-content div.highlight span.linenos {
   user-select: none;
   pointer-events: none
+}
+.rst-content div.highlight span.linenos {
+  display: inline-block;
+  padding-left: 0;
+  padding-right: 12px;
+  margin-right: 12px;
+  border-right: 1px solid #e6e9ea
 }
 .rst-content .code-block-caption {
   font-style: italic;
@@ -3155,38 +3246,78 @@ footer span.commit code {
   border-color: rgba(0,0,0,.1)!important
 }
 .rst-content .section ol.loweralpha,
-.rst-content .section ol.loweralpha > li {
+.rst-content .section ol.loweralpha > li,
+.rst-content .toctree-wrapper ol.loweralpha,
+.rst-content .toctree-wrapper ol.loweralpha > li,
+.rst-content section ol.loweralpha,
+.rst-content section ol.loweralpha > li {
   list-style: lower-alpha
 }
 .rst-content .section ol.upperalpha,
-.rst-content .section ol.upperalpha > li {
+.rst-content .section ol.upperalpha > li,
+.rst-content .toctree-wrapper ol.upperalpha,
+.rst-content .toctree-wrapper ol.upperalpha > li,
+.rst-content section ol.upperalpha,
+.rst-content section ol.upperalpha > li {
   list-style: upper-alpha
 }
 .rst-content .section ol li > *,
-.rst-content .section ul li > * {
+.rst-content .section ul li > *,
+.rst-content .toctree-wrapper ol li > *,
+.rst-content .toctree-wrapper ul li > *,
+.rst-content section ol li > *,
+.rst-content section ul li > * {
   margin-top: 12px;
   margin-bottom: 12px
 }
 .rst-content .section ol li > :first-child,
-.rst-content .section ul li > :first-child {
+.rst-content .section ul li > :first-child,
+.rst-content .toctree-wrapper ol li > :first-child,
+.rst-content .toctree-wrapper ul li > :first-child,
+.rst-content section ol li > :first-child,
+.rst-content section ul li > :first-child {
   margin-top: 0
 }
 .rst-content .section ol li > p,
 .rst-content .section ol li > p:last-child,
 .rst-content .section ul li > p,
-.rst-content .section ul li > p:last-child {
+.rst-content .section ul li > p:last-child,
+.rst-content .toctree-wrapper ol li > p,
+.rst-content .toctree-wrapper ol li > p:last-child,
+.rst-content .toctree-wrapper ul li > p,
+.rst-content .toctree-wrapper ul li > p:last-child,
+.rst-content section ol li > p,
+.rst-content section ol li > p:last-child,
+.rst-content section ul li > p,
+.rst-content section ul li > p:last-child {
   margin-bottom: 12px
 }
 .rst-content .section ol li > p:only-child,
 .rst-content .section ol li > p:only-child:last-child,
 .rst-content .section ul li > p:only-child,
-.rst-content .section ul li > p:only-child:last-child {
+.rst-content .section ul li > p:only-child:last-child,
+.rst-content .toctree-wrapper ol li > p:only-child,
+.rst-content .toctree-wrapper ol li > p:only-child:last-child,
+.rst-content .toctree-wrapper ul li > p:only-child,
+.rst-content .toctree-wrapper ul li > p:only-child:last-child,
+.rst-content section ol li > p:only-child,
+.rst-content section ol li > p:only-child:last-child,
+.rst-content section ul li > p:only-child,
+.rst-content section ul li > p:only-child:last-child {
   margin-bottom: 0
 }
 .rst-content .section ol li > ol,
 .rst-content .section ol li > ul,
 .rst-content .section ul li > ol,
-.rst-content .section ul li > ul {
+.rst-content .section ul li > ul,
+.rst-content .toctree-wrapper ol li > ol,
+.rst-content .toctree-wrapper ol li > ul,
+.rst-content .toctree-wrapper ul li > ol,
+.rst-content .toctree-wrapper ul li > ul,
+.rst-content section ol li > ol,
+.rst-content section ol li > ul,
+.rst-content section ul li > ol,
+.rst-content section ul li > ul {
   margin-bottom: 12px
 }
 .rst-content .section ol.simple li > *,
@@ -3194,7 +3325,19 @@ footer span.commit code {
 .rst-content .section ol.simple li ul,
 .rst-content .section ul.simple li > *,
 .rst-content .section ul.simple li ol,
-.rst-content .section ul.simple li ul {
+.rst-content .section ul.simple li ul,
+.rst-content .toctree-wrapper ol.simple li > *,
+.rst-content .toctree-wrapper ol.simple li ol,
+.rst-content .toctree-wrapper ol.simple li ul,
+.rst-content .toctree-wrapper ul.simple li > *,
+.rst-content .toctree-wrapper ul.simple li ol,
+.rst-content .toctree-wrapper ul.simple li ul,
+.rst-content section ol.simple li > *,
+.rst-content section ol.simple li ol,
+.rst-content section ol.simple li ul,
+.rst-content section ul.simple li > *,
+.rst-content section ul.simple li ol,
+.rst-content section ul.simple li ul {
   margin-top: 0;
   margin-bottom: 0
 }
@@ -3229,6 +3372,7 @@ footer span.commit code {
   display: block
 }
 .rst-content .code-block-caption .headerlink,
+.rst-content .eqno .headerlink,
 .rst-content .toctree-wrapper > p.caption .headerlink,
 .rst-content dl dt .headerlink,
 .rst-content h1 .headerlink,
@@ -3237,23 +3381,43 @@ footer span.commit code {
 .rst-content h4 .headerlink,
 .rst-content h5 .headerlink,
 .rst-content h6 .headerlink,
+.rst-content p .headerlink,
 .rst-content p.caption .headerlink,
 .rst-content table > caption .headerlink {
-  visibility: hidden;
-  font-size: 14px
+  opacity: 0;
+  font-size: 14px;
+  margin-left: .5em
 }
-.rst-content .code-block-caption:hover .headerlink:after,
-.rst-content .toctree-wrapper > p.caption:hover .headerlink:after,
-.rst-content dl dt:hover .headerlink:after,
-.rst-content h1:hover .headerlink:after,
-.rst-content h2:hover .headerlink:after,
-.rst-content h3:hover .headerlink:after,
-.rst-content h4:hover .headerlink:after,
-.rst-content h5:hover .headerlink:after,
-.rst-content h6:hover .headerlink:after,
-.rst-content p.caption:hover .headerlink:after,
-.rst-content table > caption:hover .headerlink:after {
-  visibility: visible
+.rst-content .code-block-caption .headerlink:focus,
+.rst-content .code-block-caption:hover .headerlink,
+.rst-content .eqno .headerlink:focus,
+.rst-content .eqno:hover .headerlink,
+.rst-content .toctree-wrapper > p.caption .headerlink:focus,
+.rst-content .toctree-wrapper > p.caption:hover .headerlink,
+.rst-content dl dt .headerlink:focus,
+.rst-content dl dt:hover .headerlink,
+.rst-content h1 .headerlink:focus,
+.rst-content h1:hover .headerlink,
+.rst-content h2 .headerlink:focus,
+.rst-content h2:hover .headerlink,
+.rst-content h3 .headerlink:focus,
+.rst-content h3:hover .headerlink,
+.rst-content h4 .headerlink:focus,
+.rst-content h4:hover .headerlink,
+.rst-content h5 .headerlink:focus,
+.rst-content h5:hover .headerlink,
+.rst-content h6 .headerlink:focus,
+.rst-content h6:hover .headerlink,
+.rst-content p .headerlink:focus,
+.rst-content p.caption .headerlink:focus,
+.rst-content p.caption:hover .headerlink,
+.rst-content p:hover .headerlink,
+.rst-content table > caption .headerlink:focus,
+.rst-content table > caption:hover .headerlink {
+  opacity: 1
+}
+.rst-content .btn:focus {
+  outline: 2px solid
 }
 .rst-content table > caption .headerlink:after {
   font-size: 12px
@@ -3305,6 +3469,12 @@ footer span.commit code {
 .rst-content .hlist {
   width: 100%
 }
+.rst-content dl dt span.classifier:before {
+  content: " : "
+}
+.rst-content dl dt span.classifier-delimiter {
+  display: none!important
+}
 html.writer-html4 .rst-content table.docutils.citation,
 html.writer-html4 .rst-content table.docutils.footnote {
   background: 0 0;
@@ -3323,9 +3493,6 @@ html.writer-html4 .rst-content table.docutils.footnote td.label {
   padding-left: 0;
   padding-right: 0;
   vertical-align: top
-}
-html.writer-html5 .rst-content dl dt span.classifier:before {
-  content: " : "
 }
 html.writer-html5 .rst-content dl.field-list,
 html.writer-html5 .rst-content dl.footnote {
@@ -3450,7 +3617,8 @@ html.writer-html5 .rst-content table.docutils th > p {
 }
 .rst-content code.literal,
 .rst-content tt.literal {
-  color: #e74c3c
+  color: #e74c3c;
+  white-space: normal
 }
 .rst-content code.xref,
 .rst-content tt.xref,
@@ -3527,12 +3695,6 @@ html.writer-html4 .rst-content dl:not(.docutils) > dt:first-child,
 html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) > dt:first-child {
   margin-top: 0
 }
-html.writer-html4 .rst-content dl:not(.docutils) code,
-html.writer-html4 .rst-content dl:not(.docutils) tt,
-html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) code,
-html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) tt {
-  font-weight: 700
-}
 html.writer-html4 .rst-content dl:not(.docutils) code.descclassname,
 html.writer-html4 .rst-content dl:not(.docutils) code.descname,
 html.writer-html4 .rst-content dl:not(.docutils) tt.descclassname,
@@ -3562,7 +3724,21 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 html.writer-html4 .rst-content dl:not(.docutils) .property,
 html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .property {
   display: inline-block;
-  padding-right: 8px
+  padding-right: 8px;
+  max-width: 100%
+}
+html.writer-html4 .rst-content dl:not(.docutils) .k,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .k {
+  font-style: italic
+}
+html.writer-html4 .rst-content dl:not(.docutils) .descclassname,
+html.writer-html4 .rst-content dl:not(.docutils) .descname,
+html.writer-html4 .rst-content dl:not(.docutils) .sig-name,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descclassname,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descname,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .sig-name {
+  font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
+  color: #000
 }
 .rst-content .viewcode-back,
 .rst-content .viewcode-link {
