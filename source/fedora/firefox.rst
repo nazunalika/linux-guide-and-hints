@@ -1,6 +1,16 @@
 Firefox
 ^^^^^^^
 
+arkenfox/user.js
+----------------
+
+The recommended way of managing config settings nowadays is `arkenfox
+<https://github.com/arkenfox/user.js>`_. Help can be found in the `wiki
+<https://github.com/arkenfox/user.js/wiki>`_.
+
+For historical purposes, advice on individual settings can be found below. Note
+however that these settings may be deprecated or inactive in the future.
+
 Disable automatic redirect to a website if typing an invalid URL
 ----------------------------------------------------------------
 
