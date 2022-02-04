@@ -2294,29 +2294,29 @@ CMS Communication Issues (403)
 
 This isn't necessarily certificate issue, but more or less an issue as it pertains to the certificate system itself. There may be cases where during upgrades, a configuration in `/etc/pki/pki-tomcat/server.xml` is not properly reconfigured. In that file, you'll notice `Connector` lines that have a `secret` and a `requiredSecret` parameter and they both have different values.
 
-```
-. . .
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" address="localhost4" secret="AAA" requiredSecret="BBB"/>
-. . .
-    <Connector address="localhost6" port="8009" protocol="AJP/1.3" redirectPort="8443" secret="AAA" requiredSecret="BBB"/>
-```
+.. code-block:: none
+
+    . . .
+        <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" address="localhost4" secret="AAA" requiredSecret="BBB"/>
+    . . .
+        <Connector address="localhost6" port="8009" protocol="AJP/1.3" redirectPort="8443" secret="AAA" requiredSecret="BBB"/>
 
 The issue may be that these aren't correct. This generally comes down to IPA and pki-core conflicting on these attributes. To correct this, you will need to find the secret in `/etc/httpd/conf.d/ipa-pki-proxy.conf` (on the ProxyPass line) and ensure that's the same secret in both fields.
 
-```
-...
-    ProxyPassMatch ajp://localhost:8009 secret=AAA
-...
-```
+.. code-block:: none
+
+    ...
+        ProxyPassMatch ajp://localhost:8009 secret=AAA
+    ...
 
 Make sure they're the same in `server.xml`
 
-```
-. . .
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" address="localhost4" secret="AAA" requiredSecret="AAA"/>
-. . .
-    <Connector address="localhost6" port="8009" protocol="AJP/1.3" redirectPort="8443" secret="AAA" requiredSecret="AAA"/>
-```
+.. code-block:: none
+
+    . . .
+        <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" address="localhost4" secret="AAA" requiredSecret="AAA"/>
+    . . .
+        <Connector address="localhost6" port="8009" protocol="AJP/1.3" redirectPort="8443" secret="AAA" requiredSecret="AAA"/>
 
 After changing, restart the service with `systemctl restart pki-tomcat@pki-tomcatd.service`.
 

@@ -90,6 +90,7 @@ On your DHCP server configuration (typically `/etc/dhcp/dhcpd.conf` if running o
 Whether this section is within a subnet block or not, it is needed to ensure the right bootloader is called. Note that we're only loading x86. If you are loading armhfp, use `00:0a`. If you are loading aarch64, use `00:0b`.
 
 .. code-block:: none
+
         class "pxeclients" {
                 match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
                 # x86_64 EFI
