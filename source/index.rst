@@ -11,8 +11,6 @@ The source code for this page can be found on `Github
 tutorials and generally useful information regarding packages and system
 administration in |Fedora|, |Rocky| and |CentOS|.
 
-This page is also mirrored at `neocities <https://remyabel.neocities.org/>`_.
-
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
 .. |Rocky| replace:: Rocky\ :sup:`®`
