@@ -92,3 +92,27 @@ down. However, there are two things you can do to mitigate high RAM usage:
   prevent tabs from loading until you click on them
 * Install `Auto Tab Discard <https://add0n.com/tab-discard.html>`_ which will
   put tabs to sleep automatically if not in use
+
+Alternative to Stylus
+---------------------
+
+If you wish not to have Stylus installed but want to replicate its
+functionality, here's what you can do. First, go to each style you have
+installed and export it. It will look something like:
+
+.. code-block:: css
+
+    @-moz-document domain("example.com") {
+        /* insert style here */
+    }
+
+You can use ``url-prefix``, etc. Put it in a folder somewhere. We want to now
+append this to ``userContent.css`` which is going to be located in the
+``chrome`` folder in your Firefox profile.
+
+.. code-block:: bash
+
+    for file in *.css
+    do
+        cat "$file" >> $HOME/.mozilla/firefox/some-profile.default/chrome/userContent.css
+    done
