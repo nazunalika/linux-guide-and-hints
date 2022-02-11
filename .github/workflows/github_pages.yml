@@ -28,7 +28,7 @@ jobs:
       id: sphinx-cache
       with:
         path: ${{ github.workspace }}/build
-        key: ${{ runner.os }}-sphinx
+        key: ${{ runner.os }}-sphinx-${{ hashFiles('**/environment.pickle') }}
 
     - name: pip dependencies
       run: |
