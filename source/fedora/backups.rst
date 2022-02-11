@@ -230,7 +230,7 @@ The following helper script should get you started:
     [ -f "$HOME/.keychain/$HOSTNAME-sh-gpg" ] && \
         source "$HOME/.keychain/$HOSTNAME-sh-gpg" 2>/dev/null
 
-    cd "$HOME/backup" || fail
+    cd "$HOME/backup" 
     
     # ...snip...
     # Copy your files to backup here
@@ -240,7 +240,7 @@ The following helper script should get you started:
 
     git-store-metadata
     git annex add .
-    git annex sync --content --message="$(date +%F)" || fail
+    git annex sync --content --message="$(date +%F)" 
 
     # For each remote we need to run sync in order to actually
     # propagate the changes. Doing sync from the initial directory
@@ -249,8 +249,8 @@ The following helper script should get you started:
     for remote in $(git remote)
     do
         URL=$(git remote get-url "$remote")
-        cd "$URL" || fail
-        git annex sync --content --message="$(date +%F)" || fail
+        cd "$URL" 
+        git annex sync --content --message="$(date +%F)" 
         git-restore-metadata
     done
 
