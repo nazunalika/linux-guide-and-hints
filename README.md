@@ -16,6 +16,8 @@ If you would like to contribute or you find an error, please open an issue/PR as
 
     make html SPHINXOPTS=-Ea
 
+`-Ea` does a clean build. Remove it if you wish to do incremental building instead.
+
 ### Test locally
 
     ./generate-cert.sh
