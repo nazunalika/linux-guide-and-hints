@@ -24,12 +24,6 @@ jobs:
         node-version: '14'
         cache: 'npm'
 
-    - uses: actions/cache@v2
-      id: sphinx-cache
-      with:
-        path: ${{ github.workspace }}/build
-        key: ${{ runner.os }}-sphinx-${{ hashFiles('**/environment.pickle') }}
-
     - name: pip dependencies
       run: |
         pip3 install -U --user -r requirements.txt
@@ -39,7 +33,6 @@ jobs:
         npm ci
 
     - name: sphinx build
-      if: steps.sphinx-cache.outputs.cache-hit != 'true'
       run: |
         cd $GITHUB_WORKSPACE
         make html SPHINXBUILD=$HOME/.local/bin/sphinx-build
