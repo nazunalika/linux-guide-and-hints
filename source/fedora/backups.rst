@@ -223,11 +223,6 @@ The following helper script should get you started:
     set -o pipefail
     shopt -s dotglob
 
-    function fail {
-        echo "Fail."
-        exit 1
-    }
-
     # Import environment variables SSH_AUTH_SOCK, etc.
     [ -z "$HOSTNAME" ] && HOSTNAME=$(uname -n)
     [ -f "$HOME/.keychain/$HOSTNAME-sh" ] && \
@@ -236,21 +231,15 @@ The following helper script should get you started:
         source "$HOME/.keychain/$HOSTNAME-sh-gpg" 2>/dev/null
 
     cd "$HOME/backup" || fail
-    # We need to unlock the files in order to allow modifications. Note that direct
-    # mode is deprecated.
-    git annex unlock ./* || fail
-
+    
     # ...snip...
     # Copy your files to backup here
     # If using cp, make sure you use -a to preserve permissions and xattrs
     # If using rsync, make sure you use -avzAX
     # ...snip...
 
-    # We use git add and not git annex add here to add the files directly.
-    # Adding them to the annex would create symlinks, which do not preserve 
-    # permissions.
     git-store-metadata
-    git add --all || fail
+    git annex add .
     git annex sync --content --message="$(date +%F)" || fail
 
     # For each remote we need to run sync in order to actually
@@ -264,3 +253,25 @@ The following helper script should get you started:
         git annex sync --content --message="$(date +%F)" || fail
         git-restore-metadata
     done
+
+Previously it was stated that ``git annex`` will create a symlink. This was
+incorrect. It's the act of locking the file that does so. If you wish to always
+add files as unlocked (and manually lock files that you don't intend on
+modifying), then use this option:
+
+.. code-block:: bash
+
+    git annex config --set annex.addunlocked true
+
+To always add files to the annex (otherwise ``git-annex`` will use regular
+``git add`` in some situations instead):
+
+.. code-block:: bash
+
+    git annex config --set annex.largefiles anything
+
+Finally, ``git-annex`` ignores dot files by default. Change this with:
+
+.. code-block:: bash
+
+    git annex config --set annex.dotfiles true
