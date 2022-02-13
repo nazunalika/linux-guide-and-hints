@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+02-13-2022
+
+- Removed outdated information from fedora/emulators, slated to be rewritten.
+
 11-04-2021
 
 - Removed gitlab page because GitLab sucks.
