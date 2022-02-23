@@ -104,4 +104,26 @@ because it requires manual intervention by the user where a key has to be
 created and enrolled into MOK. After that, you can use a script that will sign
 the modules after they are built automatically. See `akmod-sign-modules
 <https://github.com/larsks/akmod-sign-modules>`_ for akmods. There is a DKMS
-version available on the Internet.
+version available on the Internet. Note that it does not appear to work unless
+you run it manually. That is:
+
+.. code-block:: bash
+
+    systemctl start akmods@$(uname -r)
+    systemctl status akmods@$(uname -r)
+
+There is a COPR for changes slated to appear in Fedora 36. Namely
+`akmods-secureboot
+<https://copr.fedorainfracloud.org/coprs/egeretto/akmods-secureboot/>`_ and
+`kmodtool-secureboot
+https://copr.fedorainfracloud.org/coprs/egeretto/kmodtool-secureboot/`_ by
+egeretto. Either generate the key using the provided `akmods-keygen` service
+file or by following the `RedHat guide
+<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-monitoring-and-updating-the-kernel>`_.
+
+There are a few ways to verify that you enrolled your key correctly.
+
+.. code-block:: bash
+
+    mokutil --list-enrolled
+    mokutil --test-key /etc/pki/akmods/certs/public_key.der
