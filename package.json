@@ -4,7 +4,7 @@
   "description": "This page contains tutorials and generally useful information regarding packages and system administration in Fedora®, Rocky® and CentOS®.",
   "dependencies": {
     "clean-css-cli": "^5.5.2",
-    "prismjs": "^1.26.0",
+    "prismjs": "^1.27.0",
     "uglify-js": "^3.15.1"
   },
   "repository": {
