@@ -6,7 +6,7 @@ The System Administrator Experience
 
 This write up provides steps on the System Administrator experience. This is not an end-all, be-all, and has many variables to keep in mind. But can provide a baseline for you.
 
-Please keep in mind, this is for Red Hat based distributions, mainly CentOS 7 and Enterprise Linux 8. Scientific Linux 7 is not supported.
+Please keep in mind, this is for Red Hat based distributions, mainly Enterprise Linux 8 and 9. CentOS Stream works within reason.
 
 Also note that it will be recommended that you do things in ansible. The RHCE for RHEL 8 will require you to be able to use ansible. As such, we will be focusing on RHEL 8.
 
@@ -16,7 +16,7 @@ Recommendations
 .. note:: Software Replacements
 
    * Postgresql can be replaced with MySQL/MariaDB
-   * Use Katello/Foreman or straight Pulp (**recommended to use Katello**, but you can try both) instead of Spacewalk
+   * Use Katello/Foreman, straight Pulp, or Uyuni
    * You can replace KVM with ESXi if you wish, with specific caveats
    * nagios can be replaced with icinga
    * You can replace firewalld with the regular iptables service or nftables for 8 - This may be required for your virtual host
@@ -69,6 +69,8 @@ Notes and Changelog
 |      Jul 23, 2019      | * Started conversion to EL8      |
 +------------------------+----------------------------------+
 |      May 05, 2020      | * Some changes                   |
++------------------------+----------------------------------+
+|      Mar 09, 2021      | * Some changes                   |
 +------------------------+----------------------------------+
 
 Begin
@@ -126,7 +128,7 @@ You'll need to setup a DHCP and DNS server. You have a few choices.
 2) Create two VM's to run DHCP for HA and create two standalone BIND servers as master/slave
 3) Use your hypervisor to host DHCP and BIND (not recommended)
 
-It would be sensible to do "1", if you do "2", you at least get more exposure to how zone files are created and the like.
+It would be sensible to do "1", if you do "2", you at least get more exposure to how zone files are created and the like. For ease of use, **we recommend choosing option 1.**
 
 Also, it is possible to allow cobbler handle DHCP and DNS or integrate directly into DNS such as making changes, but this is outside the scope of this write up.
 
@@ -147,7 +149,7 @@ Setup a VM or your hypervisor as the gateway to the internet.
 When setting up DHCP and DNS:
 
 1) Decide on a domain name. This can be a domain you own or one you make up internally. I personally used one of my four domains for this lab. RFC expects that internal networks have world routable domains. This is up to you. **Do NOT use '.local' domains**
-2) Setup DNS forwarders to ensure your VM's can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed in BIND or you can set them in the FreeIPA interface. You can list as many as you want. **Do NOT put these extra DNS servers in your dhcpd.conf configuration**
+2) Setup DNS forwarders to ensure your VM's can get DNS requests from the internet. You create a forwarders { } block with each outside DNS IP listed in BIND or you can *optionally* set them in the FreeIPA interface. You can list as many as you want. With a default configuration of FreeIPA, forwarders are not strictly required. **Do NOT put these extra DNS servers in your dhcpd.conf configuration**
 3) You need two zones. Forward Zone: This is for your domain, name to an IP. Reverse Zone: This is for reverse IP lookups, IP to a name. FreeIPA handles this for you on setup if you state you are handling a reverse zone and what the subnet is.
 
 .. note:: Bonus Points
@@ -157,24 +159,24 @@ When setting up DHCP and DNS:
    * Use SSSD for the IPA clients to update their DNS automatically (FreeIPA only) - this may not be required if dhcpd and named are configured correctly
    * Setup an unbound service running on port 9053 that forwards to 1.1.1.1 for encrypted DNS
 
-**From this point forward, you are to ensure each of your VM's that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. You can use nsupdate or the ipa equivalent to add additional entries as needed if you are implementing static A records or CNAME records.**
+**From this point forward, you are to ensure each of your VM's that you create have DNS entries. If you have Dynamic DNS running, you will NOT need to do any manual changes. If using FreeIPA, you may not need to make these changes. You can use nsupdate or the ipa equivalent to add additional entries as needed if you are implementing static A records or CNAME records.**
 
 Server and Content Management
 +++++++++++++++++++++++++++++
 
-At this point, you'll need to setup Katello on a VM. I recommend using Katello as **Satellite 6** has its upstream from Katello. It is a combination of pulp, candlepin, foreman, and a form of puppet. This recommendation is primarily because Red Hat has phased out **Red Hat Network Classic** and **Satellite 5**.
+At this point, you'll need to setup Foreman/Katello, Pulp, or Uyuni on a VM. I recommend using Pulp if you want something smaller and simpler. If you want something close to **Red Hat Satellite**, go through katello. It is a combination of pulp, candlepin, foreman. This recommendation is primarily because Red Hat has phased out **Red Hat Network Classic** and **Satellite 5**.
 
 Katello, go `here <http://www.katello.org/>`__.
 
 .. note:: Heads up
 
    * You're going to be hosting repositories, I SERIOUSLY recommend creating a VM that has at least 250GB starting and going from there. Don't try to host Fedora.
-   * Spacewalk has an odd "dependency" on wanting DHCP/TFTP to exist on the server at the same time. There is no way around this. You do not have to use it unless you are using cobbler (which needs TFTP and a specific DHCP configuration).
-   * Katello is resource heavy, it's you may need to tune it.
+   * Katello is resource heavy, you may need to tune it.
+   * Pulp may be easier on you, resource wise.
 
 .. note:: Bonus Points
 
-   * Setup errata importation for the Enterprise Linux Channels/Repositories to properly see Advisories and Information for package updates
+   * Setup errata importation for the Enterprise Linux Channels/Repositories to properly see Advisories and Information for package updates if the repos you are importing does not contain them
    * Create custom kickstarts for your systems (this will help you out later)
 
 Kickstart examples can be found at my `github <https://github.com/nazunalika/useful-scripts/tree/master/centos>`_.
@@ -184,10 +186,10 @@ Connect Content Management to Hypervisor
 
 Next you will need to connect your Content Management to your hypervisor. View their documentation to get an idea of how it works.
 
-Spin Up VM's Using Katello/Spacewalk
-++++++++++++++++++++++++++++++++++++
+Spin Up VM's Using Katello/Spacewalk or PXE Server
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
-You will need to spin up two EL8 VM's via Katello. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
+You will need to spin up two EL8 VM's via Katello or PXE. Do not spin them up using virt-install, virt-manager, ovirt, etc. This will require you to connect Katello to the hypervisor. Ensure they are registered properly to your content management server.
 
 If you find the clients aren't registering on Katello, click `here <https://theforeman.org/manuals/2.0/index.html>`__.
 
@@ -201,23 +203,25 @@ Setup FreeIPA
 Setup FreeIPA with two replicas, using CA and DNS built in configuration. This is recommended if you do not want to setup BIND by hand. FreeIPA also provides authentication to your systems without having to go through the hassle of setting up OpenLDAP by hand nor having Windows AD.
 
 * `FreeIPA <https://freeipa.org>`__
-* `FreeIPA Guide <https://linuxguideandhints.com/centos/freeipa.html>`__
+* `FreeIPA Guide <https://linuxguideandhints.com/el/freeipa.html>`__
 
 I recommend against setting up OpenLDAP for the case of UNIX authentication. For anything else, go for it. 
+
+Once FreeIPA is available, all systems should be using FreeIPA as your DNS servers and they should all be enrolled to your domain.
 
 Spin Up Two VM's for Databases
 ++++++++++++++++++++++++++++++
 
-Create two new VM's from your Content Management that are EL8 and install the default postgresql on them.
+Create two new VM's from your Content Management or PXE system that are EL8 and install the default postgresql on them.
 
-Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in Enterprise Linux.
+Attempt to install and configure pgpool-II for master-master replication. Note that this may not be default in Enterprise Linux and you can safely skip this.
 
 Spin Up Configuration Management
 ++++++++++++++++++++++++++++++++
 
-While Katello has some form of puppet or ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL7 or EL8 and install a master for configuration management.
+While Katello has some form of puppet or ansible built in, it may be better to create a solitary configuration management VM and hook it in. Spin up a VM that is EL8 and install a master for configuration management.
 
-It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8. At some point, you could spin up a EL7 VM to host `AWX <https://awx.wiki/installation/repositories/centos-x86_64>`__ (an open source Ansible Tower).
+It is HIGHLY recommended that you use ansible. Ansible is the supported and recommended system by Red Hat and is utilized in the certification exams for EL8. At some point, you could spin up a docker container for AWX if you wanted, but this is not a strict requirement.
 
 Spin Up VM for NFS/iSCSI
 ++++++++++++++++++++++++
@@ -232,7 +236,6 @@ You are to:
 1) Export an NFS directory
 2) Export a LUN to any server
 
-`iSCSI for RHEL 7 <https://www.certdepot.net/rhel7-configure-iscsi-target-initiator-persistently/>`_
 `iSCSI for RHEL 8 <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_storage_devices/getting-started-with-iscsi_managing-storage-devices>`__
 
 Deploy Bacula Server
@@ -249,25 +252,27 @@ Your server will need the following:
 5) Bakula will need to be configured to use postgresql (digital ocean does NOT use postgresql, you will need to do some reading)
 6) Register each machine you have to it, storing to flatfile
 
-Deploy Four VM's
-++++++++++++++++
+Deploy Two/Four VM's
+++++++++++++++++++++
 
-1) First two will be web servers running apache (httpd)
-2) Next two will be tomcat servers
+1) First one/two will be web servers running apache (httpd)
+2) Next one/two will be app servers
 
-This is a typical "web/app" configuration. Some shops use apache frontends to weblogic backends. Sometimes it's tomcat backends. 
+This is a typical "web/app" configuration. Some shops use apache frontends to weblogic backends. Sometimes it's tomcat backends. Some shops opt for other methods and software too.
 
-You will need to do the following:
+If wish to setup Wildfly and host a wiki, you will need to do the following:
 
-1) Setup JBoss/Wildfly Wiki on your app servers
+1) Setup Wildfly Wiki or on your app servers
 2) Setup apache to forward requests to your tomcat servers for the wiki
 3) Do this as a VirtualHost configuration with the ServerName as "wiki.domain.tld", replacing "domain.tld" with your domain
 4) Set a ServerAlias as wiki
 
+If you wish to setup a Git 
+
 Deploy Load Balancer VM
 +++++++++++++++++++++++
 
-This will be considered a "VIP" of sorts for your wiki cluster. This VM can either use iptables round-robin or HAProxy. I highly recommend trying both to see what's easier for you. **HAProxy is recommended, because it's an actual load balancer application.**
+This will be considered a "VIP" of sorts for your wiki and other applications. This VM can either use iptables round-robin or HAProxy. I highly recommend trying both to see what's easier for you. **HAProxy is recommended, because it's an actual load balancer application.**
 
 You will need the following:
 
@@ -309,7 +314,7 @@ If you are planning to use full on SNMP, all servers will need the appropriate S
 Setup Syslog VM
 +++++++++++++++
 
-Setup this server as a syslog server. It can be EL7 or EL8. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.
+Setup this server as a syslog server. It can be EL8 or higher. Ensure that it is listening on port 514 UDP and TCP in the configuration and that those ports are open.
 
 .. note::
 
@@ -325,12 +330,12 @@ On your new wiki, document everything you did, right now, on your new wiki.
 RPM Build Server
 ++++++++++++++++
 
-For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this. Optionally, you can setup koji, bodhi, the things that the Fedora project uses.
+For fun, you can setup a new server that is your designated RPM building machine. You will need to install **mock** to do this. Optionally, you can setup koji, bodhi, the things that the Fedora project uses. This is not for the faint of heart.
 
 Git Server
 ++++++++++
 
-Also for fun, you can setup a git server. There are many options out there. A popular opensource one is `Gitlab <https://about.gitlab.com/>`_ or even Gitea.
+Also for fun, you can setup a git server. There are many options out there. A popular opensource one is `Gitea <https://gitea.io/>`__.
 
 Ansible
 +++++++
