@@ -195,10 +195,12 @@ If you have forwarders, use the --forwarders option instead. Remove --no-ntp if 
 Server Migration/Upgrade
 ------------------------
 
-To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the following steps will have to take place:
+Performing a migration is a multi-step process. Typically you are going from one major version of Enterprise Linux (such as 7 or 8) to another (such as 9). Regardless of which version you are migrating from, the typical beginning steps are:
 
-* Enterprise Linux 8 system is installed and enrolled as a client
-* Enterprise Linux 8 system is added as a replica
+* New system is installed and enrolled as a client
+* New system is added as a replica
+
+The below shows going from EL7 to EL8. Similar steps would be taken from EL8 to EL9.
 
 .. code-block:: shell
 
@@ -228,7 +230,7 @@ To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the follow
       last update status: Error (0) Replica acquired successfully: Incremental update succeeded
       last update ended: 2019-11-07 22:46:15+00:00
 
-* Change CRL to Enterprise Linux 8 system and adjust settings on both replicas for pki-tomcatd and httpd
+* Change CRL to new Enterprise Linux system and adjust settings on both replicas for pki-tomcatd and httpd
 
 .. code-block:: shell
 
@@ -290,7 +292,7 @@ To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the follow
    el7.example.com: ...
    el8.example.com: ...
 
-* Stop Enterprise Linux 7 IPA services, remove replica, uninstall
+* Stop old Enterprise Linux IPA services, remove replica, uninstall
 
 .. code-block:: shell
 
@@ -304,19 +306,24 @@ To perform a migration from Enterprise Linux 7 to Enterprise Linux 8, the follow
    el7% ipa-server-install --uninstall
    el7% init 0
 
-The above is in the case of a single master installation. Let's say you have two Enterprise Linux 7 replicas instead. One approach is to install a Enterprise Linux 8 system, add it in as needed, reinstall the old Enterprise Linux 7 system to Enterprise Linux 8, and add it back. Another way is to install two new Enterprise Linux 8's, add them in as needed, and power off the Enterprise Linux 7's. Below is an example set of steps.
+The above is in the case of a single master installation. Let's say you have two old Enterprise Linux replicas instead. There are two approaches you can take:
 
-* Enterprise Linux 8 system is installed and enrolled as a client
-* Enterprise Linux 8 system is added as a replica
-* Change CRL to Enterprise Linux 8 system and adjust settings on Enterprise Linux 7 CA master and new Enterprise Linux 8 replica for pki-tomcatd and httpd
+* Install a new Enterprise Linux system, add it, reinstall old system to the new version, add it back.
+* Install two new Enterprise Linux systems, add them as needed, power off old systems.
+
+Below is an example, with `X` being the old version, and `Y` being the new.
+
+* Enterprise Linux Y system is installed and enrolled as a client
+* Enterprise Linux Y system is added as a replica
+* Change CRL to Enterprise Linux Y system and adjust settings on Enterprise Linux X CA master and new Enterprise Linux Y replica for pki-tomcatd and httpd
 * Test user is created to ensure DNA range is adjusted
 * Verify DNA range
-* Stop first Enterprise Linux 7 IPA services, remove replica, uninstall, power off.
-* Second Enterprise Linux 8 system is installed and enrolled as a client
-* Second Enterprise Linux 8 system is added as a replica
+* Stop first Enterprise Linux X IPA services, remove replica, uninstall, power off.
+* Second Enterprise Linux Y system is installed and enrolled as a client
+* Second Enterprise Linux Y system is added as a replica
 * Test user is created again to ensure DNA range is adjusted
 * Verify DNA range
-* Stop second Enterprise Linux 7 IPA services, remove replica, uninstall, power off.
+* Stop second Enterprise Linux X IPA services, remove replica, uninstall, power off.
 
 Active Directory Trust
 ----------------------
@@ -1783,21 +1790,7 @@ The below is optional. It will remove the @realm off the usernames, like on the 
    . . .
    full_name_format = %1$s
 
-This will ensure EL7 and EL8 clients resolve the AD domain first when attempting logins and optionally drop the @realm off the usernames.
-
-However, for EL6 clients, additional changes on the client side is required. Since the sssd in EL6 does not support domain resolution order, you will either need to modify /etc/sssd/sssd.conf with "default_domain_suffix" or install a later version of sssd from copr. Below assumes you are using 1.13.3 from the base.
-
-.. code-block:: shell
-
-   # vi /etc/sssd/sssd.conf
-   
-   [domain/ipa.example.com]
-   . . .
-   full_name_format = %1$s
-
-   [sssd]
-   . . .
-   default_domain_suffix = example.com
+This will ensure EL7, EL8, EL9 clients resolve the AD domain first when attempting logins and optionally drop the @realm off the usernames.
 
 AD and IPA group names with short names
 +++++++++++++++++++++++++++++++++++++++
