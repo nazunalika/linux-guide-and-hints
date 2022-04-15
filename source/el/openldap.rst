@@ -3,12 +3,12 @@ OpenLDAP
 
 .. note:: Deprecation
 
-   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on RHEL 7 and/or potentially using the OpenLDAP LTB version of the software. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
+   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on Enterprise Linux 7 and/or potentially using the OpenLDAP LTB version of the software. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
 
 .. meta::
-    :description: How to install OpenLDAP on RHEL 7, configure and set up accounts for host access, etc. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO.
+    :description: How to install OpenLDAP on Enterprise Linux 7, configure and set up accounts for host access, etc. Enterprise Linux 7 and Fedora users will have the ability to use SSSD for SUDO.
 
-This tutorial goes over how to install OpenLDAP to a RHEL 7 Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. RHEL 7 and Fedora users will have the ability to use SSSD for SUDO (and it's relatively easy to set it up).
+This tutorial goes over how to install OpenLDAP to a Enterprise Linux 7 Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. Enterprise Linux 7 and Fedora users will have the ability to use SSSD for SUDO (and it's relatively easy to set it up).
 
 Overview
 --------
@@ -20,7 +20,7 @@ Requirements
 
 First and foremost, we have a list of requirements. Keep in mind, if you do not fulfill these requirements, you may run into some issues down the road.
 
-* RHEL 7 or Derivative of Enterprise Linux
+* Enterprise Linux 7, Enterprise Linux 8, Enterprise Linux 9
 * DNS Server (LDAP does NOT appreciate IP addresses for the URI)
 * An active internet connection to install the packages required
 
@@ -29,9 +29,9 @@ Tutorial Preface, Notes, and Recommendations
 
 .. warning:: Potential Pitfalls!
 
-   * The incorrect -The incorrect configuration in your firewall or other settings can cause login failures 
-   * Not using certificates (TLS/SSL) will cause you not to be able to login (This is a RHEL 6/7 LDAP Client Requirement) 
-   * SELinux is a pain when using mounted home directories or certificates (primarily in RHEL 7, will you have problems with certificates/home directories) 
+   * The incorrect configuration in your firewall or other settings can cause login failures 
+   * Not using certificates (TLS/SSL) will cause you not to be able to login (This is a EL7+ LDAP Client Requirement) 
+   * SELinux is a pain when using mounted home directories or certificates (primarily in Enterprise Linux 7+, will you have problems with certificates/home directories) 
    * If you use /home as an NFS mount, you'll see some nasty side effects if you have local users.
 
 .. note:: Recommended Information
@@ -46,9 +46,9 @@ Tutorial Preface, Notes, and Recommendations
 
    We will be using lmdb, which is recommended over using hdb or bdb. 
 
-.. note:: RHEL 8 OpenLDAP
+.. note:: EL 8 OpenLDAP
 
-   RHEL 8 will be dropping OpenLDAP. You will need to use the RPM's from LTB in that case. Please see the deprecation notice at the top of the page.
+   Enterprise Linux 8 dropped OpenLDAP. However, it has come back in 8.6 and is available from codeready or powertools on other derivatives.
 
 
 Installation
@@ -67,7 +67,7 @@ You will need the following packages. A couple of them may already be installed.
 
 Certificates
 ++++++++++++
-RHEL 7 clients and other newer distributions that are non-el require TLS/SSL for authentication when going toward LDAP. because of this, we will need to create certificates, regardless if you are in a lab or not. 
+Enterprise Linux 7 clients and other newer distributions that are non-el require TLS/SSL for authentication when going toward LDAP. because of this, we will need to create certificates, regardless if you are in a lab or not. 
 
 .. note:: Certificate Information
 
@@ -609,7 +609,7 @@ If using firewalld, you can add these ports by service.
 Client
 ------
 
-Setting up the client can be straight-forward or troubling, depending on the distribution you're using. We'll be going over RHEL 6 and 7. Fedora also works here as well. 
+Setting up the client can be straight-forward or troubling, depending on the distribution you're using. We'll be going over EL7+. Fedora also works here as well. 
 
 .. warning:: Third-party Repositories
 
@@ -617,10 +617,10 @@ Setting up the client can be straight-forward or troubling, depending on the dis
 
 .. note:: Slight Command Difference
 
-   On RHEL 7, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately. 
+   On Enterprise Linux 7, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately. 
 
-RHEL 6/RHEL 7/Fedora 20+
-++++++++++++++++++++++++
+Enterprise Linux 7+/Fedora 20+
+++++++++++++++++++++++++++++++
 
 We'll be using SSSD for this. We need to install some key packages first. Some of these packages may not install because they were either superceded or obsoleted.
 
