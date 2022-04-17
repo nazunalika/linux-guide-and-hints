@@ -116,7 +116,7 @@ There is a COPR for changes slated to appear in Fedora 36. Namely
 `akmods-secureboot
 <https://copr.fedorainfracloud.org/coprs/egeretto/akmods-secureboot/>`_ and
 `kmodtool-secureboot
-https://copr.fedorainfracloud.org/coprs/egeretto/kmodtool-secureboot/`_ by
+<https://copr.fedorainfracloud.org/coprs/egeretto/kmodtool-secureboot/>`_ by
 egeretto. Either generate the key using the provided `akmods-keygen` service
 file or by following the `RedHat guide
 <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-monitoring-and-updating-the-kernel>`_.
