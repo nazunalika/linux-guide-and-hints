@@ -11,6 +11,15 @@ The source code for this page can be found on `Github
 tutorials and generally useful information regarding packages and system
 administration in |Fedora|, |Rocky| and |CentOS|.
 
+.. warning::
+
+    Due to the number of articles out there about disabling SELinux, we felt
+    this notice is important. Disabling SELinux is a terrible idea. See our
+    `antipatterns
+    <https://linuxguideandhints.com/security/antipatterns.html#disabling-selinux>`_
+    page as well as the `Rocky Linux documentation
+    <https://docs.rockylinux.org/es/guides/security/learning_selinux/>`_.
+
 .. |Fedora| replace:: Fedora\ :sup:`®`
 .. |CentOS| replace:: CentOS\ :sup:`®`
 .. |Rocky| replace:: Rocky\ :sup:`®`
