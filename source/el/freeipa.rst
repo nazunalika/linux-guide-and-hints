@@ -94,8 +94,12 @@ Required Packages
 * ipa-server
 * ipa-client (required as an IPA server is technically a client of the domain)
 * ipa-server-dns (required for using the internal DNS)
-* ipa-server-trust-ad (required for AD trusts)
 * sssd/sssd-ipa (pulled in as dependencies)
+
+Optional Packages
++++++++++++++++++
+
+* ipa-server-trust-ad if using an AD trust
 
 Installation
 ++++++++++++
@@ -118,13 +122,15 @@ To install the server, make sure the hostname is set to the A records and NS del
    % yum install freeipa-server{,-common,-dns,-trust-ad} -y
    # Enterprise Linux 7
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-   # Enterprise Linux 8 / 9
+   # Enterprise Linux 8
    % yum module enable idm:DL1/{dns,adtrust,client,server,common}
+   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   # Enterprise Linux 9 (there appears to be no modules)
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Setup
    # Enterprise Linux 7
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
-   # Enterprise 8
+   # Enterprise 8 / 9
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
    % ipa-server-install \
@@ -162,7 +168,10 @@ On the replica, ensure you repeat the same steps as above.
    10.200.0.231 server2.ipa.example.com
    
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   # Enterprise Linux 7
    % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
+   # Enterprise 8 / 9
+   % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
    % ipa-replica-install --no-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
    . . . (show steps)
@@ -188,7 +197,7 @@ Once you have a server added as a client and then added to the ipaservers host g
 
 .. code-block:: shell
 
-   % ipa-replica-install --no-ntp --sh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
+   % ipa-replica-install --no-ntp --ssh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
 
 If you have forwarders, use the --forwarders option instead. Remove --no-ntp if you are hosting NTP.
 
@@ -204,8 +213,9 @@ The below shows going from EL7 to EL8. Similar steps would be taken from EL8 to 
 
 .. code-block:: shell
 
+    # Enterprise Linux 8
     % yum module enable idm:DL1
-    # Install other necessary packages, ie AD trust packages
+    # Install other necessary packages, ie AD trust packages if you need them
     % yum install ipa-server ipa-server-dns -y
     % ipa-client-install --realm EXAMPLE.COM --domain example.com
     % kinit admin
