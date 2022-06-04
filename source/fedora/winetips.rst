@@ -177,6 +177,13 @@ restart Steam, it should show up when you select a custom Steam Play tool.
 If you need to enable logging, go to any Proton installation directory and move
 ``user_settings.sample.py`` to ``user_settings.py``.
 
+wine-ge
+*******
+
+It is not recommended to use Proton for games outside of Steam. It is
+recommended to use Lutris with wine-ge instead. See `this thread for details
+<https://old.reddit.com/r/linux_gaming/comments/uzrz2k/a_thread_about_using_protonge_and_winege_builds/>_`.
+
 mf_install
 **********
 
@@ -191,10 +198,14 @@ Simply run:
 
     PROTON="/path/to/proton/directory" WINEPREFIX="/path/to/prefix" ./mf-install.sh -proton
 
+If needed for wine-ge, one can lookup the respective Steam AppID in protonfixes
+and then run the respective verb for winetricks in Lutris.
+
 proton-caller
 *************
 
-It is not recommended to run Proton outside of Steam, even when using
-proton-ge, so it can be a little tricky. There is a program called
-`proton-caller <https://github.com/caverym/Proton-Caller/>`_ that does the job,
-although the disadvantage is it only supports one prefix.
+As stated above, it is not recommended to run Proton outside of Steam, even
+when using proton-ge, so it can be a little tricky. There is a program called
+`proton-caller <https://github.com/caverym/Proton-Caller/>`_ that does the job
+and it tries to run the commands within the Steam runtime. However, it is
+inflexible and contains a number of bugs.
