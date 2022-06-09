@@ -182,7 +182,7 @@ wine-ge
 
 It is not recommended to use Proton for games outside of Steam. It is
 recommended to use Lutris with wine-ge instead. See `this thread for details
-<https://old.reddit.com/r/linux_gaming/comments/uzrz2k/a_thread_about_using_protonge_and_winege_builds/>_`.
+<https://old.reddit.com/r/linux_gaming/comments/uzrz2k/a_thread_about_using_protonge_and_winege_builds/>`_.
 
 mf_install
 **********
