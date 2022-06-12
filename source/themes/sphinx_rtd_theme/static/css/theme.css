@@ -3237,6 +3237,23 @@ footer span.commit code {
 .rst-content .align-center:not(table) {
   display: block
 }
+.rst-content .code-block-caption .headerlink,
+.rst-content .eqno .headerlink,
+.rst-content .toctree-wrapper > p.caption .headerlink,
+.rst-content dl dt .headerlink,
+.rst-content h1 .headerlink,
+.rst-content h2 .headerlink,
+.rst-content h3 .headerlink,
+.rst-content h4 .headerlink,
+.rst-content h5 .headerlink,
+.rst-content h6 .headerlink,
+.rst-content p .headerlink,
+.rst-content p.caption .headerlink,
+.rst-content table > caption .headerlink {
+  opacity: 0;
+  font-size: 14px;
+  margin-left: .5em
+}
 .rst-content .code-block-caption .headerlink:focus,
 .rst-content .code-block-caption:hover .headerlink,
 .rst-content .eqno .headerlink:focus,
