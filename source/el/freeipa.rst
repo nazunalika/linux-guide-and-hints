@@ -209,7 +209,11 @@ Performing a migration is a multi-step process. Typically you are going from one
 * New system is installed and enrolled as a client
 * New system is added as a replica
 
-The below shows going from EL7 to EL8. Similar steps would be taken from EL8 to EL9.
+.. note:: EL7 to EL9 / Two Major Version Jumps
+
+   When jumping from EL7 to EL9 or two major versions in general, it is recommended that you have an "in between" machine. This means that you need to add the in between version first and then you can add the latest version. See `this page <https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/thread/5VGR7DFU4XO63X6KB4ETKSGLKP4A2LWP/>`_ for an example.
+
+While the below shows going from EL7 to EL8, similar steps would be taken from EL8 to EL9.
 
 .. code-block:: shell
 
