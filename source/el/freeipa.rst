@@ -18,7 +18,7 @@ Requirements
 
 Here are the list of requirements below.
  
-* Enterprise Linux 8+ or Fedora 32+
+* Enterprise Linux 8+ or Fedora Linux
 * An active internet connection to install the packages required or available internal mirrors
 * 2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv
 * DNS domain delegation (if a DNS appliance or server already exists)
@@ -120,16 +120,12 @@ To install the server, make sure the hostname is set to the A records and NS del
    
    # Fedora
    % yum install freeipa-server{,-common,-dns,-trust-ad} -y
-   # Enterprise Linux 7
-   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Enterprise Linux 8
    % yum module enable idm:DL1/{dns,adtrust,client,server,common}
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Enterprise Linux 9 (there appears to be no modules)
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Setup
-   # Enterprise Linux 7
-   % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    # Enterprise 8 / 9
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
@@ -168,8 +164,6 @@ On the replica, ensure you repeat the same steps as above.
    10.200.0.231 server2.ipa.example.com
    
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-   # Enterprise Linux 7
-   % firewall-cmd --permanent --add-service={ntp,http,https,freeipa-ldap,freeipa-ldaps,kerberos,freeipa-replication,kpasswd,dns}
    # Enterprise 8 / 9
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
@@ -320,7 +314,7 @@ While the below shows going from EL7 to EL8, similar steps would be taken from E
    el7% ipa-server-install --uninstall
    el7% init 0
 
-The above is in the case of a single master installation. Let's say you have two old Enterprise Linux replicas instead. There are two approaches you can take:
+The above is in the case of a single master installation and doesn't take into account of multiple version jumps. Let's say you have two old Enterprise Linux replicas instead. There are two approaches you can take:
 
 * Install a new Enterprise Linux system, add it, reinstall old system to the new version, add it back.
 * Install two new Enterprise Linux systems, add them as needed, power off old systems.
@@ -442,7 +436,7 @@ Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure y
 Mac Clients
 +++++++++++
 
-MacOS Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings. **Note that as of Catalina, you may not be able to login to your account nor will creating a mobile account function as you would expect.**
+MacOS Clients are an interesting workstation to setup as a FreeIPA client. It takes a little bit of fighting and troubleshooting, but it can work with the right settings. **Note that as of Catalina, you may not be able to login to your account nor will creating a mobile account function as you would expect. This may have changed in recent macos releases, so YMMV.**
 
 .. note:: Other Guides
 
@@ -757,7 +751,7 @@ The directory framework in MacOS has the ability to discover settings for a part
 SUSE
 ++++
 
-To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies to SUSE 12 and up.
+To setup openSUSE with FreeIPA, we'll need to do some manual work. This applies to SUSE 12 and up where the freeipa-client packages don't exist in the main repositories.
 
 .. note:: freeipa repos
 
@@ -919,7 +913,7 @@ You might want to create an HBAC rule specifically for your IPA admin accounts t
 SUDO
 ----
 
-Setting up sudo is relatively easy. Enterprise Linux 6 and newer for sssd supports IPA as a provider for sudo. Based on the last section, let's create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.
+Setting up sudo is relatively easy. SSSD (1.16.x and 2.X) supports IPA as a provider for sudo. Based on the last section, let's create a sample rule for our Linux admins that can login to every system, we want to ensure they can run all commands.
 
 .. code-block:: shell
 

@@ -3,17 +3,17 @@ OpenLDAP
 
 .. note:: Deprecation
 
-   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on Enterprise Linux 7 and/or potentially using the OpenLDAP LTB version of the software. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
+   Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on Enterprise Linux 7, potentially using the OpenLDAP LTB version of the software, or using the openldap-servers package from Rocky Linux 9's plus repository. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
 
 .. meta::
     :description: How to install OpenLDAP on Enterprise Linux 7, configure and set up accounts for host access, etc. Enterprise Linux 7 and Fedora users will have the ability to use SSSD for SUDO.
 
-This tutorial goes over how to install OpenLDAP to a Enterprise Linux 7 Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. Enterprise Linux 7 and Fedora users will have the ability to use SSSD for SUDO (and it's relatively easy to set it up).
+This tutorial goes over how to install OpenLDAP to a Enterprise Linux Server and options on configuring and setting up accounts for host access, etc. This how-to is the method of implementation that I used, and can be modified/changed to any users preferences if preferred. Enterprise Linux and Fedora users will have the ability to use SSSD for SUDO (and it's relatively easy to set it up).
 
 Overview
 --------
 
-Simply put, LDAP is a directory service for authentication across a network. Rather than have local accounts on a bunch of machines, LDAP can be used to have one account across a bunch of machines. LDAP was once an easy setup in RHEL 5 but has changed in RHEL 6/7, and here provides the necessary information needed to get a simple LDAP system running with possible SUDO support and various options of how to support your LDAP system.
+Simply put, LDAP is a directory service for authentication across a network. Rather than have local accounts on a bunch of machines, LDAP can be used to have one account across a bunch of machines. LDAP was once an easy setup in RHEL 5 but had changed in RHEL 6 and 7, and here provides the necessary information needed to get a simple LDAP system running with possible SUDO support and various options of how to support your LDAP system.
 
 Requirements
 ------------
@@ -617,10 +617,10 @@ Setting up the client can be straight-forward or troubling, depending on the dis
 
 .. note:: Slight Command Difference
 
-   On Enterprise Linux 7, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately. 
+   On Enterprise Linux 7+, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately. 
 
-Enterprise Linux 7+/Fedora 20+
-++++++++++++++++++++++++++++++
+Enterprise Linux/Current Fedora Releases
+++++++++++++++++++++++++++++++++++++++++
 
 We'll be using SSSD for this. We need to install some key packages first. Some of these packages may not install because they were either superceded or obsoleted.
 

@@ -13,7 +13,7 @@ Requirements
 
 Here are the list of requirements below.
 
-* Enterprise Linux 7, 8 or Fedora
+* Enterprise Linux 8, 9, or Fedora
 * A DHCP server setup that allows you to setup the `next_server` directive or setup the tftp server location
 
 Tutorial Preface, Notes, and Recommendations
