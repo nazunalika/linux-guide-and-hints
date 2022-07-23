@@ -54,3 +54,16 @@ Either look under Additional Layouts in Gnome Tweaks, or run:
 .. code-block:: bash
 
     dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']"
+
+Changing "Program not responding" check timeout
+-----------------------------------------------
+
+Often times when programs stall for a brief period, Mutter will pop up a dialog
+asking whether you want to "Force quit" or "Wait" for a program which can be
+annoying. The default check timeout is 5 seconds. You can change this to 60
+seconds by doing:
+
+.. code-block:: bash
+
+    gsettings set org.gnome.mutter check-alive-timeout 60000
+
