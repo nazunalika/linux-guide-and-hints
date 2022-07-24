@@ -165,6 +165,20 @@ report the bug for your distro so that the maintainers can fix the
 policy/module in question. Disabling SELinux wholesale to get an application to
 work is never the right answer.
 
+Containers
+----------
+
+Containers do not provide security, in fact, they can be quite insecure out of
+the box. Comments suggesting containers as a replacement for SELinux can be
+found in `SELinux is unmanageable; just turn it off if it gets in your way
+<https://news.ycombinator.com/item?id=31176138>`_.
+
+In actuality, containers can be combined *with* SELinux. Similarly, seccomp
+profiles are often used to limit dangerous syscalls as well. Anyone with access
+to the daemon socket essentially has root privileges (hence why it's an
+antipattern to mount the socket within a container) and Podman is rootless by
+default.
+
 .. rubric:: Footnotes
 
 .. [#f1] See `How to securely hash passwords? <https://security.stackexchange.com/questions/211/how-to-securely-hash-passwords/31846#31846>`_
