@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+07-24-2022
+
+- Wayland article contains outdated information, so removed.
+
 02-13-2022
 
 - Removed outdated information from fedora/emulators, slated to be rewritten.
