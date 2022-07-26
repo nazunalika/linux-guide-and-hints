@@ -1,12 +1,20 @@
-negativo17 repositories and Nvidia drivers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Nvidia drivers
+^^^^^^^^^^^^^^
 
-This page serves as a summary of the repositories located at `https://negativo17.org/ <https://negativo17.org/>`_ to save the reader the trouble of sifting through the blog posts.
+Negativo17
+----------
+
+This section serves as a summary of the repositories located at
+`https://negativo17.org/ <https://negativo17.org/>`_ to save the reader the
+trouble of sifting through the blog posts.
 
 The source RPMs, repos and other files can be found `here <https://negativo17.org/repos/>`_.
 
+Negativo17 is NOT compatible with RPMFusion and has a much more limited
+selection of packages, but follows a different packaging philosophy.
+
 Multimedia
-----------
+++++++++++
 
 .. code-block:: bash
 
@@ -22,7 +30,7 @@ Packages of interest:
 - ``mpv``
 
 Nvidia
-------
+++++++
 
 The multimedia repo contains the Nvidia packages. Before using it, make sure you remove all previous Nvidia packages (i.e, from RPMFusion):
 
@@ -98,6 +106,11 @@ It is unclear why this is happening, however the following workaround works:
 
 Automatically signing modules for secure boot
 ---------------------------------------------
+
+.. note::
+
+    For RPMFusion this is fixed in Fedora 36, the manual instructions are still
+    required for negativo17.
 
 Neither negativo nor rpmfusion automatically sign the kernel modules. This is
 because it requires manual intervention by the user where a key has to be

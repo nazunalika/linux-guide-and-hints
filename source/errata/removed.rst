@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+07-26-2022
+
+- negativo was renamed to nvidia.
+
 07-24-2022
 
 - Wayland article contains outdated information, so removed.
