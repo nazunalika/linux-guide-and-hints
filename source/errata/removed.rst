@@ -7,6 +7,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+07-31-2022
+
+- Remove packaging and kubernetes for being outdated.
+
 07-26-2022
 
 - negativo was renamed to nvidia.
