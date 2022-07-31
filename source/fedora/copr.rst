@@ -9,6 +9,10 @@ We provide up-to-date RPM's for some packages located at our copr. They are typi
 
 The sources can be found `on Github <https://github.com/nazunalika>`__.
 
+Additionally, until Firejail and libimobiledevice get newer versions in the
+repos, we have `copr versions available
+<https://copr.fedorainfracloud.org/coprs/remyabel/>`_.
+
 gzdoom
 ------
 
