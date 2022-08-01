@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2018 Dave Snider, Read the Docs, Inc. & contributors
+#
+# SPDX-License-Identifier: MIT
+
 """
 Sphinx Read the Docs theme.
 

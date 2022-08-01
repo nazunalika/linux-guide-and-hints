@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: sphinx-rtd-theme
+Upstream-Contact: Dave Snider, Read the Docs, Inc. & contributors <>
+Source: https://github.com/readthedocs/sphinx_rtd_theme
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
