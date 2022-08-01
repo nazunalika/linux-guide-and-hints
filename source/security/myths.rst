@@ -1,3 +1,7 @@
+.. SPDX-FileCopyrightText: 2019-2022 Louis Abel, Tommy Nguyen
+..
+.. SPDX-License-Identifier: MIT
+
 Myths
 ^^^^^
 
