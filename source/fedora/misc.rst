@@ -101,3 +101,11 @@ Stop Flatpak Spotify from crashing upon close
 ---------------------------------------------
 
 You can either use ``flatpak override`` or Flatseal (a GUI application to manage permissions), but simply disable GPU Acceleration (``device=dri``).
+
+statvfs '/run/user/1000/doc' failed: Operation not permitted
+------------------------------------------------------------
+
+This diagnostic appears to originate from ``xdg-desktop-portal``.
+``/run/user/1000/doc`` has the ``fuse_t`` label and only the owner (not even
+root) has access to this directory, i.e it is intended behavior. Therefore you
+can safely ignore the warning.
