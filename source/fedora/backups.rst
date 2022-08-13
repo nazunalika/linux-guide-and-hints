@@ -10,6 +10,13 @@ cover two: `duplicity <http://duplicity.nongnu.org/>`_ and `git-annex
 <https://git-annex.branchable.com/>`_. git-annex is not backup software in of
 itself, but it is still useful for such a purpose.
 
+BTRFS
+-----
+
+As BTRFS is the default in Fedora now, one may want to take advantage of the
+snapshot feature.  I've written an `article on combining Borgmatic and Snapper
+<https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-11-snapper.gmi>`_.
+
 Duplicity
 ---------
 
