@@ -124,11 +124,14 @@ To install the server, make sure the hostname is set to the A records and NS del
    
    # Fedora
    % yum install freeipa-server{,-common,-dns,-trust-ad} -y
+
    # Enterprise Linux 8
    % yum module enable idm:DL1/{dns,adtrust,client,server,common}
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+
    # Enterprise Linux 9 (there appears to be no modules)
    % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+
    # Setup
    # Enterprise 8 / 9
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
@@ -204,121 +207,16 @@ Server Migration/Upgrade
 
 Performing a migration is a multi-step process. Typically you are going from one major version of Enterprise Linux (such as 7 or 8) to another (such as 9). Regardless of which version you are migrating from, the typical beginning steps are:
 
+* System's time is verified for time synchronization like using `ntpstat` or equivalent
+* Server roles are verified in the current environment using `ipa server-role-find --status enabled --server ipa.example.com`
 * New system is installed and enrolled as a client
-* New system is added as a replica
+* New system is added as a replica with required server roles
 
 .. note:: EL7 to EL9 / Two Major Version Jumps
 
    When jumping from EL7 to EL9 or two major versions in general, it is recommended that you have an "in between" machine. This means that you need to add the in between version first and then you can add the latest version. See `this page <https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/thread/5VGR7DFU4XO63X6KB4ETKSGLKP4A2LWP/>`_ for an example.
 
-While the below shows going from EL7 to EL8, similar steps would be taken from EL8 to EL9.
-
-.. code-block:: shell
-
-    # Enterprise Linux 8
-    % yum module enable idm:DL1
-    # Install other necessary packages, ie AD trust packages if you need them
-    % yum install ipa-server ipa-server-dns -y
-    % ipa-client-install --realm EXAMPLE.COM --domain example.com
-    % kinit admin
-    # Add other switches that you feel are necessary, such as forwarders, kra, ntp...
-    % ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
-    
-    # Verify all services are in a RUNNING state
-    % ipactl status
-    Directory Service: RUNNING
-    . . .
-
-    % ipa-csreplica-manage list
-    el7.example.com: master
-    el8.example.com: master
-
-    % ipa-csreplica-manage list --verbose el8.example.com
-    Directory Manager password:
-
-    el7.example.com
-      last init status: None
-      last init ended: 1970-01-01 00:00:00+00:00
-      last update status: Error (0) Replica acquired successfully: Incremental update succeeded
-      last update ended: 2019-11-07 22:46:15+00:00
-
-* Change CRL to new Enterprise Linux system and adjust settings on both replicas for pki-tomcatd and httpd
-
-.. code-block:: shell
-
-   # Change CA master to el8
-   % ipa config-mod --ca-renewal-master-server el8.example.com
-
-   # Shut down all CRL generation on EL7
-   el7% ipa-crlgen-manage status
-   CRL generation: enabled
-   . . .
-
-   el7% ipa-crlgen-manage disable
-   Stopping pki-tomcatd
-   Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
-   Starting pki-tomcatd
-   Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
-   Restarting httpd
-   CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
-   The ipa-crlgen-manage command was successful
-
-   # Verify that the /etc/httpd/conf.d/ipa-pki-proxy.conf file's RewriteRule is not commented
-   # If it is, remove the comment and restart httpd
-   % tail -n 1 /etc/httpd/conf.d/ipa-pki-proxy.conf
-   RewriteRule ^/ipa/crl/MasterCRL.bin https://el7.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
-
-   # Turn it on with EL8
-   el8% systemctl stop pki-tomcatd@pki-tomcat.service
-
-   # The values should be changed from false to true
-   el8% vi /etc/pki/pki-tomcat/ca/CS.cfg
-   ca.crl.MasterCRL.enableCRLCache=true
-   ca.crl.MasterCRL.enableCRLUpdates=true
-
-   el8% systemctl start pki-tomcatd@pki-tomcat.service
-
-   # Make sure the rewrite rule has a comment on el8
-   el8% vi /etc/httpd/conf.d/ipa-pki-proxy.conf
-   . . .
-   #RewriteRule ^/ipa/crl/MasterCRL.bin https://el8.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
-
-   el8% systemctl restart httpd
-
-* Test user is created to ensure DNA range is adjusted and replication is working
-
-.. code-block:: shell
-
-   % ipa user-add --first=testing --last=user testinguser1
-
-   # Test on both systems
-   el7% ipa user-find testinguser1
-   el8% ipa user-find testinguser1
-
-* Verify DNA range
-
-.. code-block:: shell
-
-   # There should be ranges for both replicas
-   % ipa-replica-manage dnarange-show
-   el7.example.com: ...
-   el8.example.com: ...
-
-* Stop old Enterprise Linux IPA services, remove replica, uninstall
-
-.. code-block:: shell
-
-   # Stop all el7 services
-   el7% ipactl stop
-
-   # Delete the el7 system from the topology
-   el8% ipa server-del el7.example.com
-
-   # Uninstall and/or power down system
-   el7% ipa-server-install --uninstall
-   el7% init 0
-
-The above is in the case of a single master installation and doesn't take into account of multiple version jumps. Let's say you have two old Enterprise Linux replicas instead. There are two approaches you can take:
+The below is in the case of a single master installation and doesn't take into account of multiple version jumps. Let's say you have two old Enterprise Linux replicas instead. There are two approaches you can take:
 
 * Install a new Enterprise Linux system, add it, reinstall old system to the new version, add it back.
 * Install two new Enterprise Linux systems, add them as needed, power off old systems.
@@ -336,6 +234,216 @@ Below is an example, with `X` being the old version, and `Y` being the new.
 * Test user is created again to ensure DNA range is adjusted
 * Verify DNA range
 * Stop second Enterprise Linux X IPA services, remove replica, uninstall, power off.
+
+EL7 to EL8
+++++++++++
+
+.. code-block:: shell
+
+    # Enterprise Linux 8
+    % yum module enable idm:DL1
+
+    # Install necessary packages, ie AD trust packages if you need them
+    % yum install ipa-server ipa-server-dns -y
+    % ipa-client-install --realm EXAMPLE.COM --domain example.com
+    % kinit admin
+
+    # Add other switches that you feel are necessary, such as forwarders, kra, ntp...
+    % ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
+
+    # Verify all services are in a RUNNING state
+    % ipactl status
+    Directory Service: RUNNING
+    . . .
+
+    % ipa-csreplica-manage list
+    elX.example.com: master
+    elY.example.com: master
+
+    % ipa-csreplica-manage list --verbose elY.example.com
+    Directory Manager password:
+
+    elX.example.com
+      last init status: None
+      last init ended: 1970-01-01 00:00:00+00:00
+      last update status: Error (0) Replica acquired successfully: Incremental update succeeded
+      last update ended: 2019-11-07 22:46:15+00:00
+
+* Change CRL to new Enterprise Linux system and adjust settings on both replicas for pki-tomcatd and httpd
+
+.. code-block:: shell
+
+   # Change CA master to elY
+   % ipa config-mod --ca-renewal-master-server elY.example.com
+
+   # Shut down all CRL generation on ELX
+   elX% ipa-crlgen-manage status
+   CRL generation: enabled
+   . . .
+
+   elX% ipa-crlgen-manage disable
+   Stopping pki-tomcatd
+   Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
+   Starting pki-tomcatd
+   Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
+   Restarting httpd
+   CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
+   The ipa-crlgen-manage command was successful
+
+   # Verify that the /etc/httpd/conf.d/ipa-pki-proxy.conf file's RewriteRule is not commented
+   # If it is, remove the comment and restart httpd
+   % tail -n 1 /etc/httpd/conf.d/ipa-pki-proxy.conf
+   RewriteRule ^/ipa/crl/MasterCRL.bin https://elX.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
+
+   # Turn it on with ELY
+   elY% systemctl stop pki-tomcatd@pki-tomcat.service
+
+   # The values should be changed from false to true
+   elY% vi /etc/pki/pki-tomcat/ca/CS.cfg
+   ca.crl.MasterCRL.enableCRLCache=true
+   ca.crl.MasterCRL.enableCRLUpdates=true
+
+   elY% systemctl start pki-tomcatd@pki-tomcat.service
+
+   # Make sure the rewrite rule has a comment on elY
+   elY% vi /etc/httpd/conf.d/ipa-pki-proxy.conf
+   . . .
+   #RewriteRule ^/ipa/crl/MasterCRL.bin https://elY.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
+
+   elY% systemctl restart httpd
+
+* Test user is created to ensure DNA range is adjusted and replication is working
+
+.. code-block:: shell
+
+   % ipa user-add --first=testing --last=user testinguser1
+
+   # Test on both systems
+   elX% ipa user-find testinguser1
+   elY% ipa user-find testinguser1
+
+* Verify DNA range
+
+.. code-block:: shell
+
+   # There should be ranges for both replicas
+   % ipa-replica-manage dnarange-show
+   elX.example.com: ...
+   elY.example.com: ...
+
+* Stop old Enterprise Linux IPA services, remove replica, uninstall
+
+.. code-block:: shell
+
+   # Stop all elX services
+   elX% ipactl stop
+
+   # Delete the elX system from the topology
+   elY% ipa server-del elX.example.com
+
+   # Uninstall and/or power down system
+   elX% ipa-server-install --uninstall
+   elX% init 0
+
+EL8 to EL9
+++++++++++
+
+.. code-block:: shell
+
+    # Enterprise Linux 9
+    % yum install ipa-server ipa-server-dns -y
+    % ipa-client-install --realm EXAMPLE.COM --domain example.com
+    % kinit admin
+
+    # Add other switches that you feel are necessary, such as forwarders, kra, ntp...
+    % ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
+
+    # Verify all services are in a RUNNING state
+    % ipactl status
+    Directory Service: RUNNING
+    . . .
+
+    % ipa-csreplica-manage list
+    elX.example.com: master
+    elY.example.com: master
+
+    % ipa-csreplica-manage list --verbose elY.example.com
+    Directory Manager password:
+
+    elX.example.com
+      last init status: None
+      last init ended: 1970-01-01 00:00:00+00:00
+      last update status: Error (0) Replica acquired successfully: Incremental update succeeded
+      last update ended: 2022-08-12 18:11:11+00:00
+
+Set the CA renewal master to the new system and change the CRL settings
+
+.. code-block:: shell
+
+   % ipa config-mod --ca-renewal-master-server elY.example.com
+
+   # Remove the ca.certStatusUpdateInterval entry or set it to 600 (default) on elY
+   elY% vim /etc/pki/pki-tomcat/ca/CS.cfg
+
+   # Restart the ipa services
+   elY% ipactl restart
+
+   # Set the value of ca.certStatusUpdateInterval on elX to 0
+   elX% vim /etc/pki/pki-tomcat/ca/CS.cfg
+   ca.certStatusUpdateInterval=0
+
+   elX% ipactl restart
+
+   elX% ipa-crlgen-manage status
+   CRL generation: enabled
+   . . .
+
+   elX% ipa-crlgen-manage disable
+   Stopping pki-tomcatd
+   Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
+   Starting pki-tomcatd
+   Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
+   Restarting httpd
+   CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
+   The ipa-crlgen-manage command was successful
+
+   elX% ipa-crlgen-manage status
+   CRL generation: disabled
+
+Create a test user to ensure DNA range is adjusted and replication is working
+
+.. code-block:: shell
+
+   elY% ipa user-add --first=testing --last=user testinguser1
+
+   # Test on both systems
+   elX% ipa user-find testinguser1
+   elY% ipa user-find testinguser1
+
+Verify DNA range.
+
+.. code-block:: shell
+
+   # There should be ranges for both replicas
+   % ipa-replica-manage dnarange-show
+   elX.example.com: ...
+   elY.example.com: ...
+
+Stop old Enterprise Linux IPA services, remove replica, uninstall.
+
+.. code-block:: shell
+
+   # Stop all elX services
+   elX% ipactl stop
+
+   # Delete the elX system from the topology
+   elY% ipa server-del elX.example.com
+
+   # Uninstall and/or power down system
+   elX% ipa-server-install --uninstall
+   elX% init 0
+
+See `this page <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/migrating_to_identity_management_on_rhel_9/index#migrating_idm_from_rhel_8_to_rhel_9>`__ for more information.
 
 Active Directory Trust
 ----------------------
