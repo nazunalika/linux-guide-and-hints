@@ -899,3 +899,7 @@ To setup a very, very simple SSO, you can setup a simple location that requires 
      Require valid-user
    &lt;/Location&gt;
 
+Implement an IdP
+----------------
+
+While not strictly a certification objective at this present time, there may be a chance it could be. FreeIPA 4.10+ have the ability to implement authentication to external identity providers. FreeIPA allows you to use RADIUS proxy authentication for example, but using this same method, an OAuth 2.0 authorization server could be used as well. When it comes to an IdP, you can instead configure IdP clients using `ipa idp-add` and use software like Keycloak or otherwise that supports OAuth 2.0 workflows. We recommend checking out the `FreeIPA Workshop Unit 12 <https://freeipa.readthedocs.io/en/latest/workshop/12-external-idp-support.html>`__ for more details.
