@@ -7,14 +7,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory="build/html/", **kwargs)
 
 
+ssl_settings = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_settings.load_cert_chain("cert/server.crt", "cert/server.key")
+
 server_address = ("localhost", 8443)
 httpd = http.server.HTTPServer(server_address, Handler)
-httpd.socket = ssl.wrap_socket(
-    httpd.socket,
-    server_side=True,
-    certfile="cert/server.crt",
-    keyfile="cert/server.key",
-    ssl_version=ssl.PROTOCOL_TLS,
-)
+httpd.socket = ssl_settings.wrap_socket(httpd.socket, server_side=True)
 print("Serving on https://localhost:8443")
 httpd.serve_forever()
