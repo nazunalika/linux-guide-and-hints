@@ -14,10 +14,12 @@ BTRFS
 -----
 
 As BTRFS is the default in Fedora now, one may want to take advantage of the
-snapshot feature.  I've written an `article on combining Borgmatic and Snapper
-<https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-11-snapper.gmi>`_
-as well as `part 2
-<https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-15.gmi>`_.
+snapshot feature. I've written a series of articles on combining Borgmatic and
+Snapper.
+
+* `Part 1 <https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-11-snapper.gmi>`_
+* `Part 2 <https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-15.gmi>`_
+* `Part 3 <https://portal.mozz.us/gemini/remyabel.srht.site/posts/2022-08-20.gmi>`_
 
 Duplicity
 ---------
