@@ -9,6 +9,8 @@ OpenLDAP
 
    Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on Enterprise Linux 7, potentially using the OpenLDAP LTB version of the software, or using the openldap-servers package from Rocky Linux 9's plus repository. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
 
+   Most of this information should be considered out of date. OpenLDAP 2.6.x makes some changes that the below document may or may not cover.
+
 .. meta::
     :description: How to install OpenLDAP on Enterprise Linux 7, configure and set up accounts for host access, etc. Enterprise Linux 7 and Fedora users will have the ability to use SSSD for SUDO.
 
@@ -24,7 +26,7 @@ Requirements
 
 First and foremost, we have a list of requirements. Keep in mind, if you do not fulfill these requirements, you may run into some issues down the road.
 
-* Enterprise Linux 7, Enterprise Linux 8, Enterprise Linux 9
+* Enterprise Linux 8, Enterprise Linux 9
 * DNS Server (LDAP does NOT appreciate IP addresses for the URI)
 * An active internet connection to install the packages required
 
@@ -54,6 +56,10 @@ Tutorial Preface, Notes, and Recommendations
 
    Enterprise Linux 8 dropped OpenLDAP. However, it has come back in 8.6 and is available from codeready or powertools on other derivatives.
 
+.. note:: EL 9 OpenLDAP
+
+   Enterprise Linux 9 has fully dropped OpenLDAP where there are no server packages normally built. In some EL distributions, openldap-servers is still built and provided in an extra repository. Rocky Linux 9 has openldap-servers in their plus repository.
+
 
 Installation
 ------------
@@ -66,8 +72,8 @@ You will need the following packages. A couple of them may already be installed.
 
 .. code-block:: bash
 
-   yum install openldap openldap-servers migrationtools nss-tools -y
-
+   # If you are on Rocky Linux 9, you will need to enable the plus repository
+   dnf install openldap openldap-servers migrationtools nss-tools -y
 
 Certificates
 ++++++++++++
@@ -314,6 +320,10 @@ LDAP Structure
 
 The next piece is to get our backend structure built. In EL7, core is the only schema that is there. In EL6, it's a good chunk of these. I like to put them in a file so I can loop through them.
 
+.. note:: ppolicy schema
+
+   As of OpenLDAP 2.6.x, the ppolicy schema no longer applies as it is built-in to the slapo-ppolicy module. See the `upgrade document <https://www.openldap.org/doc/admin25/appendix-upgrading.html>`_ for information.
+
 .. code-block:: none
 
    /etc/openldap/schema/corba.ldif
@@ -325,7 +335,6 @@ The next piece is to get our backend structure built. In EL7, core is the only s
    /etc/openldap/schema/misc.ldif
    /etc/openldap/schema/nis.ldif
    /etc/openldap/schema/openldap.ldif
-   /etc/openldap/schema/ppolicy.ldif
    /etc/openldap/schema/collective.ldif 
 
 .. note:: rfc2307
@@ -346,7 +355,6 @@ Once you have your list of schema to put in, we can loop through them.
    adding new entry "cn=misc,cn=schema,cn=config"
    adding new entry "cn=nis,cn=schema,cn=config"
    adding new entry "cn=openldap,cn=schema,cn=config"
-   adding new entry "cn=ppolicy,cn=schema,cn=config"
    adding new entry "cn=collective,cn=schema,cn=config"
    
 I normally like to keep all LDIFs in a folder by themselves to avoid clutter (non-configuration LDIF).
@@ -566,7 +574,7 @@ First, we'll need to install nfs-utils, set up our exports, and modify our id ma
 
 .. code-block:: none
 
-   # yum install nfs-utils libnfsidmap -y
+   # dnf install nfs-utils libnfsidmap -y
 
    # vi /etc/exports
    /lhome *(rw,sync,root_squash,no_all_squash)
@@ -1117,7 +1125,7 @@ Password policies are a great asset, especially when working in an environment t
    olcModuleLoad: auditlog.la
    olcModuleLoad: ppolicy.la
 
-   dn: olcOverlay=ppolicy,olcDatabase={2}hdb,cn=config
+   dn: olcOverlay=ppolicy,olcDatabase={2}mdb,cn=config
    objectClass: olcOverlayConfig
    objectClass: olcPPolicyConfig
    olcOverlay: ppolicy
