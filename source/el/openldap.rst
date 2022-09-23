@@ -58,7 +58,7 @@ Tutorial Preface, Notes, and Recommendations
 
 .. note:: EL 9 OpenLDAP
 
-   Enterprise Linux 9 has fully dropped OpenLDAP where there are no server packages normally built. In some EL distributions, openldap-servers is still built and provided in an extra repository. Rocky Linux 9 has openldap-servers in their plus repository.
+   Enterprise Linux 9 has fully dropped OpenLDAP where there are no server packages normally built. In some EL distributions, openldap-servers is still built and provided in an extra repository. Rocky Linux 9 has openldap-servers in their plus repository. EPEL also has it available.
 
 
 Installation
