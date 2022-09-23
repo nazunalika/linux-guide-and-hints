@@ -81,7 +81,7 @@ Enterprise Linux 7 clients and other newer distributions that are non-el require
 
 .. note:: Certificate Information
 
-   Because of the way Red Hat compiled OpenLDAP, it relies on NSS. Do not attempt to use regular base64 certificates. When 7.5 is released and you ahve followed this guide, the RPM will automatically perform an LDIF modification and pull all the NSS pieces apart. When this happens, the guide will be partially changed to deal with this.
+   NSS should no longer be required. Anything NSS related has been removed.
 
 I have two ways of doing it, we can do it manually or through a script. I prefer using my script to take care of it. First the manual way.
 
@@ -119,10 +119,6 @@ I have two ways of doing it, we can do it manually or through a script. I prefer
    certutil -N -d /etc/pki/ldap
    # Do not enter any passwords. When asked, just hit enter beyond this point.
    
-   openssl pkcs12 -export -inkey ldapserver.key -in ldapserver.pem -out ldapserver_crt-key.p12 -nodes -name "zera1.angelsofclockwork.net" 
-   
-   certutil -A -d /etc/pki/ldap -n "SSN" -t CT,, -ai ca.pem            # Here, if you used a hostname in your CA cert, make sure you put it in place of "SSN" here.
-   pk12util -i ldapserver_crt-key.p12 -d /etc/pki/ldap
    chown root:ldap *
    chmod 640 *
 
@@ -163,11 +159,6 @@ The scripted way.
    # Sign it
    openssl x509 -req -in ldapserver.csr -out ldapserver.pem -CA ca.pem -CAkey ca.key -days 3650 -set_serial 01
    ln -s ca.pem `openssl x509 -hash -in ca.pem -noout`.0
-   echo "DO NOT ENTER A PASSWORD! JUST PRESS ENTER!"
-   certutil -N -d $certdir
-   openssl pkcs12 -export -inkey ldapserver.key -in ldapserver.pem -out ldapserver_crt-key.p12 -nodes -name "$conicalname"
-   certutil -A -d $certdir -n "$CAconicalname" -t CT,, -ai ca.pem
-   pk12util -i ldapserver_crt-key.p12 -d $certdir
    chown root:ldap *
    chmod 640 *
 
@@ -180,20 +171,6 @@ Make sure to obtain your hash. Your hash will be different from mine.
 
 LDAP Server Configuration
 +++++++++++++++++++++++++
-
-.. attention:: Current Show-stopping Bug
-   In releases older than openldap-servers-2.4.39-6, there were two problems: A missing object class and an invalid olcDatabase value. In release -6, the objectClass sets should be fixed. But, the olcDatabase attribute is not.
-
-   .. code-block:: bash 
-      
-      egrep 'objectClass|olcDatabase' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{-1\}frontend.ldif
-      dn: olcDatabase={-1}frontend
-      objectClass: olcDatabaseConfig
-      objectClass: olcFrontendConfig
-      olcDatabase: frontend
-      sed -i 's/olcDatabase: frontend/olcDatabase: {-1}frontend/g' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{-1\}frontend.ldif
-
-   For more information, you can check this `bugzilla report <https://bugzilla.redhat.com/show_bug.cgi?id=1132094>`_.
 
 Configurations done in OpenLDAP are done via LDIF. Your passwords should be hashed as well. Before we begin, let's start by generating a password for our root DN. **This is required.**
 
@@ -627,10 +604,6 @@ Setting up the client can be straight-forward or troubling, depending on the dis
 
    If you use third-party repositories, you may want to disable them, at least temporarily. Depending on the repository, there may be conflicts when installing the appropriate packages. You may want to consider on setting up priorities, and ensure your base and updates are higher than the rest.
 
-.. note:: Slight Command Difference
-
-   On Enterprise Linux 7+, service has been superceded by systemctl. If you are used to the service command, you should be fine. It will automatically redirect to systemctl appropriately. 
-
 Enterprise Linux/Current Fedora Releases
 ++++++++++++++++++++++++++++++++++++++++
 
@@ -640,11 +613,34 @@ We'll be using SSSD for this. We need to install some key packages first. Some o
 
    # yum install pki-{ca,common,silent} openldap-clients nss-pam-ldapd policycoreutils-python sssd sssd-common sssd-client sssd-ldap
 
-Make sure to use authconfig to setup your LDAP information. I like to do an authconfig command (rather than authconfig-tui) to get me started.
+Use authselect to configure pam and nss. You'll need to configure /etc/sssd/sssd.conf by hand after.
 
 .. code-block:: none
 
-   # authconfig --enableldap --enableshadow --enableldapauth --enablesssd --enablesssdauth --enablelocauthorize --enablemkhomedir --ldapserver='ldaps://zera1.angelsofclockwork.net' --ldapbasedn="dc=angelsofclockwork,dc=net" --updateall
+   # authselect select sssd with-mkhomedir with-sudo
+
+   # vi /etc/sssd/sssd.conf
+   [domain/default]
+
+   cache_credentials = True
+   krb5_realm = #
+   ldap_search_base = dc=angelsofclockwork,dc=net
+   id_provider = ldap
+   auth_provider = ldap
+   chpass_provider = ldap
+   sudo_provider = ldap
+   ldap_uri = ldap://zera1.angelsofclockwork.net
+   ldap_id_use_start_tls = True
+   ldap_tls_cacertdir = /etc/openldap/certs
+   ldap_tls_cacert = /etc/openldap/certs/ca.pem
+   # Add the below
+   ldap_sudo_search_base = ou=SUDOers,dc=angelsofclockwork,dc=net
+
+   [sssd]
+   # Modify this line and add sudo to the list
+   services = nss, pam, autofs, sudo
+
+   [sudo]
 
 Now, let's get our CA cert that we made way long ago and download it. If you used a real CA to sign your certificate, obtain their certificate.
 
@@ -840,43 +836,7 @@ Now, let's create our first SUDO container. It will be for our "admins". We coul
    
    # ldapadd -xWD "cn=manager,dc=angelsofclockwork,dc=net" -f admins.ldif
 
-We need to make a couple of config changes on our clients. You're configurations may be slightly different than mine. 
-
-.. code-block:: none
-
-   # vi /etc/nsswitch.conf
-   . . .
-   passwd:     files sss
-   shadow:     files sss
-   group:      files sss
-   sudoers:    files sss  # Add this
-
-   # vi /etc/sssd/sssd.conf
-
-   [domain/default]
-
-   cache_credentials = True
-   krb5_realm = #
-   ldap_search_base = dc=angelsofclockwork,dc=net
-   id_provider = ldap
-   auth_provider = ldap
-   chpass_provider = ldap
-   sudo_provider = ldap
-   ldap_uri = ldap://zera1.angelsofclockwork.net
-   ldap_id_use_start_tls = True
-   ldap_tls_cacertdir = /etc/openldap/certs
-   ldap_tls_cacert = /etc/openldap/certs/ca.pem
-   # Add the below
-   ldap_sudo_search_base = ou=SUDOers,dc=angelsofclockwork,dc=net
-   
-   [sssd]
-   # Modify this line and add sudo to the list
-   services = nss, pam, autofs, sudo
-   
-   # Add this also...
-   [sudo]
-
-   # systemctl restart sssd
+If you used authselect with the `with-sudo` option, this should have turned on sss for sudoers. You may want to verify /etc/nsswitch.conf just to be sure.
 
 .. note:: SSSD Cache
 
