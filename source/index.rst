@@ -15,6 +15,11 @@ The source code for this page can be found on `Github
 tutorials and generally useful information regarding packages and system
 administration in |Fedora|, |Rocky| and |CentOS|.
 
+Here are some quick links to solid documentation:
+
+- `Fedora Quick Docs <https://docs.fedoraproject.org/en-US/quick-docs/>`_
+- `Fedora Latest Release Docs <https://docs.fedoraproject.org/en-US/fedora/latest/>`_
+
 .. warning::
 
     Due to the number of articles out there about disabling SELinux, we felt
