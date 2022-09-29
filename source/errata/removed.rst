@@ -11,6 +11,10 @@ explain what went missing and why.
 Removed articles
 ----------------
 
+09-29-2022
+
+- dnscrypt has been moved to dns
+
 07-31-2022
 
 - Remove packaging and kubernetes for being outdated.

@@ -2,33 +2,18 @@
 ..
 .. SPDX-License-Identifier: MIT
 
-dnscrypt
-^^^^^^^^
+DNS
+^^^
 
-A recent `change
-<https://src.fedoraproject.org/rpms/dnscrypt-proxy/blob/master/f/dnscrypt-proxy.spec#_158>`_
-(specifically 2.0.44-5) removed Fedora's systemd files and falls back to
-``dnscrypt-proxy``'s installation method for service files instead. However, if
-that ``dnscrypt-proxy`` no longer starts, you may need to follow the
-instructions I posted `here
-<https://github.com/DNSCrypt/dnscrypt-proxy/issues/1556#issuecomment-751370507>`_:
+There are various DNS solutions available on Fedora, including but not limited
+to dnsmasq, BIND, Unbound, etc. systemd-resolved has some overlapping
+functionality with Unbound and other solutions, but is known to be buggy and
+feature incomplete. dnscrypt-proxy is not that widely used, but contains
+blocking and a built-in DNS-over-HTTPS server. Unbound can be combined with
+dnscrypt-proxy for example by forwarding requests, however, they overlap with
+blocking capabilities and caching. Generally speaking, you would use
+dnscrypt-proxy for DNS-over-HTTPS and other solutions for DNS-over-TLS.
 
-.. pull-quote::
-
-    Hi, the latest changes to the RPM removed the systemd files and falls back to
-    ``dnscrypt-proxy``'s method instead. I ran into this issue myself. Since
-    ``dnscrypt-proxy`` doesn't overwrite the existing service file, the one
-    previously shipped with Fedora will cause ``dnscrypt-proxy`` to not start.
-
-    Try removing ``/etc/systemd/system/dnscrypt-proxy.service`` and re-run ``sudo
-    dnscrypt-proxy -service install``.
-
-    Since the RPM no longer uses sockets, you might need to edit the config as well
-    to specify listening addresses:
-
-    .. code-block::
-
-        listen_addresses = ['127.0.0.1:53', '[::1]:53']
 
 Interoperability with systemd-resolved
 --------------------------------------
