@@ -5,6 +5,10 @@
 iPhone
 ^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 In order to mount your iPhone for tethering or viewing photos, you need:
 
 - fuse
