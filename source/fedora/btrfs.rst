@@ -5,6 +5,10 @@
 BTRFS
 ^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 By default Fedora now uses BTRFS instead of EXT4. While you can convert your
 system from EXT4 to BTRFS, we recommend doing a clean install instead.
 
