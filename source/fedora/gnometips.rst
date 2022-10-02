@@ -5,6 +5,10 @@
 GNOME Tips
 ^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 System Tray
 -----------
 
