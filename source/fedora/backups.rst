@@ -5,6 +5,10 @@
 Backups
 ^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Tue Aug 23 20:21
+
 While there is a variety of backup software out there, this article will only
 cover two: `duplicity <http://duplicity.nongnu.org/>`_ and `git-annex
 <https://git-annex.branchable.com/>`_. git-annex is not backup software in of
