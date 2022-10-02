@@ -5,6 +5,10 @@
 FreeIPA
 ^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Fri Aug 12 19:18
+
 .. meta::
     :description: How to install/configure FreeIPA on Enterprise Linux 7/8/9 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
