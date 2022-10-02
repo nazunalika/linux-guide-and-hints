@@ -5,6 +5,10 @@
 Password management
 ^^^^^^^^^^^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Our `antipatterns <antipatterns.html>`_ article discusses some insecure things
 that can be done w.r.t. password from a system administrator or developer point
 of view. This article is aimed towards users.
