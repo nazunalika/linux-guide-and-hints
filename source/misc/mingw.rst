@@ -5,6 +5,10 @@
 MinGW
 ^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 To my knowledge, the best MinGW distribution is provided by Stephan T. Lavavej
 (a Microsoft employee who works on the C++ team) and is available on `his site
 <https://nuwen.net/mingw.html>`_. It contains mingw-w64, GCC and binutils,
