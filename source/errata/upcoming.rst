@@ -5,6 +5,10 @@
 Upcoming
 ^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 Wondering what we'll be doing next? This section will explain.
 
 Annoucements
