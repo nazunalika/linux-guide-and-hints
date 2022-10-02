@@ -5,6 +5,10 @@
 Errata
 ^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Thu Sep 29 03:59
+
 Wondering what happened to a removed article or information? This section will
 explain what went missing and why.
 
