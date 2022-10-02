@@ -5,6 +5,10 @@
 Unbound
 ^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 .. meta::
     :description: How to install/configure Unbound on Enterprise Linux for DNS forwarding for a network or a standalone machine.
 
