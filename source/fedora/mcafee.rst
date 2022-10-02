@@ -5,6 +5,10 @@
 McAfee
 ^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 Depending on the environment you're in, you might need to have McAfee installed on your workstation. We are of the opinion that antivirus for Linux is pointless and ridiculous. We are also of the opinion that the auditors and "security professionals" just want to check a box to say they're compliant. To make them happy, this is how to install McAfee without destroying your host system.
 
 It will still report to the ePO server and everything, and as far as the managers of the application are concerned, it reports just fine, including hardware information.
