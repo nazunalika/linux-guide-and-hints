@@ -5,6 +5,10 @@
 Clang
 ^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 MSan line numbers
 -----------------
 
