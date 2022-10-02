@@ -5,6 +5,10 @@
 The System Administrator Experience
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 .. meta::
     :description: The System Administrator Experience for Red Hat based distributions, such as Enterprise Linux 8.
 
