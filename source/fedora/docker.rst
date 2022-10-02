@@ -5,6 +5,10 @@
 Docker
 ^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Changing the data directory
 ---------------------------
 
