@@ -5,6 +5,10 @@
 dnf
 ^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 dnf comes with `plugins
 <https://dnf-plugins-extras.readthedocs.io/en/latest/index.html>`_ that some
 people are not aware of. Tracer allows you to see what applications need
