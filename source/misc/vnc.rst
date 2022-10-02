@@ -5,6 +5,10 @@
 VNC
 ^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 This was written because this seems to be a common question on IRC, which could easily be researched every single time. That and despite "research", there's a lot of tutorials that get it wrong or do some ridiculous nonsense (such as copying Xresources to your home directory, which is unnecessary).
 
 .. note:: VNC is abyssmal
