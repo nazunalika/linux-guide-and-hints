@@ -5,6 +5,10 @@
 mpv
 ^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 If VLC does not perform well enough for you, you may prefer mpv instead. First, install mpv:
 
 .. code-block:: bash
