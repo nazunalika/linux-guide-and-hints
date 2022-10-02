@@ -5,6 +5,10 @@
 Anti-patterns
 ^^^^^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Whether you are a system administrator or developer, practicing good
 infosec hygiene is important. Downplaying the importance of security,
 whether due to apathy or simply thinking it's too expensive, can be
