@@ -5,6 +5,10 @@
 GCC
 ^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 This is a short summary of the `Installing GCC
 <https://gcc.gnu.org/wiki/InstallingGCC>`_ page from the GCC wiki. The
 article was written by a GCC maintainer, Johnathan Wakely. There are
