@@ -5,6 +5,10 @@
 Powerline
 ^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 `Powerline <https://powerline.readthedocs.org/en/latest/>`_ is a
 statusline plugin that will work for both vim and terminal emulators. It
 makes your statusline look like this:
