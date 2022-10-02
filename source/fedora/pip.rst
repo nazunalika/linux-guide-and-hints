@@ -5,6 +5,10 @@
 pip
 ^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 pip already comes with your Python installation from your distribution's
 package manager. It is not recommended to run pip as root because it can
 interfere with your system packages and screw up your installation. While Fedora
