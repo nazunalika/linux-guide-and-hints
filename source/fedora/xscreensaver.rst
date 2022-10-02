@@ -5,6 +5,10 @@
 XScreenSaver
 ^^^^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Gamma or brightness is too high when unlocking
 ----------------------------------------------
 
