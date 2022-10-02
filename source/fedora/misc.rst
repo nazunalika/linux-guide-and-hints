@@ -5,6 +5,10 @@
 Misc
 ^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Sat Aug 6 09:55
+
 Using ``LD_LIBRARY_PATH`` in Fish
 ---------------------------------
 
