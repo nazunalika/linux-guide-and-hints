@@ -5,6 +5,10 @@
 GRUB
 ^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 Grub is the default bootloader for Fedora, CentOS/RHEL, and many other distributions.
 
 Fedora Grub Menu Missing
