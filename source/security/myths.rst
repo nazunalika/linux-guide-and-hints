@@ -5,6 +5,10 @@
 Myths
 ^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Linux security is a rather contentious topic. While this article isn't about
 whether Linux is secure overall, it tackles some widely spread myths and
 misconceptions about the ecosystem.
