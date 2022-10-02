@@ -5,6 +5,10 @@
 Create macOS ISO Images
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 To create macOS ISO images for use for a VirtualBox VM or otherwise, you will need access to a mac machine to perform the download. There are scripts and other methods out there to assist you with this, but if you want to do it yourself, you can follow the steps below.
 
 This is currently for macOS Catalina 10.15.x
