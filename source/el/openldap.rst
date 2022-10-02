@@ -5,6 +5,10 @@
 OpenLDAP
 ^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Thu Sep 22 21:06
+
 .. note:: Deprecation
 
    Please note that the OpenLDAP server is considered deprecated in RHEL (and thusly other EL derivatives). This document will stay here as a reference for those who are still using the server software on Enterprise Linux 7, potentially using the OpenLDAP LTB version of the software, or using the openldap-servers package from Rocky Linux 9's plus repository. It may apply to Fedora users in some contexts, but there are some differences they may never be documented here. If you see a need for corrections, please open up an issue on our github.
