@@ -5,6 +5,10 @@
 NAT/Router
 ^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 .. meta::
        :description: How to setup and configure a router and/or a simple NAT service in Enterprise Linux
 
