@@ -5,6 +5,10 @@
 Cisco IP Communicator
 ^^^^^^^^^^^^^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Cisco IP Communicator is a SoftPhone for VOIP communications. Mainly
 used for Corporations that have Cisco desk phones or users who are
 remote. The issue is that Cisco Jabber, a SIP client, nor the IP
