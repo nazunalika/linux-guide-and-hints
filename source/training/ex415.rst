@@ -8,6 +8,7 @@ EX415 Exam Prep
 Original author: nazunalika
 
 Last modified: Mon Aug 1 17:02
+
 .. meta::
        :description: Materials to prepare for the Red Hat Certified Specialist in Security: Linux exam.
 
