@@ -5,6 +5,10 @@
 Wine Tips
 ^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Out of memory errors
 --------------------
 
