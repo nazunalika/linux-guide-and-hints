@@ -5,6 +5,10 @@
 The Euphemism Review
 ^^^^^^^^^^^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 .. warning::
 
     This is a humorous article by contributor Louis Abel. The following content
