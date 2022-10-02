@@ -5,6 +5,10 @@
 Is port 465 deprecated?
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 .. note::
 
     For a guide on how to setup Exim4 with Gmail and implicit TLS, see `How To
