@@ -5,6 +5,10 @@
 PXE (with grub2)
 ^^^^^^^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 .. meta::
        :description: How to setup and configure pxeboot
 
