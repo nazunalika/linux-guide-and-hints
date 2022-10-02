@@ -5,6 +5,10 @@
 Auto-Provisioning
 ^^^^^^^^^^^^^^^^^
 
+Original author: nazunalika
+
+Last modified: Mon Aug 1 17:02
+
 This page goes over various ways that installs can be automated without the use of PXE. Instead, we can use templated scripts with pre-configured commands, boot images, and mirrors for builds. We cover the following here:
 
 * CentOS Stream 9
