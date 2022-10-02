@@ -5,6 +5,10 @@
 COPR
 ^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 We provide up-to-date RPM's for some packages located at our copr. They are typically updated at release time of the software.
 
 * `gzdoom <https://copr.fedorainfracloud.org/coprs/nalika/gzdoom/>`__
