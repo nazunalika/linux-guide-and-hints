@@ -5,6 +5,8 @@
 DNS
 ^^^
 
+Original author: Tommy Nguyen
+
 There are various DNS solutions available on Fedora, including but not limited
 to dnsmasq, BIND, Unbound, etc. systemd-resolved has some overlapping
 functionality with Unbound and other solutions, but is known to be buggy and
