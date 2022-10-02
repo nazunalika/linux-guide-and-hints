@@ -5,6 +5,10 @@
 tmux
 ^^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 If you start vim within a tmux session, you might notice that your
 terminal's color scheme "bleeds" into vim's. This is a result of tmux
 not using a 256 color terminal. It is covered in the tmux FAQ `"How do I
