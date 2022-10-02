@@ -5,6 +5,10 @@
 Git
 ^^^
 
+Original author: Tommy Nguyen
+
+Last modified: Mon Aug 1 17:02
+
 Setting up Cloudflare and Github pages
 --------------------------------------
 
