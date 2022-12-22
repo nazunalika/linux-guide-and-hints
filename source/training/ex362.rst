@@ -7,12 +7,12 @@ EX362 Exam Prep
 
 Original author: nazunalika
 
-Last modified: Wed Aug 17 00:26
+Last modified: Wed Dec 23 00:26
 
 .. meta::
        :description: Materials to prepare for the Red Hat Certified Specialist in Identity Management exam.
 
-This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Identity Management exam, EX362. This follows loosely the youtube playlist as much as possible with various examples and ideas. At the bottom, you will also find our own example practice exam for you to try your hand at to test your knowledge.
+This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Identity Management exam, EX362. This follows the youtube playlist as much as possible with various examples and ideas. Soon to come, you will also find our own example practice exam for you to try your hand at to test your knowledge.
 
 The list of objectives can be found `here <https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam>`__. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.
 
@@ -253,7 +253,7 @@ New Passwords Expired
 The common question we receive (and even the #freeipa IRC receive) is "Why can't we just set the password to not be expired right away?" See `this page <https://www.freeipa.org/page/New_Passwords_Expired>`_ for information on why this is. You may also look at the `pagure <https://pagure.io/freeipa/issue/5763>`_ page and the `Red Hat bugzilla related bug <https://bugzilla.redhat.com/show_bug.cgi?id=1317060>`_.
 
 Implement a SSO
----------------
++++++++++++++++
 
 To setup a very, very simple SSO, you can setup a simple location that requires a login.
 
