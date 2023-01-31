@@ -662,7 +662,10 @@ You need to modify a couple of pam files. I'll explain why they need to be chang
    password   required       pam_opendirectory.so
    session    required       pam_permit.so 
 
-After these changes, you'll need to go into make some changes with the directory utility.
+After these changes, you'll need to go into make some changes with the directory utility. This depends on your macOS version.
+
+Monterey and older
+''''''''''''''''''
 
 #. Go to system preferences -> users & groups -> login options - Click the 'lock' to make changes
 #. Set the following:
@@ -763,6 +766,7 @@ After these changes, you'll need to go into make some changes with the directory
 
 #. If using custom mapping, click reach record type you created and ensure the base DN is set. 
 #. Make sure each record type is set to all subtrees.
+#. Click "security" and set an authentication bind DN if needed
 #. Click OK
 #. Click OK
 #. Click on Search Policy.
@@ -856,13 +860,120 @@ If you want to move your local files, you will need to tread lightly here. I per
 
 Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It's recommended to fix those too. 
 
-Discovery and Settings
-''''''''''''''''''''''
+.. note:: Discovery
 
 The directory framework in MacOS has the ability to discover settings for a particular LDAP server that it is being connected to. FreeIPA does not contain the schema, plugins, nor the infrastructure to provide the same things (for example, mDNS/Avahi, among other things). There was a (WIP) plugin created in 2017 by abbra. However, it is unclear if this works at all, nor is it clear if it ever did and will in python3 (abbra noted at the time that it "installs" into python 2 directories, which hints to not being tested or working on python 3). Please see the following resources for discussion and information.
 
 * `Pagure <https://pagure.io/freeipa/issue/4813>`__
 * `freeipa-macosx-support <https://github.com/abbra/freeipa-macosx-support>`__
+
+Ventura and likely older
+''''''''''''''''''''''''
+
+#. Go to system preferences -> users & groups
+#. Set "automatic login" to "off"
+#. Click "edit" next to "Network account server"
+#. Type in one of your IPA servers (you can duplicate it later for backup purposes). Press enter and wait for it to be "green".
+#. Click "Open Directory Utility"
+#. Click the "lock" to unlock the utility
+#. Click "LDAPv3" and click the pencil at the bottom left corner
+#. Select the "from server" portion under LDAP mappings and clck RFC2307. You may also leave it as custom.
+
+* If you select rfc2307, it will ask for your base DN (eg, dc=ipa,dc=example,dc=com)
+* If you select "custom", you will need to do this manually for each record type. **You're better off using rfc2307 and working from there**
+
+#. Click "edit"
+#. Click the "+" to add a groups record type or scroll and find "groups" and select it. Add the following object classes
+
++-------------------------+---------------+
+| Record Type             | ObjectClasses |
++=========================+===============+
+| Groups                  | posixGroup    |
++-------------------------+---------------+
+|                         | ipausergroup  |
++-------------------------+---------------+
+|                         | groupOfNames* |
++-------------------------+---------------+
+
+.. note::
+
+   "groupOfNames" is optional here, because it seems that the directory utility doesn't understand this concept.
+
+#. Expand "groups" and ensure the following for each record type. You can click the "+" to add the attribute types as needed.
+
++-------------------------+---------------+
+| Attribute               | Mapping       |
++=========================+===============+
+| PrimaryGroupID          | gidNumber     |
++-------------------------+---------------+
+| RecordName              | cn            |
++-------------------------+---------------+
+
+#. Click the "+" to add a users record type or scroll and find "users".
+#. Select "users" and ensure the following object classes exist. You can click the "+" to add them when needed.
+
++-------------------------+---------------+
+| Record Type             | ObjectClasses |
++=========================+===============+
+| Users                   | inetOrgPerson |
++-------------------------+---------------+
+|                         | posixAccount  |
++-------------------------+---------------+
+|                         | shadowAccount |
++-------------------------+---------------+
+|                         | apple-user    |
++-------------------------+---------------+
+
+#. Expand "users" and ensure the following for each record type. You can click the "+" to add the attribute types as needed. **Do not set homeDirectory otherwise you will fail to login.**
+
++-------------------------+------------------------------+
+| Attribute               | Mapping                      |
++=========================+==============================+
+| AuthenticationAuthority | uid                          |
++-------------------------+------------------------------+
+| GeneratedUID            | GeneratedUID or ipaUniqueID  |
++-------------------------+------------------------------+
+| NFSHomeDirectory        | #/Users/$uid$                |
++-------------------------+------------------------------+
+| PrimaryGroupID          | gidNumber                    |
++-------------------------+------------------------------+
+| RealName                | cn                           |
++-------------------------+------------------------------+
+| RecordName              | uid                          |
++-------------------------+------------------------------+
+| UniqueID                | uidNumber                    |
++-------------------------+------------------------------+
+| UserShell               | loginShell                   |
++-------------------------+------------------------------+
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$ |
++-------------------------+------------------------------+
+
+#. If using custom mapping, click reach record type you created and ensure the base DN is set. 
+#. Make sure each record type is set to all subtrees if needed.
+#. Click "security" and set an authentication bind DN if needed
+#. Click OK.
+#. Click Search Policy
+#. Double check that "/LDAPV3/server1.ipa.example.com" is listed beneath "/Local/Default". If it is not, select "search patch" and set it to custom and add it. Click Apply after.
+#. Close everything until you're back to the users & groups section of preferences
+#. Go to Lock Screen.
+#. Set "login window shows" to "name and password"
+#. Open a terminal.
+
+.. code-block:: shell
+
+   % dscacheutil -flushcache
+   % dscacheutil -q user -a name username
+
+You should get a return.
+
+Login to the account for the first time from the login screen. Once the setup has complete, log out and back to a login account. In a terminal, you will need to make a mobile account.[#f2]_ 
+
+.. code-block:: shell
+
+   % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
+   # Press enter, enter the user's password. sudo may hang if you don't do this.
+   # OPTIONAL: Allow the mobile account to be an administrator
+   % sudo dscl . -append /Groups/admin GroupMembership username
 
 SUSE
 ++++
