@@ -787,87 +787,14 @@ Login to the account for the first time from the login screen. Once the setup ha
 
 .. code-block:: shell
 
-   % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username
-   # Press enter
+   % sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
+   # Press enter and put in the password. sudo may not function if you don't do this step.
    # OPTIONAL: Allow the mobile account to be an administrator
    % sudo dscl . -append /Groups/admin GroupMembership username
 
 Go to system preferences, users & groups and ensure the account is a mobile account.
 
-**Note**: If you want groups from IPA to resolve to the system, you'll need to enable the compat tree when using this setup (RFC2307).
-
-.. warning:: Password Notes
-
-   There are a couple of problems with this setup that you should be aware of. 
-   
-   * If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.
-   * If your account does not have any keytabs (eg, you haven't had your mac on or haven't logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.
-   * There have been reports in a github issue that states you can change the password in the system preferences but I've been unable to confirm this.
-
-And that's it! My own script that I made (as a reference) is below to do the work. It's highly recommended that you do the mapping first and make a tar file of the content from /Library/Preferences/OpenDirectory and just untar it to other Mac's.
-
-.. code-block:: shell
-
-   #!/bin/bash
-   serverName=server1.ipa.example.com
-   krb5Conf=/etc/krb5.conf
-   krb5Tab=/etc/krb5.keytab
-   pamDirectory=/etc/pam.d
-
-   # Add SSL cert to chain
-   mkdir /etc/ipa
-   cd /etc/ipa
-   curl -OL http://$serverName/ipa/config/ca.crt
-   security add-trusted-cert -d -k /Library/Keychains/System.keychain -r trustRoot /etc/ipa/ca.crt
-   
-   # Stop and flushout the Open Directory
-   /usr/sbin/dscacheutil -flushcache
-   launchctl unload /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
-
-   # Pull the plist and pam files needed for IPA and deploy them, this assumes you setup one mac and zipped up the configurations
-   # You can try your hand at dsconfigldap before pam, but I could never figure it out, honestly.
-   # Relevant tar: tar czf /tmp/macconfig.tar.gz /Library/Preferences/OpenDirectory/Configurations /etc/pam.d/authorization \ 
-   #                /etc/pam.d/screensaver /etc/pam.d/passwd /etc/krb5.conf
-   cd /tmp
-   curl -OL http://$serverName/macconfig.tar.gz
-   cd /
-   tar xzf /tmp/macconfig.tar.gz
-   
-   # Add steps here for your keytab! Where are you getting it from?
-   cp /tmp/mac.keytab /etc/krb5.keytab
-   chown root:wheel /etc/krb5.keytab
-   chmod 600 /etc/krb5.keytab
-
-   # Start directory
-   launchctl load /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
-   sleep 30
-  
-   # Kill the loginwindow
-   killall loginwindow
-
-   # If the system doesn't reboot here, reboot now.
-
-If you want to move your local files, you will need to tread lightly here. I personally believe it's always good to start fresh though. Look into the ditto command. I suppose something like this can work:
-
-.. code-block:: shell
-
-   # make sure you're logged in as a different account away from your local account
-   % sudo su -
-   root# cd /Users
-   root# ditto localfolder networkfolder (or maybe an mv?)
-   root# chown -R user:user folder
-   root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
-
-Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It's recommended to fix those too. 
-
-.. note:: Discovery
-
-The directory framework in MacOS has the ability to discover settings for a particular LDAP server that it is being connected to. FreeIPA does not contain the schema, plugins, nor the infrastructure to provide the same things (for example, mDNS/Avahi, among other things). There was a (WIP) plugin created in 2017 by abbra. However, it is unclear if this works at all, nor is it clear if it ever did and will in python3 (abbra noted at the time that it "installs" into python 2 directories, which hints to not being tested or working on python 3). Please see the following resources for discussion and information.
-
-* `Pagure <https://pagure.io/freeipa/issue/4813>`__
-* `freeipa-macosx-support <https://github.com/abbra/freeipa-macosx-support>`__
-
-Ventura and likely older
+Ventura and likely newer
 ''''''''''''''''''''''''
 
 #. Go to system preferences -> users & groups
@@ -974,6 +901,86 @@ Login to the account for the first time from the login screen. Once the setup ha
    # Press enter, enter the user's password. sudo may hang if you don't do this.
    # OPTIONAL: Allow the mobile account to be an administrator
    % sudo dscl . -append /Groups/admin GroupMembership username
+
+Go to system preferences and ensure the account is a mobile account.
+
+General macOS Notes
+'''''''''''''''''''
+
+.. note:: Group Resolution
+
+   If you want groups from IPA to resolve to the system, you'll need to enable the compat tree when using this setup (RFC2307).
+
+.. warning:: Password Notes
+
+   There are a couple of potential issues with this setup that you should be aware of as it pertains to mobile accounts.
+   
+   * If you do a mobile account, changing your password through the FreeIPA gui does not change your passwords on your system.
+   * If your account does not have any keytabs (eg, you haven't had your mac on or haven't logged in in over 24 hours), you can login with the new password and it will suceed. The system will cache the new password right away. However, your keychain the first time will ask for the old passwords and this is normal. So you can change them by hand or you can log out and back in and the system will ask you if you want to update the password and it will just update automatically.
+   * There have been reports in a github issue that states you can change the password in the system preferences but I've been unable to confirm this.
+
+Below is a script that can be adapted for you. It has not been tested on Monterey and up. This assumes that you took one mac and set it up properly and you created a tarball with the proper configuration. You could optionally setup a temporary NFS or samba mount that gets mounted as root and then unmounted at the end, if you so wish.
+
+.. code-block:: shell
+
+   #!/bin/bash
+   serverName=server1.ipa.example.com
+   krb5Conf=/etc/krb5.conf
+   krb5Tab=/etc/krb5.keytab
+   pamDirectory=/etc/pam.d
+
+   # Add SSL cert to chain
+   mkdir /etc/ipa
+   cd /etc/ipa
+   curl -OL http://$serverName/ipa/config/ca.crt
+   security add-trusted-cert -d -k /Library/Keychains/System.keychain -r trustRoot /etc/ipa/ca.crt
+   
+   # Stop and flushout the Open Directory
+   /usr/sbin/dscacheutil -flushcache
+   launchctl unload /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
+
+   # Pull the plist and pam files needed for IPA and deploy them, this assumes you setup one mac and zipped up the configurations
+   # You can try your hand at dsconfigldap before pam, but I could never figure it out, honestly.
+   # Relevant tar: tar czf /tmp/macconfig.tar.gz /Library/Preferences/OpenDirectory/Configurations /etc/pam.d/authorization \ 
+   #                /etc/pam.d/screensaver /etc/pam.d/passwd /etc/krb5.conf
+   cd /tmp
+   curl -OL http://$serverName/macconfig.tar.gz
+   cd /
+   tar xzf /tmp/macconfig.tar.gz
+   
+   # Add steps here for your keytab! Where are you getting it from?
+   cp /tmp/mac.keytab /etc/krb5.keytab
+   chown root:wheel /etc/krb5.keytab
+   chmod 600 /etc/krb5.keytab
+
+   # Start directory
+   launchctl load /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
+   sleep 30
+  
+   # Kill the loginwindow
+   killall loginwindow
+
+   # If the system doesn't reboot here, reboot now.
+
+If you want to move your local files, you will need to tread lightly here. I personally believe it's always good to start fresh though. Look into the ditto command. I suppose something like this can work:
+
+.. code-block:: shell
+
+   # make sure you're logged in as a different account away from your local account
+   % sudo su -
+   root# cd /Users
+   root# ditto localfolder networkfolder (or maybe an mv?)
+   root# chown -R user:user folder
+   root# /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
+
+Another issue you may run into, if you have been using your Mac with a local account for a while, a lot of directories in /Applications will be owned by localuser:staff or localuser:admin. It's recommended to fix those too. 
+
+.. note:: Discovery
+
+The directory framework in MacOS has the ability to discover settings for a particular LDAP server that it is being connected to. FreeIPA does not contain the schema, plugins, nor the infrastructure to provide the same things (for example, mDNS/Avahi, among other things). There was a (WIP) plugin created in 2017 by abbra. However, it is unclear if this works at all, nor is it clear if it ever did and will in python3 (abbra noted at the time that it "installs" into python 2 directories, which hints to not being tested or working on python 3). Please see the following resources for discussion and information.
+
+* `Pagure <https://pagure.io/freeipa/issue/4813>`__
+* `freeipa-macosx-support <https://github.com/abbra/freeipa-macosx-support>`__
 
 SUSE
 ++++
