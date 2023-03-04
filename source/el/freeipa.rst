@@ -564,6 +564,10 @@ MacOS Clients are an interesting workstation to setup as a FreeIPA client. It ta
 
    You cannot login as AD users on a Mac when going through FreeIPA. You can, in theory, point to the cn=compat tree and set the attribute mapping to rfc2307. In my tests, I have never been able to get this to work. This section, I am going to assume you are going to be logging in as a user in IPA. If you are in a mixed environment, add your Mac to your AD domain instead.
 
+.. warning:: Anonymous Bind
+
+   There may be cases where if you have disabled anonymous binds in IPA, this setup may not work, even if you do use a bind account. You will need to experiment with this if you plan on using a bind account and plan on or currently have IPA not allowing anonymous binds.
+
 Check your system's hostname. You want to make sure it has a hostname defined for it in the domain the mac sits in, even if it's dynamic via DHCP/DNS.
 
 .. code-block:: shell
@@ -638,6 +642,7 @@ You need to modify a couple of pam files. I'll explain why they need to be chang
    % sudo vi /etc/pam.d/authorization
    # authorization: auth account
    # Putting krb5 here twice ensures that you can login via kerberos and also get a keytab
+   # If "no_ccache" is here, keytabs will not be available on login
    auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
    auth          sufficient     pam_krb5.so use_first_pass default_principal
    auth          required       pam_opendirectory.so use_first_pass nullok
