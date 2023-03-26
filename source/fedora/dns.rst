@@ -56,7 +56,7 @@ If everything worked correctly, running ``resolvectl status`` should show someth
 
 Now how do we actually test if everything is working properly?
 
-- For DNSSEC, use https://dnssec.vs.uni-due.de/
+- For DNSSEC, use https://wander.science/projects/dns/dnssec-resolver-test/
 - For QNAME minimization, run ``dig qnamemintest.internet.nl txt``
 - For blocking, you can either enable logging in dnscrypt or run ``resolvectl
   query`` for a domain you expect to be blocked. ``dig`` should also show a
