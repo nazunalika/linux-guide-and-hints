@@ -202,7 +202,7 @@ Once you have a server added as a client and then added to the ipaservers host g
 
 .. code-block:: shell
 
-   % ipa-replica-install --no-ntp --ssh-trust-dns --unattended --setupca --mkhomedir --setup-dns --no-forwarders
+   % ipa-replica-install --ssh-trust-dns --unattended --setup-ca --mkhomedir --setup-dns --no-forwarders
 
 If you have forwarders, use the --forwarders option instead. Remove --no-ntp if you are hosting NTP.
 
