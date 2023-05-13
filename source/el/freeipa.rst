@@ -295,7 +295,7 @@ EL7 to EL8
    The ipa-crlgen-manage command was successful
 
    # Verify that the /etc/httpd/conf.d/ipa-pki-proxy.conf file's RewriteRule is not commented
-   # If it is, remove the comment and restart httpd
+   # If it is, remove the comment and restart httpd. ipa-crlgen-manage should take care of this.
    % tail -n 1 /etc/httpd/conf.d/ipa-pki-proxy.conf
    RewriteRule ^/ipa/crl/MasterCRL.bin https://elX.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
 

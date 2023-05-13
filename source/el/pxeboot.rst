@@ -51,7 +51,8 @@ Let's install the tftpserver package plus some additional grub packages.
    % dnf install \
      grub2-efi-x64-modules \
      grub2-tools-extra \
-     shim-ia32 \              # this may not be needed
+     grub2-pc-modules \
+     shim-ia32 \              # this does not exist on el9+
      tftp-server
 
 Let's make our initial net directories and ensure the selinux contexts are correct.
