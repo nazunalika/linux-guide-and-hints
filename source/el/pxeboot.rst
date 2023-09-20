@@ -44,15 +44,22 @@ This section goes over the server setup portion for the tftp server.
 TFTP
 ++++
 
-Let's install the tftpserver package plus some additional grub packages.
+Let's install the tftpserver package plus some additional grub packages. If you are wanting other architectures, you can obtain the other grub2 module packages from your distribution's BaseOS or equivalent repository for that architecture and install it manually.
 
 .. code-block:: shell
 
+   # x86_64
    % dnf install \
      grub2-efi-x64-modules \
      grub2-tools-extra \
      grub2-pc-modules \
      shim-ia32 \              # this does not exist on el9+
+     tftp-server
+
+   # aarch64
+   % dnf install \
+     grub2-efi-aa64-modules \
+     grub2-tools-extra \
      tftp-server
 
 Let's make our initial net directories and ensure the selinux contexts are correct.
@@ -224,18 +231,30 @@ Now that grub is sort of setup, we should add a distribution to it at least. Let
    % wget https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/x86_64/os/images/pxeboot/initrd.img
    % wget https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/x86_64/os/images/pxeboot/vmlinuz
 
+   # If you want arm systems... aarch64
+   % cd ..
+   % mkdir fedora-aarch64
+   # Replace XX with the current fedora version
+   % wget https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/aarch64/os/images/pxeboot/initrd.img
+   % wget https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/aarch64/os/images/pxeboot/vmlinuz
+
 Now we can add a couple menu entry items for Fedora. I'm making both EFI and Classic entries to ensure we can boot both EFI and BIOS systems from the same menu.
 
 .. code-block:: none
 
    . . .
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os ip=dhcp
+     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
      initrdefi fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ ip=dhcp
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
      initrd16 fedora-x86_64/initrd.img
+   }
+   # Add the below for ARM systems
+   menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+     initrd fedora-aarch64/initrd.img
    }
 
 Now the Fedora installation should be bootable.
@@ -284,12 +303,16 @@ Submenus are easily created using `submenu` in the grub configuration. For examp
       set color_normal=white/black
 
       menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-        linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os ip=dhcp
+        linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
         initrdefi fedora-x86_64/initrd.img
       }
       menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-        linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ ip=dhcp
+        linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
         initrd16 fedora-x86_64/initrd.img
+      }
+      menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
+        linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+        initrd fedora-aarch64/initrd.img
       }
    }
 
@@ -311,12 +334,16 @@ It is also possible to place everything into separate source-able files. Note th
 .. code-block:: none
 
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os ip=dhcp
+     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
      initrdefi fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ ip=dhcp
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
      initrd16 fedora-x86_64/initrd.img
+   }
+   menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+     initrd fedora-aarch64/initrd.img
    }
 
 Submenus can be nested too. Here's a deeper, working example of my own setup using Fedora 35.
@@ -372,17 +399,17 @@ Submenus can be nested too. Here's a deeper, working example of my own setup usi
        set color_normal=white/black
      
        menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os ip=dhcp
+         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
          initrdefi fedora-x86_64/initrd.img
        }
    
        menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os ip=dhcp
+         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
          initrdefi fedora-x86_64/initrd.img
        }
      
        menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os
+         linuxefi fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os
          initrdefi fedora-x86_64/initrd.img
        }
      }
@@ -394,18 +421,40 @@ Submenus can be nested too. Here's a deeper, working example of my own setup usi
        set color_normal=white/black
      
        menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ ip=dhcp
+         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
          initrd16 fedora-x86_64/initrd.img
        }
    
         menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/ ip=dhcp
+         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
          initrd16 fedora-x86_64/initrd.img
        }
      
        menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/35/Everything/x86_64/os/
+         linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/
          initrd16 fedora-x86_64/initrd.img
+       }
+     }
+
+     # EFI mode for ARM
+     submenu 'EFI Mode (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+       set menu_color_highlight=black/light-cyan
+       set menu_color_normal=white/black
+       set color_normal=white/black
+     
+       menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
+         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os ip=dhcp
+         initrdefi fedora-aarch64/initrd.img
+       }
+   
+       menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
+         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os ip=dhcp
+         initrdefi fedora-aarch64/initrd.img
+       }
+     
+       menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
+         linuxefi fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os
+         initrdefi fedora-aarch64/initrd.img
        }
      }
    }
