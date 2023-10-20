@@ -650,9 +650,9 @@ You need to modify a couple of pam files. I'll explain why they need to be chang
 
    % sudo vi /etc/pam.d/screensaver
    # The krb5 changes do similar to the authorization when on the lock screen after a sleep
-   auth       optional       pam_krb5.so use_first_pass use_kcminit
+   #auth       optional       pam_krb5.so use_first_pass use_kcminit
    auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
-   auth       sufficient     pam_krb5.so use_first_pass default_principal
+   #auth       sufficient     pam_krb5.so use_first_pass default_principal
    auth       required       pam_opendirectory.so use_first_pass nullok
    account    required       pam_opendirectory.so
    account    sufficient     pam_self.so
@@ -753,6 +753,8 @@ Monterey and older
 | AuthenticationAuthority | uid                          |
 +-------------------------+------------------------------+
 | GeneratedUID            | GeneratedUID or ipaUniqueID  |
++-------------------------+------------------------------+
+| HomeDirectory           | #/Users/$uid$                |
 +-------------------------+------------------------------+
 | NFSHomeDirectory        | #/Users/$uid$                |
 +-------------------------+------------------------------+
