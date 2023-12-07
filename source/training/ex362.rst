@@ -530,9 +530,6 @@ You will need to configure your NFS server to serve up roaming home directories 
    % vi /etc/exports
    /exports/home *(rw,sec=sys:krb5:krb5i:krb5p)
 
-   % vi /etc/sysconfig/nfs
-   SECURE_NFS="yes"
-
    # Make the home directories for all users and move them to /export/home
    % mkhomedir_helper jsmith
    % mv /home/jsmith /export/home/

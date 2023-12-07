@@ -10,9 +10,9 @@ Original author: nazunalika
 Last modified: Fri Aug 12 19:18
 
 .. meta::
-    :description: How to install/configure FreeIPA on Enterprise Linux 7/8/9 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
+    :description: How to install/configure FreeIPA on Enterprise Linux 8/9 with replicas, configuring clients for FreeIPA, policies (eg sudo), and host based access control methods.
 
-This page is a series of notes and information that goes over how to install and configure FreeIPA on Enterprise Linux 7/8/9 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
+This page is a series of notes and information that goes over how to install and configure FreeIPA on Enterprise Linux 8/9 servers with replicas, as well as configuring client machines to connect and utilize FreeIPA resources, policies (eg sudo), and host based access control methods. We will also go over a scenario of configuring a trust with an Active Directory domain. The client setup will work for Fedora users as the packages are the same, just newer versions.
 
 .. contents::
 
@@ -127,14 +127,14 @@ To install the server, make sure the hostname is set to the A records and NS del
    10.200.0.231 server2.ipa.example.com
    
    # Fedora
-   % yum install freeipa-server{,-common,-dns,-trust-ad} -y
+   % dnf install freeipa-server{,-common,-dns,-trust-ad} -y
 
    # Enterprise Linux 8
-   % yum module enable idm:DL1/{dns,adtrust,client,server,common}
-   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   % dnf module enable idm:DL1/{dns,adtrust,client,server,common}
+   % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
 
    # Enterprise Linux 9 (there appears to be no modules)
-   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
 
    # Setup
    # Enterprise 8 / 9
@@ -174,7 +174,7 @@ On the replica, ensure you repeat the same steps as above.
    10.200.0.230 server1.ipa.example.com
    10.200.0.231 server2.ipa.example.com
    
-   % yum install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
+   % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
    # Enterprise 8 / 9
    % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
    % firewall-cmd --complete-reload
@@ -245,10 +245,10 @@ EL7 to EL8
 .. code-block:: shell
 
     # Enterprise Linux 8
-    % yum module enable idm:DL1
+    % dnf module enable idm:DL1
 
     # Install necessary packages, ie AD trust packages if you need them
-    % yum install ipa-server ipa-server-dns -y
+    % dnf install ipa-server ipa-server-dns -y
     % ipa-client-install --realm EXAMPLE.COM --domain example.com
     % kinit admin
 
@@ -355,7 +355,7 @@ EL8 to EL9
 .. code-block:: shell
 
     # Enterprise Linux 9
-    % yum install ipa-server ipa-server-dns -y
+    % dnf install ipa-server ipa-server-dns -y
     % ipa-client-install --realm EXAMPLE.COM --domain example.com
     % kinit admin
 
@@ -546,7 +546,7 @@ Ensure your /etc/resolv.conf (or other dns settings) are set correctly. Ensure y
 
 .. code-block:: shell
 
-   % yum install ipa-client -y
+   % dnf install ipa-client -y
    % ipa-client-install --realm EXAMPLE.COM --domain example.com --mkhomedir
 
 Mac Clients
@@ -652,7 +652,7 @@ You need to modify a couple of pam files. I'll explain why they need to be chang
    # The krb5 changes do similar to the authorization when on the lock screen after a sleep
    #auth       optional       pam_krb5.so use_first_pass use_kcminit
    auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
-   #auth       sufficient     pam_krb5.so use_first_pass default_principal
+   auth       sufficient     pam_krb5.so use_first_pass default_principal
    auth       required       pam_opendirectory.so use_first_pass nullok
    account    required       pam_opendirectory.so
    account    sufficient     pam_self.so
@@ -2583,7 +2583,7 @@ A `bugzilla <https://bugzilla.redhat.com/show_bug.cgi?id=1510734>`__ was opened 
    PKINIT is enabled
 
    # IPA Clients must have the krb5-pkinit package installed
-   % yum install krb5-pkinit
+   % dnf install krb5-pkinit
 
    # Perform the anonymous processing
    % kinit -n
