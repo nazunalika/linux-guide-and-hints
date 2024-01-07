@@ -15,7 +15,7 @@ copyright: Copyright 2024, remyabel, nazunalika
 
 # Configuration
 theme:
-  name: mkdocs
+  name: darkly
   highlightjs: true
   nav_style: dark
   hljs_languages:
