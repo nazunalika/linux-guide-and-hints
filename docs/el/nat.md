@@ -26,9 +26,7 @@ To properly setup the system, a few things have to be done.
 3. `ip_forward` must be turned on - optionally if you have ipv6, turn on
    that forwarding as well
 
-!!! note
-    IPv6 and NAT
-
+!!! note "IPv6 and NAT"
     If you have an IPv6 prefix, whether it's from your ISP or it's a
     brokered prefix from he.net, NAT is generally not needed. Instead of
     using NAT for IPv6, you can just do simple forwarding. This is covered
