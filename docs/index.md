@@ -4,7 +4,7 @@ title: Linux Guide and Hints
 
 The source code for this page can be found on [github](https://github.com/nazunalika/linux-guide-and-hints). This page contains tutorials and generally useful information regarding packages and system administration in Fedora and Enterprise Linux (Rocky Linux, CentOS Stream).
 
-Use the top bar to navigate.
+Use the navigation to the left.
 
 ## Quick Links
 
