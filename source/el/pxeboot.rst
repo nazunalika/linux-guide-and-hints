@@ -23,18 +23,19 @@ Here are the list of requirements below.
 
 * Enterprise Linux 8, 9, or Fedora
 * A DHCP server setup that allows you to setup the `next_server` directive or setup the tftp server location
+* Optionally if you are using a local mirror, `httpd` or `nginx` installed. (This guide assumes `httpd`)
 
 Tutorial Preface, Notes, and Recommendations
 --------------------------------------------
 
-In some environments, it may be better (or easier, depending on your perspective) to setup a PXE server and roll out systems in a lab or otherwise in that fashion. It's one of the most straight forward ways to roll out systems easily and consistently. The difference between a typical PXE setup and this is we're using grub2 menus, rather than the classic menu style. This makes it simpler to keep all configurations consistent between classic boot and EFI boot.
+In some environments, it may be better (or easier, depending on your perspective) to setup a PXE server and roll out systems in a lab or otherwise in that fashion. It's one of the most straight forward ways to build out systems easily and consistently. The difference between a typical PXE setup and this is we're using grub2 menus, rather than the classic menu style. This makes it simpler to keep all configurations consistent between classic boot and EFI boot.
 
 If you plan on using supporting other architectures, it will be easier to use that architecture to run the `grub2-mknetdir` command and brings those to your tftp server.
 
 Cobbler
 +++++++
 
-While cobbler is a perfectly viable solution to setting up a pxeboot system for various distros and configurations, it is out of scope for this article. As of this writing, cobbler does not use grub2 as its baseline.
+While cobbler is a perfectly viable solution to setting up a pxeboot system for various distros and configurations, it is out of scope for this article. It is unknown if it sets up or directly supports grub2.
 
 Server Setup
 ------------
@@ -80,8 +81,8 @@ Now you'll need to enable the tftp socket and open the port. Traditionally, you 
    % firewall-cmd --add-service=tftp --permanent
    % systemctl enable tftp.socket --now
 
-DHCP
-++++
+DHCP (ISC)
+++++++++++
 
 On your DHCP server configuration (typically `/etc/dhcp/dhcpd.conf` if running on Fedora or EL), you should set the following options:
 
@@ -185,6 +186,26 @@ Note that in your subnet blocks, you should also mention `next_server`, which sh
    
 Ensure that the `dhcpd` service is restarted after making the necessary changes.
 
+DHCP (Kea)
+++++++++++
+
+Kea is a different configuration style from ISC. At this time, we do not have a full working example.
+
+Web Server (httpd)
+++++++++++++++++++
+
+If we plan on hosting the installation mirror in your environment, it's recommended to stand up a simple web server. It does not require any kind of special configuration. We'll use the default `/var/www/html/` path. If you wish to use another such as `/srv/www`, you will need to setup a virtual host (this is outside the scope of this page).
+
+.. code-block:: shell
+
+    % dnf install httpd -y
+    % systemctl enable httpd --now
+    % firewall-cmd --add-service=http --permanent
+    % firewall-cmd --complete-reload
+
+    # create the directories for our distributions
+    % mkdir -p /var/www/html/os/{fedora,centos,rocky}
+
 Setting up Grub
 +++++++++++++++
 
@@ -220,7 +241,169 @@ This should produce a grub menu for both EFI and BIOS systems that contain three
 Adding Distributions
 ++++++++++++++++++++
 
-Now that grub is sort of setup, we should add a distribution to it at least. Let's put up a regular installer with no kickstart for Fedora.
+Now that grub is sort of setup, we should add a distribution to it at least. Below are a couple examples using Fedora, Rocky Linux, and CentOS Stream.
+
+Rocky Linux
+'''''''''''
+
+Setting up Rocky Linux (or any other Enterprise Linux distribution) should be straight forward. We'll download both Rocky Linux 8 and Rocky Linux 9 and setup the menus.
+
+.. note:: Using upstream mirror path
+
+   If you plan on not hosting a mirror of the base repositories, ensure that your inst.repo/inst.stage2 commands are accurate to a mirror of your choice.
+
+.. code-block:: none
+
+   % cd /var/tmp
+   # Rocky Linux 8
+   % wget https://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8-latest-x86_64-dvd.iso
+   # Rocky Linux 9
+   % wget https://dl.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9-latest-x86_64-dvd.iso
+
+   # Optionally, if you plan on supporting ARM...
+   % wget https://dl.rockylinux.org/pub/rocky/8/isos/aarch64/Rocky-8-latest-aarch64-dvd.iso
+   % wget https://dl.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9-latest-aarch64-dvd.iso
+
+Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/rocky-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/rocky/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
+
+.. code-block:: shell
+   ## Rocky 8
+   % mount -o loop Rocky-8-latest-x86_64-dvd.iso /mnt
+   % mkdir /var/lib/tftpboot/rocky-8-x86_64
+   % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
+   ##################################
+   # If you are hosting a mirror...
+   % mkdir -p /var/www/html/os/rocky/8/x86_64
+   % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/8/x86_64
+   % restorecon -R /var/www/html/os/rocky/8
+   ##################################
+   % umount /mnt
+   
+   ## Rocky 9
+   % mount -o loop Rocky-9-latest-x86_64-dvd.iso /mnt
+   % mkdir /var/lib/tftpboot/rocky-9-x86_64
+   % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
+   ##################################
+   # If you are hosting a mirror...
+   % mkdir -p /var/www/html/os/rocky/9/x86_64
+   % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
+   % restorecon -R /var/www/html/os/rocky/9
+   ##################################
+   % umount /mnt
+
+At this point, we'll need to setup the grub menus. We'll setup non-kickstart examples for BIOS and UEFI.
+
+.. code-block:: none
+
+   . . .
+   # Rocky 8
+   menuentry 'Install Rocky Linux 8 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 8 kernel..."
+     linuxefi rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
+     initrdefi rocky-8-x86_64/initrd.img
+   }
+   menuentry 'Install Rocky Linux 8 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 8 kernel..."
+     linux16 rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
+     initrd16 rocky-8-x86_64/initrd.img
+   }
+
+   # if you are setting up arm...
+   menuentry 'Install Rocky Linux 8 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 8 kernel..."
+     linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/aarch64 inst.stage2=http://10.100.0.1/os/rocky/8/aarch64 ip=dhcp
+     initrd rocky-9-aarch64/initrd.img
+   }
+
+.. code-block:: none
+
+   . . .
+   # Rocky 9
+   menuentry 'Install Rocky Linux 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 9 kernel..."
+     linuxefi rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
+     initrdefi rocky-9-x86_64/initrd.img
+   }
+   menuentry 'Install Rocky Linux 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 9 kernel..."
+     linux16 rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
+     initrd16 rocky-9-x86_64/initrd.img
+   }
+
+   # if you are setting up arm...
+   menuentry 'Install Rocky Linux 9 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading Rocky Linux 9 kernel..."
+     linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/aarch64 inst.stage2=http://10.100.0.1/os/rocky/9/aarch64 ip=dhcp
+     initrd rocky-9-aarch64/initrd.img
+   }
+
+The Rocky Linuxinstallation should now be bootable.
+
+CentOS Stream
+'''''''''''''
+
+Much like Rocky Linux (or other derivatives), the path is the same for setting it up.
+
+.. note:: Using upstream mirror path
+
+   If you plan on not hosting a mirror of the base repositories, ensure that your inst.repo/inst.stage2 commands are accurate to a mirror of your choice.
+
+.. code-block:: none
+
+   % cd /var/tmp
+   # CentOS Stream 9
+   % wget -O CentOS-Stream-9-latest-x86_64-dvd1.iso \
+     'https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&redirect=1&protocol=https'
+
+   # Optionally, if you plan on supporting ARM...
+   % wget -O CentOS-Stream-9-latest-aarch64-dvd1.iso \
+     'https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/aarch64/iso/CentOS-Stream-9-latest-aarch64-dvd1.iso&redirect=1&protocol=https'
+
+Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/rocky-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/rocky/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
+
+.. code-block:: shell
+   ## CentOS Stream 9
+   % mount -o loop CentOS-Stream-9-latest-x86_64-dvd1.iso /mnt
+   % mkdir /var/lib/tftpboot/centos-9-x86_64
+   % cp /mnt/images/pxeboot/* /var/lib/tftpboot/centos-9-x86_64
+   ##################################
+   # If you are hosting a mirror...
+   % mkdir -p /var/www/html/os/centos/9/x86_64
+   % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/centos/9/x86_64
+   % restorecon -R /var/www/html/os/centos/9
+   ##################################
+   % umount /mnt
+
+At this point, we'll need to setup the grub menus. We'll setup non-kickstart examples for BIOS and UEFI.
+
+.. code-block:: none
+
+   . . .
+   # CentOS Stream 9
+   menuentry 'Install CentOS Stream 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading CentOS Stream 9 kernel..."
+     linuxefi centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
+     initrdefi centos-9-x86_64/initrd.img
+   }
+   menuentry 'Install CentOS Stream 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading CentOS Stream 9 kernel..."
+     linux16 centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
+     initrd16 centos-9-x86_64/initrd.img
+   }
+
+   # if you are setting up arm...
+   menuentry 'Install CentOS Stream 9 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+     echo "Loading CentOS Stream 9 kernel..."
+     linux centos-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/aarch64 inst.stage2=http://10.100.0.1/os/centos/9/aarch64 ip=dhcp
+     initrd centos-9-aarch64/initrd.img
+   }
+
+The CentOS Stream installation should now be bootable.
+
+Fedora
+''''''
+
+Let's put up a regular installer with no kickstart for Fedora. This does not involve pulling down any ISO's and will rely entirely on using upstream repositories.
 
 .. code-block:: shell
 
@@ -244,16 +427,16 @@ Now we can add a couple menu entry items for Fedora. I'm making both EFI and Cla
 
    . . .
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
+     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
      initrdefi fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
      initrd16 fedora-x86_64/initrd.img
    }
    # Add the below for ARM systems
    menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
      initrd fedora-aarch64/initrd.img
    }
 
@@ -303,15 +486,15 @@ Submenus are easily created using `submenu` in the grub configuration. For examp
       set color_normal=white/black
 
       menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-        linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
+        linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
         initrdefi fedora-x86_64/initrd.img
       }
       menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-        linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
+        linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
         initrd16 fedora-x86_64/initrd.img
       }
       menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-        linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+        linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
         initrd fedora-aarch64/initrd.img
       }
    }
@@ -334,15 +517,15 @@ It is also possible to place everything into separate source-able files. Note th
 .. code-block:: none
 
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
+     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
      initrdefi fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
      initrd16 fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os/ ip=dhcp
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
      initrd fedora-aarch64/initrd.img
    }
 
@@ -399,17 +582,17 @@ Submenus can be nested too. Here's a deeper, working example of my own setup usi
        set color_normal=white/black
      
        menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
+         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
          initrdefi fedora-x86_64/initrd.img
        }
    
        menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os ip=dhcp
+         linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
          initrdefi fedora-x86_64/initrd.img
        }
      
        menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os
+         linuxefi fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os
          initrdefi fedora-x86_64/initrd.img
        }
      }
@@ -421,17 +604,17 @@ Submenus can be nested too. Here's a deeper, working example of my own setup usi
        set color_normal=white/black
      
        menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
+         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
          initrd16 fedora-x86_64/initrd.img
        }
    
         menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/ ip=dhcp
+         linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
          initrd16 fedora-x86_64/initrd.img
        }
      
        menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-         linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/x86_64/os/
+         linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/
          initrd16 fedora-x86_64/initrd.img
        }
      }
@@ -443,17 +626,17 @@ Submenus can be nested too. Here's a deeper, working example of my own setup usi
        set color_normal=white/black
      
        menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os ip=dhcp
+         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
          initrdefi fedora-aarch64/initrd.img
        }
    
        menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os ip=dhcp
+         linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
          initrdefi fedora-aarch64/initrd.img
        }
      
        menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-         linuxefi fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/38/Everything/aarch64/os
+         linuxefi fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os
          initrdefi fedora-aarch64/initrd.img
        }
      }
