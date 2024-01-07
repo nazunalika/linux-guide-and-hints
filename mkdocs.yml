@@ -11,7 +11,7 @@ repo_name: nazunalika/linux-guide-and-hints
 edit_uri: edit/master/docs/
 
 # Copyright
-copyright: &copy; Copyright 2024, remyabel, nazunalika
+copyright: Copyright 2024, remyabel, nazunalika
 
 # Configuration
 theme:
