@@ -35,7 +35,8 @@ theme:
     - content.action.edit
   logo: assets/logo.png
   palette:
-    scheme: indigo
+    scheme: slate
+    primary: indigo
     accent: blue
 
 # Plugins
