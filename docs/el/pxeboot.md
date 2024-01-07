@@ -44,7 +44,7 @@ packages. If you are wanting other architectures, you can obtain the
 other grub2 module packages from your distribution's BaseOS or
 equivalent repository for that architecture and install it manually.
 
-```
+``` bash
 # x86_64
 % dnf install \
   grub2-efi-x64-modules \
@@ -63,7 +63,7 @@ equivalent repository for that architecture and install it manually.
 Let's make our initial net directories and ensure the selinux contexts
 are correct.
 
-```
+``` bash
 % grub2-mknetdir --net-directory /var/lib/tftpboot/
 Netboot directory for i386-pc created. Configure your DHCP server to point to /srv/tftp/boot/grub2/i386-pc/core.0
 Netboot directory for x86_64-efi created. Configure your DHCP server to point to /srv/tftp/boot/grub2/x86_64-efi/core.efi
@@ -75,7 +75,7 @@ Now you'll need to enable the tftp socket and open the port.
 Traditionally, you would use xinetd. It's no longer required for the
 tftp service.
 
-```
+``` bash
 # Note: This is port 69 with the UDP protocol
 % firewall-cmd --add-service=tftp --permanent
 % systemctl enable tftp.socket --now
@@ -207,7 +207,7 @@ kind of special configuration. We'll use the default /var/www/html/
 path. If you wish to use another such as /srv/www, you will need to
 setup a virtual host (this is outside the scope of this page).
 
-```
+``` bash
 % dnf install httpd -y
 % systemctl enable httpd --now
 % firewall-cmd --add-service=http --permanent
@@ -243,7 +243,7 @@ menuentry 'Shutdown' {
 
 Now let's just symlink it.
 
-```
+``` bash
 % cd /var/lib/tftpboot/boot/grub2/x86_64-efi
 % ln -s ../../../grub.cfg
 % cd /var/lib/tftpboot/boot/grub2/i386-pc
@@ -273,7 +273,7 @@ Linux 9 and setup the menus.
 The below assumes we are hosting a mirror of the downloaded ISO, which
 will make installations quicker as it'll be confined to your network.
 
-```
+``` bash
 % cd /var/tmp
 # Rocky Linux 8
 % wget https://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8-latest-x86_64-dvd.iso
@@ -293,7 +293,7 @@ a local mirror of the DVD, we'll put it into
 can be repeated for aarch64 without any issues. Just replace x86_64
 with aarch64.
 
-```
+``` bash
 ## Rocky 8
 % mount -o loop Rocky-8-latest-x86_64-dvd.iso /mnt
 % mkdir /var/lib/tftpboot/rocky-8-x86_64
@@ -372,7 +372,7 @@ setting it up.
     that your inst.repo/inst.stage2 commands are accurate to a mirror of
     your choice.
 
-```
+``` bash
 % cd /var/tmp
 # CentOS Stream 9
 % wget -O CentOS-Stream-9-latest-x86_64-dvd1.iso \
@@ -391,7 +391,7 @@ a local mirror of the DVD, we'll put it into
 can be repeated for aarch64 without any issues. Just replace x86_64
 with aarch64.
 
-```
+``` bash
 ## CentOS Stream 9
 % mount -o loop CentOS-Stream-9-latest-x86_64-dvd1.iso /mnt
 % mkdir /var/lib/tftpboot/centos-9-x86_64
@@ -435,7 +435,7 @@ Let's put up a regular installer with no kickstart for Fedora. This
 does not involve pulling down any ISO's and will rely entirely on using
 upstream repositories.
 
-```
+``` bash
 % cd /var/lib/tftpboot
 % mkdir fedora-x86_64
 % cd fedora-x86_64
