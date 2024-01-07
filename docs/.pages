@@ -1,7 +1,7 @@
 ---
 nav:
   - ... | index.md
-  - Training Resources: training
   - Enterprise Linux: el
+  - Training Resources: training
   - Misc: misc
   - Archives: archive
