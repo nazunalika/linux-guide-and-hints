@@ -3,5 +3,4 @@ mkdocs-autolinks-plugin
 mkdocs-awesome-pages-plugin
 mkdocs-git-revision-date-plugin
 mkdocs-macros-plugin
-mkdocs-readthedocs
 mkdocs-material
