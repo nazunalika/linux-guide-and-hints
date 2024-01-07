@@ -248,11 +248,13 @@ Rocky Linux
 
 Setting up Rocky Linux (or any other Enterprise Linux distribution) should be straight forward. We'll download both Rocky Linux 8 and Rocky Linux 9 and setup the menus.
 
-.. note:: Using upstream mirror path
+.. note::
 
    If you plan on not hosting a mirror of the base repositories, ensure that your inst.repo/inst.stage2 commands are accurate to a mirror of your choice.
 
-.. code-block:: none
+The below assumes we are hosting a mirror of the downloaded ISO, which will make installations quicker as it'll be confined to your network.
+
+.. code-block:: shell
 
    % cd /var/tmp
    # Rocky Linux 8
@@ -267,29 +269,24 @@ Setting up Rocky Linux (or any other Enterprise Linux distribution) should be st
 Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/rocky-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/rocky/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
 
 .. code-block:: shell
+
    ## Rocky 8
    % mount -o loop Rocky-8-latest-x86_64-dvd.iso /mnt
    % mkdir /var/lib/tftpboot/rocky-8-x86_64
    % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
-   ##################################
-   # If you are hosting a mirror...
    % mkdir -p /var/www/html/os/rocky/8/x86_64
    % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/8/x86_64
-   % restorecon -R /var/www/html/os/rocky/8
-   ##################################
    % umount /mnt
    
    ## Rocky 9
    % mount -o loop Rocky-9-latest-x86_64-dvd.iso /mnt
    % mkdir /var/lib/tftpboot/rocky-9-x86_64
    % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
-   ##################################
-   # If you are hosting a mirror...
    % mkdir -p /var/www/html/os/rocky/9/x86_64
    % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
-   % restorecon -R /var/www/html/os/rocky/9
-   ##################################
    % umount /mnt
+
+   % restorecon -R /var/www/html/os/rocky
 
 At this point, we'll need to setup the grub menus. We'll setup non-kickstart examples for BIOS and UEFI.
 
@@ -366,12 +363,9 @@ Here we'll copy the data we want into the necessary directories. Any pxeboot rel
    % mount -o loop CentOS-Stream-9-latest-x86_64-dvd1.iso /mnt
    % mkdir /var/lib/tftpboot/centos-9-x86_64
    % cp /mnt/images/pxeboot/* /var/lib/tftpboot/centos-9-x86_64
-   ##################################
-   # If you are hosting a mirror...
    % mkdir -p /var/www/html/os/centos/9/x86_64
    % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/centos/9/x86_64
    % restorecon -R /var/www/html/os/centos/9
-   ##################################
    % umount /mnt
 
 At this point, we'll need to setup the grub menus. We'll setup non-kickstart examples for BIOS and UEFI.
