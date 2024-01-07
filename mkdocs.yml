@@ -15,8 +15,9 @@ copyright: Copyright 2024, remyabel, nazunalika
 
 # Configuration
 theme:
-  name: readthedocs
+  name: mkdocs
   highlightjs: true
+  nav_style: dark
   hljs_languages:
     - bash
     - perl
