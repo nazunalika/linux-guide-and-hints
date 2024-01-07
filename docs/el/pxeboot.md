@@ -265,15 +265,10 @@ Setting up Rocky Linux (or any other Enterprise Linux distribution)
 should be straight forward. We'll download both Rocky Linux 8 and Rocky
 Linux 9 and setup the menus.
 
-::: {.note}
-::: {.admonition-title}
-Note
-:::
-
-If you plan on not hosting a mirror of the base repositories, ensure
-that your inst.repo/inst.stage2 commands are accurate to a mirror of
-your choice.
-:::
+!!! note
+    If you plan on not hosting a mirror of the base repositories, ensure
+    that your inst.repo/inst.stage2 commands are accurate to a mirror of
+    your choice.
 
 The below assumes we are hosting a mirror of the downloaded ISO, which
 will make installations quicker as it'll be confined to your network.
@@ -372,17 +367,10 @@ The Rocky Linuxinstallation should now be bootable.
 Much like Rocky Linux (or other derivatives), the path is the same for
 setting it up.
 
-::: {.note}
-::: {.admonition-title}
-Note
-:::
-
-Using upstream mirror path
-
-If you plan on not hosting a mirror of the base repositories, ensure
-that your inst.repo/inst.stage2 commands are accurate to a mirror of
-your choice.
-:::
+!!! note "Using upstream mirror path"
+    If you plan on not hosting a mirror of the base repositories, ensure
+    that your inst.repo/inst.stage2 commands are accurate to a mirror of
+    your choice.
 
 ```
 % cd /var/tmp
