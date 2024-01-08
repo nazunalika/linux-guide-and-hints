@@ -23,6 +23,7 @@ theme:
     - perl
     - python
     - yaml
+    - ini
   features:
     - navigation.expand
     - navigation.indexes
@@ -38,6 +39,7 @@ theme:
     scheme: slate
     primary: indigo
     accent: blue
+  custom_dir: overrides
 
 # Plugins
 plugins:
