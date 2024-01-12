@@ -65,8 +65,7 @@ Here are the list of requirements below.
           will lose out on kerberos SSO. Do not try to hijack a domain.
 
     * Consider setting up a trust with Active Directory if you are in a
-      mixed environment, eg Active Directory already exists - winsync is
-      available, but deprecated and not recommended.
+      mixed environment, eg Active Directory already exists.
     * IPA servers should have static assigned addresses - Configured via
       nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-\*
     * Try to avoid running FreeIPA without DNS - while possible, you are
@@ -79,6 +78,8 @@ Here are the list of requirements below.
     example.com and ipa.example.com, or example.com and example.net). This
     way, you do not have to create duplicate users if a windows user logs
     into Linux resources nor use winsync.
+
+    All trust information is in [this section](#active-directory-trust)
 
 ## DNS
 
@@ -100,17 +101,16 @@ outside the scope of this write up.
 
 ### Delegation
 
-Throughout this guide, you may find or see examples of domain delegation
-where there is an AD trust, as it would be a more real world example of
-bringing in FreeIPA to an environment that is already in place, working,
-with a DNS hosted by AD or by an appliance. Majority of the examples
-assume both IPA and AD is delegated (when it's normally IPA that's
-just delegated while AD hosts the actual parent zone). Using this type
-of setup, it is not required for clients to have entries in the IPA
-domain. In fact, they can be in other domains as long as they have
-A/AAAA/PTR records associated with them. This assumes that there could
-be dynamic dns associated with DHCP or everything is static and lives in
-the parent zones. **The caveat to this is SSO will fail**.
+Throughout this guide, you may find or see examples of domain delegation,
+assuming there is an AD trust or perhaps it's just a separate domain. This
+is done as a real world example, as it would be more realistic to bring
+FreeIPA into an environment where a DNS appliance or Acive Directory may
+already be in place.
+
+In this type of setup, it is not required for clients to have entries in
+the IPA DNS domain. In fact, they can be in other domains as long as they
+have A/AAAA/PTR records associated and all systems can resolve them. **The
+major caveat to this is SSO via kerberos will fail**.
 
 You can setup already existing DNS servers to delegate an entire domain
 or a subdomain for FreeIPA. This way, you don't overlap with a domain
@@ -139,8 +139,9 @@ np-ipa01                A       10.200.0.230
 np-ipa02                A       10.200.0.231
 ```
 
-Note that AD can send nsupdates to a DNS server if given the permissions. As of
-this writing, FreeIPA does not do this, which is why DNS delegation is recommended.
+!!! note "nsupdates"
+    Note that AD can send nsupdates to a DNS server if given the permissions. As of
+    this writing, FreeIPA does not do this, which is why DNS delegation is recommended.
 
 ## Server Setup
 
@@ -582,14 +583,12 @@ releases, so YMMV.**
     and [here (older)](https://annvix.com/using_freeipa_for_user_authentication#Mac_OS_X_10.7.2F10.8)
 
 !!! warning "AD Users"
-    AD Users
-
-    You cannot login as AD users on a Mac when going through FreeIPA. You
-    can, in theory, point to the cn=compat tree and set the attribute
-    mapping to rfc2307. In my tests, I have never been able to get this to
-    work. This section, I am going to assume you are going to be logging in
-    as a user in IPA. If you are in a mixed environment, add your Mac to
-    your AD domain instead.
+    You cannot login as AD users on a Mac when going through FreeIPA with
+    a trust. You can, in theory, point to the cn=compat tree and set the
+    attribute mapping to rfc2307. In my tests, I have never been able to
+    get this to work. This section, I am going to assume you are going to
+    be logging in as a user in IPA. If you are in a mixed environment,
+    add your Mac to your AD domain instead.
 
 !!! warning "Anonymous Bind"
     There may be cases where if you have disabled anonymous binds in IPA,
@@ -988,7 +987,7 @@ you will need to make a mobile account.[^3]
 
 Go to system preferences and ensure the account is a mobile account.
 
-### General macOS Notes
+#### General macOS Notes
 
 !!! note "Group Resolution"
     If you want groups from IPA to resolve to the system, you'll need to
@@ -1233,21 +1232,6 @@ login to all machines.
 % ipa group-add-member --users=flast linuxadm
 ```
 
-**Note for AD Users**: In the event that your AD user or group of users
-will be an admin, you need to create an "external" group to map the
-user or users over. This isn't required if you don't have an AD trust.
-
-```
-# Create an external group that the AD user/group goes into
-% ipa group-add --external linuxadm_external
-# Add the user (or group) into the external group
-% ipa group-add-member --users=aduser1@example.com linuxadm_external
-% ipa group-add-member --users=adgroup1@example.com linuxadm_external
-# Add the external group as a member of the IPA posix group.
-# aduser1 and adgroup1 are now effectively members of the linuxadm group in IPA.
-% ipa group-add-member --groups=linuxadm_external linuxadm
-```
-
 Now, let's create an HBAC for our Linux Administrator account for our
 group.
 
@@ -1262,13 +1246,6 @@ You might want to create an HBAC rule specifically for your IPA admin
 accounts to have ssh access to the IPA servers too. You can follow
 something like the above to make it possible. Or you can just add the
 IPA admins group into the HBAC rule we just made above.
-
-!!! note "Group Types"
-    Groups in Active Directory have three types. These three types can
-    actually change the behavior of how SSSD on the IPA domain controllers
-    resolve them or if they'll even be resolvable at all. The three types
-    are 'Domain Local', 'Global', and 'Universal'. If at all possible,
-    avoid groups being 'Global'. Domain Local or Universal is recommended.
 
 ### SUDO
 
@@ -2150,7 +2127,7 @@ regardless of HBAC controls or if you're using the pam_hbac module.
 
 ### Legacy Active Directory Trust Notes
 
-Just a section of notes.
+Just a section of notes in IPA-AD trust scenarios.
 
 #### Domain Resolution Order Oddness
 
@@ -2781,6 +2758,30 @@ You should be able to test for the users now.
 ```
 % id aduser1@example.com
 uid=XXXXX(aduser1@example.com) gid=XXXXX(aduser1@example.com) groups=XXXXX(aduser1@example.com)
+```
+
+### External Groups
+
+!!! note "Group Types"
+    Groups in Active Directory have three types. These three types can
+    actually change the behavior of how SSSD on the IPA domain controllers
+    resolve them or if they'll even be resolvable at all. The three types
+    are 'Domain Local', 'Global', and 'Universal'. If at all possible,
+    avoid groups being 'Global'. Domain Local or Universal is recommended.
+
+In the event you are using a trust, your AD user and group of users will
+need external groups to map the user or users over. This is required if
+you are trying to setup some form of permissions with HBAC and SUDO.
+
+```
+# Create an external group that the AD user/group goes into
+% ipa group-add --external linuxadm_external
+# Add the user (or group) into the external group
+% ipa group-add-member --users=aduser1@example.com linuxadm_external
+% ipa group-add-member --users=adgroup1@example.com linuxadm_external
+# Add the external group as a member of the IPA posix group.
+# aduser1 and adgroup1 are now effectively members of the linuxadm group in IPA.
+% ipa group-add-member --groups=linuxadm_external linuxadm
 ```
 
 ### AD Domain Options
