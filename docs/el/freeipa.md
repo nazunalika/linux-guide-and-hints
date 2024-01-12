@@ -523,90 +523,6 @@ elX% init 0
 See [this page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/migrating_to_identity_management_on_rhel_9/index#migrating_idm_from_rhel_8_to_rhel_9)
 for more information.
 
-Active Directory Trust
-======================
-
-To initiate a trust with your active directory domain, ensure the
-following requirements are met.
-
-!!! note "Requirements"
-    Package installed: ipa-server-trust-ad
-
-    DNS: Properly configured that FreeIPA can resolve the AD servers A and
-    SRV records
-
-    This can either be forwarders to AD, a subdomain that IPA manages, or
-    delegated subdomain from the master DNS servers in your network. This is
-    completely dependent on your infrastructure.
-
-    DNS: AD forest has sites and SRV records, including priorities, are set
-    correctly
-
-When the following requirements are met, you have two choices before
-continuning. You can either use POSIX or have the id range generated
-automatically.
-
-!!! note "POSIX vs Non-POSIX"
-    If you decide to use POSIX, your AD users are expected to have
-    uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will
-    need to setup ID overrides if you already have that information for
-    current users (assuming this is not a new setup for the environment, ie
-    you already have UID's for people). If you are not planning a migration
-    from pure AD over to IPA with a trust, it is recommended to note that
-    information so you can setup the ID overrides. Afterwards, any new users
-    will get UID/GID's that you will not have to manage yourself.
-
-You will need to prep your master(s) for the trust. We will be enabling
-compat, adding sids, and adding agents so both masters can provide AD
-information.
-
-```
-% ipa-adtrust-install --add-sids --add-agents --enable-compat
-```
-
-This will do what we need. If you do not have legacy clients (Enterprise
-Linux 5, Solaris, HP-UX, AIX, SLES 11.4, FreeBSD, the list goes on), then you do
-not need to enable compat mode. Though, it could be useful to have it for
-certain apps or scenarios.
-
-You will now need to open the necessary ports. Do this on all masters.
-
-!!! note "Ports"
-    TCP: 135, 138, 139, 389, 445, 1024-1300, 3268 UDP: 138, 139, 389, 445
-
-```
-% firewall-cmd --add-service=freeipa-trust --permanent
-% firewall-cmd --complete-reload
-```
-
-Now you can initiate the trust. The admin account you use should be part
-of the domain admins group or at least have permissions to initiate a
-trust. The former is path of least resistance.
-
-```
-# If you are using POSIX ID, use ipa-ad-trust-posix.
-% ipa trust-add --type=ad example.com --range-type=ipa-ad-trust --admin adminaccount --password 
-```
-
-Once the trust is up, verify it.
-
-```
-% ipa trust-show example.com
- Realm name: example.com
- Domain NetBIOS name: AD
- Domain Security Identifier: S-X-X-XX-XXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX
- Trust direction: Trusting forest
- Trust type: Active Directory domain
- UPN suffixes: example.com
-```
-
-You should be able to test for the users now.
-
-```
-% id aduser1@example.com
-uid=XXXXX(aduser1@example.com) gid=XXXXX(aduser1@example.com) groups=XXXXX(aduser1@example.com)
-```
-
 ## Disable Anonymous Bind
 
 In some cases, it is a requirement to disable *all* anonymous binds. If
@@ -1694,8 +1610,7 @@ dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
 I recommend setting up sudo at least\... if you want to use sudo,
 install the sudo-ldap from sudo.ws for Solaris 10.
 
-Solaris 11
-----------
+### Solaris 11
 
 Solaris 11 shares similar configuration to Solaris 10. There are a
 couple of manual things we have to do, but they are trivial. Solaris
@@ -2258,161 +2173,6 @@ reflective of the environment in which IPA is installed and not all will
 fit into your environment. These are more or less common situations that
 could occur during an IPA deployment or even post-deployment.
 
-### Remove @realm for AD users
-
-A common scenario is that IPA and AD will have a trust, but there will
-not be any IPA users with the exception of the engineering team for
-managing IPA itself. The common theme is that because of this, the
-engineers and customers would rather not login with <username@realm>.
-
-!!! note "Info"
-    The following is only applicable in an IPA-AD trust. An IPA-only
-    scenario would not require any of these steps and most pieces would work
-    natively (no @realm, sudo, hbac).
-
-    In the event that you are in an IPA-AD scenario, please take note that
-    this can adversely affect legacy clients. This will cause ldapsearches
-    that are done in the compat tree to display multiple uid attributes. In
-    most cases, this is fine and the user can still login without the realm
-    name. The whoami and id commands will show the domain. There's no
-    workaround for this.
-
-On the IPA servers, you will need to set the domain resolution order.
-This was introduced in 4.5.0.
-
-```
-% kinit admin
-% ipa config-mod --domain-resolution-order="example.com:ipa.example.com"
-```
-
-After, you will need to clear out your SSSD cache.
-
-```
-# sss_cache -E is insufficient for this.
-% systemctl stop sssd
-% rm -rf /var/lib/sss/db/*
-% systemctl start sssd
-```
-
-The below is optional. It will remove the @realm off the usernames, like
-on the prompt or id or whoami commands. Only do this if required. **Only
-do this on the clients. Do not make this change on an IPA replica.**
-
-```
-# vi /etc/sssd/sssd.conf
-
-[domain/ipa.example.com]
-. . .
-full_name_format = %1$s
-```
-
-This will ensure EL7, EL8, EL9 clients resolve the AD domain first when
-attempting logins and optionally drop the @realm off the usernames.
-
-AD and IPA group names with short names
----------------------------------------
-
-You may notice that your clients have intermittent issues with name
-resolution when the following are true:
-
-* Groups (or users) have the same names in both IPA and AD
-* You are using domain resolution order
-* You are shortening names on the clients
-
-You may want to actually search for them to identify the errant groups
-and then correct them. You can correct them either on the AD or IPA
-side. I would opt for the IPA side.
-
-```
-% kinit admin@IPA.EXAMPLE.COM
-% vi /tmp/dupecheck.sh
-#!/bin/bash
-for x in ${ARRAY[*]} ; do
-  ldapsearch -x -b "DC=example,DC=com" -h example.com -LLL -w 'PASSWORD' -D 'username@example.com' samaccountname="$x" samaccountname | grep -q $x
-  if [[ $? -eq 0 ]]; then
-    echo "$x: DUPLICATE"
-  fi
-done
-
-% bash /tmp/dupecheck.sh
-```
-
-If you run into any duplicates, they should show up in a list for you
-address.
-
-!!! note "sAMAccountName vs CN"
-    The "CN" and "sAMAccountName" attributes are not the same in AD,
-    depending on who made the group or other factors. The sAMAccountName
-    attribute is the value used to determine names from AD, whether you are
-    enrolled with AD or the IPA server SSSD is pulling the information. This
-    is why we are searching for that attribute, and not the CN.
-
-### Sites and AD DC's
-
-By creating a subdomain section in /etc/sssd/sssd.conf on an IPA server,
-it is possible to set an AD Site or AD server(s) directly in SSSD. By
-default, sssd tries to do location based discovery. There may be a case
-where this isn't possible (eg, only a set of AD servers may only be
-contacted in certain "air gapped" networks).
-
-```
-[domain/ipa.example.com/example.com]
-# If you want a site
-ad_site = Site_Name
-# If you want a server(s)
-ad_server = dc1.example.com, dc2.example.com
-# A backup?
-ad_backup_server = dc3.example.com, dc4.example.com
-```
-
-If you don't have access or a way to find the sites using the Windows
-tools, you can run an ldapsearch to find it (or an equivalent ldap
-browsing tool).
-
-```
-% ldapsearch -x -h example.com -s one -WD 'CN=username,CN=Users,DC=example,DC=com' \
-  -b 'CN=Sites,CN=Configuration,DC=example,DC=com' cn
-```
-
-This should report back your sites. If you want to know the servers for
-those sites (in case you don't want to deal with the sites, but just
-the DC's themselves), you use ldapsearch but use the base DN of the
-site name.
-
-```
-% ldapsearch -x -h example.com -WD 'CN=username,CN=Users,DC=example,DC=com' \
-  -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=example,DC=com' dnsHostName
-```
-
-!!! note "Hardcoded DC's"
-    If the DC's change at any time and they are harded in your sssd.conf,
-    it is up to you to know when new controllers are being added or removed
-    as to not disrupt the connectivity from IPA to AD when performing user
-    or group lookups.
-
-### Enterprise Linux 6 SUDO and Default Domain Suffix
-
-This issue with the above section is that once you do this, sudo rules
-will begin failing, they will no longer work for Enterprise Linux 6.
-This is because sssd was changed to look for cn=sudo rather than
-ou=sudoers. To enable the compatibility fall back, you will need to
-install a newer SSSD.
-
-### Set Default Shell for AD Users
-
-By default, after a trust has been established, the shell all AD users
-get is /bin/sh. To change this, you must change the sssd.conf on the IPA
-masters.
-
-```
-% vi /etc/sssd/sssd.conf
-[domain/ipa.example.com]
-. . .
-default_shell = /bin/bash
-
-% systemctl restart sssd
-```
-
 ## Automated Kerberos Principals
 
 Once in a great while, we run into situations where we need to have an
@@ -2939,6 +2699,242 @@ opened about this issue in 2017, a
 about this exact scenario, where IPA is configured for password+OTP and
 a user has an assigned token. There is currently one workaround, which
 is using kinit -n to perform anonymous processing.
+
+## Active Directory Trust
+
+To initiate a trust with your active directory domain, ensure the
+following requirements are met.
+
+!!! note "Requirements"
+    Package installed: ipa-server-trust-ad
+
+    DNS: Properly configured that FreeIPA can resolve the AD servers A and
+    SRV records
+
+    This can either be forwarders to AD, a subdomain that IPA manages, or
+    delegated subdomain from the master DNS servers in your network. This is
+    completely dependent on your infrastructure.
+
+    DNS: AD forest has sites and SRV records, including priorities, are set
+    correctly
+
+When the following requirements are met, you have two choices before
+continuning. You can either use POSIX or have the id range generated
+automatically.
+
+!!! note "POSIX vs Non-POSIX"
+    If you decide to use POSIX, your AD users are expected to have
+    uidNumber, gidNumber, loginShell, unixHomeDirectory set. Else, you will
+    need to setup ID overrides if you already have that information for
+    current users (assuming this is not a new setup for the environment, ie
+    you already have UID's for people). If you are not planning a migration
+    from pure AD over to IPA with a trust, it is recommended to note that
+    information so you can setup the ID overrides. Afterwards, any new users
+    will get UID/GID's that you will not have to manage yourself.
+
+You will need to prep your master(s) for the trust. We will be enabling
+compat, adding sids, and adding agents so both masters can provide AD
+information.
+
+```
+% ipa-adtrust-install --add-sids --add-agents --enable-compat
+```
+
+This will do what we need. If you do not have legacy clients (Enterprise
+Linux 5, Solaris, HP-UX, AIX, SLES 11.4, FreeBSD, the list goes on), then you do
+not need to enable compat mode. Though, it could be useful to have it for
+certain apps or scenarios.
+
+You will now need to open the necessary ports. Do this on all masters.
+
+!!! note "Ports"
+    TCP: 135, 138, 139, 389, 445, 1024-1300, 3268 UDP: 138, 139, 389, 445
+
+```
+% firewall-cmd --add-service=freeipa-trust --permanent
+% firewall-cmd --complete-reload
+```
+
+Now you can initiate the trust. The admin account you use should be part
+of the domain admins group or at least have permissions to initiate a
+trust. The former is path of least resistance.
+
+```
+# If you are using POSIX ID, use ipa-ad-trust-posix.
+% ipa trust-add --type=ad example.com --range-type=ipa-ad-trust --admin adminaccount --password 
+```
+
+Once the trust is up, verify it.
+
+```
+% ipa trust-show example.com
+ Realm name: example.com
+ Domain NetBIOS name: AD
+ Domain Security Identifier: S-X-X-XX-XXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX
+ Trust direction: Trusting forest
+ Trust type: Active Directory domain
+ UPN suffixes: example.com
+```
+
+You should be able to test for the users now.
+
+```
+% id aduser1@example.com
+uid=XXXXX(aduser1@example.com) gid=XXXXX(aduser1@example.com) groups=XXXXX(aduser1@example.com)
+```
+
+### AD Domain Options
+
+This section goes over "situational" scenarios for AD trusts. These scenarios
+are reflective of the environment in which IPA is installed and not all will
+fit into your environment. These are more or less common situations that
+could occur during an IPA deployment or even post-deployment.
+
+#### Remove @realm for AD users
+
+A common scenario is that IPA and AD will have a trust, but there will
+not be any IPA users with the exception of the engineering team for
+managing IPA itself. The common theme is that because of this, the
+engineers and customers would rather not login with <username@realm>.
+
+!!! note "Info"
+    The following is only applicable in an IPA-AD trust. An IPA-only
+    scenario would not require any of these steps and most pieces would work
+    natively (no @realm, sudo, hbac).
+
+    In the event that you are in an IPA-AD scenario, please take note that
+    this can adversely affect legacy clients. This will cause ldapsearches
+    that are done in the compat tree to display multiple uid attributes. In
+    most cases, this is fine and the user can still login without the realm
+    name. The whoami and id commands will show the domain. There's no
+    workaround for this.
+
+On the IPA servers, you will need to set the domain resolution order.
+This was introduced in 4.5.0.
+
+```
+% kinit admin
+% ipa config-mod --domain-resolution-order="example.com:ipa.example.com"
+```
+
+After, you will need to clear out your SSSD cache.
+
+```
+# sss_cache -E is insufficient for this.
+% systemctl stop sssd
+% rm -rf /var/lib/sss/db/*
+% systemctl start sssd
+```
+
+The below is optional. It will remove the @realm off the usernames, like
+on the prompt or id or whoami commands. Only do this if required. **Only
+do this on the clients. Do not make this change on an IPA replica.**
+
+```
+# vi /etc/sssd/sssd.conf
+
+[domain/ipa.example.com]
+. . .
+full_name_format = %1$s
+```
+
+This will ensure EL7, EL8, EL9 clients resolve the AD domain first when
+attempting logins and optionally drop the @realm off the usernames.
+
+#### AD and IPA group names with short names
+
+You may notice that your clients have intermittent issues with name
+resolution when the following are true:
+
+* Groups (or users) have the same names in both IPA and AD
+* You are using domain resolution order
+* You are shortening names on the clients
+
+You may want to actually search for them to identify the errant groups
+and then correct them. You can correct them either on the AD or IPA
+side. I would opt for the IPA side.
+
+```
+% kinit admin@IPA.EXAMPLE.COM
+% vi /tmp/dupecheck.sh
+#!/bin/bash
+for x in ${ARRAY[*]} ; do
+  ldapsearch -x -b "DC=example,DC=com" -h example.com -LLL -w 'PASSWORD' -D 'username@example.com' samaccountname="$x" samaccountname | grep -q $x
+  if [[ $? -eq 0 ]]; then
+    echo "$x: DUPLICATE"
+  fi
+done
+
+% bash /tmp/dupecheck.sh
+```
+
+If you run into any duplicates, they should show up in a list for you
+address.
+
+!!! note "sAMAccountName vs CN"
+    The "CN" and "sAMAccountName" attributes are not the same in AD,
+    depending on who made the group or other factors. The sAMAccountName
+    attribute is the value used to determine names from AD, whether you are
+    enrolled with AD or the IPA server SSSD is pulling the information. This
+    is why we are searching for that attribute, and not the CN.
+
+#### Sites and AD DC's
+
+By creating a subdomain section in /etc/sssd/sssd.conf on an IPA server,
+it is possible to set an AD Site or AD server(s) directly in SSSD. By
+default, sssd tries to do location based discovery. There may be a case
+where this isn't possible (eg, only a set of AD servers may only be
+contacted in certain "air gapped" networks).
+
+```
+[domain/ipa.example.com/example.com]
+# If you want a site
+ad_site = Site_Name
+# If you want a server(s)
+ad_server = dc1.example.com, dc2.example.com
+# A backup?
+ad_backup_server = dc3.example.com, dc4.example.com
+```
+
+If you don't have access or a way to find the sites using the Windows
+tools, you can run an ldapsearch to find it (or an equivalent ldap
+browsing tool).
+
+```
+% ldapsearch -x -h example.com -s one -WD 'CN=username,CN=Users,DC=example,DC=com' \
+  -b 'CN=Sites,CN=Configuration,DC=example,DC=com' cn
+```
+
+This should report back your sites. If you want to know the servers for
+those sites (in case you don't want to deal with the sites, but just
+the DC's themselves), you use ldapsearch but use the base DN of the
+site name.
+
+```
+% ldapsearch -x -h example.com -WD 'CN=username,CN=Users,DC=example,DC=com' \
+  -b 'CN=Servers,CN=Site_Name,CN=Sites,CN=Configuration,DC=example,DC=com' dnsHostName
+```
+
+!!! note "Hardcoded DC's"
+    If the DC's change at any time and they are harded in your sssd.conf,
+    it is up to you to know when new controllers are being added or removed
+    as to not disrupt the connectivity from IPA to AD when performing user
+    or group lookups.
+
+### Set Default Shell for AD Users
+
+By default, after a trust has been established, the shell all AD users
+get is /bin/sh. To change this, you must change the sssd.conf on the IPA
+masters.
+
+```
+% vi /etc/sssd/sssd.conf
+[domain/ipa.example.com]
+. . .
+default_shell = /bin/bash
+
+% systemctl restart sssd
+```
 
 ## Footnotes
 
