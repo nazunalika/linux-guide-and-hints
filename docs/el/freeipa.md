@@ -177,7 +177,7 @@ static IP addresses, and then run the ipa-server-install command.
 10.200.0.231 server2.ipa.example.com
 
 # Fedora
-% dnf install freeipa-server{,-common,-dns,-trust-ad} -y
+% dnf install freeipa-server{,-common,-dns} -y
 
 # Enterprise Linux 8
 % dnf module enable idm:DL1/{dns,adtrust,client,server,common}
@@ -188,7 +188,7 @@ static IP addresses, and then run the ipa-server-install command.
 
 # Setup
 # Enterprise 8 / 9
-% firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
+% firewall-cmd --permanent --add-service={freeipa-4,ntp,dns}
 % firewall-cmd --complete-reload
 % ipa-server-install \
     --no_hbac_allow \ <-- If you want to have HBAC allow_all disabled initially
@@ -229,7 +229,7 @@ On the replica, ensure you repeat the same steps as above.
 
 % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
 # Enterprise 8 / 9
-% firewall-cmd --permanent --add-service={freeipa-4,ntp,dns,freeipa-trust}
+% firewall-cmd --permanent --add-service={freeipa-4,ntp,dns}
 % firewall-cmd --complete-reload
 % ipa-replica-install --no-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
 . . . (show steps)
@@ -2722,10 +2722,12 @@ Linux 5, Solaris, HP-UX, AIX, SLES 11.4, FreeBSD, the list goes on), then you do
 not need to enable compat mode. Though, it could be useful to have it for
 certain apps or scenarios.
 
-You will now need to open the necessary ports. Do this on all masters.
+You will now need to open the necessary ports. Do this on all IPA servers.
 
 !!! note "Ports"
-    TCP: 135, 138, 139, 389, 445, 1024-1300, 3268 UDP: 138, 139, 389, 445
+    **TCP**: 135, 138, 139, 389, 445, 1024-1300, 3268
+    
+    **UDP**: 138, 139, 389, 445
 
 ```
 % firewall-cmd --add-service=freeipa-trust --permanent
