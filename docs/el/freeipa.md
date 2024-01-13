@@ -674,18 +674,14 @@ be changed.
 ```
 % sudo vi /etc/pam.d/authorization
 # authorization: auth account
-# Putting krb5 here twice ensures that you can login via kerberos and also get a keytab
-# If "no_ccache" is here, keytabs will not be available on login
 auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
-auth          sufficient     pam_krb5.so use_first_pass default_principal
+auth          optional       pam_ntlm.so use_first_pass
 auth          required       pam_opendirectory.so use_first_pass nullok
-account    required       pam_opendirectory.so
+account       required       pam_opendirectory.so
 
 % sudo vi /etc/pam.d/screensaver
-# The krb5 changes do similar to the authorization when on the lock screen after a sleep
-#auth       optional       pam_krb5.so use_first_pass use_kcminit
+# screensaver: auth account
 auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
-auth       sufficient     pam_krb5.so use_first_pass default_principal
 auth       required       pam_opendirectory.so use_first_pass nullok
 account    required       pam_opendirectory.so
 account    sufficient     pam_self.so
@@ -734,9 +730,9 @@ Connection idles out in 1 minute (this can't be changed)
 Encrypt using SSL (selected)
 ```
 
-1. Click "Search & Mappings"
-2. You may either select "rfc2307" from the dropdown or select
-   custom. It will ask your base DN (eg, dc=ipa,dc=example,dc=com)
+9. Click "Search & Mappings"
+10. You may either select "rfc2307" from the dropdown or select
+    custom. It will ask your base DN (eg, dc=ipa,dc=example,dc=com)
 
 * If you select rfc2307, it will ask for your base DN (eg,
   dc=ipa,dc=example,dc=com)
@@ -744,93 +740,70 @@ Encrypt using SSL (selected)
   record type. **You're better off using rfc2307 and working from
   there**
 
-1. Click the "+" to add a groups record type or scroll and find
-   "groups".
-2. Select "groups", and ensure the following object classes exist.
-   You can click the "+" to add them when needed.
+11. Click the "+" to add a groups record type or scroll and find
+    "groups".
+12. Select "groups", and ensure the following object classes exist.
+    You can click the "+" to add them when needed.
 
-  -------------------------------------------
-  Record Type                ObjectClasses
-  -------------------------- ----------------
-  Groups                     posixGroup
-
-                             ipausergroup
-
-                             groupOfNames\*
-  -------------------------------------------
+| Record Type             | ObjectClasses   |
+|-------------------------|-----------------|
+| Groups                  | posixGroup      |
+|                         | ipausergroup    |
+|                         | groupOfNames*   |
 
 !!! note
     "groupOfNames" is optional here, because it seems that the directory
     utility doesn't understand this concept.
 
-1. Expand "groups" and ensure the following for each record type. You
-   can click the "+" to add the attribute types as needed.
+13. Expand "groups" and ensure the following for each record type. You
+    can click the "+" to add the attribute types as needed.
 
-  -------------------------------------------
-  Attribute                  Mapping
-  -------------------------- ----------------
-  PrimaryGroupID             gidNumber
+| Attribute               | Mapping        |
+|-------------------------|----------------|
+| PrimaryGroupID          | gidNumber      |
+| RecordName              | cn             |
 
-  RecordName                 cn
-  -------------------------------------------
+14. Click the "+" to add a users record type or scroll and find
+    "users".
+15. Select "users" and ensure the following object classes exist. You
+    can click the "+" to add them when needed.
 
-1. Click the "+" to add a users record type or scroll and find
-   "users".
-2. Select "users" and ensure the following object classes exist. You
-   can click the "+" to add them when needed.
+| Record Type             | ObjectClasses  |
+|-------------------------|----------------|
+| Users                   | inetOrgPerson  |
+|                         | posixAccount   |
+|                         | shadowAccount  |
+|                         | apple-user     |
 
-  -------------------------------------------
-  Record Type                ObjectClasses
-  -------------------------- ----------------
-  Users                      inetOrgPerson
+16. Expand "users" and ensure the following for each record type. You
+    can click the "+" to add the attribute types as needed. **Do not
+    set homeDirectory otherwise you will fail to login.**
 
-                             posixAccount
+| Attribute               | Mapping                         |
+|-------------------------|---------------------------------|
+| AuthenticationAuthority | uid                             |
+| GeneratedUID            | GeneratedUID or ipaUniqueID     |
+| HomeDirectory           | #/Users/$uid$                   |
+| NFSHomeDirectory        | #/Users/$uid$                   |
+| PrimaryGroupID          | gidNumber                       |
+| RealName                | cn                              |
+| RecordName              | uid                             |
+| UniqueID                | uidNumber                       |
+| UserShell               | loginShell                      |
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$    |
 
-                             shadowAccount
-
-                             apple-user
-  -------------------------------------------
-
-1. Expand "users" and ensure the following for each record type. You
-   can click the "+" to add the attribute types as needed. **Do not
-   set homeDirectory otherwise you will fail to login.**
-
-  ------------------------------------------------------------
-  Attribute                  Mapping
-  -------------------------- ---------------------------------
-  AuthenticationAuthority    uid
-
-  GeneratedUID               GeneratedUID or ipaUniqueID
-
-  HomeDirectory              \#/Users/\$uid\$
-
-  NFSHomeDirectory           \#/Users/\$uid\$
-
-  PrimaryGroupID             gidNumber
-
-  RealName                   cn
-
-  RecordName                 uid
-
-  UniqueID                   uidNumber
-
-  UserShell                  loginShell
-
-  AltSecurityIdentities      \#Kerberos:\$krbPrincipalName\$
-  ------------------------------------------------------------
-
-1. If using custom mapping, click reach record type you created and
-   ensure the base DN is set.
-2. Make sure each record type is set to all subtrees.
-3. Click "security" and set an authentication bind DN if needed
-4. Click OK
-5. Click OK
-6. Click on Search Policy.
-7. Double check that "/LDAPV3/server1.ipa.example.com" is listed
-   beneath "/Local/Default"
-8. Close everything until you're back to the users & groups section of
-   preferences
-9. Open a terminal.
+17. If using custom mapping, click reach record type you created and
+    ensure the base DN is set.
+18. Make sure each record type is set to all subtrees.
+19. Click "security" and set an authentication bind DN if needed
+20. Click OK
+21. Click OK
+22. Click on Search Policy.
+23. Double check that "/LDAPV3/server1.ipa.example.com" is listed
+    beneath "/Local/Default"
+24. Close everything until you're back to the users & groups section of
+    preferences
+25. Open a terminal.
 
 ```
 % dscacheutil -flushcache
@@ -863,7 +836,7 @@ mobile account.
 
 #### Ventura and likely newer
 
-1. Go to system preferences -\> users & groups
+1. Go to system preferences -> users & groups
 2. Set "automatic login" to "off"
 3. Click "edit" next to "Network account server"
 4. Type in one of your IPA servers (you can duplicate it later for
@@ -884,88 +857,66 @@ mobile account.
 2. Click the "+" to add a groups record type or scroll and find
    "groups" and select it. Add the following object classes
 
-  -------------------------------------------
-  Record Type                ObjectClasses
-  -------------------------- ----------------
-  Groups                     posixGroup
-
-                             ipausergroup
-
-                             groupOfNames\*
-  -------------------------------------------
+| Record Type             | ObjectClasses   |
+|-------------------------|-----------------|
+| Groups                  | posixGroup      |
+|                         | ipausergroup    |
+|                         | groupOfNames*   |
 
 !!! note
     "groupOfNames" is optional here, because it seems that the directory
     utility doesn't understand this concept.
 
-1. Expand "groups" and ensure the following for each record type. You
+3. Expand "groups" and ensure the following for each record type. You
    can click the "+" to add the attribute types as needed.
 
-  -------------------------------------------
-  Attribute                  Mapping
-  -------------------------- ----------------
-  PrimaryGroupID             gidNumber
+| Attribute               | Mapping         |
+|-------------------------|-----------------|
+| PrimaryGroupID          | gidNumber       |
+| RecordName              | cn              |
 
-  RecordName                 cn
-  -------------------------------------------
-
-1. Click the "+" to add a users record type or scroll and find
+4. Click the "+" to add a users record type or scroll and find
    "users".
-2. Select "users" and ensure the following object classes exist. You
+5. Select "users" and ensure the following object classes exist. You
    can click the "+" to add them when needed.
 
-  -------------------------------------------
-  Record Type                ObjectClasses
-  -------------------------- ----------------
-  Users                      inetOrgPerson
+| Record Type             | ObjectClasses  |
+|-------------------------|----------------|
+| Users                   | inetOrgPerson  |
+|                         | posixAccount   |
+|                         | shadowAccount  |
+|                         | apple-user     |
 
-                             posixAccount
-
-                             shadowAccount
-
-                             apple-user
-  -------------------------------------------
-
-1. Expand "users" and ensure the following for each record type. You
+6. Expand "users" and ensure the following for each record type. You
    can click the "+" to add the attribute types as needed. **Do not
    set homeDirectory otherwise you will fail to login.**
 
-  ------------------------------------------------------------
-  Attribute                  Mapping
-  -------------------------- ---------------------------------
-  AuthenticationAuthority    uid
+| Attribute               | Mapping                         |
+|-------------------------|---------------------------------|
+| AuthenticationAuthority | uid                             |
+| GeneratedUID            | GeneratedUID or ipaUniqueID     |
+| NFSHomeDirectory        | #/Users/$uid$                   |
+| PrimaryGroupID          | gidNumber                       |
+| RealName                | cn                              |
+| RecordName              | uid                             |
+| UniqueID                | uidNumber                       |
+| UserShell               | loginShell                      |
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$    |
 
-  GeneratedUID               GeneratedUID or ipaUniqueID
-
-  NFSHomeDirectory           \#/Users/\$uid\$
-
-  PrimaryGroupID             gidNumber
-
-  RealName                   cn
-
-  RecordName                 uid
-
-  UniqueID                   uidNumber
-
-  UserShell                  loginShell
-
-  AltSecurityIdentities      \#Kerberos:\$krbPrincipalName\$
-  ------------------------------------------------------------
-
-1. If using custom mapping, click reach record type you created and
+7. If using custom mapping, click reach record type you created and
    ensure the base DN is set.
-2. Make sure each record type is set to all subtrees if needed.
-3. Click "security" and set an authentication bind DN if needed
-4. Click OK.
-5. Click Search Policy
-6. Double check that "/LDAPV3/server1.ipa.example.com" is listed
+8. Make sure each record type is set to all subtrees if needed.
+9. Click "security" and set an authentication bind DN if needed
+10. Click OK.
+11. Click Search Policy
+12. Double check that "/LDAPV3/server1.ipa.example.com" is listed
    beneath "/Local/Default". If it is not, select "search patch"
    and set it to custom and add it. Click Apply after.
-7. Close everything until you're back to the users & groups section of
+13. Close everything until you're back to the users & groups section of
    preferences
-8. Go to Lock Screen.
-9. Set "login window shows" to "name and password"
-10. Open a terminal.
+14. Go to Lock Screen.
+15. Set "login window shows" to "name and password"
+16. Open a terminal.
 
 ```
 % dscacheutil -flushcache
@@ -1010,7 +961,23 @@ Go to system preferences and ensure the account is a mobile account.
     * There have been reports in a github issue that states you can change
       the password in the system preferences but I've been unable to
       confirm this.
-    
+
+!!! warning "/Library no longer accessible"
+    It is no longer possible to access /Library by normal means on macOS.
+    This unfortunately means you will need to do some steps, in particular
+    the plist deployment steps, in a different way. You may need to do it
+    manually in the directory utility after deploying everything else.
+
+!!! note "User from IPA is not the owner"
+    Users *not* created by the first user on macOS are not able to run
+    software updates, in any capacity. This means your IPA user, as you
+    login to your system, will *not* be able to run `softwareupdate` nor
+    run updates normally from system settings.
+
+    To get around this, you will need to run:
+
+    `/usr/sbin/sysadminctl -secureTokenOn label - -adminUser nazu -adminPassword -`
+
 Below is a script that can be adapted for you. It has not been tested on
 Monterey and up. This assumes that you took one mac and set it up
 properly and you created a tarball with the proper configuration. You
