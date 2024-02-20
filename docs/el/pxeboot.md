@@ -310,7 +310,13 @@ with aarch64.
 % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
 % umount /mnt
 
+# Copy the appropriate files over for the kernels
+% mkdir -p /var/lib/tftpboot/rocky-{8,9}-x86_64
+% cp /var/www/html/os/rocky/8/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
+% cp /var/www/html/os/rocky/9/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
+
 % restorecon -R /var/www/html/os/rocky
+% restorecon -R /var/lib/tftpboot
 ```
 
 At this point, we'll need to setup the grub menus. We'll setup
@@ -360,7 +366,7 @@ menuentry 'Install Rocky Linux 9 (No KS) (aarch64)' --class fedora --class gnu-l
 }
 ```
 
-The Rocky Linuxinstallation should now be bootable.
+The Rocky Linux installation should now be bootable.
 
 ### CentOS Stream
 
@@ -398,8 +404,13 @@ with aarch64.
 % cp /mnt/images/pxeboot/* /var/lib/tftpboot/centos-9-x86_64
 % mkdir -p /var/www/html/os/centos/9/x86_64
 % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/centos/9/x86_64
+% umount /mnt
+
+% mkdir -p /var/lib/tftpboot/centos-9-x86_64
+% cp /var/www/html/os/centos/9/x86_64/images/pxeboot/* /var/lib/tftpboot/centos-9-x86_64
+
 % restorecon -R /var/www/html/os/centos/9
-% umount /mnt}
+% restorecon -R /var/lib/tftpboot
 ```
 
 At this point, we'll need to setup the grub menus. We'll setup
