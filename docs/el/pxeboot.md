@@ -259,6 +259,11 @@ Now that grub is sort of setup, we should add a distribution to it at
 least. Below are a couple examples using Fedora, Rocky Linux, and CentOS
 Stream.
 
+!!! note
+    When setting up for UEFI, if `linux` and `initrd` do not work for you,
+    you may need to use `linuxefi` and `initrdefi` instead. This should be
+    a rare case.
+
 ### Rocky Linux
 
 Setting up Rocky Linux (or any other Enterprise Linux distribution)
@@ -327,8 +332,8 @@ non-kickstart examples for BIOS and UEFI.
 # Rocky 8
 menuentry 'Install Rocky Linux 8 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading Rocky Linux 8 kernel..."
-  linuxefi rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
-  initrdefi rocky-8-x86_64/initrd.img
+  linux rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
+  initrd rocky-8-x86_64/initrd.img
 }
 menuentry 'Install Rocky Linux 8 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading Rocky Linux 8 kernel..."
@@ -349,8 +354,8 @@ menuentry 'Install Rocky Linux 8 (No KS) (aarch64)' --class fedora --class gnu-l
 # Rocky 9
 menuentry 'Install Rocky Linux 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading Rocky Linux 9 kernel..."
-  linuxefi rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
-  initrdefi rocky-9-x86_64/initrd.img
+  linux rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
+  initrd rocky-9-x86_64/initrd.img
 }
 menuentry 'Install Rocky Linux 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading Rocky Linux 9 kernel..."
@@ -421,8 +426,8 @@ non-kickstart examples for BIOS and UEFI.
 # CentOS Stream 9
 menuentry 'Install CentOS Stream 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading CentOS Stream 9 kernel..."
-  linuxefi centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
-  initrdefi centos-9-x86_64/initrd.img
+  linux centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
+  initrd centos-9-x86_64/initrd.img
 }
 menuentry 'Install CentOS Stream 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
   echo "Loading CentOS Stream 9 kernel..."
@@ -469,8 +474,8 @@ from the same menu.
 ```
 . . .
 menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-  linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
-  initrdefi fedora-x86_64/initrd.img
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+  initrd fedora-x86_64/initrd.img
 }
 menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
   linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
@@ -534,8 +539,8 @@ submenu 'Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
    set color_normal=white/black
 
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
-     initrdefi fedora-x86_64/initrd.img
+     linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+     initrd fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
@@ -570,8 +575,8 @@ submenu 'Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
 
 ```
 menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-  linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
-  initrdefi fedora-x86_64/initrd.img
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+  initrd fedora-x86_64/initrd.img
 }
 menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
   linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
@@ -636,18 +641,18 @@ submenu 'Fedora Linux (latest stable)' --class fedora --class gnu-linux --class 
     set color_normal=white/black
 
     menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
-      initrdefi fedora-x86_64/initrd.img
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+      initrd fedora-x86_64/initrd.img
     }
 
     menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
-      initrdefi fedora-x86_64/initrd.img
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+      initrd fedora-x86_64/initrd.img
     }
 
     menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os
-      initrdefi fedora-x86_64/initrd.img
+      linux fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os
+      initrd fedora-x86_64/initrd.img
     }
   }
 
@@ -680,18 +685,18 @@ submenu 'Fedora Linux (latest stable)' --class fedora --class gnu-linux --class 
     set color_normal=white/black
 
     menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
-      initrdefi fedora-aarch64/initrd.img
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
+      initrd fedora-aarch64/initrd.img
     }
 
     menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
-      initrdefi fedora-aarch64/initrd.img
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
+      initrd fedora-aarch64/initrd.img
     }
 
     menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-      linuxefi fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os
-      initrdefi fedora-aarch64/initrd.img
+      linux fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os
+      initrd fedora-aarch64/initrd.img
     }
   }
 }
