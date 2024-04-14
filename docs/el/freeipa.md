@@ -2112,215 +2112,12 @@ the uid using views.
 
 ## Domain Options
 
-This section goes over "situational" scenarios. These scenarios are
+The next sections go over "situational" scenarios. These scenarios are
 reflective of the environment in which IPA is installed and not all will
-fit into your environment. These are more or less common situations that
-could occur during an IPA deployment or even post-deployment.
+fit into your environment. These may be less common situations that could
+occur during or post IPA deployment.
 
-## Automated Kerberos Principals
-
-Once in a great while, we run into situations where we need to have an
-automated process for creating principals and keytabs. This section
-takes a look at some of those examples that we've ran into.
-
-### Hadoop/Cloudera
-
-This assumes you are using Cloudera Manager and not Ambari in any form.
-
-!!! warning "DNS Information"
-    It is *highly* likely that if you are using AWS, your nodes are getting
-    stupid names like compute.internal. While there is a [a way to change
-    this](https://blog.cloudera.com/custom-hostname-for-cloud-instances/) if
-    you don't change it, you will need to rely on something like DNSMASQ to
-    allow the nodes to communicate with FreeIPA. FreeIPA *will* be upset
-    about the stupid names because it can't do a rDNS lookup.
-
-#### Cloudera Manager Woes
-
-It is likely you have Cloudera/Hadoop, it is also very likely you (or
-another team) are deploying and using Cloudera Manager (or Director?).
-You may be running into issues that involve direct Active Directory
-integration. Maybe you're moving away from a standalone LDAP system
-over to Active Directory or even FreeIPA. Maybe you have FreeIPA in an
-AD trust but the users or contractors absolutely insist on using AD
-against their better judgement, despite the problems they're running
-into. Whatever the scenario is, we feel your pain. Here are some things
-you should probably know:
-
-* Cloudera Manager (or Director?) supports Active Directory out of the
-  box and obviously not FreeIPA despite the devs wanting to work
-  something out back in 2015
-
-  * Ambari has support for FreeIPA, but we are focusing on Cloudera
-    Manager here.
-
-    * Cloudera Manager supports custom keytab retrieval scripts
-
-* Hostnames that are longer than 15 characters, regardless of the
-  cloud provider or onprem setup, will ultimately fail
-
-    * The NETBIOS limit in AD is 16 characters, which is 15 + $ at
-      the end - This means hosts will enroll on top of themselves and
-      your cluster will be broken
-
-FreeIPA does not have the name limitation and using an AD trust, AD
-users can freely use Hadoop when the cluster is properly setup.
-Enrolling the cluster nodes into FreeIPA and using a custom retrieval
-script will solve most (if not all) of the issues you may run into as
-well when it comes to keytabs, which Hadoop heavily relies on. The
-custom script is simply because Cloudera by default likes having direct
-access to the kerberos infrastructure, which is a no-go for FreeIPA.
-
-#### The Solution
-
-To summarize, here is our proposed solution:
-
-* Create an account called cdh
-* Create a role called "Kerberos Managers" and apply the following
-  privileges:
-
-    * System: Manage Host Keytab
-    * System: Manage Host Keytab Permissions
-    * System: Manage Service Keytab
-    * System: Manage Service Keytab Permissions
-    * System: Manage User Principals (was not actually used, but who
-      knows what we could use the role for later)
-
-* Apply the role to the cdh account
-* Create a custom script they could use to enroll the servers into
-  FreeIPA (out of scope here)
-* Create a custom script that utilizes the cdh account to create
-  services
-
-So let's create the necessary things we need.
-
-```
-# Create the account
-# Note... you may want to make this account non-expiring since it's just a service account
-% ipa user-add --first="Cloudera" --last="Key Manager" cdh
-
-# Create the Kerberos Managers role
-% ipa role-add "Kerberos Managers"
-
-# Create the kerberos manager privilege
-% ipa privilege-add "Privileges - Kerberos Managers"
-% ipa privilege-add-permission "Privileges - Kerberos Managers" \
-    --privileges="System: Manage Host Keytab" \
-    --privileges="System: Manage Host Keytab Permissions" \
-    --privileges="System: Manage Service Keytab" \
-    --privileges="System: Manage Service Keytab Permissions" \
-    --privileges="System: Manage User Principals"
-
-# Add the privilege to the role
-% ipa role-add-privilege "Kerberos Managers" \
-    --privileges="Privileges - Kerberos Managers"
-
-# Add the user to the role
-% ipa role-add-member --users=cdh "Kerberos Managers"
-
-# Optionally, we can export the keytab for the user with a password
-# You will see why in the next script
-% ipa-getkeytab -p cdh@EXAMPLE.COM -k cdh.keytab -P
-```
-
-Now we need our special kerberos keytab retrieval script.
-
-```
-#!/bin/bash
-# Created by: @nazunalika - Louis Abel
-# Purpose: To retrieve keytabs for Cloudera / Hadoop
-# https://github.com/nazunalika/useful-scripts
-
-# Disclaimer: We do not take responsibilities for breaches or misconfigurations of
-#             software. Use at your own risk
-
-# Variables
-# This can be anywhere, but it SHOULD be secure with at least 600 permissions
-CDHKT="/root/.cdh/cdh.keytab"
-CDHUSER="cdh"
-IPAREALM="EXAMPLE.COM"
-# This can be any server. You could make an array and have it randomly selected
-IPASERVER="ipa01.example.com"
-
-# Where is this going?
-DESTINATION="$1"
-# The full principal for the keytab in question
-FULLPRINC="$2"
-# Shortened name
-PRINC=$(echo $FULLPRINC | sed "s/\@$(echo $IPAREALM)//")
-
-00_kinitUser() {
-  # Pick what suits you best, we prefer using a keytab
-  # Password based kinit, based on the keytab we created prior!
-  # You could also have this in a file somewhere, I guess. Just
-  # has to be secured.
-  echo ThisIsAWeakPassword | kinit $CDHUSER@$IPAREALM
-
-  # Keytab based kinit, obviously we created it before right? It just needs to be
-  # on the right system, deployed in some secure manner
-  #kinit -kt $CDHKT $CDHUSER@$IPAREALM
-  if [[ $? == "1" ]]; then
-    echo FAILED TO KINIT
-    exit
-  fi
-}
-
-01_createPrinc() {
-  echo "INFO: Checking for existing principle"
-  if ipa service-find $FULLPRINC; then
-    echo "INFO: Principle found"
-  else
-    echo "INFO: Not found, creating"
-    ipa service-add $FULLPRINC
-  fi
-}
-
-02_createServiceAllows() {
-  # We need to allow the service to create and retrieve keytabs
-  echo "INFO: Ensuring service allows to create and retrieve keytabs"
-  ipa service-allow-create-keytab --users=$CDHUSER $FULLPRINC
-  ipa service-allow-retrieve-keytab --users=$CDHUSER $FULLPRINC
-
-  # Let's retrieve the keytabs
-  if ipa service-show $FULLPRINC | grep 'Keytab' | grep 'False'; then
-    echo "INFO: Creating keytab for $FULLPRINC to $DESTINATION"
-    ipa-getkeytab -s $IPASERVER -p $PRINC -k $DESTINATION
-  else
-    echo "INFO: Retriving keytab for $FULLPRINC to $DESTINATION"
-    ipa-getkeytab -r -s $IPASERVER -p $PRINC -k $DESTINATION
-  fi
-}
-
-00_kinitUser
-01_createPrinc
-02_createServiceAllows
-
-kdestroy
-exit 0
-```
-
-Place the above script in a file that is accessible by the cloudera
-manager such as /usr/local/bin/getKeytabsCDH.sh and ensure it is owned
-by cloudera-scm with a permission set of 775.
-
-During the kerberos wizard, stop when you are verifying the "cdh"
-user. You will need to set the configuration for "Custom Kerberos
-Keytab Retrieval Script" to /usr/local/bin/getKeytabsCDH.sh and then
-you're almost there.[^4]
-
-An important tidbit is currently Enterprise Linux 7+ and higher use
-memory based keytabs and java doesn't support them.[^5] Because of
-this, the /etc/krb5.conf should be modified.
-
-```
-% cat /etc/krb5.conf
-. . .
-# Make sure the below is commented
-# default_ccache_name = KEYRING:persistent:%{uid}
-. . .
-```
-
-## DNS Forwarding
+## DNS Configurations
 
 ### DNS Forwarding to DoT
 
@@ -2347,6 +2144,76 @@ in IPA:
 # Add 'port xxxx' if you have set unbound to another port
 % ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224 port 9553'
 ```
+
+### DNS Locations
+
+FreeIPA has the ability to do "locations". Locations are a way to distribute
+load from clients and as a way of performing discovery, without the need to use
+special client code or IP subnet configurations. These locations are set up as
+SRV records with proper priorities set alongside CNAME records. Depending on the
+location in which an IPA DNS server resides, they will serve different
+information to the requesting client.
+
+For example, let's say you have two locations: Phoenix, Salt Lake City. You name
+these locations "phx" and "slc" respectively in FreeIPA.
+
+```
+% ipa location-add phx --description="Phoenix"
+% ipa location-add slc --description="Salt Lake City"
+```
+
+You then add the specific IPA servers to those given locations. Let's say we
+have two servers per location.
+
+```
+% ipa server-mod ipa01.phx.example.com --location=phx
+% ipa server-mod ipa02.phx.example.com --location=phx
+% ipa server-mod ipa01.slc.example.com --location=slc
+% ipa server-mod ipa02.slc.example.com --location=slc
+```
+
+If you want to lower the TTL, you can as well.
+
+```
+% ipa dnszone-mod example.com. --default-ttl=3600
+```
+
+After performing these changes, all servers will need the `named` service
+restarted.
+
+```
+# On EL8, this will be named-pkcs11
+% systemctl restart named
+```
+
+This is when you can then test what comes back from a lookup. Notice that when
+we query a Phoenix-based server, we get a different result from the Salt Lake
+City-based server. Also notice that `_ldap._tcp.example.com` is a CNAME to the
+location SRV record, which makes this all happen.
+
+```
+% dig @10.100.0.231 _ldap._tcp.example.com SRV
+. . .
+;; ANSWER SECTION:
+_ldap._tcp.example.com. 86400 IN     CNAME   _ldap._tcp.phx._locations.example.com.
+_ldap._tcp.phx._locations.example.com. 86400 IN SRV 0 100 389 ipa01.phx.example.com.
+_ldap._tcp.slc._locations.example.com. 86400 IN SRV 50 100 389 ipa01.slc.example.com.
+_ldap._tcp.phx._locations.example.com. 86400 IN SRV 0 100 389 ipa02.phx.example.com.
+_ldap._tcp.slc._locations.example.com. 86400 IN SRV 50 100 389 ipa02.slc.example.com.
+
+% dig @10.100.1.231 _ldap._tcp.example.com SRV
+. . .
+;; ANSWER SECTION:
+_ldap._tcp.example.com. 86400 IN     CNAME   _ldap._tcp.slc._locations.example.com.
+_ldap._tcp.slc._locations.example.com. 86400 IN SRV 0 100 389 ipa01.slc.example.com.
+_ldap._tcp.slc._locations.example.com. 86400 IN SRV 0 100 389 ipa02.slc.example.com.
+_ldap._tcp.phx._locations.example.com. 86400 IN SRV 50 100 389 ipa01.phx.example.com.
+_ldap._tcp.phx._locations.example.com. 86400 IN SRV 50 100 389 ipa02.phx.example.com.
+```
+
+### DNS Locations for non-IPA Services
+
+(to be filled)
 
 ## Logging
 
