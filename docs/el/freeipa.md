@@ -2213,7 +2213,135 @@ _ldap._tcp.phx._locations.example.com. 86400 IN SRV 50 100 389 ipa02.phx.example
 
 ### DNS Locations for non-IPA Services
 
-(to be filled)
+As of this writing, DNS location records for non-IPA services is not directly
+supported. However, it is possible to set it up using the `ipa` utility to do
+so.
+
+The way the location system works (at its most basic level) is by utilizing
+templates on the LDAP objects. For example, if you have locations setup, and you
+look at a DNS record's LDAP object, you'll see this:
+
+```
+dn: idnsname=_ldap._tcp,idnsname=example.com.,cn=dns,dc=angelsofclockwork,dc=net
+objectClass: top
+objectClass: idnsrecord
+objectClass: idnsTemplateObject
+idnsName: _ldap._tcp
+idnsTemplateAttribute;cnamerecord: _ldap._tcp.\{substitutionvariable_ipalocation\}._locations
+sRVRecord: 0 100 389 ipa01.phx.example.com.
+sRVRecord: 0 100 389 ipa02.phx.example.com.
+sRVRecord: 0 100 389 ipa01.slc.example.com.
+sRVRecord: 0 100 389 ipa02.slc.example.com.
+
+dn: idnsname=_ldap._tcp.phx._locations,idnsname=example.com.,cn=dns,dc=example,dc=com
+objectClass: top
+objectClass: idnsrecord
+idnsname: _ldap._tcp.phx._locations
+srvrecord: 50 100 389 ipa01.slc.example.com.
+srvrecord: 50 100 389 ipa02.slc.example.com.
+srvrecord: 0 100 389 ipa01.phx.example.com.
+srvrecord: 0 100 389 ipa02.phx.example.com.
+
+dn: idnsserverid=ipa01.phx.example.com,cn=servers,cn=dns,dc=rockylinux,dc=com
+objectClass: top
+objectClass: idnsServerConfigObject
+idnsServerid: ipa01.phx.example.com
+idnsSOAmName: ipa01.phx.example.com.
+idnsforwardpolicy: only
+idnsSubstitutionVariable;ipalocation: phx
+```
+
+When location services are turned on, the `substitutionvariable_ipalocation` is
+filled in for the CNAME record, per the DNS server configuration. Using a
+similar setup to `_ldap._tcp`, location services can be setup easily for non-IPA
+services.
+
+Let's say that you have a multi-node XMPP service, where each server is in each
+location you have setup and you want to make sure that the XMPP server closest
+to your clients will have higher priority. If you haven't made the service
+records already, now is the time to do so.
+
+```
+% ipa dnsrecord-add example.com _xmpp-client \
+  --srv-priority=0 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.phx.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-client \
+  --srv-priority=0 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.slc.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server \
+  --srv-priority=0 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.phx.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server \
+  --srv-priority=0 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.slc.example.com.
+```
+
+Now you should be able to verify that they exist.
+
+```
+% dig @10.100.0.231 _xmpp-client._tcp.example.com SRV +short
+0 100 5222 xmpp01.phx.example.com.
+0 100 5222 xmpp01.slc.example.com.
+
+% dig @10.100.0.231 _xmpp-server._tcp.example.com SRV +short
+0 100 5269 xmpp01.phx.example.com.
+0 100 5269 xmpp01.slc.example.com.
+```
+
+Now that the records exist, we need to make the "location" versions of them. In
+this scenario, we have two locations, so in total we'll have four records with
+differing priorities.
+
+```
+# Phoenix
+% ipa dnsrecord-add example.com _xmpp-client.phx._locations \
+  --srv-priority=0 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.phx.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-client.phx._locations \
+  --srv-priority=50 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.slc.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server.phx._locations \
+  --srv-priority=0 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.phx.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server.phx._locations \
+  --srv-priority=50 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.slc.example.com.
+
+# Salt Lake City
+% ipa dnsrecord-add example.com _xmpp-client.slc._locations \
+  --srv-priority=0 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.slc.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-client.slc._locations \
+  --srv-priority=50 --srv-weight=100 --srv-port=5222 \
+  --srv-target=xmpp01.phx.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server.slc._locations \
+  --srv-priority=0 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.slc.example.com.
+
+% ipa dnsrecord-add example.com _xmpp-server.slc._locations \
+  --srv-priority=50 --srv-weight=100 --srv-port=5269 \
+  --srv-target=xmpp01.phx.example.com.
+```
+
+For the location mechanism to work, now we have to modify the original SRV
+record with the correct object class and attribute.
+
+```
+% ipa dnsrecord-mod --setattr=objectclass=top
+  --addattr=objectclass=idnsrecord \
+  --addattr=objectclass=idnstemplateobject example.com _xmpp-client._tcp  \
+  --setattr="idnsTemplateAttribute;cnamerecord=_xmpp-client._tcp.\{substitutionvariable_ipalocation\}._locations"
+```
+
+The DNS servers will now provide the appropriate priorities to the services.
 
 ## Logging
 
