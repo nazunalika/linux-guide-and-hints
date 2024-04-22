@@ -1237,7 +1237,7 @@ and add some commands to it, you can do something like this.
 
 ## Legacy Client Setup
 
-This applies to Solaris, Omnios, others based on Illumos.
+This applies to Solaris, OpenIndiana, others based on Illumos.
 
 ### Solaris 10
 
@@ -1558,7 +1558,7 @@ install the sudo-ldap from sudo.ws for Solaris 10.
 
 Solaris 11 shares similar configuration to Solaris 10. There are a
 couple of manual things we have to do, but they are trivial. Solaris
-11/Omnios will use TLS and sudo should just work.
+11/Illumos will use TLS and sudo should just work.
 
 !!! note "AD Groups"
     In Solaris 10, users who logged in with AD users (with their short name)
@@ -1983,9 +1983,9 @@ the FQDN comes first which resolved his group/sudo issues.
 
 Thank you to "mewho" on libera for finding this interesting workaround.
 
-### OmniOS/Illumos
+### Illumos
 
-Some steps between Solaris 10 and 11 can be followed to make OmniOS
+Some steps between Solaris 10 and 11 can be followed to make Illumos
 work. However, we have been unable to resolve why sudo will not work
 when using an AD trust. If you are using a standalone FreeIPA and no
 trust, sudo should work just fine.
@@ -2034,7 +2034,7 @@ are configuring our legacy clients.
 % make install
 ```
 
-#### Omnios
+#### Illumos
 
 ```
 % pkg install developer/build/autoconf developer/build/libtool \
