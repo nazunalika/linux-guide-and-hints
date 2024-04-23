@@ -72,12 +72,16 @@ Here are the list of requirements below.
       creating higher maintenance
 
 !!! note "Trust Information"
-    If you are in a mixed environment (both Windows and Linux/UNIX), it is
-    recommended to setup a trust between FreeIPA and Active Directory.
-    Because of this, they will need to be in different domains (eg,
-    example.com and ipa.example.com, or example.com and example.net). This
-    way, you do not have to create duplicate users if a windows user logs
-    into Linux resources nor use winsync.
+    If you are in a mixed environment (both Windows and Linux/UNIX), it
+    may prove useful to setup a trust between FreeIPA and Active Directory.
+    If this is the case, they will need to be in different domains (e.g., 
+    example.com and ipa.example.com, or example.com and example.net).
+
+    If you are in a larger environment, it may be detrimental instead. In
+    this case, having a way to keep users in sync between AD and IPA might
+    be the better option. This is because AD lookups can be resource
+    intensive, and a large AD environment can slow down performance or not
+    work at all without sssd tuning.
 
     All trust information is in [this section](#active-directory-trust)
 
@@ -90,37 +94,49 @@ must be taken with that approach.
 While FreeIPA can do the typical DNS server work such as forward/reverse
 zones and various types of records, it should not be considered a full
 solution. It does not support views (eg, you can't have internal and
-external views, assuming you have domains that are publically facing).
-In the event you need to have views, that's when you need a different
-DNS server or service to provide this to you.
+external views). In the event you need to have views, that's when you
+need a different DNS server or service to provide this to you.
 
-There are two ways you can have DNS entries updated dynamically:
-`--enable-dns-updates` for ipa-client-install and DHCP dynamic DNS
-updates. Both are sufficient. The latter requires additional work and is
-outside the scope of this write up.
+There are two ways you can have DNS entries updated dynamically for
+clients, `--enable-dns-updates` for ipa-client-install and DHCP dynamic
+DNS updates. Both are sufficient. The latter requires additional work
+and is outside the scope of this document.
+
+### External DNS Server
+
+It is possible to run FreeIPA without a DNS server and have all records
+handled from an external source. This is a reasonable configuration and
+many users of FreeIPA actively use this setup.
+
+When updating records, or determining what the records will need to look
+like on the DNS server, you will need to run the following command:
+
+```
+ipa dns-update-system-records --dry-run --out=nsupdate.out
+```
+
+This will show the records needed for your IPA domain and it will also
+produce an nsupdate file for you to view or use as needed.
 
 ### Delegation
 
 Throughout this guide, you may find or see examples of domain delegation,
-assuming there is an AD trust or perhaps it's just a separate domain. This
-is done as a real world example, as it would be more realistic to bring
-FreeIPA into an environment where a DNS appliance or Acive Directory may
-already be in place.
+assuming there is an AD trust or perhaps it's just a separate domain.
+This is because it might be a real world example for some environments. It
+is also a result of doing a lab work to maintain this document. Regardless
+of what it is, it may be realistic that some environments have AD or a
+separate DNS appliance already in place.
 
-In this type of setup, it is not required for clients to have entries in
-the IPA DNS domain. In fact, they can be in other domains as long as they
-have A/AAAA/PTR records associated and all systems can resolve them. **The
-major caveat to this is SSO via kerberos will fail**.
+With delegation, it is not required for clients to have records in the IPA
+DNS domain. They can be in other domains, as long as they have all required
+record types (e.g., A/AAAA/PTR), with the caveat that SSO via kerberos will
+fail.
 
-You can setup already existing DNS servers to delegate an entire domain
-or a subdomain for FreeIPA. This way, you don't overlap with a domain
-that's already in use. So for example, if AD owns example.com, you
-could have AD delegate ipa.example.com or even forward example.net. If
-AD is not the DNS provider for the environment, you can have the
-appliance delegate the domain in the same manner.
+When setting up delegation, refer to the documentation for your appliance
+or software. There may be differences between delegating a whole domain or
+delegating a subdomain.
 
-Below is a bind example of what example.com would look like when
-delegating the IPA domain:
+See below for a subdomain delegation example in bind.
 
 ```
 $ORIGIN example.com.
