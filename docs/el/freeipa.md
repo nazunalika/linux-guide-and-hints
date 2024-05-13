@@ -1255,321 +1255,6 @@ and add some commands to it, you can do something like this.
 
 This applies to Solaris, OpenIndiana, others based on Illumos.
 
-### Solaris 10
-
-Setting up Solaris 10 as an IPA client is an interesting feat. However,
-it comes with security issues.
-
-!!! warning "No SSL or TLS Support"
-    Note that for Solaris 10 to talk to IPA, you must use clear text
-    communication. Solaris 10 is too old to use new ciphers. However, while
-    LDAP may be clear text, kerberos should still be secure enough for the
-    time being.
-
-    If you are using an AD trust, the user's passwords will be passed in
-    clear text. Highly suggested that you decommission Solaris 10 from your
-    environment. Solaris 10 will eventually be removed from this page.
-
-Create an ldif for your service account (optional)
-
-```
-dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
-objectclass: account
-objectclass: simplesecurityobject
-uid: solaris
-userPassword: secret123
-passwordExpirationTime: 20380119031407Z
-nsIdleTimeout: 0
-```
-
-The solaris system account is required. So now, add it in.
-
-```
-% ldapadd -xWD 'cn=Directory Manager' -f /tmp/solaris.ldif
-```
-
-Now, set the nisdomain.
-
-```
-% defaultdomain ipa.example.com
-% echo 'ipa.example.com' > /etc/defaultdomain
-```
-
-Configure kerberos.
-
-```
-% vi /etc/krb5/krb5.conf
-[libdefaults]
-default_realm = IPA.EXAMPLE.COM
-dns_lookup_kdc = true
-verify_ap_req_nofail = false
-
-[realms]
-IPA.EXAMPLE.COM = {
-}
-
-[domain_realm]
-ipa.example.com = IPA.EXAMPLE.COM
-.ipa.example.com = IPA.EXAMPLE.COM
-
-[logging]
-default = FILE:/var/krb5/kdc.log
-kdc = FILE:/var/krb5/kdc.log
-kdc_rotate = {
- period = 1d
- version = 10
-}
-
-[appdefaults]
-kinit = {
-renewable = true
-forwardable= true
-}
-```
-
-Generate a keytab and bring it over.
-
-```
-# on the ipa server
-% ipa host-add solaris10.example.com
-% ipa-getkeytab -s server1.ipa.example.com -p host/solaris10.example.com -k /tmp/solaris10.keytab
-
-# Transfer the keytab
-% scp /tmp/solaris10.keytab solaris10.example.com:/tmp
-
-# On the solaris 10 machine
-% cp /tmp/solaris10.keytab /etc/krb5/krb5.keytab
-% chmod 600 /etc/krb5/krb5.keytab
-% chmod 644 /etc/krb5/krb5.conf
-% chown root:sys /etc/krb5/*
-% kinit flast2@IPA.EXAMPLE.COM
-```
-
-Create the LDAP configurations, bring the certificate, and create an NSS
-database.
-
-```
-% mkdir /etc/ipa /var/ldap
-% cd /etc/ipa
-% wget -O ipa.pem http://server1.ipa.example.com/ipa/config/ca.crt
-% certutil -A -n "ca-cert" -i /etc/ipa/ipa.pem -a -t CT -d .
-% cp * /var/ldap
-% vi /etc/ldap.conf
-base dc=ipa,dc=example,dc=com
-scope sub
-TLS_CACERTDIR /var/ldap
-TLS_CERT /var/ldap/cert8.db
-TLS_CACERT /var/ldap/ipa.pem
-tls_checkpeer no
-ssl off
-bind_timelimit 120
-timelimit 120
-uri ldap://server1.ipa.example.com
-sudoers_base ou=sudoers,dc=ipa,dc=example,dc=com
-pam_lookup_policy yes
-```
-
-Now init the ldap client.
-
-!!! warning "No Secure Connection"
-    When using this, you are not creating a secure connection. The Solaris
-    10 SSL libraries are so old that they cannot work with the ciphers that
-    FreeIPA has turned on.
-
-!!! note "AD Trust - Different Trees"
-    If using an AD trust, you should use the second example, where it looks
-    at the compat tree for users.
-
-!!! warning "No Service Account"
-    If you have configured FreeIPA to not allow any anonymous connections,
-    you will need to use a proxy account. We have provided the examples for
-    this configuration.
-
-**Without an AD Trust**
-
-```
-# Without AD Trust (no proxy)
-% ldapclient manual -a authenticationMethod=none \
-                    -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                    -a domainName=ipa.example.com \
-                    -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
-                    -a followReferrals=true \
-                    -a objectClassMap=shadow:shadowAccount=posixAccount \
-                    -a objectClassMap=passwd:posixAccount=posixaccount \
-                    -a objectClassMap=group:posixGroup=posixgroup \
-                    -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                    -a bindTimeLimit=5
-
-# Without AD Trust (proxy)
-% ldapclient manual -a credentialLevel=proxy \
-                    -a authenticationMethod=simple \
-                    -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                    -a proxyPassword="secret123" \
-                    -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                    -a domainName=ipa.example.com \
-                    -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
-                    -a followReferrals=true \
-                    -a objectClassMap=shadow:shadowAccount=posixAccount \
-                    -a objectClassMap=passwd:posixAccount=posixaccount \
-                    -a objectClassMap=group:posixGroup=posixgroup \
-                    -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=passwd:cn=users,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                    -a bindTimeLimit=5
-```
-
-**With an AD Trust**
-
-```
-# With AD Trust (no proxy)
-% ldapclient manual -a authenticationMethod=none \
-                    -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                    -a domainName=ipa.example.com \
-                    -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
-                    -a followReferrals=true \
-                    -a objectClassMap=shadow:shadowAccount=posixAccount \
-                    -a objectClassMap=passwd:posixAccount=posixaccount \
-                    -a objectClassMap=group:posixGroup=posixgroup \
-                    -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                    -a bindTimeLimit=5
-
-# With AD Trust (proxy)
-% ldapclient manual -a credentialLevel=proxy \
-                    -a authenticationMethod=simple \
-                    -a proxyDN="uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com" \
-                    -a proxyPassword="secret123" \
-                    -a defaultSearchBase=dc=ipa,dc=example,dc=com \
-                    -a domainName=ipa.example.com \
-                    -a defaultServerList="server1.ipa.example.com server2.ipa.example.com" \
-                    -a followReferrals=true \
-                    -a objectClassMap=shadow:shadowAccount=posixAccount \
-                    -a objectClassMap=passwd:posixAccount=posixaccount \
-                    -a objectClassMap=group:posixGroup=posixgroup \
-                    -a serviceSearchDescriptor=group:cn=groups,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=passwd:cn=users,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=netgroup:cn=ng,cn=compat,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=ethers:cn=computers,cn=accounts,dc=ipa,dc=example,dc=com \
-                    -a serviceSearchDescriptor=sudoers:ou=sudoers,dc=ipa,dc=example,dc=com \
-                    -a bindTimeLimit=5
-```
-
-This should succeed. Once it succeeds, you need to configure pam and
-nsswitch.
-
-!!! note "AD Trust Information"
-    In the event you don't have an AD trust, you can change the "binding"
-    lines to required, remove the pam_ldap lines, and change pam_krb5
-    lines to read "required"
-
-```
-% vi /etc/pam.conf
-
-# Console
-login auth requisite    pam_authtok_get.so.1
-login auth sufficient   pam_krb5.so.1
-login auth required     pam_unix_cred.so.1
-login auth required     pam_dial_auth.so.1
-login auth sufficient   pam_unix_auth.so.1 server_policy
-login auth sufficient   pam_ldap.so.1
-
-rlogin auth sufficient  pam_rhosts_auth.so.1
-rlogin auth requisite   pam_authtok_get.so.1
-rlogin auth required    pam_dhkeys.so.1
-rlogin auth sufficient  pam_krb5.so.1
-rlogin auth required    pam_unix_cred.so.1
-rlogin auth sufficient  pam_unix_auth.so.1 server_policy
-rlogin auth sufficient  pam_ldap.so.1
-
-# Needed for krb
-krlogin auth required   pam_unix_cred.so.1
-krlogin auth sufficient pam_krb5.so.1
-
-# Needed for krb
-krsh auth required      pam_unix_cred.so.1
-krsh auth required      pam_krb5.so.1
-
-# ?
-ppp auth requisite      pam_authtok_get.so.1
-ppp auth required       pam_dhkeys.so.1
-ppp auth sufficient     pam_krb5.so.1
-ppp auth required       pam_dial_auth.so.1
-ppp auth binding        pam_unix_auth.so.1 server_policy
-ppp auth sufficient     pam_ldap.so.1
-
-# Other, used by sshd and "others" as a fallback
-other auth requisite    pam_authtok_get.so.1
-other auth required     pam_dhkeys.so.1
-other auth sufficient   pam_krb5.so.1
-other auth required     pam_unix_cred.so.1
-other auth sufficient   pam_unix_auth.so.1 server_policy
-other auth sufficient   pam_ldap.so.1
-other account requisite pam_roles.so.1
-other account required  pam_projects.so.1
-other account binding   pam_unix_account.so.1 server_policy
-other account sufficient pam_krb5.so.1
-other account sufficient pam_ldap.so.1
-other session required  pam_unix_session.so.1
-other password required pam_dhkeys.so.1
-other password requisite pam_authtok_get.so.1
-other password requisite pam_authtok_check.so.1 force_check
-other password required pam_authtok_store.so.1 server_policy
-
-# passwd and cron
-passwd auth binding    pam_passwd_auth.so.1 server_policy
-passwd auth sufficient pam_ldap.so.1
-cron account required  pam_unix_account.so.1
-
-# SSH Pubkey - Needed for openldap and still probably needed
-sshd-pubkey account required pam_unix_account.so.1
-```
-
-```
-% vi /etc/nsswitch.conf
-
-# Below are just the minimum changes
-passwd:     files ldap [NOTFOUND=return]
-group:      files ldap [NOTFOUND=return]
-sudoers:    files ldap
-netgroup:   ldap
-# the rest here are just here, up to you if you choose to set them.
-hosts:      files dns
-ipnodes:    files dns
-ethers:     files ldap
-publickey:  files ldap
-automount:  files ldap
-```
-
-You can test now if you'd like.
-
-```
-bash-3.2# ldaplist -l passwd flast2
-dn: uid=flast2,cn=users,cn=compat,dc=ipa,dc=example,dc=com
-        cn: First Last
-        objectClass: posixAccount
-        objectClass: ipaOverrideTarget
-        objectClass: top
-        gidNumber: 1006800001
-        gecos: First Last
-        uidNumber: 1006800001
-        ipaAnchorUUID: :IPA:ipa.example.com:8babb9a8-5aaf-11e7-9769-00505690319e
-        loginShell: /bin/bash
-        homeDirectory: /home/first.last2
-        uid: first.last2
-```
-
-I recommend setting up sudo at least\... if you want to use sudo,
-install the sudo-ldap from sudo.ws for Solaris 10.
-
 ### Solaris 11
 
 Solaris 11 shares similar configuration to Solaris 10. There are a
@@ -2001,16 +1686,16 @@ Thank you to "mewho" on libera for finding this interesting workaround.
 
 ### Illumos
 
-Some steps between Solaris 10 and 11 can be followed to make Illumos
-work. However, we have been unable to resolve why sudo will not work
-when using an AD trust. If you are using a standalone FreeIPA and no
-trust, sudo should work just fine.
+Some steps from Solaris 11 can be followed to make Illumos systems work.
+However, we have been unable to resolve why sudo will not work when
+using an AD trust. If you are using a standalone FreeIPA and no trust,
+sudo should work just fine.
 
 ### Legacy HBAC
 
-For HBAC to work on Solaris, you will need to compile the pam_hbac
-module found [here](https://github.com/jhrozek/pam_hbac). I would clone
-the current master branch or download the master.zip to your Solaris
+For HBAC to work on OpenIndiana or Solaris, you will need to compile the
+pam_hbac module found [here](https://github.com/jhrozek/pam_hbac). I
+would clone the current master branch or download the master.zip to your
 system. Each OS has their set of instructions for compiling.
 
 First, create the following system account. We will need this when we
@@ -2022,23 +1707,6 @@ are configuring our legacy clients.
     objectClass: top
     uid: hbac
     userPassword: password
-
-#### Solaris 10
-
-```
-% /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
-% /opt/csw/bin/pkgutil -i -y libnet ar binutils gcc4g++ glib2 libglib2_dev gmake
-% PATH=$PATH:/opt/csw/bin
-% export M4=/opt/csw/bin/gm4
-% autoconf -o configure
-% autoreconf -i
-
-# Yes, SSL must be disabled for Solaris 10 to work. The libraries are too old.
-# You may or may not need to set CFLAGS, CXXFLAGS, and LDFLAGS with -m32
-% ./configure AR=/opt/csw/bin/gar --with-pammoddir=/usr/lib/security --sysconfdir=/etc/ --disable-ssl --disable-man-pages
-% make
-% make install
-```
 
 #### Solaris 11
 
@@ -2080,13 +1748,8 @@ HOST_NAME = client
 #### PAM Configuration
 
 ```
-# Solaris 10 - /etc/pam.conf
-# Modify the other account section... It should come at the end of the account blocks.
-. . .
-other account required pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
-
 # Solaris 11 - /etc/pam.d/other
-# Same here, only modify the account section
+# only modify the account section
 . . .
 account required        pam_hbac.so ignore_unknown_user ignore_authinfo_unavail
 ```
