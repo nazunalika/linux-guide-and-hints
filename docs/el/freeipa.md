@@ -716,6 +716,110 @@ session    required       pam_permit.so
 After these changes, you'll need to go into make some changes with the
 directory utility. This depends on your macOS version.
 
+#### Ventura and likely newer
+
+1. Go to system preferences -> users & groups
+2. Set "automatic login" to "off"
+3. Click "edit" next to "Network account server"
+4. Type in one of your IPA servers (you can duplicate it later for
+   backup purposes). Press enter and wait for it to be "green".
+5. Click "Open Directory Utility"
+6. Click the "lock" to unlock the utility
+7. Click "LDAPv3" and click the pencil at the bottom left corner
+8. Select the "from server" portion under LDAP mappings and clck
+   RFC2307. You may also leave it as custom.
+
+* If you select rfc2307, it will ask for your base DN (eg,
+  dc=ipa,dc=example,dc=com)
+* If you select "custom", you will need to do this manually for each
+  record type. **You're better off using rfc2307 and working from
+  there**
+
+1. Click "edit"
+2. Click the "+" to add a groups record type or scroll and find
+   "groups" and select it. Add the following object classes
+
+| Record Type             | ObjectClasses   |
+|-------------------------|-----------------|
+| Groups                  | posixGroup      |
+|                         | ipausergroup    |
+|                         | groupOfNames*   |
+
+!!! note
+    "groupOfNames" is optional here, because it seems that the directory
+    utility doesn't understand this concept.
+
+3. Expand "groups" and ensure the following for each record type. You
+   can click the "+" to add the attribute types as needed.
+
+| Attribute               | Mapping         |
+|-------------------------|-----------------|
+| PrimaryGroupID          | gidNumber       |
+| RecordName              | cn              |
+
+4. Click the "+" to add a users record type or scroll and find
+   "users".
+5. Select "users" and ensure the following object classes exist. You
+   can click the "+" to add them when needed.
+
+| Record Type             | ObjectClasses  |
+|-------------------------|----------------|
+| Users                   | inetOrgPerson  |
+|                         | posixAccount   |
+|                         | shadowAccount  |
+|                         | apple-user     |
+
+6. Expand "users" and ensure the following for each record type. You
+   can click the "+" to add the attribute types as needed. **Do not
+   set homeDirectory otherwise you will fail to login.**
+
+| Attribute               | Mapping                         |
+|-------------------------|---------------------------------|
+| AuthenticationAuthority | uid                             |
+| GeneratedUID            | GeneratedUID or ipaUniqueID     |
+| NFSHomeDirectory        | #/Users/$uid$                   |
+| PrimaryGroupID          | gidNumber                       |
+| RealName                | cn                              |
+| RecordName              | uid                             |
+| UniqueID                | uidNumber                       |
+| UserShell               | loginShell                      |
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$    |
+
+7. If using custom mapping, click reach record type you created and
+   ensure the base DN is set.
+8. Make sure each record type is set to all subtrees if needed.
+9. Click "security" and set an authentication bind DN if needed
+10. Click OK.
+11. Click Search Policy
+12. Double check that "/LDAPV3/server1.ipa.example.com" is listed
+   beneath "/Local/Default". If it is not, select "search patch"
+   and set it to custom and add it. Click Apply after.
+13. Close everything until you're back to the users & groups section of
+   preferences
+14. Go to Lock Screen.
+15. Set "login window shows" to "name and password"
+16. Open a terminal.
+
+```
+% dscacheutil -flushcache
+% dscacheutil -q user -a name username
+```
+
+You should get a return.
+
+Login to the account for the first time from the login screen. Once the
+setup has complete, log out and back to a login account. In a terminal,
+you will need to make a mobile account.[^3]
+
+```
+% sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
+# Press enter, enter the user's password. sudo may hang if you don't do this.
+# OPTIONAL: Allow the mobile account to be an administrator
+% sudo dscl . -append /Groups/admin GroupMembership username
+```
+
+Go to system preferences and ensure the account is a mobile account.
+
 #### Monterey and older
 
 1. Go to system preferences -\> users & groups -\> login options -
@@ -850,109 +954,6 @@ you will need to make a mobile account.[^2]
 Go to system preferences, users & groups and ensure the account is a
 mobile account.
 
-#### Ventura and likely newer
-
-1. Go to system preferences -> users & groups
-2. Set "automatic login" to "off"
-3. Click "edit" next to "Network account server"
-4. Type in one of your IPA servers (you can duplicate it later for
-   backup purposes). Press enter and wait for it to be "green".
-5. Click "Open Directory Utility"
-6. Click the "lock" to unlock the utility
-7. Click "LDAPv3" and click the pencil at the bottom left corner
-8. Select the "from server" portion under LDAP mappings and clck
-   RFC2307. You may also leave it as custom.
-
-* If you select rfc2307, it will ask for your base DN (eg,
-  dc=ipa,dc=example,dc=com)
-* If you select "custom", you will need to do this manually for each
-  record type. **You're better off using rfc2307 and working from
-  there**
-
-1. Click "edit"
-2. Click the "+" to add a groups record type or scroll and find
-   "groups" and select it. Add the following object classes
-
-| Record Type             | ObjectClasses   |
-|-------------------------|-----------------|
-| Groups                  | posixGroup      |
-|                         | ipausergroup    |
-|                         | groupOfNames*   |
-
-!!! note
-    "groupOfNames" is optional here, because it seems that the directory
-    utility doesn't understand this concept.
-
-3. Expand "groups" and ensure the following for each record type. You
-   can click the "+" to add the attribute types as needed.
-
-| Attribute               | Mapping         |
-|-------------------------|-----------------|
-| PrimaryGroupID          | gidNumber       |
-| RecordName              | cn              |
-
-4. Click the "+" to add a users record type or scroll and find
-   "users".
-5. Select "users" and ensure the following object classes exist. You
-   can click the "+" to add them when needed.
-
-| Record Type             | ObjectClasses  |
-|-------------------------|----------------|
-| Users                   | inetOrgPerson  |
-|                         | posixAccount   |
-|                         | shadowAccount  |
-|                         | apple-user     |
-
-6. Expand "users" and ensure the following for each record type. You
-   can click the "+" to add the attribute types as needed. **Do not
-   set homeDirectory otherwise you will fail to login.**
-
-| Attribute               | Mapping                         |
-|-------------------------|---------------------------------|
-| AuthenticationAuthority | uid                             |
-| GeneratedUID            | GeneratedUID or ipaUniqueID     |
-| NFSHomeDirectory        | #/Users/$uid$                   |
-| PrimaryGroupID          | gidNumber                       |
-| RealName                | cn                              |
-| RecordName              | uid                             |
-| UniqueID                | uidNumber                       |
-| UserShell               | loginShell                      |
-| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$    |
-
-7. If using custom mapping, click reach record type you created and
-   ensure the base DN is set.
-8. Make sure each record type is set to all subtrees if needed.
-9. Click "security" and set an authentication bind DN if needed
-10. Click OK.
-11. Click Search Policy
-12. Double check that "/LDAPV3/server1.ipa.example.com" is listed
-   beneath "/Local/Default". If it is not, select "search patch"
-   and set it to custom and add it. Click Apply after.
-13. Close everything until you're back to the users & groups section of
-   preferences
-14. Go to Lock Screen.
-15. Set "login window shows" to "name and password"
-16. Open a terminal.
-
-```
-% dscacheutil -flushcache
-% dscacheutil -q user -a name username
-```
-
-You should get a return.
-
-Login to the account for the first time from the login screen. Once the
-setup has complete, log out and back to a login account. In a terminal,
-you will need to make a mobile account.[^3]
-
-```
-% sudo /System/Library/CoreServices/ManagedClient.app/Contents/Resources/createmobileaccount -n username -P
-# Press enter, enter the user's password. sudo may hang if you don't do this.
-# OPTIONAL: Allow the mobile account to be an administrator
-% sudo dscl . -append /Groups/admin GroupMembership username
-```
-
-Go to system preferences and ensure the account is a mobile account.
 
 #### General macOS Notes
 
