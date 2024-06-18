@@ -690,14 +690,20 @@ be changed.
 ```
 % sudo vi /etc/pam.d/authorization
 # authorization: auth account
-auth          optional       pam_krb5.so use_first_pass use_kcminit default_principal
+# Originally we used default_principal but it was found it can cause issues on
+# Sonoma and newer. As a result, the below file may appear to be close to the
+# default.
+auth          optional       pam_krb5.so use_first_pass use_kcminit no_auth_ccache
 auth          optional       pam_ntlm.so use_first_pass
 auth          required       pam_opendirectory.so use_first_pass nullok
 account       required       pam_opendirectory.so
 
 % sudo vi /etc/pam.d/screensaver
 # screensaver: auth account
-auth       optional       pam_krb5.so use_first_pass use_kcminit default_principal
+# Originally we used default_principal but it was found it can cause issues on
+# Sonoma and newer. As a result, the below file may appear to be close to the
+# default.
+auth       optional       pam_krb5.so use_first_pass use_kcminit
 auth       required       pam_opendirectory.so use_first_pass nullok
 account    required       pam_opendirectory.so
 account    sufficient     pam_self.so
@@ -705,8 +711,9 @@ account    required       pam_group.so no_warn group=admin,wheel fail_safe
 account    required       pam_group.so no_warn deny group=admin,wheel ruser fail_safe
 
 % sudo vi /etc/pam.d/passwd
-# Helps with kerberos logins
-password   sufficient     pam_krb5.so
+# Originally the line below was required. There may be issues with
+# having it on Sonoma and newer.
+# password   sufficient     pam_krb5.so
 auth       required       pam_permit.so
 account    required       pam_opendirectory.so
 password   required       pam_opendirectory.so
