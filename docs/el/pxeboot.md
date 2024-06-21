@@ -196,8 +196,185 @@ changes.
 
 ### DHCP (Kea)
 
-Kea is a different configuration style from ISC. At this time, we do not
-have a full working example.
+Kea is a different configuration style from ISC. Some of the configuration is
+the same and also frustratingly different.
+
+You'll need to turn on some options, similar to dhcpd. In the `Dhcp4` section,
+we'll set them.
+
+```
+...
+    "option-def": [
+      {
+        "space": "dhcp4",
+        "name": "rfc3442-classless-static-routes",
+        "code": 121,
+        "array": true,
+        "type": "int8"
+      },
+      {
+        "space": "dhcp4",
+        "name": "ms-classless-static-routes",
+        "code": 249,
+        "array": true,
+        "type": "int8"
+      },
+      {
+        "space": "pxelinux",
+        "name": "magic",
+        "code": 208,
+        "type": "string"
+      },
+      {
+        "space": "pxelinux",
+        "name": "configfile",
+        "code": 209,
+        "type": "string"
+      },
+      {
+        "space": "pxelinux",
+        "name": "pathprefix",
+        "code": 210,
+        "type": "string"
+      },
+      {
+        "space": "pxelinux",
+        "name": "reboottime",
+        "code": 211,
+        "type": "uint32"
+      },
+      {
+        "space": "pxelinux",
+        "name": "mtftp-ip",
+        "code": 1,
+        "type": "ipv4-address"
+      },
+      {
+        "space": "pxelinux",
+        "name": "mtftp-cport",
+        "code": 2,
+        "type": "uint16"
+      },
+      {
+        "space": "pxelinux",
+        "name": "mtftp-sport",
+        "code": 3,
+        "type": "uint16"
+      },
+      {
+        "space": "pxelinux",
+        "name": "mtftp-tmout",
+        "code": 4,
+        "type": "uint8"
+      },
+      {
+        "space": "pxelinux",
+        "name": "mtftp-delay",
+        "code": 5,
+        "type": "uint8"
+      },
+      {
+        "space": "dhcp4",
+        "name": "iscsi-initiator-iqn",
+        "code": 203,
+        "type": "string"
+      },
+      {
+        "name": "PXEDiscoveryControl",
+        "code": 6,
+        "space": "vendor-encapsulated-options-space",
+        "type": "uint8",
+        "array": false
+      },
+      {
+        "name": "PXEMenuPrompt",
+        "code": 10,
+        "space": "vendor-encapsulated-options-space",
+        "type": "record",
+        "array": false,
+        "record-types": "uint8,string"
+      },
+      {
+        "name": "PXEBootMenu",
+        "code": 9,
+        "space": "vendor-encapsulated-options-space",
+        "type": "record",
+        "array": false,
+        "record-types": "uint16,uint8,string"
+      }
+    ],
+...
+```
+
+Unlike dhcpd, we'll see the class information also in the `Dhcp4` section. This
+will make it effectively work in all subnets. The below also enables x86, ARM,
+and POWER systems.
+
+```
+...
+    "client-classes": [
+      { "name": "PXEClient-x86_64-1", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00007'", "boot-file-name": "boot/grub2/x86_64-efi/core.efi" },
+      { "name": "PXEClient-x86_64-2", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00008'", "boot-file-name": "boot/grub2/x86_64-efi/core.efi" },
+      { "name": "PXEClient-x86_64-3", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00009'", "boot-file-name": "boot/grub2/x86_64-efi/core.efi" },
+      { "name": "PXEClient-aarch64-1", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:0000b'", "boot-file-name": "boot/grub2/arm64-efi/core.efi" },
+      { "name": "PXEClient-ppc64le-1", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:0000e'", "boot-file-name": "boot/grub2/powerpc-ieee1275/core.elf" },
+      /// these are whatever
+      { "name": "PXEClient-i386-1", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00006'", "boot-file-name": "boot/grub2/i386-pc/core.0" },
+      { "name": "PXEClient-i386-3", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00000'", "boot-file-name": "boot/grub2/i386-pc/core.0" },
+      { "name": "PXEClient-i386-2", "test": "substring(option[60].hex,0,20) == 'PXEClient:Arch:00002'", "boot-file-name": "elilo.efi" }
+    ],
+...
+```
+
+Subnet blocks are straight forward. They also will sit in `Dhcp4`. Note that
+each subnet block will need a unique `id` number. Ensure `next_server` is
+setup correctly also.
+
+```
+...
+    "subnet4": [
+      {
+        "id": 1,
+        "subnet": "10.100.0.0/24",
+        "interface": "br1000",
+        "option-data": [
+          {
+            "space": "dhcp4",
+            "name": "routers",
+            "code": 3,
+            "data": "10.100.0.1"
+          },
+          {
+            "space": "dhcp4",
+            "name": "domain-name-servers",
+            "code": 6,
+            "data": "10.100.0.1, 10.100.0.231"
+          },
+          {
+            "space": "dhcp4",
+            "name": "domain-name",
+            "code": 15,
+            "data": "angelsofclockwork.net"
+          },
+          {
+            "space": "dhcp4",
+            "name": "subnet-mask",
+            "code": 1,
+            "data": "255.255.255.0"
+          }
+        ],
+        "pools": [
+          {
+            "pool": "10.100.0.110 - 10.100.0.199"
+          }
+        ],
+        "valid-lifetime": 21600,
+        "max-valid-lifetime": 43200,
+        "next-server": "10.100.0.1",
+        "reservations": []
+      },
+...
+```
 
 ### Web Server (httpd)
 
