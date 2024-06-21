@@ -643,8 +643,8 @@ You will need to transfer that keytab to your mac.
 % cd ~
 % scp user@server1.ipa.example.com:/tmp/krb5.keytab .
 % sudo mv krb5.keytab /etc/krb5.keytab
-% sudo chmod 600 /etc/krb5.keytab
-% sudo chown root:wheel /etc/krb5.keytab
+% sudo chmod 640 /etc/krb5.keytab
+% sudo chown root:_keytabusers /etc/krb5.keytab
 ```
 
 Configure /etc/krb5.conf
