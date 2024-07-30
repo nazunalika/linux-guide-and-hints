@@ -909,5 +909,6 @@ permissions are set to `755`.
 ### Font Issues
 
 If you notice your grub2 menu is missing characters (e.g. you see blocks), you
-will need to get at least the unicode.pf2 file from the same system you obtained
-the `shimx64.efi` file. It can be found in `/usr/share/grub`.
+may need to get at least the unicode.pf2 file from the same system you obtained
+the `shimx64.efi` file. It can be found in `/usr/share/grub`. However, this may
+not work, and may require you to use the `grub2-mkfont` tool.
