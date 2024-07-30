@@ -63,6 +63,11 @@ equivalent repository for that architecture and install it manually.
 Let's make our initial net directories and ensure the selinux contexts
 are correct.
 
+!!! note "Secure Boot"
+    Secure Boot does not work with the default files provided. You will
+    need to obtain the `shimx64.efi` or `shim.efi` file from your
+    distribution's shim-{x64,aa64} package.
+
 ``` bash
 % grub2-mknetdir --net-directory /var/lib/tftpboot/
 Netboot directory for i386-pc created. Configure your DHCP server to point to /srv/tftp/boot/grub2/i386-pc/core.0
@@ -651,16 +656,16 @@ from the same menu.
 ```
 . . .
 menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
   initrd fedora-x86_64/initrd.img
 }
 menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
+  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
   initrd16 fedora-x86_64/initrd.img
 }
 # Add the below for ARM systems
 menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
+  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
   initrd fedora-aarch64/initrd.img
 }
 ```
@@ -716,15 +721,15 @@ submenu 'Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
    set color_normal=white/black
 
    menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-     linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+     linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
      initrd fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
      initrd16 fedora-x86_64/initrd.img
    }
    menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
      initrd fedora-aarch64/initrd.img
    }
 }
@@ -752,21 +757,21 @@ submenu 'Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
 
 ```
 menuentry 'Install Fedora Linux (EFI)' --class fedora --class gnu-linux --class gnu --class os {
-  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
   initrd fedora-x86_64/initrd.img
 }
 menuentry 'Install Fedora Linux (Classic)' --class fedora --class gnu-linux --class gnu --class os {
-  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
+  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
   initrd16 fedora-x86_64/initrd.img
 }
 menuentry 'Install Fedora Linux (ARM)' --class fedora --class gnu-linux --class gnu --class os {
-  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os/ ip=dhcp
+  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
   initrd fedora-aarch64/initrd.img
 }
 ```
 
 Submenus can be nested too. Here's a deeper, working example of my own
-setup using Fedora 35.
+setup using Fedora 40.
 
 ```
 # grub.cfg
@@ -818,17 +823,17 @@ submenu 'Fedora Linux (latest stable)' --class fedora --class gnu-linux --class 
     set color_normal=white/black
 
     menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
       initrd fedora-x86_64/initrd.img
     }
 
     menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os ip=dhcp
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
       initrd fedora-x86_64/initrd.img
     }
 
     menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os
+      linux fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os
       initrd fedora-x86_64/initrd.img
     }
   }
@@ -840,17 +845,17 @@ submenu 'Fedora Linux (latest stable)' --class fedora --class gnu-linux --class 
     set color_normal=white/black
 
     menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
+      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
       initrd16 fedora-x86_64/initrd.img
     }
 
      menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/ ip=dhcp
+      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
       initrd16 fedora-x86_64/initrd.img
     }
 
     menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-      linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/x86_64/os/
+      linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/
       initrd16 fedora-x86_64/initrd.img
     }
   }
@@ -862,19 +867,47 @@ submenu 'Fedora Linux (latest stable)' --class fedora --class gnu-linux --class 
     set color_normal=white/black
 
     menuentry 'Install Fedora Linux (No KS)' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os ip=dhcp
       initrd fedora-aarch64/initrd.img
     }
 
     menuentry 'Install Fedora Linux' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os ip=dhcp
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os ip=dhcp
       initrd fedora-aarch64/initrd.img
     }
 
     menuentry 'Fedora Linux (Rescue Mode)' --class fedora --class gnu-linux --class gnu --class os {
-      linux fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/aarch64/os
+      linux fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os
       initrd fedora-aarch64/initrd.img
     }
   }
 }
 ```
+
+## Secure Boot
+
+Using the above setup, it is perfectly possible to have Secure Boot working. Instead of using `core.efi`, you would use a `shimx64.efi` file from the shim package. The `grub2-mknetdir` command does not provide this file, so we need to extract it from a running system or download and unpack it.
+
+```
+% dnf download shim-x64
+% rpm2cpio shim-x64-15.8-2.el9.x86_64.rpm | cpio -idmv
+% ls -l boot/efi/EFI/rocky
+total 3656
+-rwx------. 1 root root    104 Apr  4 14:23 BOOTX64.CSV
+-rwx------. 1 root root 857352 Apr  4 14:23 mmx64.efi
+-rwx------. 1 root root 959224 Apr  4 14:23 shim.efi
+-rwx------. 1 root root 959224 Apr  4 14:23 shimx64.efi
+-rwx------. 1 root root 952016 Apr  4 14:23 shimx64-rocky.efi
+```
+
+Note that both `shim.efi` and `shimx64.efi` should be the same file. Copying
+`shimx64.efi` is sufficient enough.
+
+Ensure that your DHCP configuration is now pointing to this file and the
+permissions are set to `755`.
+
+### Font Issues
+
+If you notice your grub2 menu is missing characters (e.g. you see blocks), you
+will need to get at least the unicode.pf2 file from the same system you obtained
+the `shimx64.efi` file. It can be found in `/usr/share/grub`.
