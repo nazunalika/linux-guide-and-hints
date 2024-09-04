@@ -1907,7 +1907,7 @@ templates on the LDAP objects. For example, if you have locations setup, and you
 look at a DNS record's LDAP object, you'll see this:
 
 ```
-dn: idnsname=_ldap._tcp,idnsname=example.com.,cn=dns,dc=angelsofclockwork,dc=net
+dn: idnsname=_ldap._tcp,idnsname=example.com.,cn=dns,dc=example,dc=com
 objectClass: top
 objectClass: idnsrecord
 objectClass: idnsTemplateObject
@@ -1927,7 +1927,7 @@ srvrecord: 50 100 389 ipa02.slc.example.com.
 srvrecord: 0 100 389 ipa01.phx.example.com.
 srvrecord: 0 100 389 ipa02.phx.example.com.
 
-dn: idnsserverid=ipa01.phx.example.com,cn=servers,cn=dns,dc=rockylinux,dc=com
+dn: idnsserverid=ipa01.phx.example.com,cn=servers,cn=dns,dc=example,dc=com
 objectClass: top
 objectClass: idnsServerConfigObject
 idnsServerid: ipa01.phx.example.com
