@@ -159,6 +159,24 @@ np-ipa02                A       10.200.0.231
     Note that AD can send nsupdates to a DNS server if given the permissions. As of
     this writing, FreeIPA does not do this, which is why DNS delegation is recommended.
 
+### IPA Servers in a Subdomain
+
+There is a chance you may have your initial IPA servers in a subdomain while
+managing the top-level domain, for example "ipa01.subdomain.example.com" managing
+"example.com". This creates a chicken-and-egg problem where the SRV and URI
+records are correctly pointing to the names, but there are no A records to
+provide the appropriate answer to clients. This happens because the initial
+the expectation of `ipa-server-install` is that the domain controllers will live
+in the same domain/realm that it manages.
+
+The proper way around this is to create the subdomain(s) that your IPA servers
+will live in and create the missing A records.
+
+```
+ipa dnszone-add subdomain.example.com
+ipa dnsrecord-add subdomain.example.com ipa01 --a-ip-address=10.100.0.241
+```
+
 ## Server Setup
 
 ### Required Packages
@@ -632,8 +650,16 @@ it and import it.
 
 On the IPA server, you will need to create a host and get the keytab.
 
+!!! warning "Unknown encryption types"
+    You may run into a situation where your keytabs have unknown encryption
+    types that can negatively affect your macOS client. If this happens, you can
+    regenerate the keytab using `-e aes256-cts,aes128-cts` or you can use ktutil
+    to remove them.
+
 ```
 % ipa host-add mac.example.com --macaddress="00:00:00:00:00:00"
+
+# To ensure compatibility, consider adding -e aes256-cts,aes128-cts
 % ipa-getkeytab -s server1.ipa.example.com -p host/mac.example.com -k /tmp/krb5.keytab
 ```
 
@@ -2323,6 +2349,53 @@ opened about this issue in 2017, a
 about this exact scenario, where IPA is configured for password+OTP and
 a user has an assigned token. There is currently one workaround, which
 is using kinit -n to perform anonymous processing.
+
+### Unknown enctypes on keytabs
+
+When generating a keytab, there may be an occasions that the keytab comes with
+enctypes that are not supported on the client they will be used on. This is
+especially the case with macOS systems. If the keytab has the unknown types and
+you do not (or cannot) regenerate the keytabs easily, you can use ktutil to
+remove the entries.
+
+On a Linux system, it can be done like the following example:
+
+```
+% ktutil
+ktutil:  read_kt /tmp/krb5.keytab
+ktutil:  list -e
+slot KVNO Principal
+---- ---- ---------------------------------------------------------------------
+   1    1 host/sani.example.com@EXAMPLE.COM (aes256-cts-hmac-sha1-96)
+   2    1 host/sani.example.com@EXAMPLE.COM (aes128-cts-hmac-sha1-96)
+
+## For the example, we'll delete slot 2. Note that this particular enctype
+## is fully supported on most current clients.
+ktutil:  delete_entry 2
+ktutil:  list -e
+slot KVNO Principal
+---- ---- ---------------------------------------------------------------------
+   1    1 host/sani.example.com@EXAMPLE.COM (aes256-cts-hmac-sha1-96)
+
+ktutil:  write_kt /tmp/krb5.keytab
+ktutil:  exit
+```
+
+On a macOS system, the command operates differently.
+
+```
+# Make a backup
+% cp /etc/krb5.keytab /etc/krb5.keytab_backup
+
+# Identify the Vno slots you wish to remove.
+% ktutil -k /etc/krb5.keytab list
+
+# Remove them using ktutil
+% ktutil -k /etc/krb5.keytab remove -V 3
+
+# Verify the slots are now gone.
+% ktutil -k /etc/krb5.keytab list
+```
 
 ## Active Directory Trust
 
