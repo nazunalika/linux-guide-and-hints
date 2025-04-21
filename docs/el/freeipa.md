@@ -1832,29 +1832,14 @@ occur during or post IPA deployment.
 
 ### DNS Forwarding to DoT
 
-Presently, FreeIPA does not support DoT (DNS over TLS) nor DoH (DNS over
-HTTPS) (this appears to be a bind limitation and we can't find
-documentation that says otherwise). However, it is possible to setup
-unbound to do the forwarding for you, in which you tell your bind
-servers (or in this case, the bind DNS servers in your IPA domain) to
-forward to that unbound server for all forwarding.
+As of this writing, Enterprise Linux 9.6 and up should support DoT on the server
+and client side. Originally, it was required to setup unbound manually either on
+the IPA servers or on a separate server entirely and set IPA to forward requests
+appropriately.
 
-!!! note "Keep it Separate"
-    It is recommended to keep your unbound service separate from the IPA
-    servers. Spin up another instance in your network that will run unbound
-    or run it on a standalone bind server that you may have on a separate
-    port.
-
-To forward to the unbound service, modify the DNS global configuration
-in IPA:
-
-```
-# Replace 10.100.0.224 with the IP of your unbound instance
-% ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224'
-
-# Add 'port xxxx' if you have set unbound to another port
-% ipa dnsconfig-mod --forward-policy=only --forwarder='10.100.0.224 port 9553'
-```
+It is recommended to read the [encrypted dns design
+page](https://freeipa.readthedocs.io/en/latest/designs/edns.html) from the
+freeipa developers.
 
 ### DNS Locations
 
