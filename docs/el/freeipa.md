@@ -173,9 +173,13 @@ The proper way around this is to create the subdomain(s) that your IPA servers
 will live in and create the missing A records.
 
 ```
-ipa dnszone-add subdomain.example.com
+ipa dnszone-add subdomain.example.com --dynamic-update=true
 ipa dnsrecord-add subdomain.example.com ipa01 --a-ip-address=10.100.0.241
+ipa dnsrecord-add example.com subdomain --ns-rec=ipa01.subdomain
 ```
+
+Note that for each replica you add, you will need to modify the NS record in
+your root domain.
 
 ## Server Setup
 
