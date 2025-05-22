@@ -3,7 +3,7 @@ title: FreeIPA
 ---
 
 This page is a series of notes and information that goes over how to
-install and configure FreeIPA on Enterprise Linux 8/9 servers with
+install and configure FreeIPA on Enterprise Linux 9/10 servers with
 replicas, as well as configuring client machines to connect and utilize
 FreeIPA resources, policies (eg sudo), and host based access control
 methods. We will also go over a scenario of configuring a trust with an
@@ -30,7 +30,7 @@ installed.
 
 Here are the list of requirements below.
 
-* Enterprise Linux 8+ or Fedora Linux
+* Enterprise Linux 9+ or Fedora Linux
 * An active internet connection to install the packages required or
   available internal mirrors
 * 2 core, 4GB system with at least 10GB+ disk for /var/lib/dirsrv
@@ -217,15 +217,11 @@ static IP addresses, and then run the ipa-server-install command.
 # Fedora
 % dnf install freeipa-server{,-common,-dns} -y
 
-# Enterprise Linux 8
-% dnf module enable idm:DL1/{dns,adtrust,client,server,common}
-% dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-
-# Enterprise Linux 9 (there appears to be no modules)
+# Enterprise Linux 9+
 % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
 
 # Setup
-# Enterprise 8 / 9
+# Enterprise 9+
 % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns}
 % firewall-cmd --complete-reload
 % ipa-server-install \
@@ -266,10 +262,15 @@ On the replica, ensure you repeat the same steps as above.
 10.200.0.231 server2.ipa.example.com
 
 % dnf install ipa-server ipa-server-dns ipa-client sssd sssd-ipa -y
-# Enterprise 8 / 9
+# Enterprise 9+
 % firewall-cmd --permanent --add-service={freeipa-4,ntp,dns}
 % firewall-cmd --complete-reload
-% ipa-replica-install --no-forwarders --setup-ca --setup-dns --no-ntp --principal admin --admin-password "ChangePass123" --domain ipa.example.com
+% ipa-replica-install --no-forwarders --setup-ca \
+    --setup-dns                                  \
+    --no-ntp                                     \
+    --principal admin                            \
+    --admin-password "ChangePass123"             \
+    --domain ipa.example.com
 . . . (show steps)
 ```
 
@@ -303,8 +304,8 @@ If you have forwarders, use the `--forwarders` option instead.
 ## Server Migration/Upgrade
 
 Performing a migration is a multi-step process. Typically you are going
-from one major version of Enterprise Linux (such as 7 or 8) to another
-(such as 9). Regardless of which version you are migrating from, the
+from one major version of Enterprise Linux (8 or 9) to another
+(such as 10). Regardless of which version you are migrating from, the
 typical beginning steps are:
 
 * System's time is verified for time synchronization like using
@@ -313,13 +314,6 @@ typical beginning steps are:
   `ipa server-role-find --status enabled --server ipa.example.com`
 * New system is installed and enrolled as a client
 * New system is added as a replica with required server roles
-
-!!! note "EL7 to EL9 / Two Major Version Jumps"
-    When jumping from EL7 to EL9 or two major versions in general, it is
-    recommended that you have an "in between" machine. This means that you
-    need to add the in between version first and then you can add the latest
-    version. See [this page](https://lists.fedoraproject.org/archives/list/freeipa-users@lists.fedorahosted.org/thread/5VGR7DFU4XO63X6KB4ETKSGLKP4A2LWP/)
-    for an example.
 
 The below is in the case of a single master installation and doesn't
 take into account of multiple version jumps. Let's say you have two old
@@ -349,117 +343,6 @@ Below is an example, with X being the old version, and Y being the new.
 * Verify DNA range
 * Stop second Enterprise Linux X IPA services, remove replica,
   uninstall, power off.
-
-### EL7 to EL8
-
-```
-# Enterprise Linux 8
-% dnf module enable idm:DL1
-
-# Install necessary packages, ie AD trust packages if you need them
-% dnf install ipa-server ipa-server-dns -y
-% ipa-client-install --realm EXAMPLE.COM --domain example.com
-% kinit admin
-
-# Add other switches that you feel are necessary, such as forwarders, kra, ntp...
-% ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
-
-# Verify all services are in a RUNNING state
-% ipactl status
-Directory Service: RUNNING
-. . .
-
-% ipa-csreplica-manage list
-elX.example.com: master
-elY.example.com: master
-
-% ipa-csreplica-manage list --verbose elY.example.com
-Directory Manager password:
-
-elX.example.com
-  last init status: None
-  last init ended: 1970-01-01 00:00:00+00:00
-  last update status: Error (0) Replica acquired successfully: Incremental update succeeded
-  last update ended: 2019-11-07 22:46:15+00:00
-```
-
-* Change CRL to new Enterprise Linux system and adjust settings on
-  both replicas for pki-tomcatd and httpd
-
-```
-# Change CA master to elY
-% ipa config-mod --ca-renewal-master-server elY.example.com
-
-# Shut down all CRL generation on ELX
-elX% ipa-crlgen-manage status
-CRL generation: enabled
-. . .
-
-elX% ipa-crlgen-manage disable
-Stopping pki-tomcatd
-Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
-Starting pki-tomcatd
-Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
-Restarting httpd
-CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
-The ipa-crlgen-manage command was successful
-
-# Verify that the /etc/httpd/conf.d/ipa-pki-proxy.conf file's RewriteRule is not commented
-# If it is, remove the comment and restart httpd. ipa-crlgen-manage should take care of this.
-% tail -n 1 /etc/httpd/conf.d/ipa-pki-proxy.conf
-RewriteRule ^/ipa/crl/MasterCRL.bin https://elX.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
-
-# Turn it on with ELY
-elY% systemctl stop pki-tomcatd@pki-tomcat.service
-
-# The values should be changed from false to true
-elY% vi /etc/pki/pki-tomcat/ca/CS.cfg
-ca.crl.MasterCRL.enableCRLCache=true
-ca.crl.MasterCRL.enableCRLUpdates=true
-
-elY% systemctl start pki-tomcatd@pki-tomcat.service
-
-# Make sure the rewrite rule has a comment on elY
-elY% vi /etc/httpd/conf.d/ipa-pki-proxy.conf
-. . .
-#RewriteRule ^/ipa/crl/MasterCRL.bin https://elY.example.com/ca/ee/ca/getCRL?op=getCRL&crlIssuingPoint=MasterCRL [L,R=301,NC]
-
-elY% systemctl restart httpd
-```
-
-* Test user is created to ensure DNA range is adjusted and replication
-  is working
-
-```
-% ipa user-add --first=testing --last=user testinguser1
-
-# Test on both systems
-elX% ipa user-find testinguser1
-elY% ipa user-find testinguser1
-```
-
-* Verify DNA range
-
-```
-# There should be ranges for both replicas
-% ipa-replica-manage dnarange-show
-elX.example.com: ...
-elY.example.com: ...
-```
-
-* Stop old Enterprise Linux IPA services, remove replica, uninstall
-
-```
-# Stop all elX services
-elX% ipactl stop
-
-# Delete the elX system from the topology
-elY% ipa server-del elX.example.com
-
-# Uninstall and/or power down system
-elX% ipa-server-install --uninstall
-elX% init 0
-```
 
 ### EL8 to EL9
 
@@ -560,6 +443,107 @@ elX% init 0
 ```
 
 See [this page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/migrating_to_identity_management_on_rhel_9/index#migrating_idm_from_rhel_8_to_rhel_9)
+for more information.
+
+### EL9 to EL10
+
+```
+# Enterprise Linux 10
+% dnf install ipa-server ipa-server-dns -y
+% ipa-client-install --realm EXAMPLE.COM --domain example.com
+% kinit admin
+
+# Add other switches that you feel are necessary, such as forwarders, kra, ntp...
+% ipa-replica-install --setup-dns --setup-ca --ssh-trust-dns --mkhomedir
+
+# Verify all services are in a RUNNING state
+% ipactl status
+Directory Service: RUNNING
+. . .
+
+% ipa-csreplica-manage list
+elX.example.com: master
+elY.example.com: master
+
+% ipa-csreplica-manage list --verbose elY.example.com
+Directory Manager password:
+
+elX.example.com
+  last init status: None
+  last init ended: 1970-01-01 00:00:00+00:00
+  last update status: Error (0) Replica acquired successfully: Incremental update succeeded
+  last update ended: 2022-08-12 18:11:11+00:00
+```
+
+Set the CA renewal master to the new system and change the CRL settings
+
+```
+% ipa config-mod --ca-renewal-master-server elY.example.com
+
+# Remove the ca.certStatusUpdateInterval entry or set it to 600 (default) on elY
+elY% vim /etc/pki/pki-tomcat/ca/CS.cfg
+
+# Restart the ipa services
+elY% ipactl restart
+
+# Set the value of ca.certStatusUpdateInterval on elX to 0
+elX% vim /etc/pki/pki-tomcat/ca/CS.cfg
+ca.certStatusUpdateInterval=0
+
+elX% ipactl restart
+
+elX% ipa-crlgen-manage status
+CRL generation: enabled
+. . .
+
+elX% ipa-crlgen-manage disable
+Stopping pki-tomcatd
+Editing /var/lib/pki/pki-tomcat/conf/ca/CS.cfg
+Starting pki-tomcatd
+Editing /etc/httpd/conf.d/ipa-pki-proxy.conf
+Restarting httpd
+CRL generation disabled on the local host. Please make sure to configure CRL generation on another master with ipa-crlgen-manage enable.
+The ipa-crlgen-manage command was successful
+
+elX% ipa-crlgen-manage status
+CRL generation: disabled
+```
+
+Create a test user to ensure DNA range is adjusted and replication is
+working
+
+```
+elY% ipa user-add --first=testing --last=user testinguser1
+
+# Test on both systems
+elX% ipa user-find testinguser1
+elY% ipa user-find testinguser1
+```
+
+Verify DNA range.
+
+```
+# There should be ranges for both replicas
+% ipa-replica-manage dnarange-show
+elX.example.com: ...
+elY.example.com: ...
+```
+
+Stop old Enterprise Linux IPA services, remove replica, uninstall.
+
+```
+# Stop all elX services
+elX% ipactl stop
+
+# Delete the elX system from the topology
+elY% ipa server-del elX.example.com
+
+# Uninstall and/or power down system
+elX% ipa-server-install --uninstall
+elX% init 0
+```
+
+See [this page](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/migrating_to_identity_management_on_rhel_10/migrating-your-idm-environment-from-rhel-9-servers-to-rhel-10-servers)
 for more information.
 
 ## Disable Anonymous Bind
@@ -1841,6 +1825,8 @@ and client side. Originally, it was required to setup unbound manually either on
 the IPA servers or on a separate server entirely and set IPA to forward requests
 appropriately.
 
+To set this up, you will need to install the `ipa-server-encrypted-dns` package.
+
 It is recommended to read the [encrypted dns design
 page](https://freeipa.readthedocs.io/en/latest/designs/edns.html) from the
 freeipa developers.
@@ -2550,7 +2536,7 @@ do this on the clients. Do not make this change on an IPA replica.**
 full_name_format = %1$s
 ```
 
-This will ensure EL7, EL8, EL9 clients resolve the AD domain first when
+This will ensure EL8, EL9, EL10 clients resolve the AD domain first when
 attempting logins and optionally drop the @realm off the usernames.
 
 #### AD and IPA group names with short names
