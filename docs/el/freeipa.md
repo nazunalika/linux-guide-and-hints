@@ -2100,10 +2100,10 @@ entryusn: 900028
 -
 ```
 
-## Certificates
+## Certificate and Dogtag
 
 These are notes of things I've ran into before while dealing with
-certificates.
+the certificate system.
 
 ### Renewed IPA HTTP Certificate Stuck
 
@@ -2299,6 +2299,26 @@ Make sure they're the same in server.xml
 
 After changing, restart the service with
 systemctl restart pki-tomcat@pki-tomcatd.service.
+
+### Upgrade fails due to PKI misconfiguration
+
+During certain upgrades of IPA's components, there may be a case where an
+upgrade will fail due to the PKI system misbehaving. This can be seen during
+`ipactl restart` or running the upgrade process manually. A workaround to the
+issue to make the upgrade process work would be the following:
+
+```
+## Ensure IPA is fully stopped
+% ipactl stop
+ln -s /usr/share/pki/server/conf/Catalina/localhost/rewrite.config /etc/pki/pki-tomcat/Catalina/localhost/rewrite.config
+vi /etc/pki/pki-tomcat/server.xml
+
+## Add to the bottom (line 133) right under AccessLogValue
+<Valve className="org.apache.catalina.valves.rewrite.RewriteValve"/>
+
+## Start up IPA to force the upgrade procedure
+% ipactl start
+```
 
 ## Kerberos
 
