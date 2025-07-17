@@ -253,14 +253,15 @@ each one does.
 
 ```
 # Sets our cert path and information
-# The "CertificateFile" has to be set to the hostname of the LDAP server
+# The "CertificateFile" has to be set to the hostname of the LDAP server in
+# older versions. New versions may not need this.
 dn: cn=config
 changetype: modify
 replace: olcTLSCACertificatePath
 olcTLSCACertificatePath: /etc/pki/ldap
 -
 replace: olcTLSCertificateFile
-olcTLSCertificateFile: zera1.angelsofclockwork.net
+olcTLSCertificateFile: /etc/pki/ldap/ldapserver.pem
 -
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/pki/ldap/ldapserver.key
