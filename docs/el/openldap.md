@@ -174,7 +174,7 @@ CAorganizationalunit="Channel Maintainers"
 # If you set the below to a hostname, you’re screwed. Don’t do it!
 # Only do it if you have an actual hostname you will do CA signing on!
 CAconicalname="SSN"
-CAemail="tucklesepk@gmail.com"
+CAemail="example1@gmail.com"
 # LDAP Server information
 country="US"
 state="Arizona"
@@ -182,7 +182,7 @@ locale="Phoenix"
 organization="SSN Studio"
 organizationalunit="LDAP Server Maintainer"
 conicalname="zera1.angelsofclockwork.net"
-email="pc68xl@gmail.com"
+email="example2@gmail.com"
 
 certdir="/etc/pki/ldap"
 
