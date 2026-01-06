@@ -497,10 +497,20 @@ with aarch64.
 % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
 % umount /mnt
 
+## Rocky 10
+% mount -o loop Rocky-10-latest-x86_64-dvd.iso /mnt
+% mkdir /var/lib/tftpboot/rocky-10-x86_64
+% cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-10-x86_64
+% mkdir -p /var/www/html/os/rocky/10/x86_64
+% rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/10/x86_64
+% umount /mnt
+
+
 # Copy the appropriate files over for the kernels
-% mkdir -p /var/lib/tftpboot/rocky-{8,9}-x86_64
+% mkdir -p /var/lib/tftpboot/rocky-{8..10}-x86_64
 % cp /var/www/html/os/rocky/8/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
 % cp /var/www/html/os/rocky/9/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
+% cp /var/www/html/os/rocky/10/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-10-x86_64
 
 % restorecon -R /var/www/html/os/rocky
 % restorecon -R /var/lib/tftpboot
@@ -553,6 +563,29 @@ menuentry 'Install Rocky Linux 9 (No KS) (aarch64)' --class fedora --class gnu-l
 }
 ```
 
+```
+. . .
+# Rocky 10
+menuentry 'Install Rocky Linux 10 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading Rocky Linux 10 kernel..."
+  linux rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
+  initrd rocky-10-x86_64/initrd.img
+}
+menuentry 'Install Rocky Linux 10 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading Rocky Linux 10 kernel..."
+  linux16 rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
+  initrd16 rocky-10-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry 'Install Rocky Linux 10 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading Rocky Linux 10 kernel..."
+  linux rocky-10-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/aarch64 inst.stage2=http://10.100.0.1/os/rocky/10/aarch64 ip=dhcp
+  initrd rocky-10-aarch64/initrd.img
+}
+```
+
+
 The Rocky Linux installation should now be bootable.
 
 ### CentOS Stream
@@ -574,6 +607,14 @@ setting it up.
 # Optionally, if you plan on supporting ARM...
 % wget -O CentOS-Stream-9-latest-aarch64-dvd1.iso \
   'https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/aarch64/iso/CentOS-Stream-9-latest-aarch64-dvd1.iso&redirect=1&protocol=https'
+
+# CentOS Stream 10
+% wget -O CentOS-Stream-10-latest-x86_64-dvd1.iso \
+  'https://mirrors.centos.org/mirrorlist?path=/10-stream/BaseOS/x86_64/iso/CentOS-Stream-10-latest-x86_64-dvd1.iso&redirect=1&protocol=https'
+
+# Optionally, if you plan on supporting ARM...
+% wget -O CentOS-Stream-10-latest-aarch64-dvd1.iso \
+  'https://mirrors.centos.org/mirrorlist?path=/10-stream/BaseOS/aarch64/iso/CentOS-Stream-10-latest-aarch64-dvd1.iso&redirect=1&protocol=https'
 ```
 
 Here we'll copy the data we want into the necessary directories. Any
@@ -593,10 +634,20 @@ with aarch64.
 % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/centos/9/x86_64
 % umount /mnt
 
-% mkdir -p /var/lib/tftpboot/centos-9-x86_64
+## CentOS Stream 10
+% mount -o loop CentOS-Stream-10-latest-x86_64-dvd1.iso /mnt
+% mkdir /var/lib/tftpboot/centos-10-x86_64
+% cp /mnt/images/pxeboot/* /var/lib/tftpboot/centos-10-x86_64
+% mkdir -p /var/www/html/os/centos/10/x86_64
+% rsync -vrlptDSH --delete /mnt/ /var/www/html/os/centos/10/x86_64
+% umount /mnt
+
+% mkdir -p /var/lib/tftpboot/centos-{9,10}-x86_64
 % cp /var/www/html/os/centos/9/x86_64/images/pxeboot/* /var/lib/tftpboot/centos-9-x86_64
+% cp /var/www/html/os/centos/10/x86_64/images/pxeboot/* /var/lib/tftpboot/centos-10-x86_64
 
 % restorecon -R /var/www/html/os/centos/9
+% restorecon -R /var/www/html/os/centos/10
 % restorecon -R /var/lib/tftpboot
 ```
 
@@ -624,6 +675,29 @@ menuentry 'Install CentOS Stream 9 (No KS) (aarch64)' --class fedora --class gnu
   initrd centos-9-aarch64/initrd.img
 }
 ```
+
+```
+. . .
+# CentOS Stream 10
+menuentry 'Install CentOS Stream 10 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading CentOS Stream 10 kernel..."
+  linux centos-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/x86_64 inst.stage2=http://10.100.0.1/os/centos/10/x86_64 ip=dhcp
+  initrd centos-10-x86_64/initrd.img
+}
+menuentry 'Install CentOS Stream 10 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading CentOS Stream 10 kernel..."
+  linux16 centos-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/x86_64 inst.stage2=http://10.100.0.1/os/centos/10/x86_64 ip=dhcp
+  initrd16 centos-10-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry 'Install CentOS Stream 10 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
+  echo "Loading CentOS Stream 10 kernel..."
+  linux centos-10-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/aarch64 inst.stage2=http://10.100.0.1/os/centos/10/aarch64 ip=dhcp
+  initrd centos-10-aarch64/initrd.img
+}
+```
+
 
 The CentOS Stream installation should now be bootable.
 
