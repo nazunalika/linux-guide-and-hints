@@ -1,0 +1,2180 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Linux Guide and Hints Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://linuxguideandhints.com/el/pxeboot/">
+      
+      
+        <link rel="prev" href="../openldap/">
+      
+      
+        <link rel="next" href="../sysadmin/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>PXE (with grub2) - Linux Guide and Hints</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#requirements" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Linux Guide and Hints" class="md-header__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Linux Guide and Hints
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PXE (with grub2)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Linux Guide and Hints" class="md-nav__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Linux Guide and Hints
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Guide and Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Linux
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enterprise Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../freeipa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FreeIPA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT/Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenLDAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PXE (with grub2)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PXE (with grub2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-preface-notes-and-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tutorial Preface, Notes, and Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tutorial Preface, Notes, and Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cobbler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cobbler
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TFTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-isc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHCP (ISC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-kea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHCP (Kea)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-server-httpd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Server (httpd)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-grub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up Grub
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-distributions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding Distributions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding Distributions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rocky-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rocky Linux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#centos-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CentOS Stream
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fedora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fedora
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-grub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customizing Grub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Grub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#colors-and-backgrounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colors and Backgrounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-submenus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special Submenus
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secure-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secure Boot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secure Boot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#font-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Font Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sysadmin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The System Administrator Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unbound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../training/ex362/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EX362 Exam Prep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/euphemism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Euphemism Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/ipv6he/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hurricane Electric IPv6 Tunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/mingw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MinGW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/port465/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Is port 465 deprecated?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archive/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archives
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fedora" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fedora
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>PXE (with grub2)</h1>
+
+<p>This page goes over setting up a pxeboot system using tftp on Enterprise
+Linux or Fedora</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>Here are the list of requirements below.</p>
+<ul>
+<li>Enterprise Linux 8, 9, or Fedora</li>
+<li>A DHCP server setup that allows you to setup the <code>next_server</code> directive or setup the tftp server location</li>
+<li>Optionally if you are using a local mirror, <code>httpd</code> or <code>nginx</code> installed. (This guide assumes <code>httpd</code>)</li>
+</ul>
+<h2 id="tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations<a class="headerlink" href="#tutorial-preface-notes-and-recommendations" title="Permanent link">&para;</a></h2>
+<p>In some environments, it may be better (or easier, depending on your
+perspective) to setup a PXE server and roll out systems in a lab or
+otherwise in that fashion. It's one of the most straight forward ways
+to build out systems easily and consistently. The difference between a
+typical PXE setup and this is we're using grub2 menus, rather than the
+classic menu style. This makes it simpler to keep all configurations
+consistent between classic boot and EFI boot.</p>
+<p>If you plan on using supporting other architectures, it will be easier
+to use that architecture to run the grub2-mknetdir command and brings
+those to your tftp server.</p>
+<h3 id="cobbler">Cobbler<a class="headerlink" href="#cobbler" title="Permanent link">&para;</a></h3>
+<p>While cobbler is a perfectly viable solution to setting up a pxeboot
+system for various distros and configurations, it is out of scope for
+this article. It is unknown if it sets up or directly supports grub2.</p>
+<h2 id="server-setup">Server Setup<a class="headerlink" href="#server-setup" title="Permanent link">&para;</a></h2>
+<p>This section goes over the server setup portion for the tftp server.</p>
+<h3 id="tftp">TFTP<a class="headerlink" href="#tftp" title="Permanent link">&para;</a></h3>
+<p>Let's install the tftpserver package plus some additional grub
+packages. If you are wanting other architectures, you can obtain the
+other grub2 module packages from your distribution's BaseOS or
+equivalent repository for that architecture and install it manually.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># x86_64</span>
+%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>grub2-efi-x64-modules<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>grub2-tools-extra<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>grub2-pc-modules<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>shim-ia32<span class="w"> </span><span class="se">\ </span><span class="w">             </span><span class="c1"># this does not exist on el9+</span>
+<span class="w">  </span>tftp-server
+
+<span class="c1"># aarch64</span>
+%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>grub2-efi-aa64-modules<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>grub2-tools-extra<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>tftp-server
+</code></pre></div>
+<p>Let's make our initial net directories and ensure the selinux contexts
+are correct.</p>
+<div class="admonition note">
+<p class="admonition-title">Secure Boot</p>
+<p>Secure Boot does not work with the default files provided. You will
+need to obtain the <code>shimx64.efi</code> or <code>shim.efi</code> file from your
+distribution's shim-{x64,aa64} package.</p>
+</div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>grub2-mknetdir<span class="w"> </span>--net-directory<span class="w"> </span>/var/lib/tftpboot/
+Netboot<span class="w"> </span>directory<span class="w"> </span><span class="k">for</span><span class="w"> </span>i386-pc<span class="w"> </span>created.<span class="w"> </span>Configure<span class="w"> </span>your<span class="w"> </span>DHCP<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>/srv/tftp/boot/grub2/i386-pc/core.0
+Netboot<span class="w"> </span>directory<span class="w"> </span><span class="k">for</span><span class="w"> </span>x86_64-efi<span class="w"> </span>created.<span class="w"> </span>Configure<span class="w"> </span>your<span class="w"> </span>DHCP<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>/srv/tftp/boot/grub2/x86_64-efi/core.efi
+
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/lib/tftpboot
+</code></pre></div>
+<p>Now you'll need to enable the tftp socket and open the port.
+Traditionally, you would use xinetd. It's no longer required for the
+tftp service.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Note: This is port 69 with the UDP protocol</span>
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-service<span class="o">=</span>tftp<span class="w"> </span>--permanent
+%<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>tftp.socket<span class="w"> </span>--now
+</code></pre></div>
+<h3 id="dhcp-isc">DHCP (ISC)<a class="headerlink" href="#dhcp-isc" title="Permanent link">&para;</a></h3>
+<p>On your DHCP server configuration (typically /etc/dhcp/dhcpd.conf if
+running on Fedora or EL), you should set the following options:</p>
+<div class="highlight"><pre><span></span><code>option pxe-system-type code 93 = unsigned integer 16;
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+option ms-classless-static-routes code 249 = array of integer 8;
+
+option space pxelinux;
+option pxelinux.magic code 208 = string;
+option pxelinux.configfile code 209 = text;
+option pxelinux.pathprefix code 210 = text;
+option pxelinux.reboottime code 211 = unsigned integer 32;
+option architecture-type   code 93 = unsigned integer 16;
+option pxelinux.mtftp-ip    code 1 = ip-address;
+option pxelinux.mtftp-cport code 2 = unsigned integer 16;
+option pxelinux.mtftp-sport code 3 = unsigned integer 16;
+option pxelinux.mtftp-tmout code 4 = unsigned integer 8;
+option pxelinux.mtftp-delay code 5 = unsigned integer 8;
+</code></pre></div>
+<p>Whether this section is within a subnet block or not, it is needed to
+ensure the right bootloader is called. Note that we're only loading
+x86. If you are loading armhfp, use 00:0a. If you are loading aarch64,
+use 00:0b.</p>
+<div class="highlight"><pre><span></span><code>class &quot;pxeclients&quot; {
+        match if substring (option vendor-class-identifier, 0, 9) = &quot;PXEClient&quot;;
+        # x86_64 EFI
+        if option pxe-system-type = 00:07 {
+                filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+        } else if option pxe-system-type = 00:08 {
+                filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+        } else if option pxe-system-type = 00:09 {
+                filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+        } else {
+                # BIOS boot only
+                filename &quot;boot/grub2/i386-pc/core.0&quot;;
+        }
+}
+</code></pre></div>
+<p>Note that in your subnet blocks, you should also mention <code>next_server</code>,
+which should point to your TFTP server. The DHCP and TFTP server can be
+on the same machine and there's nothing stopping you from doing that;
+<code>next_server</code> needs to be set regardless here. See an example below of a
+full work dhcpd.conf.</p>
+<div class="highlight"><pre><span></span><code>ddns-update-style interim;
+
+allow booting;
+allow bootp;
+authoritative;
+log-facility local6;
+
+ignore client-updates;
+set vendorclass = option vendor-class-identifier;
+
+## Allowing EFI Clients
+option pxe-system-type code 93 = unsigned integer 16;
+option rfc3442-classless-static-routes code 121 = array of integer 8;
+option ms-classless-static-routes code 249 = array of integer 8;
+
+option space pxelinux;
+option pxelinux.magic code 208 = string;
+option pxelinux.configfile code 209 = text;
+option pxelinux.pathprefix code 210 = text;
+option pxelinux.reboottime code 211 = unsigned integer 32;
+option architecture-type code 93 = unsigned integer 16;
+
+option pxelinux.mtftp-ip    code 1 = ip-address;
+option pxelinux.mtftp-cport code 2 = unsigned integer 16;
+option pxelinux.mtftp-sport code 3 = unsigned integer 16;
+option pxelinux.mtftp-tmout code 4 = unsigned integer 8;
+option pxelinux.mtftp-delay code 5 = unsigned integer 8;
+
+subnet 10.100.0.0 netmask 255.255.255.0 {
+        interface               br1000;
+        option routers          10.100.0.1;
+        option domain-name-servers      10.100.0.1, 10.100.0.231;
+        option domain-name              &quot;angelsofclockwork.net&quot;;
+        option subnet-mask              255.255.255.0;
+        range           10.100.0.110 10.100.0.199;
+        ## EFI Client Catch
+        class &quot;pxeclients&quot; {
+                match if substring (option vendor-class-identifier, 0, 9) = &quot;PXEClient&quot;;
+                if option pxe-system-type = 00:07 {
+                        filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+                } else if option pxe-system-type = 00:08 {
+                        filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+                } else if option pxe-system-type = 00:09 {
+                        filename &quot;boot/grub2/x86_64-efi/core.efi&quot;;
+                } else if option pxe-system-type = 00:0a {
+                        filename &quot;boot/grub2/armv7a-efi/core.efi&quot;;
+                } else if option pxe-system-type = 00:0b {
+                        filename &quot;boot/grub2/aarch64-efi/core.efi&quot;;
+                } else {
+                        filename &quot;boot/grub2/i386-pc/core.0&quot;;
+                }
+        }
+        default-lease-time      21600;
+        max-lease-time  43200;
+        next-server     10.100.0.1;
+}
+</code></pre></div>
+<p>Ensure that the dhcpd service is restarted after making the necessary
+changes.</p>
+<h3 id="dhcp-kea">DHCP (Kea)<a class="headerlink" href="#dhcp-kea" title="Permanent link">&para;</a></h3>
+<p>Kea is a different configuration style from ISC. Some of the configuration is
+the same and also frustratingly different.</p>
+<p>You'll need to turn on some options, similar to dhcpd. In the <code>Dhcp4</code> section,
+we'll set them.</p>
+<div class="highlight"><pre><span></span><code>...
+    &quot;option-def&quot;: [
+      {
+        &quot;space&quot;: &quot;dhcp4&quot;,
+        &quot;name&quot;: &quot;rfc3442-classless-static-routes&quot;,
+        &quot;code&quot;: 121,
+        &quot;array&quot;: true,
+        &quot;type&quot;: &quot;int8&quot;
+      },
+      {
+        &quot;space&quot;: &quot;dhcp4&quot;,
+        &quot;name&quot;: &quot;ms-classless-static-routes&quot;,
+        &quot;code&quot;: 249,
+        &quot;array&quot;: true,
+        &quot;type&quot;: &quot;int8&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;magic&quot;,
+        &quot;code&quot;: 208,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;configfile&quot;,
+        &quot;code&quot;: 209,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;pathprefix&quot;,
+        &quot;code&quot;: 210,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;reboottime&quot;,
+        &quot;code&quot;: 211,
+        &quot;type&quot;: &quot;uint32&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;mtftp-ip&quot;,
+        &quot;code&quot;: 1,
+        &quot;type&quot;: &quot;ipv4-address&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;mtftp-cport&quot;,
+        &quot;code&quot;: 2,
+        &quot;type&quot;: &quot;uint16&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;mtftp-sport&quot;,
+        &quot;code&quot;: 3,
+        &quot;type&quot;: &quot;uint16&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;mtftp-tmout&quot;,
+        &quot;code&quot;: 4,
+        &quot;type&quot;: &quot;uint8&quot;
+      },
+      {
+        &quot;space&quot;: &quot;pxelinux&quot;,
+        &quot;name&quot;: &quot;mtftp-delay&quot;,
+        &quot;code&quot;: 5,
+        &quot;type&quot;: &quot;uint8&quot;
+      },
+      {
+        &quot;space&quot;: &quot;dhcp4&quot;,
+        &quot;name&quot;: &quot;iscsi-initiator-iqn&quot;,
+        &quot;code&quot;: 203,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      {
+        &quot;name&quot;: &quot;PXEDiscoveryControl&quot;,
+        &quot;code&quot;: 6,
+        &quot;space&quot;: &quot;vendor-encapsulated-options-space&quot;,
+        &quot;type&quot;: &quot;uint8&quot;,
+        &quot;array&quot;: false
+      },
+      {
+        &quot;name&quot;: &quot;PXEMenuPrompt&quot;,
+        &quot;code&quot;: 10,
+        &quot;space&quot;: &quot;vendor-encapsulated-options-space&quot;,
+        &quot;type&quot;: &quot;record&quot;,
+        &quot;array&quot;: false,
+        &quot;record-types&quot;: &quot;uint8,string&quot;
+      },
+      {
+        &quot;name&quot;: &quot;PXEBootMenu&quot;,
+        &quot;code&quot;: 9,
+        &quot;space&quot;: &quot;vendor-encapsulated-options-space&quot;,
+        &quot;type&quot;: &quot;record&quot;,
+        &quot;array&quot;: false,
+        &quot;record-types&quot;: &quot;uint16,uint8,string&quot;
+      }
+    ],
+...
+</code></pre></div>
+<p>Unlike dhcpd, we'll see the class information also in the <code>Dhcp4</code> section. This
+will make it effectively work in all subnets. The below also enables x86, ARM,
+and POWER systems.</p>
+<div class="highlight"><pre><span></span><code>...
+    &quot;client-classes&quot;: [
+      { &quot;name&quot;: &quot;PXEClient-x86_64-1&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00007&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/x86_64-efi/core.efi&quot; },
+      { &quot;name&quot;: &quot;PXEClient-x86_64-2&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00008&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/x86_64-efi/core.efi&quot; },
+      { &quot;name&quot;: &quot;PXEClient-x86_64-3&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00009&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/x86_64-efi/core.efi&quot; },
+      { &quot;name&quot;: &quot;PXEClient-aarch64-1&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:0000b&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/arm64-efi/core.efi&quot; },
+      { &quot;name&quot;: &quot;PXEClient-ppc64le-1&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:0000e&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/powerpc-ieee1275/core.elf&quot; },
+      /// these are whatever
+      { &quot;name&quot;: &quot;PXEClient-i386-1&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00006&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/i386-pc/core.0&quot; },
+      { &quot;name&quot;: &quot;PXEClient-i386-3&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00000&#39;&quot;, &quot;boot-file-name&quot;: &quot;boot/grub2/i386-pc/core.0&quot; },
+      { &quot;name&quot;: &quot;PXEClient-i386-2&quot;, &quot;test&quot;: &quot;substring(option[60].hex,0,20) == &#39;PXEClient:Arch:00002&#39;&quot;, &quot;boot-file-name&quot;: &quot;elilo.efi&quot; }
+    ],
+...
+</code></pre></div>
+<p>Subnet blocks are straight forward. They also will sit in <code>Dhcp4</code>. Note that
+each subnet block will need a unique <code>id</code> number. Ensure <code>next_server</code> is
+setup correctly also.</p>
+<div class="highlight"><pre><span></span><code>...
+    &quot;subnet4&quot;: [
+      {
+        &quot;id&quot;: 1,
+        &quot;subnet&quot;: &quot;10.100.0.0/24&quot;,
+        &quot;interface&quot;: &quot;br1000&quot;,
+        &quot;option-data&quot;: [
+          {
+            &quot;space&quot;: &quot;dhcp4&quot;,
+            &quot;name&quot;: &quot;routers&quot;,
+            &quot;code&quot;: 3,
+            &quot;data&quot;: &quot;10.100.0.1&quot;
+          },
+          {
+            &quot;space&quot;: &quot;dhcp4&quot;,
+            &quot;name&quot;: &quot;domain-name-servers&quot;,
+            &quot;code&quot;: 6,
+            &quot;data&quot;: &quot;10.100.0.1, 10.100.0.231&quot;
+          },
+          {
+            &quot;space&quot;: &quot;dhcp4&quot;,
+            &quot;name&quot;: &quot;domain-name&quot;,
+            &quot;code&quot;: 15,
+            &quot;data&quot;: &quot;angelsofclockwork.net&quot;
+          },
+          {
+            &quot;space&quot;: &quot;dhcp4&quot;,
+            &quot;name&quot;: &quot;subnet-mask&quot;,
+            &quot;code&quot;: 1,
+            &quot;data&quot;: &quot;255.255.255.0&quot;
+          }
+        ],
+        &quot;pools&quot;: [
+          {
+            &quot;pool&quot;: &quot;10.100.0.110 - 10.100.0.199&quot;
+          }
+        ],
+        &quot;valid-lifetime&quot;: 21600,
+        &quot;max-valid-lifetime&quot;: 43200,
+        &quot;next-server&quot;: &quot;10.100.0.1&quot;,
+        &quot;reservations&quot;: []
+      },
+...
+</code></pre></div>
+<h3 id="web-server-httpd">Web Server (httpd)<a class="headerlink" href="#web-server-httpd" title="Permanent link">&para;</a></h3>
+<p>If we plan on hosting the installation mirror in your environment, it's
+recommended to stand up a simple web server. It does not require any
+kind of special configuration. We'll use the default /var/www/html/
+path. If you wish to use another such as /srv/www, you will need to
+setup a virtual host (this is outside the scope of this page).</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>httpd<span class="w"> </span>-y
+%<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>httpd<span class="w"> </span>--now
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-service<span class="o">=</span>http<span class="w"> </span>--permanent
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--complete-reload
+
+<span class="c1"># create the directories for our distributions</span>
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/<span class="o">{</span>fedora,centos,rocky<span class="o">}</span>
+</code></pre></div>
+<h3 id="setting-up-grub">Setting up Grub<a class="headerlink" href="#setting-up-grub" title="Permanent link">&para;</a></h3>
+<p>When you run grub2-mknetdir, it created a core.* set of files. An
+accompanying grub.cfg must sit next to them. To prevent a duplication of
+work, it can be simplified by making all grub configurations at
+/var/lib/tftpboot and then symlink them next to each directory
+containing core.*. Let's make a very, very simple one.</p>
+<div class="highlight"><pre><span></span><code>set default=0
+set timeout=60
+menuentry &#39;EFI Firmware System Setup&#39; $menuentry_id_option &#39;uefi-firmware&#39; {
+  fwsetup
+}
+
+menuentry &#39;Reboot&#39; {
+  reboot
+}
+
+menuentry &#39;Shutdown&#39; {
+  halt
+}
+</code></pre></div>
+<p>Now let's just symlink it.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/lib/tftpboot/boot/grub2/x86_64-efi
+%<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../../../grub.cfg
+%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/lib/tftpboot/boot/grub2/i386-pc
+%<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../../../grub.cfg
+</code></pre></div>
+<p>This should produce a grub menu for both EFI and BIOS systems that
+contain three bootable options.</p>
+<h2 id="adding-distributions">Adding Distributions<a class="headerlink" href="#adding-distributions" title="Permanent link">&para;</a></h2>
+<p>Now that grub is sort of setup, we should add a distribution to it at
+least. Below are a couple examples using Fedora, Rocky Linux, and CentOS
+Stream.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When setting up for UEFI, if <code>linux</code> and <code>initrd</code> do not work for you,
+you may need to use <code>linuxefi</code> and <code>initrdefi</code> instead. This should be
+a rare case.</p>
+</div>
+<h3 id="rocky-linux">Rocky Linux<a class="headerlink" href="#rocky-linux" title="Permanent link">&para;</a></h3>
+<p>Setting up Rocky Linux (or any other Enterprise Linux distribution)
+should be straight forward. We'll download both Rocky Linux 8 and Rocky
+Linux 9 and setup the menus.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you plan on not hosting a mirror of the base repositories, ensure
+that your inst.repo/inst.stage2 commands are accurate to a mirror of
+your choice.</p>
+</div>
+<p>The below assumes we are hosting a mirror of the downloaded ISO, which
+will make installations quicker as it'll be confined to your network.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/tmp
+<span class="c1"># Rocky Linux 8</span>
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8-latest-x86_64-dvd.iso
+<span class="c1"># Rocky Linux 9</span>
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9-latest-x86_64-dvd.iso
+
+<span class="c1"># Optionally, if you plan on supporting ARM...</span>
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/8/isos/aarch64/Rocky-8-latest-aarch64-dvd.iso
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9-latest-aarch64-dvd.iso
+</code></pre></div>
+<p>Here we'll copy the data we want into the necessary directories. Any
+pxeboot related images will go to /var/lib/tftpboot/rocky-X-ARCH (X
+being the major version, ARCH being the architecture). If we are keeping
+a local mirror of the DVD, we'll put it into
+/var/www/html/os/rocky/X/ARCH. Below is for x86_64, but the same steps
+can be repeated for aarch64 without any issues. Just replace x86_64
+with aarch64.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## Rocky 8</span>
+%<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>Rocky-8-latest-x86_64-dvd.iso<span class="w"> </span>/mnt
+%<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/tftpboot/rocky-8-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/mnt/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-8-x86_64
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/rocky/8/x86_64
+%<span class="w"> </span>rsync<span class="w"> </span>-vrlptDSH<span class="w"> </span>--delete<span class="w"> </span>/mnt/<span class="w"> </span>/var/www/html/os/rocky/8/x86_64
+%<span class="w"> </span>umount<span class="w"> </span>/mnt
+
+<span class="c1">## Rocky 9</span>
+%<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>Rocky-9-latest-x86_64-dvd.iso<span class="w"> </span>/mnt
+%<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/tftpboot/rocky-9-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/mnt/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-9-x86_64
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/rocky/9/x86_64
+%<span class="w"> </span>rsync<span class="w"> </span>-vrlptDSH<span class="w"> </span>--delete<span class="w"> </span>/mnt/<span class="w"> </span>/var/www/html/os/rocky/9/x86_64
+%<span class="w"> </span>umount<span class="w"> </span>/mnt
+
+<span class="c1">## Rocky 10</span>
+%<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>Rocky-10-latest-x86_64-dvd.iso<span class="w"> </span>/mnt
+%<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/tftpboot/rocky-10-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/mnt/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-10-x86_64
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/rocky/10/x86_64
+%<span class="w"> </span>rsync<span class="w"> </span>-vrlptDSH<span class="w"> </span>--delete<span class="w"> </span>/mnt/<span class="w"> </span>/var/www/html/os/rocky/10/x86_64
+%<span class="w"> </span>umount<span class="w"> </span>/mnt
+
+
+<span class="c1"># Copy the appropriate files over for the kernels</span>
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/lib/tftpboot/rocky-<span class="o">{</span><span class="m">8</span>..10<span class="o">}</span>-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/var/www/html/os/rocky/8/x86_64/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-8-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/var/www/html/os/rocky/9/x86_64/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-9-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/var/www/html/os/rocky/10/x86_64/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/rocky-10-x86_64
+
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/www/html/os/rocky
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/lib/tftpboot
+</code></pre></div>
+<p>At this point, we'll need to setup the grub menus. We'll setup
+non-kickstart examples for BIOS and UEFI.</p>
+<div class="highlight"><pre><span></span><code>. . .
+# Rocky 8
+menuentry &#39;Install Rocky Linux 8 (No KS) (UEFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 8 kernel...&quot;
+  linux rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
+  initrd rocky-8-x86_64/initrd.img
+}
+menuentry &#39;Install Rocky Linux 8 (No KS) (BIOS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 8 kernel...&quot;
+  linux16 rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
+  initrd16 rocky-8-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry &#39;Install Rocky Linux 8 (No KS) (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 8 kernel...&quot;
+  linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/aarch64 inst.stage2=http://10.100.0.1/os/rocky/8/aarch64 ip=dhcp
+  initrd rocky-9-aarch64/initrd.img
+}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>. . .
+# Rocky 9
+menuentry &#39;Install Rocky Linux 9 (No KS) (UEFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 9 kernel...&quot;
+  linux rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
+  initrd rocky-9-x86_64/initrd.img
+}
+menuentry &#39;Install Rocky Linux 9 (No KS) (BIOS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 9 kernel...&quot;
+  linux16 rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
+  initrd16 rocky-9-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry &#39;Install Rocky Linux 9 (No KS) (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 9 kernel...&quot;
+  linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/aarch64 inst.stage2=http://10.100.0.1/os/rocky/9/aarch64 ip=dhcp
+  initrd rocky-9-aarch64/initrd.img
+}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>. . .
+# Rocky 10
+menuentry &#39;Install Rocky Linux 10 (No KS) (UEFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 10 kernel...&quot;
+  linux rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
+  initrd rocky-10-x86_64/initrd.img
+}
+menuentry &#39;Install Rocky Linux 10 (No KS) (BIOS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 10 kernel...&quot;
+  linux16 rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
+  initrd16 rocky-10-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry &#39;Install Rocky Linux 10 (No KS) (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading Rocky Linux 10 kernel...&quot;
+  linux rocky-10-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/aarch64 inst.stage2=http://10.100.0.1/os/rocky/10/aarch64 ip=dhcp
+  initrd rocky-10-aarch64/initrd.img
+}
+</code></pre></div>
+<p>The Rocky Linux installation should now be bootable.</p>
+<h3 id="centos-stream">CentOS Stream<a class="headerlink" href="#centos-stream" title="Permanent link">&para;</a></h3>
+<p>Much like Rocky Linux (or other derivatives), the path is the same for
+setting it up.</p>
+<div class="admonition note">
+<p class="admonition-title">Using upstream mirror path</p>
+<p>If you plan on not hosting a mirror of the base repositories, ensure
+that your inst.repo/inst.stage2 commands are accurate to a mirror of
+your choice.</p>
+</div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/tmp
+<span class="c1"># CentOS Stream 9</span>
+%<span class="w"> </span>wget<span class="w"> </span>-O<span class="w"> </span>CentOS-Stream-9-latest-x86_64-dvd1.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&amp;redirect=1&amp;protocol=https&#39;</span>
+
+<span class="c1"># Optionally, if you plan on supporting ARM...</span>
+%<span class="w"> </span>wget<span class="w"> </span>-O<span class="w"> </span>CentOS-Stream-9-latest-aarch64-dvd1.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/aarch64/iso/CentOS-Stream-9-latest-aarch64-dvd1.iso&amp;redirect=1&amp;protocol=https&#39;</span>
+
+<span class="c1"># CentOS Stream 10</span>
+%<span class="w"> </span>wget<span class="w"> </span>-O<span class="w"> </span>CentOS-Stream-10-latest-x86_64-dvd1.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;https://mirrors.centos.org/mirrorlist?path=/10-stream/BaseOS/x86_64/iso/CentOS-Stream-10-latest-x86_64-dvd1.iso&amp;redirect=1&amp;protocol=https&#39;</span>
+
+<span class="c1"># Optionally, if you plan on supporting ARM...</span>
+%<span class="w"> </span>wget<span class="w"> </span>-O<span class="w"> </span>CentOS-Stream-10-latest-aarch64-dvd1.iso<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;https://mirrors.centos.org/mirrorlist?path=/10-stream/BaseOS/aarch64/iso/CentOS-Stream-10-latest-aarch64-dvd1.iso&amp;redirect=1&amp;protocol=https&#39;</span>
+</code></pre></div>
+<p>Here we'll copy the data we want into the necessary directories. Any
+pxeboot related images will go to /var/lib/tftpboot/rocky-X-ARCH (X
+being the major version, ARCH being the architecture). If we are keeping
+a local mirror of the DVD, we'll put it into
+/var/www/html/os/rocky/X/ARCH. Below is for x86_64, but the same steps
+can be repeated for aarch64 without any issues. Just replace x86_64
+with aarch64.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## CentOS Stream 9</span>
+%<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>CentOS-Stream-9-latest-x86_64-dvd1.iso<span class="w"> </span>/mnt
+%<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/tftpboot/centos-9-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/mnt/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/centos-9-x86_64
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/centos/9/x86_64
+%<span class="w"> </span>rsync<span class="w"> </span>-vrlptDSH<span class="w"> </span>--delete<span class="w"> </span>/mnt/<span class="w"> </span>/var/www/html/os/centos/9/x86_64
+%<span class="w"> </span>umount<span class="w"> </span>/mnt
+
+<span class="c1">## CentOS Stream 10</span>
+%<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>CentOS-Stream-10-latest-x86_64-dvd1.iso<span class="w"> </span>/mnt
+%<span class="w"> </span>mkdir<span class="w"> </span>/var/lib/tftpboot/centos-10-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/mnt/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/centos-10-x86_64
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/html/os/centos/10/x86_64
+%<span class="w"> </span>rsync<span class="w"> </span>-vrlptDSH<span class="w"> </span>--delete<span class="w"> </span>/mnt/<span class="w"> </span>/var/www/html/os/centos/10/x86_64
+%<span class="w"> </span>umount<span class="w"> </span>/mnt
+
+%<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/lib/tftpboot/centos-<span class="o">{</span><span class="m">9</span>,10<span class="o">}</span>-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/var/www/html/os/centos/9/x86_64/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/centos-9-x86_64
+%<span class="w"> </span>cp<span class="w"> </span>/var/www/html/os/centos/10/x86_64/images/pxeboot/*<span class="w"> </span>/var/lib/tftpboot/centos-10-x86_64
+
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/www/html/os/centos/9
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/www/html/os/centos/10
+%<span class="w"> </span>restorecon<span class="w"> </span>-R<span class="w"> </span>/var/lib/tftpboot
+</code></pre></div>
+<p>At this point, we'll need to setup the grub menus. We'll setup
+non-kickstart examples for BIOS and UEFI.</p>
+<div class="highlight"><pre><span></span><code>. . .
+# CentOS Stream 9
+menuentry &#39;Install CentOS Stream 9 (No KS) (UEFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 9 kernel...&quot;
+  linux centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
+  initrd centos-9-x86_64/initrd.img
+}
+menuentry &#39;Install CentOS Stream 9 (No KS) (BIOS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 9 kernel...&quot;
+  linux16 centos-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/x86_64 inst.stage2=http://10.100.0.1/os/centos/9/x86_64 ip=dhcp
+  initrd16 centos-9-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry &#39;Install CentOS Stream 9 (No KS) (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 9 kernel...&quot;
+  linux centos-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/centos/9/aarch64 inst.stage2=http://10.100.0.1/os/centos/9/aarch64 ip=dhcp
+  initrd centos-9-aarch64/initrd.img
+}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>. . .
+# CentOS Stream 10
+menuentry &#39;Install CentOS Stream 10 (No KS) (UEFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 10 kernel...&quot;
+  linux centos-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/x86_64 inst.stage2=http://10.100.0.1/os/centos/10/x86_64 ip=dhcp
+  initrd centos-10-x86_64/initrd.img
+}
+menuentry &#39;Install CentOS Stream 10 (No KS) (BIOS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 10 kernel...&quot;
+  linux16 centos-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/x86_64 inst.stage2=http://10.100.0.1/os/centos/10/x86_64 ip=dhcp
+  initrd16 centos-10-x86_64/initrd.img
+}
+
+# if you are setting up arm...
+menuentry &#39;Install CentOS Stream 10 (No KS) (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  echo &quot;Loading CentOS Stream 10 kernel...&quot;
+  linux centos-10-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/centos/10/aarch64 inst.stage2=http://10.100.0.1/os/centos/10/aarch64 ip=dhcp
+  initrd centos-10-aarch64/initrd.img
+}
+</code></pre></div>
+<p>The CentOS Stream installation should now be bootable.</p>
+<h3 id="fedora">Fedora<a class="headerlink" href="#fedora" title="Permanent link">&para;</a></h3>
+<p>Let's put up a regular installer with no kickstart for Fedora. This
+does not involve pulling down any ISO's and will rely entirely on using
+upstream repositories.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/lib/tftpboot
+%<span class="w"> </span>mkdir<span class="w"> </span>fedora-x86_64
+%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>fedora-x86_64
+<span class="c1"># Replace XX with the current fedora version</span>
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/x86_64/os/images/pxeboot/initrd.img
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/x86_64/os/images/pxeboot/vmlinuz
+
+<span class="c1"># If you want arm systems... aarch64</span>
+%<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+%<span class="w"> </span>mkdir<span class="w"> </span>fedora-aarch64
+<span class="c1"># Replace XX with the current fedora version</span>
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/aarch64/os/images/pxeboot/initrd.img
+%<span class="w"> </span>wget<span class="w"> </span>https://dl.fedoraproject.org/pub/fedora/linux/releases/XX/Everything/aarch64/os/images/pxeboot/vmlinuz
+</code></pre></div>
+<p>Now we can add a couple menu entry items for Fedora. I'm making both
+EFI and Classic entries to ensure we can boot both EFI and BIOS systems
+from the same menu.</p>
+<div class="highlight"><pre><span></span><code>. . .
+menuentry &#39;Install Fedora Linux (EFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
+  initrd fedora-x86_64/initrd.img
+}
+menuentry &#39;Install Fedora Linux (Classic)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
+  initrd16 fedora-x86_64/initrd.img
+}
+# Add the below for ARM systems
+menuentry &#39;Install Fedora Linux (ARM)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
+  initrd fedora-aarch64/initrd.img
+}
+</code></pre></div>
+<p>Now the Fedora installation should be bootable.</p>
+<h2 id="customizing-grub">Customizing Grub<a class="headerlink" href="#customizing-grub" title="Permanent link">&para;</a></h2>
+<p>Grub is customizable. It is possible to setup background images, choose
+menu colors, setup themes, and so on.</p>
+<h3 id="colors-and-backgrounds">Colors and Backgrounds<a class="headerlink" href="#colors-and-backgrounds" title="Permanent link">&para;</a></h3>
+<p>Colors and backgrounds are perfectly possible, even in an EFI setup.
+We'll need to load a few modules and then set the colors and background
+we want. Note that if you're using a background, it should live in
+/var/lib/tftpboot to make things easier.</p>
+<div class="highlight"><pre><span></span><code>. . .
+insmod all_video
+insmod gfxterm
+insmod gfxterm_menu
+insmod gfxmenu
+insmod gfxterm_background
+insmod png
+terminal_output gfxterm
+background_image -m stretch /bg.png
+
+set menu_color_highlight=cyan/black
+set menu_color_normal=white/black
+set color_normal=white/black
+. . .
+</code></pre></div>
+<p>The background would be /var/lib/tftpboot/bg.png in this example.
+Selected items will appear to be cyan and the typical gray selection box
+is now transparent, which is done by setting it to black. Everything
+else should appear as white text with a transparent background. Example
+below.</p>
+<p><img alt="image" src="/_static/img/grub_ex.png" /></p>
+<h3 id="special-submenus">Special Submenus<a class="headerlink" href="#special-submenus" title="Permanent link">&para;</a></h3>
+<p>Submenus are easily created using submenu in the grub configuration. For
+example:</p>
+<div class="highlight"><pre><span></span><code>submenu &#39;Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+   set menu_color_highlight=black/light-cyan
+   set menu_color_normal=white/black
+   set color_normal=white/black
+
+   menuentry &#39;Install Fedora Linux (EFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+     linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
+     initrd fedora-x86_64/initrd.img
+   }
+   menuentry &#39;Install Fedora Linux (Classic)&#39; --class fedora --class gnu-linux --class gnu --class os {
+     linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
+     initrd16 fedora-x86_64/initrd.img
+   }
+   menuentry &#39;Install Fedora Linux (ARM)&#39; --class fedora --class gnu-linux --class gnu --class os {
+     linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
+     initrd fedora-aarch64/initrd.img
+   }
+}
+</code></pre></div>
+<p>This now means "Fedora Linux" will show up as a menu option and it
+will take you to a brand new menu with the two listed items, and another
+color scheme. Note that we created color items because submenus will
+reset the theme options. Example of how it looks is below.</p>
+<p><img alt="grub menu example" src="/assets/grub_ex_fedora.png" /></p>
+<p>It is also possible to place everything into separate source-able files.
+Note that when you do this, you will need to symlink those files just
+like you did with grub.cfg.</p>
+<div class="highlight"><pre><span></span><code>submenu &#39;Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+  set menu_color_highlight=black/light-cyan
+  set menu_color_normal=white/black
+  set color_normal=white/black
+  source fedora.cfg
+}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>menuentry &#39;Install Fedora Linux (EFI)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
+  initrd fedora-x86_64/initrd.img
+}
+menuentry &#39;Install Fedora Linux (Classic)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
+  initrd16 fedora-x86_64/initrd.img
+}
+menuentry &#39;Install Fedora Linux (ARM)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os/ ip=dhcp
+  initrd fedora-aarch64/initrd.img
+}
+</code></pre></div>
+<p>Submenus can be nested too. Here's a deeper, working example of my own
+setup using Fedora 40.</p>
+<div class="highlight"><pre><span></span><code># grub.cfg
+set default=0
+set timeout=60
+insmod all_video
+insmod gfxterm
+insmod gfxterm_menu
+insmod gfxmenu
+insmod gfxterm_background
+insmod png
+terminal_output gfxterm
+loadfont /unicode.pf2
+background_image -m stretch /bg.png
+
+set menu_color_highlight=cyan/black
+set menu_color_normal=white/black
+set color_normal=white/black
+
+submenu &#39;Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+  set menu_color_highlight=black/light-cyan
+  set menu_color_normal=white/black
+  set color_normal=white/black
+  source fedora.cfg
+}
+
+menuentry &#39;EFI System Setup&#39; $menuentry_id_option &#39;uefi-firmware&#39; {
+  fwsetup
+}
+
+menuentry &#39;Reboot&#39; {
+  reboot
+}
+
+menuentry &#39;Shutdown&#39; {
+  halt
+}
+
+# fedora.cfg
+submenu &#39;Fedora Linux (latest stable)&#39; --class fedora --class gnu-linux --class gnu --class os {
+  set menu_color_highlight=black/light-cyan
+  set menu_color_normal=white/black
+  set color_normal=white/black
+
+  # EFI Only
+  submenu &#39;EFI Mode&#39; --class fedora --class gnu-linux --class gnu --class os {
+    set menu_color_highlight=black/light-cyan
+    set menu_color_normal=white/black
+    set color_normal=white/black
+
+    menuentry &#39;Install Fedora Linux (No KS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
+      initrd fedora-x86_64/initrd.img
+    }
+
+    menuentry &#39;Install Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os ip=dhcp
+      initrd fedora-x86_64/initrd.img
+    }
+
+    menuentry &#39;Fedora Linux (Rescue Mode)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os
+      initrd fedora-x86_64/initrd.img
+    }
+  }
+
+  # Classic Only
+  submenu &#39;Classic Mode&#39; --class fedora --class gnu-linux --class gnu --class os {
+    set menu_color_highlight=black/light-cyan
+    set menu_color_normal=white/black
+    set color_normal=white/black
+
+    menuentry &#39;Install Fedora Linux (No KS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
+      initrd16 fedora-x86_64/initrd.img
+    }
+
+     menuentry &#39;Install Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux16 fedora-x86_64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/ ip=dhcp
+      initrd16 fedora-x86_64/initrd.img
+    }
+
+    menuentry &#39;Fedora Linux (Rescue Mode)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux16 fedora-x86_64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/os/
+      initrd16 fedora-x86_64/initrd.img
+    }
+  }
+
+  # EFI mode for ARM
+  submenu &#39;EFI Mode (aarch64)&#39; --class fedora --class gnu-linux --class gnu --class os {
+    set menu_color_highlight=black/light-cyan
+    set menu_color_normal=white/black
+    set color_normal=white/black
+
+    menuentry &#39;Install Fedora Linux (No KS)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os ip=dhcp
+      initrd fedora-aarch64/initrd.img
+    }
+
+    menuentry &#39;Install Fedora Linux&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-aarch64/vmlinuz inst.repo=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os ip=dhcp
+      initrd fedora-aarch64/initrd.img
+    }
+
+    menuentry &#39;Fedora Linux (Rescue Mode)&#39; --class fedora --class gnu-linux --class gnu --class os {
+      linux fedora-aarch64/vmlinuz inst.rescue inst.stage2=http://dl.fedoraproject.org/pub/fedora/linux/releases/40/Everything/aarch64/os
+      initrd fedora-aarch64/initrd.img
+    }
+  }
+}
+</code></pre></div>
+<h2 id="secure-boot">Secure Boot<a class="headerlink" href="#secure-boot" title="Permanent link">&para;</a></h2>
+<p>Using the above setup, it is perfectly possible to have Secure Boot working. Instead of using <code>core.efi</code>, you would use a <code>shimx64.efi</code> file from the shim package. The <code>grub2-mknetdir</code> command does not provide this file, so we need to extract it from a running system or download and unpack it.</p>
+<div class="highlight"><pre><span></span><code>% dnf download shim-x64
+% rpm2cpio shim-x64-15.8-2.el9.x86_64.rpm | cpio -idmv
+% ls -l boot/efi/EFI/rocky
+total 3656
+-rwx------. 1 root root    104 Apr  4 14:23 BOOTX64.CSV
+-rwx------. 1 root root 857352 Apr  4 14:23 mmx64.efi
+-rwx------. 1 root root 959224 Apr  4 14:23 shim.efi
+-rwx------. 1 root root 959224 Apr  4 14:23 shimx64.efi
+-rwx------. 1 root root 952016 Apr  4 14:23 shimx64-rocky.efi
+</code></pre></div>
+<p>Note that both <code>shim.efi</code> and <code>shimx64.efi</code> should be the same file. Copying
+<code>shimx64.efi</code> is sufficient enough.</p>
+<p>Ensure that your DHCP configuration is now pointing to this file and the
+permissions are set to <code>755</code>.</p>
+<h3 id="font-issues">Font Issues<a class="headerlink" href="#font-issues" title="Permanent link">&para;</a></h3>
+<p>If you notice your grub2 menu is missing characters (e.g. you see blocks), you
+may need to get at least the unicode.pf2 file from the same system you obtained
+the <code>shimx64.efi</code> file. It can be found in <code>/usr/share/grub</code>. However, this may
+not work, and may require you to use the <code>grub2-mkfont</code> tool.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2026-01-06
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright 2025, remyabel, nazunalika
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

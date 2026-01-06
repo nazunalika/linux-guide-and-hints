@@ -1,0 +1,2114 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Linux Guide and Hints Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://linuxguideandhints.com/el/openldap/">
+      
+      
+        <link rel="prev" href="../nat/">
+      
+      
+        <link rel="next" href="../pxeboot/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>OpenLDAP - Linux Guide and Hints</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deprecation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Linux Guide and Hints" class="md-header__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Linux Guide and Hints
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenLDAP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Linux Guide and Hints" class="md-nav__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Linux Guide and Hints
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Guide and Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Linux
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enterprise Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../freeipa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FreeIPA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT/Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenLDAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pxeboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PXE (with grub2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sysadmin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The System Administrator Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unbound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../training/ex362/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EX362 Exam Prep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/euphemism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Euphemism Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/ipv6he/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hurricane Electric IPv6 Tunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/mingw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MinGW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/port465/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Is port 465 deprecated?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archive/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archives
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fedora" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fedora
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="deprecation">Deprecation<a class="headerlink" href="#deprecation" title="Permanent link">&para;</a></h1>
+<p>Please note that the OpenLDAP server is considered deprecated in RHEL
+(and thusly other EL derivatives). This document will stay here as a
+reference for those who are still using the server software on
+Enterprise Linux 7, potentially using the OpenLDAP LTB version of the
+software, or using the openldap-servers package from Rocky Linux 9's
+plus repository. It may apply to Fedora users in some contexts, but
+there are some differences they may never be documented here. If you see
+a need for corrections, please open up an issue on our github.</p>
+<p>Most of this information should be considered out of date. OpenLDAP
+2.6.x makes some changes that the below document may or may not cover.</p>
+<h1 id="preface">Preface<a class="headerlink" href="#preface" title="Permanent link">&para;</a></h1>
+<p>This tutorial goes over how to install OpenLDAP to a Enterprise Linux
+Server and options on configuring and setting up accounts for host
+access, etc. This how-to is the method of implementation that I used,
+and can be modified/changed to any users preferences if preferred.
+Enterprise Linux and Fedora users will have the ability to use SSSD for
+SUDO (and it's relatively easy to set it up).</p>
+<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
+<p>Simply put, LDAP is a directory service for authentication across a
+network. Rather than have local accounts on a bunch of machines, LDAP
+can be used to have one account across a bunch of machines. LDAP was
+once an easy setup in RHEL 5 but had changed in RHEL 6 and 7, and here
+provides the necessary information needed to get a simple LDAP system
+running with possible SUDO support and various options of how to support
+your LDAP system.</p>
+<h1 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h1>
+<p>First and foremost, we have a list of requirements. Keep in mind, if you
+do not fulfill these requirements, you may run into some issues down the
+road.</p>
+<ul>
+<li>Enterprise Linux 8, Enterprise Linux 9</li>
+<li>DNS Server (LDAP does NOT appreciate IP addresses for the URI)</li>
+<li>An active internet connection to install the packages required</li>
+</ul>
+<h1 id="tutorial-preface-notes-and-recommendations">Tutorial Preface, Notes, and Recommendations<a class="headerlink" href="#tutorial-preface-notes-and-recommendations" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Potential Pitfalls!</p>
+<ul>
+<li>The incorrect configuration in your firewall or other settings can
+  cause login failures</li>
+<li>Not using certificates (TLS/SSL) will cause you not to be able to
+  login (This is a EL7+ LDAP Client Requirement)</li>
+<li>SELinux is a pain when using mounted home directories or
+  certificates (primarily in Enterprise Linux 7+, will you have
+  problems with certificates/home directories)</li>
+<li>If you use /home as an NFS mount, you'll see some nasty side
+  effects if you have local users.</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recommended Information</p>
+<ul>
+<li>It's recommended to use colored vim syntax. Root doesn't use vim
+  when vim-enhanced is installed. You can make an alias for vi to run
+  vim.</li>
+<li>Turn on syntaxing in <code>~/.vimrc</code> -- <code>syntax on</code></li>
+<li>Make the vim colors brighter in <code>~/.vimrc</code> -- <code>set background=dark</code></li>
+<li>Export your EDITOR variable in <code>~/.bash_profile</code> -- <code>export EDITOR=vim</code></li>
+<li>Keep selinux set to <strong>enforcing</strong></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Database Information</p>
+<p>We will be using lmdb, which is recommended over using hdb or bdb.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>EL 9 OpenLDAP</p>
+<p>Enterprise Linux 9 has fully dropped OpenLDAP where there are no server
+packages normally built. In some EL distributions, openldap-servers is
+still built and provided in an extra repository. Rocky Linux 9 has
+openldap-servers in their plus repository. EPEL also has it available.</p>
+</div>
+<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
+<p>Below details the process for installing OpenLDAP to our system(s). This
+includes installing the packages, setting up certificates, and
+configuring the LDAP server via LDIF files.</p>
+<h2 id="packages">Packages<a class="headerlink" href="#packages" title="Permanent link">&para;</a></h2>
+<p>You will need the following packages. A couple of them may already be
+installed. If you don't plan on migrating local accounts to LDAP, you
+can leave out migrationtools.</p>
+<div class="highlight"><pre><span></span><code># If you are on Rocky Linux 9, you will need to enable the plus repository
+dnf install openldap openldap-servers migrationtools nss-tools -y
+</code></pre></div>
+<h2 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h2>
+<p>Enterprise Linux 7 clients and other newer distributions that are non-el
+require TLS/SSL for authentication when going toward LDAP. because of
+this, we will need to create certificates, regardless if you are in a
+lab or not.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Certificate Information</p>
+<p>NSS should no longer be required. Anything NSS related has been removed.</p>
+</div>
+<p>I have two ways of doing it, we can do it manually or through a script.
+I prefer using my script to take care of it. First the manual way.</p>
+<div class="highlight"><pre><span></span><code>mkdir /etc/pki/ldap 
+cd /etc/pki/ldap
+openssl genrsa -des3 -out ca.key 4096  # Remember the password you put here
+
+openssl genrsa -out ldapserver.key 4096
+
+openssl req -new -x509 -key ca.key -out ca.pem -days 3650
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:Arizona
+Locality Name (eg, city) [Default City]:Phoenix
+Organization Name (eg, company) [Default Company Ltd]:SSN Studio
+Organizational Unit Name (eg, section) []:Channel Maintainers
+Common Name (eg, your name or your server&#39;s hostname) []:SSN     # If you want to use a server name here, perform this step on another server first
+Email Address []:youremail@mail.com
+
+openssl req -new -key ldapserver.key -out ldapserver.csr
+Country Name (2 letter code) [XX]:US
+State or Province Name (full name) []:Arizona
+Locality Name (eg, city) [Default City]:Phoenix
+Organization Name (eg, company) [Default Company Ltd]:SSN Studio
+Organizational Unit Name (eg, section) []:LDAP Server Maintainer
+Common Name (eg, your name or your server&#39;s hostname) []:zera1.angelsofclockwork.net    # Set your common name to your server name for this certificate 
+Email Address []:youremail@mail.com
+
+openssl x509 -req -in ldapserver.csr -out ldapserver.pem -CA ca.pem -CAkey ca.key -days 3650 -set_serial 01
+
+ln -s ca.pem `openssl x509 -hash -in ca.pem -noout`.0
+# Do an ls on the directory and save the hashed name including the .0 somewhere
+
+certutil -N -d /etc/pki/ldap
+# Do not enter any passwords. When asked, just hit enter beyond this point.
+
+chown root:ldap *
+chmod 640 *
+</code></pre></div>
+<p>The scripted way.</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash
+# CA Information
+CAcountry=&quot;US&quot;
+CAstate=&quot;Arizona&quot;
+CAlocale=&quot;Phoenix&quot;
+CAorganization=&quot;SSN Studio&quot;
+CAorganizationalunit=&quot;Channel Maintainers&quot;
+# If you set the below to a hostname, you’re screwed. Don’t do it!
+# Only do it if you have an actual hostname you will do CA signing on!
+CAconicalname=&quot;SSN&quot;
+CAemail=&quot;example1@gmail.com&quot;
+# LDAP Server information
+country=&quot;US&quot;
+state=&quot;Arizona&quot;
+locale=&quot;Phoenix&quot;
+organization=&quot;SSN Studio&quot;
+organizationalunit=&quot;LDAP Server Maintainer&quot;
+conicalname=&quot;zera1.angelsofclockwork.net&quot;
+email=&quot;example2@gmail.com&quot;
+
+certdir=&quot;/etc/pki/ldap&quot;
+
+mkdir $certdir ; cd $certdir
+echo &quot;Enter a password when asked.&quot;
+openssl genrsa -des3 -out ca.key 4096
+openssl genrsa -out ldapserver.key 4096
+# Create the self-signed CA cert
+openssl req -new -x509 -key ca.key -out ca.pem -days 3650 -subj /C=&quot;$CAcountry&quot;/ST=&quot;$CAstate&quot;/L=&quot;$CAlocale&quot;/O=&quot;$CAorganization&quot;/OU=&quot;$CAorganizationalunit&quot;/CN=&quot;$CAconicalname&quot;/emailAddress=&quot;$CAemail&quot;/
+# Create the LDAP server cert
+openssl req -new -key ldapserver.key -out ldapserver.csr -subj /C=&quot;$country&quot;/ST=&quot;$state&quot;/L=&quot;$locale&quot;/O=&quot;$organization&quot;/OU=&quot;$organizationalunit&quot;/CN=&quot;$conicalname&quot;/emailAddress=&quot;$email&quot;/
+# Sign it
+openssl x509 -req -in ldapserver.csr -out ldapserver.pem -CA ca.pem -CAkey ca.key -days 3650 -set_serial 01
+ln -s ca.pem `openssl x509 -hash -in ca.pem -noout`.0
+chown root:ldap *
+chmod 640 *
+</code></pre></div>
+<p>Make sure to obtain your hash. Your hash will be different from mine.</p>
+<div class="highlight"><pre><span></span><code>ls -l /etc/pki/ldap | grep &#39;0&#39;
+39642ab3.0
+</code></pre></div>
+<h2 id="ldap-server-configuration">LDAP Server Configuration<a class="headerlink" href="#ldap-server-configuration" title="Permanent link">&para;</a></h2>
+<p>Configurations done in OpenLDAP are done via LDIF. Your passwords should
+be hashed as well. Before we begin, let's start by generating a
+password for our root DN. <strong>This is required.</strong></p>
+<div class="highlight"><pre><span></span><code>slappasswd 
+New password:
+Re-enter new password: 
+{SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+
+</code></pre></div>
+<p>Keep this SSHA output for our configuration files. Next, we'll need to
+make a couple LDIFs.</p>
+<p>This is our suffix.ldif file. This file helps to create the mdb database
+for our LDAP structure. It also sets our DIT suffix, root password, etc.
+You should change the olcSuffix, olcRootDN, and olcRootPW to whatever
+you plan on using. The olcDbMaxSize is set to 20GB. This is normally
+sufficient and can be changed. The olcDbEnvFlags can be changed as well.</p>
+<div class="highlight"><pre><span></span><code>dn: olcDatabase=mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: mdb
+olcDbDirectory: /var/lib/ldap
+olcSuffix: dc=angelsofclockwork,dc=net
+olcRootDN: cn=manager,dc=angelsofclockwork,dc=net
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+   
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+olcLastMod: TRUE
+olcDbEnvFlags: nometasync
+olcDbEnvFlags: writemap
+olcDbMaxSize: 21474836480
+</code></pre></div>
+<p>Now, below we have our primary modification ldif. Comments describe what
+each one does.</p>
+<div class="highlight"><pre><span></span><code># Sets our cert path and information
+# The &quot;CertificateFile&quot; has to be set to the hostname of the LDAP server in
+# older versions. New versions may not need this.
+dn: cn=config
+changetype: modify
+replace: olcTLSCACertificatePath
+olcTLSCACertificatePath: /etc/pki/ldap
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/pki/ldap/ldapserver.pem
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/pki/ldap/ldapserver.key
+
+# Adding a rootDN for the config.
+# Note that this isn&#39;t fully necessary as you can use -Y EXTERNAL -H ldapi:/// instead
+# So, treat this as an optional thing. If you do want it, consider a different password.
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=config
+-
+replace: olcRootPW
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+
+
+# Set the password again in the mdb database
+# This is because sometimes the password set when making the database doesn&#39;t &#39;work&#39; sometimes
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: {SSHA}CuaKctEx7rl/+ldG0EjktMzJdrxNc46+ 
+
+# Sets the default password hash to SSHA -- Refer to the &#39;bug&#39; information if this does not work
+dn: olcDatabase={-1}frontend,cn=config
+changetype: modify
+replace: olcPasswordHash
+olcPasswordHash: {SSHA}
+
+# Changes the rootdn information in the monitor database
+dn: olcDatabase={1}monitor,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by dn.base=&quot;gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth&quot; read by dn.base=&quot;cn=manager,dc=angelsofclockwork,dc=net&quot; read by * none 
+</code></pre></div>
+<p>Let's make sure we turn on ldaps. It's recommended to use TLS, but
+some applications insist on SSL. (Very few, but they are out there.)</p>
+<div class="highlight"><pre><span></span><code># vi /etc/sysconfig/slapd
+
+. . .
+SLAPD_URLS=&quot;ldapi:/// ldap:/// ldaps:///&quot;
+
+# slaptest -u
+Config file testing succeeded
+
+# /etc/openldap/ldap.conf
+. . .
+TLS_CACERTDIR /etc/pki/ldap
+</code></pre></div>
+<p>Now, we need to add our LDIFs into LDAP.</p>
+<div class="highlight"><pre><span></span><code>rm -f /etc/openldap/slapd.d/cn=config/olcDatabase=\{2\}hdb.ldif
+chown -R ldap:ldap /var/lib/ldap
+systemctl enable slapd
+systemctl start slapd
+ldapadd -Y EXTERNAL -H ldapi:/// -f suffix.ldif
+ldapmodify -Y EXTERNAL -H ldapi:/// -f info.ldif
+</code></pre></div>
+<p>You may end up getting a checksum error in your logs. To solve this, you
+need to do a simple operation against the configuration.</p>
+<div class="highlight"><pre><span></span><code>ldapmodify -h localhost -xWD &quot;cn=config&quot;
+Enter LDAP Password:
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=config
+modifying entry &quot;olcDatabase={0}config,cn=config&quot;
+slaptest -u
+config file testing succeeded
+</code></pre></div>
+<p>That should do it. You can do a -Y EXTERNAL -H ldapi:/// instead if you
+wanted to. I did the above to show passwords will work for config.</p>
+<h2 id="ldap-structure">LDAP Structure<a class="headerlink" href="#ldap-structure" title="Permanent link">&para;</a></h2>
+<p>The next piece is to get our backend structure built. In EL7, core is
+the only schema that is there. In EL6, it's a good chunk of these. I
+like to put them in a file so I can loop through them.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ppolicy schema</p>
+<p>As of OpenLDAP 2.6.x, the ppolicy schema no longer applies as it is
+built-in to the slapo-ppolicy module. See the <a href="https://www.openldap.org/doc/admin25/appendix-upgrading.html">upgrade
+document</a>
+for information.</p>
+</div>
+<div class="highlight"><pre><span></span><code>/etc/openldap/schema/corba.ldif
+/etc/openldap/schema/cosine.ldif
+/etc/openldap/schema/duaconf.ldif
+/etc/openldap/schema/dyngroup.ldif
+/etc/openldap/schema/inetorgperson.ldif
+/etc/openldap/schema/java.ldif
+/etc/openldap/schema/misc.ldif
+/etc/openldap/schema/nis.ldif
+/etc/openldap/schema/openldap.ldif
+/etc/openldap/schema/collective.ldif 
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>rfc2307</p>
+<p>If you want to be able to combine groupOfNames and posixGroup together
+(similar to Active Directory, other open source, and commercial
+offerings), don't use nis. Use the
+<a href="https://raw.githubusercontent.com/ptman/ldap-tools/master/rfc2307bis.ldif">rfc2307bis</a>
+schema instead.</p>
+</div>
+<p>Once you have your list of schema to put in, we can loop through them.</p>
+<div class="highlight"><pre><span></span><code>for x in $(cat schemaorder) ; do ldapadd -Y EXTERNAL -H ldapi:/// -f $x ; done
+adding new entry &quot;cn=corba,cn=schema,cn=config&quot;
+adding new entry &quot;cn=cosine,cn=schema,cn=config&quot;
+adding new entry &quot;cn=duaconf,cn=schema,cn=config&quot;
+adding new entry &quot;cn=dyngroup,cn=schema,cn=config&quot;
+adding new entry &quot;cn=inetorgperson,cn=schema,cn=config&quot;
+adding new entry &quot;cn=java,cn=schema,cn=config&quot;
+adding new entry &quot;cn=misc,cn=schema,cn=config&quot;
+adding new entry &quot;cn=nis,cn=schema,cn=config&quot;
+adding new entry &quot;cn=openldap,cn=schema,cn=config&quot;
+adding new entry &quot;cn=collective,cn=schema,cn=config&quot;
+</code></pre></div>
+<p>I normally like to keep all LDIFs in a folder by themselves to avoid
+clutter (non-configuration LDIF).</p>
+<div class="highlight"><pre><span></span><code>mkdir ldif ; cd ldif
+</code></pre></div>
+<p>Let's get our base created. Make sure to replace my DN with your DN
+that you chose earlier. Call this base.ldif.</p>
+<div class="highlight"><pre><span></span><code>dn: dc=angelsofclockwork,dc=net
+dc: angelsofclockwork
+objectClass: top
+objectClass: domain
+
+dn: ou=People,dc=angelsofclockwork,dc=net
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=angelsofclockwork,dc=net
+ou: Group
+objectClass: top
+objectClass: organizationalUnit
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f base.ldif
+Enter LDAP Password:
+adding new entry &quot;dc=angelsofclockwork,dc=net&quot;
+adding new entry &quot;ou=People,dc=angelsofclockwork,dc=net&quot;
+adding new entry &quot;ou=Group,dc=angelsofclockwork,dc=net&quot;
+</code></pre></div>
+<p><strong>If this doesn't add, make sure your LDAP server is running, check
+/var/log/messages, and ensure you've completed all steps before this.</strong></p>
+<div class="highlight"><pre><span></span><code>ldapsearch -x -LLL -b &#39;dc=angelsofclockwork,dc=net&#39;
+dn: dc=angelsofclockwork,dc=net
+dc: angelsofclockwork
+objectClass: top
+objectClass: domain
+
+dn: ou=People,dc=angelsofclockwork,dc=net
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=angelsofclockwork,dc=net
+ou: Group
+objectClass: top
+objectClass: organizationalUnit
+</code></pre></div>
+<h2 id="add-users-via-migration">Add Users via Migration<a class="headerlink" href="#add-users-via-migration" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>But... I don't want to add my users locally</p>
+<p>You don't have to add your users locally to the system. This just aids
+in the creation of users. Go to the next section if you want to add
+users and do permissions by hand.</p>
+</div>
+<p>This is the fun part. We'll need to add some users, set some passwords
+and migrate them into the LDAP system. I'll make three users as an
+example, give them an ID starting at 10000, home directories in /lhome,
+set a password, and proceed to migrate them. <strong>If you don't want to use
+/lhome, keep them set to /home and their home directories should get
+created automatically when logging into another machine.</strong></p>
+<div class="highlight"><pre><span></span><code># mkdir /lhome
+# mkdir ldif/user
+# semanage fcontext -a -t home_root_t &quot;/lhome(/.*)?&quot;
+# restorecon -v /lhome \
+  restorecon reset /lhome context unconfined_u:object_r:default_t:s0-&gt;unconfined_u:object_r:home_root_t:s0
+# groupadd -g 10000 sokel
+# groupadd -g 10001 suree
+# groupadd -g 10002 ranos
+# useradd -u 10000 -g 10000 -d /lhome/sokel sokel
+# useradd -u 10001 -g 10001 -d /lhome/suree suree
+# useradd -u 10002 -g 10002 -d /lhome/ranos ranos
+# passwd sokel ; passwd suree ; passwd ranos
+# cat /etc/passwd | grep sokel &gt; ldif/user/passwd.sokel
+# cat /etc/passwd | grep suree &gt; ldif/user/passwd.suree
+# cat /etc/passwd | grep ranos &gt; ldif/user/passwd.ranos
+# cat /etc/group | grep sokel &gt; ldif/user/group.sokel
+# cat /etc/group | grep suree &gt; ldif/user/group.suree
+# cat /etc/group | grep ranos &gt; ldif/user/group.ranos
+</code></pre></div>
+<p>We'll set some aliases for our migration scripts too</p>
+<div class="highlight"><pre><span></span><code># alias miguser=&#39;/usr/share/migrationtools/migrate_passwd.pl&#39;
+# alias miggroup=&#39;/usr/share/migrationtools/migrate_group.pl&#39;
+</code></pre></div>
+<p>Before we continue, we need to modify our migration scripts. This is
+extremely important, otherwise our LDIFs will come out incorrect. Change
+them to your DN.</p>
+<div class="highlight"><pre><span></span><code># sed -i.bak &quot;s/padl.com/angelsofclockwork.net/g&quot; /usr/share/migrationtools/migrate_common.ph
+# sed -i.bak &quot;s/padl,dc=com/angelsofclockwork,dc=net/g&quot; /usr/share/migrationtools/migrate_common.ph
+</code></pre></div>
+<p>Now we can use a loop to convert them. You can do it by hand also, but
+that's up to you.</p>
+<div class="highlight"><pre><span></span><code># for x in sokel suree ranos ; do miguser ldif/user/passwd.$x &gt; ldif/user/$x.ldif ; done
+# for x in sokel suree ranos ; do miggroup ldif/user/group.$x &gt;&gt; ldif/user/$x.ldif ; done
+# cd ldif/user/
+# cat *.ldif &gt;&gt; /tmp/ourusers.ldif
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f /tmp/ourusers.ldif
+Enter LDAP Password:
+adding new entry &quot;uid=ranos,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=ranos,ou=Group,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;uid=sokel,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=sokel,ou=Group,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;uid=suree,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=suree,ou=Group,dc=angelsofclockwork,dc=net&quot;
+</code></pre></div>
+<p>The manual way.</p>
+<div class="highlight"><pre><span></span><code># /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.sokel &gt; ldif/user/sokel.ldif 
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.sokel &gt;&gt; ldif/user/sokel.ldif
+# /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.suree &gt; ldif/user/suree.ldif 
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.suree &gt;&gt; ldif/user/suree.ldif
+# /usr/share/migrationtools/migrate_passwd.pl ldif/user/passwd.ranos &gt; ldif/user/ranos.ldif 
+# /usr/share/migrationtools/migrate_group.pl ldif/user/group.ranos &gt;&gt; ldif/user/ranos.ldif
+
+# cd ldif/user/
+# ls
+group.ranos  group.suree   passwd.sokel  ranos.ldif  suree.ldif
+group.sokel  passwd.ranos  passwd.suree  sokel.ldif
+
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f sokel.ldif
+Enter LDAP Password:
+adding new entry &quot;uid=sokel,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=sokel,ou=Group,dc=angelsofclockwork,dc=net&quot;
+
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f suree.ldif
+Enter LDAP Password:
+adding new entry &quot;uid=suree,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=suree,ou=Group,dc=angelsofclockwork,dc=net&quot;
+
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f ranos.ldif
+Enter LDAP Password:
+adding new entry &quot;uid=ranos,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=ranos,ou=Group,dc=angelsofclockwork,dc=net&quot;
+</code></pre></div>
+<h2 id="add-users-via-ldif">Add Users via LDIF<a class="headerlink" href="#add-users-via-ldif" title="Permanent link">&para;</a></h2>
+<p>This is for those who don't want to create the account locally. For
+each user, you need to create an LDIF that satisfies their account
+information such as UID, GID and their group information. If you plan on
+having NFS exports to /lhome, make sure homeDirectory is correctly
+pointing as such. Otherwise, keep it as /home/username.</p>
+<div class="highlight"><pre><span></span><code>dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+cn: Zera Nalika
+gidNumber: 11000
+sn: Nalika
+uidNumber: 11000
+givenName: Zera
+uid: zera
+loginShell: /bin/bash
+homeDirectory: /home/zera
+displayName: Zera Nalika
+userPassword: changeme2
+
+dn: cn=zera,ou=Group,dc=angelsofclockwork,dc=net
+objectClass: posixGroup
+objectClass: top
+cn: zera
+gidNumber: 11000
+</code></pre></div>
+<p>That's about it for that. You create these for each user as needed and
+then add them into ldap.</p>
+<div class="highlight"><pre><span></span><code># ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f zera.ldif
+adding new entry &quot;uid=zera,ou=People,dc=angelsofclockwork,dc=net&quot;
+
+adding new entry &quot;cn=zera,ou=Group,dc=angelsofclockwork,dc=net&quot;
+</code></pre></div>
+<p>For users who are doing the /lhome thing, make their directories. When
+you are changing ownership, do it by UID and GID number.</p>
+<div class="highlight"><pre><span></span><code># mkdir /lhome
+# semanage fcontext -a -t home_root_t &quot;/lhome(/.*)?&quot;
+# mkdir /lhome/zera
+# cp /etc/skel/.* /lhome/zera
+# chown -R 11000:11000 /lhome/zera
+# restorecon -Rv /lhome
+</code></pre></div>
+<h2 id="nfs-export-home-directories">NFS Export Home Directories<a class="headerlink" href="#nfs-export-home-directories" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>/home vs /lhome</p>
+<p>If you used /lhome and you want to use NFS mounts, you may continue
+here. Otherwise, skip this section entirely. If you use /home and still
+want to do NFS, you will need to do persistent NFS to say /export/home,
+and then setup AutoFS to use /export/home as a way to automount into
+/home.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Potential Pitfall</p>
+<p>Do NOT use NFSv3. The steps below show how to prevent user squashing to
+allow the user to have access to their home directories. Typically, in
+an NFSv4 fashion, it tends to mount it with permissions set to nobody.
+Other solutions have been to force NFSv3. This is <strong>NOT</strong> recommended.
+<strong>YOU HAVE BEEN WARNED.</strong></p>
+</div>
+<p>First, we'll need to install nfs-utils, set up our exports, and modify
+our id map file.</p>
+<div class="highlight"><pre><span></span><code># dnf install nfs-utils libnfsidmap -y
+
+# vi /etc/exports
+/lhome *(rw,sync,root_squash,no_all_squash)
+
+# vi /etc/idmapd.conf
+
+# Comment out the first Domain line and make your own
+Domain = zera1.angelsofclockwork.net
+
+# systemctl start nfs-server
+# systemctl enable nfs-server
+</code></pre></div>
+<p>Sometimes you'll still run into the nobody problem. Sometimes this
+helps.</p>
+<div class="highlight"><pre><span></span><code># vi /etc/sysconfig/nfs
+NEED_IDMAPD=yes
+NFSMAPID_DOMAIN=library.angelsofclockwork.net
+</code></pre></div>
+<h2 id="firewall">Firewall<a class="headerlink" href="#firewall" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Keep your firewall on</p>
+<p>It is bad practice to turn your firewall off. Don't do it.</p>
+</div>
+<p>We need to open up our firewall.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Port Reference</p>
+<ul>
+<li>LDAP Ports: 389/tcp 636/tcp</li>
+<li>NFS Ports: 111/tcp 111/udp 2049/tcp</li>
+</ul>
+</div>
+<p>If using firewalld, you can add these ports by service.</p>
+<div class="highlight"><pre><span></span><code># firewall-cmd --add-service=ldap --zone=public --permanent
+# firewall-cmd --add-service=ldaps --zone=public --permanent
+# firewall-cmd --add-service=nfs --zone=public --permanent
+# firewall-cmd --reload
+</code></pre></div>
+<h1 id="client">Client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h1>
+<p>Setting up the client can be straight-forward or troubling, depending on
+the distribution you're using. We'll be going over EL7+. Fedora also
+works here as well.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Third-party Repositories</p>
+<p>If you use third-party repositories, you may want to disable them, at
+least temporarily. Depending on the repository, there may be conflicts
+when installing the appropriate packages. You may want to consider on
+setting up priorities, and ensure your base and updates are higher than
+the rest.</p>
+</div>
+<h2 id="enterprise-linuxcurrent-fedora-releases">Enterprise Linux/Current Fedora Releases<a class="headerlink" href="#enterprise-linuxcurrent-fedora-releases" title="Permanent link">&para;</a></h2>
+<p>We'll be using SSSD for this. We need to install some key packages
+first. Some of these packages may not install because they were either
+superceded or obsoleted.</p>
+<div class="highlight"><pre><span></span><code># yum install pki-{ca,common,silent} openldap-clients nss-pam-ldapd policycoreutils-python sssd sssd-common sssd-client sssd-ldap
+</code></pre></div>
+<p>Use authselect to configure pam and nss. You'll need to configure
+/etc/sssd/sssd.conf by hand after.</p>
+<div class="highlight"><pre><span></span><code># authselect select sssd with-mkhomedir with-sudo
+
+# vi /etc/sssd/sssd.conf
+[domain/default]
+
+cache_credentials = True
+krb5_realm = #
+ldap_search_base = dc=angelsofclockwork,dc=net
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+sudo_provider = ldap
+ldap_uri = ldap://zera1.angelsofclockwork.net
+ldap_id_use_start_tls = True
+ldap_tls_cacertdir = /etc/openldap/certs
+ldap_tls_cacert = /etc/openldap/certs/ca.pem
+# Add the below
+ldap_sudo_search_base = ou=SUDOers,dc=angelsofclockwork,dc=net
+
+[sssd]
+# Modify this line and add sudo to the list
+services = nss, pam, autofs, sudo
+
+[sudo]
+</code></pre></div>
+<p>Now, let's get our CA cert that we made way long ago and download it.
+If you used a real CA to sign your certificate, obtain their
+certificate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hash</p>
+<p>Remember your hash from when you were making your certificates? You need
+to obtain it. In both examples, we created it while using a symbolic
+link.</p>
+</div>
+<div class="highlight"><pre><span></span><code># scp zera1.angelsofclockwork.net:/etc/pki/ldap/ca.pem /etc/openldap/certs/ca.pem
+# cd /etc/openldap/certs
+# ln -s ca.pem 39642ab3.0
+</code></pre></div>
+<p>Now, modify /etc/openldap/ldap.conf and add the following to the bottom,
+ensuring your BASE is set correctly.</p>
+<div class="highlight"><pre><span></span><code>URI ldap://library.angelsofclockwork.net
+BASE dc=angelsofclockwork,dc=net
+ssl start_tls
+</code></pre></div>
+<p>You can attempt an ldapsearch and it should work. Search for one of your
+users.</p>
+<div class="highlight"><pre><span></span><code># ldapsearch -x -LLL uid=zera
+
+dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+cn: Zera Nalika
+gidNumber: 11000
+uidNumber: 11000
+givenName: Zera
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+objectClass: hostObject
+objectClass: radiusprofile
+objectClass: inetOrgPerson
+objectClass: ldapPublicKey
+uid: zera
+loginShell: /bin/bash
+homeDirectory: /lhome/zera
+displayName: Zera Nalika
+</code></pre></div>
+<h2 id="automounting-home-directories">Automounting Home Directories<a class="headerlink" href="#automounting-home-directories" title="Permanent link">&para;</a></h2>
+<p>If you chose to do /lhome NFS mounting, proceed here.</p>
+<div class="highlight"><pre><span></span><code># mkdir /lhome
+# semanage fcontext -a -t autofs_t &quot;/lhome(/.*)?&quot;
+# restorecon -v /lhome
+# setsebool use_nfs_home_dirs 1
+</code></pre></div>
+<p>Now, let's get our automounting setup.</p>
+<div class="highlight"><pre><span></span><code># vi /etc/auto.master
+. . .
+/lhome /etc/auto.lhome # Add this under the /misc line
+</code></pre></div>
+<p>Let's copy the misc template and make a change to it.</p>
+<div class="highlight"><pre><span></span><code># cp /etc/auto.misc /etc/auto.lhome
+# vi /etc/auto.lhome
+
+# Comment the cd line, and add our mount under it.
+#cd             -fstype=iso9660,ro,nosuid,nodev :/dev/cdrom
+*               -rw,soft,intr       zera1.angelsofclockwork.net:/lhome/&amp;
+
+# restorecon -v /etc/auto.lhome
+# systemctl enable autofs
+# systemctl start autofs
+</code></pre></div>
+<p>Let's make our change to the idmapd configuration.</p>
+<div class="highlight"><pre><span></span><code># vi /etc/idmapd.conf
+
+#Domain = local.domain.edu
+Domain = zera1.angelsofclockwork.net
+
+# systemctl restart sssd autofs
+</code></pre></div>
+<h1 id="ldap-structure-add-ons">LDAP Structure Add-ons<a class="headerlink" href="#ldap-structure-add-ons" title="Permanent link">&para;</a></h1>
+<p>Here you'll find my value-added portions of getting LDAP going further
+than what the above presented.</p>
+<h2 id="sudo">SUDO<a class="headerlink" href="#sudo" title="Permanent link">&para;</a></h2>
+<p>Getting SUDO to work in LDAP can be a real pain. It doesn't have to be.</p>
+<p>The default sudo schema provided by the LDAP packages, which I have
+taken and converted into the proper olc format.</p>
+<div class="highlight"><pre><span></span><code>dn: cn=sudo,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: sudo
+olcAttributeTypes: {0}( 1.3.6.1.4.1.15953.9.1.1 NAME &#39;sudoUser&#39; DESC &#39;User(s)
+ who may  run sudo&#39; EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMa
+ tch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {1}( 1.3.6.1.4.1.15953.9.1.2 NAME &#39;sudoHost&#39; DESC &#39;Host(s)
+ who may run sudo&#39; EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMat
+ ch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {2}( 1.3.6.1.4.1.15953.9.1.3 NAME &#39;sudoCommand&#39; DESC &#39;Comma
+ nd(s) to be executed by sudo&#39; EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1
+ 466.115.121.1.26 )
+olcAttributeTypes: {3}( 1.3.6.1.4.1.15953.9.1.4 NAME &#39;sudoRunAs&#39; DESC &#39;User(s)
+  impersonated by sudo (deprecated)&#39; EQUALITY caseExactIA5Match SYNTAX 1.3.6.1
+ .4.1.1466.115.121.1.26 )
+olcAttributeTypes: {4}( 1.3.6.1.4.1.15953.9.1.5 NAME &#39;sudoOption&#39; DESC &#39;Option
+ s(s) followed by sudo&#39; EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115
+ .121.1.26 )
+olcAttributeTypes: {5}( 1.3.6.1.4.1.15953.9.1.6 NAME &#39;sudoRunAsUser&#39; DESC &#39;Use
+ r(s) impersonated by sudo&#39; EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466
+ .115.121.1.26 )
+olcAttributeTypes: {6}( 1.3.6.1.4.1.15953.9.1.7 NAME &#39;sudoRunAsGroup&#39; DESC &#39;Gr
+ oup(s) impersonated by sudo&#39; EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.14
+ 66.115.121.1.26 )
+olcAttributeTypes: {7}( 1.3.6.1.4.1.15953.9.1.8 NAME &#39;sudoNotBefore&#39; DESC &#39;Sta
+ rt of time interval for which the entry is valid&#39; EQUALITY generalizedTimeMat
+ ch ORDERING generalizedTimeOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
+  )
+olcAttributeTypes: {8}( 1.3.6.1.4.1.15953.9.1.9 NAME &#39;sudoNotAfter&#39; DESC &#39;End
+ of time interval for which the entry is valid&#39; EQUALITY generalizedTimeMatch
+ ORDERING generalizedTimeOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 )
+olcAttributeTypes: {9}( 1.3.6.1.4.1.15953.9.1.10 NAME &#39;sudoOrder&#39; DESC &#39;an int
+ eger to order the sudoRole entries&#39; EQUALITY integerMatch ORDERING integerOrd
+ eringMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+olcObjectClasses: {0}( 1.3.6.1.4.1.15953.9.2.1 NAME &#39;sudoRole&#39; DESC &#39;Sudoer En
+ tries&#39; SUP top STRUCTURAL MUST cn MAY ( sudoUser $ sudoHost $ sudoCommand $ s
+ udoRunAs $ sudoRunAsUser $ sudoRunAsGroup $ sudoOption $ sudoOrder $ sudoNotB
+ efore $ sudoNotAfter $ description ) )
+</code></pre></div>
+<p>Save this as sudoschema.ldif and add it in.</p>
+<div class="highlight"><pre><span></span><code># ldapadd -Y EXTERNAL -H ldapi:/// -f sudoschema.ldif
+</code></pre></div>
+<p>Let's create our defaults. This will start our sudo OU and give it some
+defaults. You may change these if you so desire.</p>
+<div class="highlight"><pre><span></span><code># vi sudo.ldif
+
+dn: ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: top
+objectClass: organizationalUnit
+ou: SUDOers
+
+dn: cn=defaults,ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: top
+objectClass: sudoRole
+cn: defaults
+description: SUDOers Default values
+sudoOption: requiretty
+sudoOption: env_reset
+sudoOption: env_keep =  &quot;COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS&quot;
+sudoOption: env_keep += &quot;MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE&quot;
+sudoOption: env_keep += &quot;LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES&quot;
+sudoOption: env_keep += &quot;LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE&quot;
+sudoOption: env_keep += &quot;LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY&quot;
+
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f sudo.ldif
+</code></pre></div>
+<p>Now, let's create our first SUDO container. It will be for our
+\"admins\". We could specify \"sudoHost: ALL\" if we wanted. But for the
+example, I chose a couple of hosts.</p>
+<div class="highlight"><pre><span></span><code># vi admins.ldif
+
+dn: cn=ADMINS,ou=SUDOers,dc=angelsofclockwork,dc=net
+objectClass: sudoRole
+cn: ADMINS
+description: Administration Role
+sudoCommand: ALL
+sudoHost: zera2.angelsofclockwork.net
+sudoHost: zera3.angelsofclockwork.net
+sudoRunAs: ALL
+sudoRunAsGroup: ALL
+sudoRunAsUser: ALL
+sudoUser: zera
+
+# ldapadd -xWD &quot;cn=manager,dc=angelsofclockwork,dc=net&quot; -f admins.ldif
+</code></pre></div>
+<p>If you used authselect with the with-sudo option, this should have
+turned on sss for sudoers. You may want to verify /etc/nsswitch.conf
+just to be sure.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SSSD Cache</p>
+<p>Sometimes SSSD likes to cache things or never update things for whatever
+reason or another. To get around this, stop sssd, delete everything
+under /var/lib/sss/db/ and then start sssd again.</p>
+</div>
+<p>Now, let's test.</p>
+<div class="highlight"><pre><span></span><code>[root@zera3 ~]# su - zera
+[zera@zera3 ~]$ sudo -l
+[sudo] password for zera:
+Matching Defaults entries for zera on this host:
+    requiretty, env_reset, env_keep=&quot;COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS&quot;, env_keep+=&quot;MAIL
+    PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE&quot;, env_keep+=&quot;LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT
+    LC_MESSAGES&quot;, env_keep+=&quot;LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE&quot;, env_keep+=&quot;LC_TIME LC_ALL
+    LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY&quot;, secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin, env_reset, requiretty
+
+User sokel may run the following commands on this host:
+    (ALL : ALL) ALL
+</code></pre></div>
+<h2 id="member-groups">Member Groups<a class="headerlink" href="#member-groups" title="Permanent link">&para;</a></h2>
+<p>Member groups are extremely useful, especially for when you're granting
+permissions to external applications (and SSSD if you wish).</p>
+<div class="highlight"><pre><span></span><code># vi modules.ldif
+
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulePath: /usr/lib64/openldap
+olcModuleLoad: memberof.la
+
+# vi memberof.ldif
+
+dn: olcOverlay=memberof,olcDatabase={2}mdb,cn=config
+objectClass: olcMemberOf
+objectClass: olcOverlayConfig
+objectClass: olcConfig
+objectClass: top
+olcOverlay: memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+
+# ldapadd -Y EXTERNAL -H ldapi:/// -f modules.ldif
+# ldapadd -Y EXTERNAL -H ldapI:/// -f memberof.ldif
+</code></pre></div>
+<p>After that, we can now create our groups. Example.</p>
+<div class="highlight"><pre><span></span><code>dn: cn=Admins,ou=Group,dc=angelsofclockwork,dc=net
+objectClass: groupOfNames
+cn: Admins
+member: uid=chris,ou=People,dc=angelsofclockwork,dc=net
+member: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+member: uid=sithlord,ou=People,dc=angelsofclockwork,dc=net
+</code></pre></div>
+<p>In SSSD, we can make some minor changes.</p>
+<div class="highlight"><pre><span></span><code>ldap_search_base = dc=angelsofclockwork,dc=net?sub?|(memberOf=cn=Admins,ou=Group,dc=angelsofclockwork,dc=net)
+ldap_access_filter = (|(memberOf=cn=Admins,ou=Group,dc=angelsofclockwork,dc=net))
+# Change this to rfc2307 if you are using nis
+ldap_schema = rfc2307bis 
+enumerate = True
+
+# systemctl stop sssd ; rm -rf /var/lib/sss/db/* ; systemctl start sssd
+</code></pre></div>
+<p>If we were to do an ldapsearch, we can see the groups show up.</p>
+<div class="highlight"><pre><span></span><code># ldapsearch -x -LLL uid=zera memberOf
+dn: uid=zera,ou=People,dc=angelsofclockwork,dc=net
+memberOf: cn=Admins,ou=Group,dc=angelsofclockwork,dc=net
+</code></pre></div>
+<p>Make sure you turn on referential integrity!</p>
+<h2 id="referential-integrity">Referential Integrity<a class="headerlink" href="#referential-integrity" title="Permanent link">&para;</a></h2>
+<p>Having referential integrity is absolutely important. It basically means
+that if a user gets deleted, their group membership disappears also.
+This prevents you from having to clean up manually.</p>
+<div class="highlight"><pre><span></span><code># vi module.ldif
+
+dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f module.ldif
+</code></pre></div>
+<p>You also need the overlay. An overlay allows certain plugins to work on
+a DIT.</p>
+<div class="highlight"><pre><span></span><code># vi overlay.ldif
+dn: olcOverlay=refint,olcDatabase={2}mdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcConfig
+objectClass: olcRefintConfig
+objectClass: top
+olcOverlay: refint
+olcRefintAttribute: memberOf member manager
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f overlay.ldif
+</code></pre></div>
+<h2 id="acl">ACL<a class="headerlink" href="#acl" title="Permanent link">&para;</a></h2>
+<p>An ACL (Access Control List) allows permissions to be given to those in
+the LDAP tree. The problem with a default LDAP setup is that, attributes
+like userPassword show up in an ldapsearch. This gives little
+protection. So, to get around this issue, we have to create ACLs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Manager's Rights</p>
+<p>The manager has all rights to the DIT. In previous implementations, I
+have put him in access controls as a reference and would put \"write\"
+as his access. This isn't needed, but it doesn't hurt to have it.</p>
+</div>
+<p>This ldif creates an ACL that allows the Admins group to do anything
+they want on the DIT (similar to manager). This also prevents anonymous
+searches from pulling up a user's password.</p>
+<div class="highlight"><pre><span></span><code># vi acl.ldif
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by group.exact=&quot;cn=Admins,ou=Group,dc=angelsofclockwork,dc=net&quot; write by anonymous auth by self write by * none break
+olcAccess: {2}to * by group.exact=&quot;cn=Admins,ou=Group,dc=angelsofclockwork,dc=net&quot; write by * read
+olcAccess: {3}to dn.base=&quot;&quot; by * read
+
+# ldapmodify -Y EXTERNAL -H ldapi:/// -f acl.ldif
+</code></pre></div>
+<p>It's highly recommended, however, to disable anonymous searching,
+especially if you go production with LDAP. A lot of LDAP implementations
+disallow anonymous searching by default. You can do this with ACLs, but
+it's not recommended. We cover this in the search.</p>
+<h2 id="disable-anonymous-binding">Disable Anonymous Binding<a class="headerlink" href="#disable-anonymous-binding" title="Permanent link">&para;</a></h2>
+<p>It's recommended to disable anonymous searching. This can be handled by
+making a modification to the global configuration and the DIT
+configuration.</p>
+<div class="highlight"><pre><span></span><code>dn: cn=config
+changetype: modify
+add: olcDisallows
+olcDisallows: bind_anon
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+add: olcRequires
+olcRequires: authc
+</code></pre></div>
+<p>Once you add this in, all anonymous searching will cease.</p>
+<div class="highlight"><pre><span></span><code># ldapsearch -x -LLL uid=zera
+ldap_bind: Inappropriate authentication (48)
+        additional info: anonymous bind disallowed
+</code></pre></div>
+<h2 id="ldap-logging">LDAP Logging<a class="headerlink" href="#ldap-logging" title="Permanent link">&para;</a></h2>
+<p>Logging is of course, very important for an LDAP server. There are a few
+types of logs we can do. There are the standard logs and then there are
+also audit logs. Audit logs allow an administrator to view changes being
+done to LDAP in an LDIF form. We can setup both.</p>
+<p>Let's create our modification LDIF. This will turn on standard logging
+and enable the audit module. Run an ldapmodify against this LDIF.</p>
+<div class="highlight"><pre><span></span><code>dn: cn=config
+changetype: modify
+replace: olcLogFile
+olcLogFile: /var/log/ldap-standard.log
+-
+replace: olcLogLevel
+olcLogLevel: 256
+
+# Keep in mind, if you have other modules being loaded,
+# add them to the list
+dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+olcModuleLoad: auditlog.la
+</code></pre></div>
+<p>Now, we need to make sure audit logging is done on our database.</p>
+<div class="highlight"><pre><span></span><code>dn: olcOverlay=auditlog,olcDatabase={2}mdb,cn=config
+objectClass: olcAuditlogConfig
+objectClass: olcOverlayConfig
+olcOverlay: auditlog
+olcAuditlogFile: /var/log/ldap-audit.log
+</code></pre></div>
+<p>It's recommended to have logrotate working for our logs. Here is a file
+I've dropped into /etc/logrotate.d. Experiment with these options.
+Since I work in an environment that has tons of transactions going all
+the time, and thus, my rotations are at 100M and 250M respectively.</p>
+<div class="highlight"><pre><span></span><code>/var/log/ldap-standard.log {
+missingok
+compress
+notifempty
+daily
+rotate 10
+size=100M
+}
+
+/var/log/ldap-audit.log {
+missingok
+compress
+notifempty
+daily
+rotate 10
+size=250M
+}
+</code></pre></div>
+<p>In /etc/rsyslog.conf, optionally, you can create this. If you find that
+logs are not appearing after the changes above, use this.</p>
+<div class="highlight"><pre><span></span><code>local4.*                   /var/log/ldap.log
+</code></pre></div>
+<h2 id="password-policy">Password Policy<a class="headerlink" href="#password-policy" title="Permanent link">&para;</a></h2>
+<p>Password policies are a great asset, especially when working in an
+environment that have or require security policies. First, let's load
+our module and then add our overlay. This LDIF will do both. <strong>You may
+want to remove the comments before adding.</strong></p>
+<div class="highlight"><pre><span></span><code>dn: cn=module,cn=config
+changetype: modify
+replace: olcModuleLoad
+olcModuleLoad: refint.la
+olcModuleLoad: memberof.la
+olcModuleLoad: auditlog.la
+olcModuleLoad: ppolicy.la
+
+dn: olcOverlay=ppolicy,olcDatabase={2}mdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcPPolicyConfig
+olcOverlay: ppolicy
+olcPPolicyDefault: cn=default,ou=policies,dc=angelsofclockwork,dc=net
+# Set the below to TRUE if you want users to get locked out after failed attempted
+olcPPolicyUseLockout: TRUE
+# Set the below to TRUE if you want passwords to be hashed.
+# HIGHLY RECOMMENDED YOU SET THIS TO TRUE
+olcPPolicyHashCleartext: TRUE
+</code></pre></div>
+<p>Now, we need an LDIF to create our standard password policy. It's
+important to have a default password policy and then create separate
+ones as needed. Make sure to read the comments. <strong>You may want to remove
+the comments before adding.</strong></p>
+<div class="highlight"><pre><span></span><code>dn: cn=default,ou=policies,dc=angelsofclockwork,dc=net
+objectClass: pwdPolicy
+objectClass: person
+objectClass: top
+cn: passwordDefault
+sn: passwordDefault
+pwdAttribute: userPassword
+# If set to 0, quality is not checked.
+# If set to 1, quality is checked by an internal module which you setup.
+# If set to 2, the system used to change the password must have a checking mechanism.
+# Pick your poison.
+pwdCheckQuality: 0
+# Password lives for 84 days
+pwdMinAge: 0
+pwdMaxAge: 7257600
+# Minimum length is 7
+pwdMinLength: 7
+# Password history of 10, cannot use a password that&#39;s in history
+pwdInHistory: 10
+# 5 Failures till a lockout, 10 minutes for it to reset, 30 minute lockout.
+pwdMaxFailure: 5
+pwdFailureCountInterval: 600
+pwdLockout: TRUE
+pwdLockoutDuration: 1800
+# A user can change their own password.
+pwdAllowUserChange: TRUE
+# Systems that authenticate to LDAP can warn 14 days before an expiration
+pwdExpireWarning: 1209600
+# Allowed binds on an expired password.
+pwdGraceAuthNLimit: 5
+pwdMustChange: TRUE
+pwdSafeModify: FALSE
+</code></pre></div>
+<p>In the instance you want to use the built-in module for password
+checking, your LDIF would have these lines.</p>
+<div class="highlight"><pre><span></span><code>pwdCheckQuality: 1
+pwdCheckModule: check_password.so
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2026-01-06
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright 2025, remyabel, nazunalika
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

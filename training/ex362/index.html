@@ -1,0 +1,3152 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Linux Guide and Hints Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://linuxguideandhints.com/training/ex362/">
+      
+      
+        <link rel="prev" href="../../el/unbound/">
+      
+      
+        <link rel="next" href="../../misc/euphemism/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>EX362 Exam Prep - Linux Guide and Hints</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Linux Guide and Hints" class="md-header__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Linux Guide and Hints
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              EX362 Exam Prep
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Linux Guide and Hints" class="md-nav__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Linux Guide and Hints
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Guide and Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../el/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Linux
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enterprise Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/builds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/freeipa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FreeIPA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/nat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT/Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/openldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenLDAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/pxeboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PXE (with grub2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/sysadmin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The System Administrator Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../el/unbound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EX362 Exam Prep
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EX362 Exam Prep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ansible-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected-lab-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected lab systems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-ansible-controller-and-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Ansible Controller and Clients
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup Ansible Controller and Clients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controller-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-and-configure-red-hat-identity-management-idm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install and configure Red Hat Identity Management (IdM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install and configure Red Hat Identity Management (IdM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-idm-using-either-scripts-or-using-ansible-automation-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install IdM using either scripts or using Ansible Automation Platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-and-configure-a-replica-idm-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install and configure a replica IdM Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-users-groups-and-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create Users, Groups, and Policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create Users, Groups, and Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-passwords-expired" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Passwords Expired
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-single-sign-on-sso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implement Single Sign On (SSO)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Single Sign On (SSO)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-sso-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an SSO client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-sso-client-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify SSO client operation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-and-configure-an-idm-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install and configure an IdM Client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install and configure an IdM Client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-and-configure-idm-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install and configure IdM Clients
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-kerberized-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure Kerberized services
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage-the-idm-integrated-certificate-authority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manage the IdM integrated certificate authority
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manage the IdM integrated certificate authority">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-and-manage-a-certificate-authority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure and manage a certificate authority
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-secret-vaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create Secret Vaults
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-and-configure-idm-users-and-user-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create and configure IdM users and user policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create and configure IdM users and user policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-policies-and-user-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure Policies and User Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-roaming-or-automounted-home-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure roaming or automounted home directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-ansible-tower-to-configure-and-manage-idm-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Ansible Tower to configure and manage IdM Users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-idm-as-an-ldap-backend-for-external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure IdM as an LDAP backend for external services
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maintain-idm-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintain IdM services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maintain IdM services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-ntp-on-all-idm-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure NTP on all IdM components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-firewall-on-all-idm-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure firewall on all IdM components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#back-up-an-idm-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Back up an IdM infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perform-a-backup-without-interruption-of-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perform a backup without interruption of services
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#value-add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value Add
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value Add">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-the-rest-api-to-query-idm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the REST api to query IdM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-an-idp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implement an IdP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-an-ntp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup an NTP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active-directory-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active Directory Trust
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Active Directory Trust">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-trust-relationships-with-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create trust relationships with Active Directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authenticate-users-with-an-active-directory-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authenticate users with an Active Directory domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/euphemism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Euphemism Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/ipv6he/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hurricane Electric IPv6 Tunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/mingw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MinGW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/port465/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Is port 465 deprecated?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archive/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archives
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fedora" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fedora
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>EX362 Exam Prep</h1>
+
+<p>This page contains the necessary resources to help you prepare for the Red Hat Certified Specialist in Identity Management exam, EX362. This follows the youtube playlist as much as possible with various examples and ideas. Soon to come, you will also find our own example practice exam for you to try your hand at to test your knowledge.</p>
+<p>The list of objectives can be found <a href="https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam">here</a>. Note that the exam objectives can change at any time. It is the responsibility of the reader to always review the objectives prior to studying and taking the exam to ensure success.</p>
+<div class="admonition note">
+<p class="admonition-title">Affiliation and Exam Information</p>
+<p>Please note that we are not affiliated with Red Hat. The materials and examples used are our own and do not reflect the training programs provided by Red Hat and are educational only. We do not disclose any of the tasks, questions, or material on the exam as it would violate the NDA. Any questions sent to us about anything directly related to the exam will not be answered. We also do not provide any one-on-one tutoring or online teaching courses.</p>
+<p>If exam objectives have changed to where the videos and this material are missing information, we can add on at any time upon request. If exam objectives have not changed but operational tasks have, we will note them as we find them. If there are things about FreeIPA that you'd like to see in the videos that may fit into objective, we can add it also upon request. However, it is likely those extra things would be better suited in the separate FreeIPA section on this site.</p>
+</div>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This series goes over setting up FreeIPA in a lab/VM environment by following the objectives as outlined by Red Hat. The list of objectives can be found <a href="https://www.redhat.com/en/services/training/ex362-red-hat-certified-specialist-identity-management-exam">here</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Multi-method</p>
+<p>Throughout this material, you will see a combination of both "Script or CLI" and "Ansible" methods of working with FreeIPA (or Red Hat IdM), in selectable tabs. This is because we believe in the user understanding and knowing how to do things by hand first and foremost before ever automating it. Automation cannot be fully achieved without having an understanding of the underlying software and applications.</p>
+<p><strong>In conclusion, we highly recommend that any user studying for their exam reading this guide understands how to do everything by hand first before attempting to redo it via ansible.</strong></p>
+</div>
+<h2 id="exam-information">Exam Information<a class="headerlink" href="#exam-information" title="Permanent link">&para;</a></h2>
+<p>The EX362 exam tests your knowledge in a real world format style test - Meaning just like any Red Hat exam, it is performance-based and you perform tasks as if you were on the job. You are evaluated on the tasks you perform and if they meet the objective criteria. The EX362 is related to FreeIPA or Red Hat Identity Management and counts toward the RHCA (Red Hat Certified Architect). You are expected to have familiarity with ansible for this exam. As such, ansible setup and explanation will be limited.</p>
+<p><strong>To take the exam, you must have at least an RHCSA. If you are attempting to become a Red Hat Certified Architect, you must have an RHCE.</strong></p>
+<h2 id="ansible-information">Ansible Information<a class="headerlink" href="#ansible-information" title="Permanent link">&para;</a></h2>
+<p>As ansible is expected for this exam, you may be required to work with ansible collections to work with FreeIPA. The community version of the collection is simply <code>freeipa.ansible_freeipa</code>. This can be installed via <code>ansible-galaxy</code> or via <code>dnf install ansible-freeipa</code>. You will find that the Red Hat official collection name has a different name entirely.</p>
+<p>Throughout this page, we will be using the <code>ansible-galaxy</code> version of the collection, which ensure we are using a FQCN. This is because if you are using Ansible Automation Platform (or AWX), you will need to use the FQCN in just about all cases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As ansible is a fairly new addition to this exam and to this study guide, there may be inaccuracies. We highly encourage PR's or comments that address problems with the ansible data we provide here.</p>
+</div>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://www.freeipa.org">FreeIPA</a></li>
+<li><a href="https://github.com/freeipa/ansible-freeipa">FreeIPA Ansible Collection</a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/">Red Hat Documentation</a></li>
+<li><a href="https://jhrozek.wordpress.com/2015/08/19/performance-tuning-sssd-for-large-ipa-ad-trust-deployments/">Trust Anatomy/SSSD Troubleshooting</a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_directory_server/11/html-single/performance_tuning_guide/index">Directory Server Tuning</a></li>
+<li><a href="https://freeipa.readthedocs.io/en/latest/workshop.html">FreeIPA Workshop Curriculum</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/index.html">Ansible Documentation</a></li>
+<li><a href="https://linuxguideandhints.com/el/freeipa">Our Page</a></li>
+</ul>
+<h2 id="hardware-recommendations">Hardware Recommendations<a class="headerlink" href="#hardware-recommendations" title="Permanent link">&para;</a></h2>
+<p>The minimum requirements for IdM are fairly low. 2GB of RAM, 1 core, and a 10GB disk. However, we believe that's too low, especially if we plan on scaling out. And during upgrades, you would need at least 4GB of RAM for the operations to be successful. Below are our minimum recommendations:</p>
+<ul>
+<li>2 (virtual) CPU Core</li>
+<li>4 GB of RAM</li>
+<li>10GB+ disk or partition for /var/lib/dirsrv</li>
+</ul>
+<p>Per the Red Hat documentation, consider that with at least 10k users and 100 groups, you would need at least 3GB of RAM and 1GB swap. If you end up having 100k users and 50k groups, then 16GB of RAM and 4GB of swap is recommended. In fact, in larger deployments, it's more effective to increase RAM than disk, as most data is stored in cache.</p>
+<p>View the resources above in the previous section for directory server tuning information.</p>
+<h2 id="expected-lab-systems">Expected lab systems<a class="headerlink" href="#expected-lab-systems" title="Permanent link">&para;</a></h2>
+<p>Below is a list of expected lab systems to perform the work on this page.</p>
+<table>
+<thead>
+<tr>
+<th>System Name</th>
+<th>IP Address</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idm1.example.com</td>
+<td>192.168.15.2</td>
+<td>IdM Server</td>
+</tr>
+<tr>
+<td>idm2.example.com</td>
+<td>192.168.15.3</td>
+<td>IdM Server</td>
+</tr>
+<tr>
+<td>client.example.com</td>
+<td>192.168.15.10</td>
+<td>IdM Client</td>
+</tr>
+<tr>
+<td>nfs.example.com</td>
+<td>192.168.15.11</td>
+<td>NFS Server</td>
+</tr>
+<tr>
+<td>utility.example.com</td>
+<td>192.168.15.12</td>
+<td>Utility Server</td>
+</tr>
+<tr>
+<td>ansible.example.com</td>
+<td>192.168.15.50</td>
+<td>Ansible controller</td>
+</tr>
+</tbody>
+</table>
+<p>You may want to consider setting up an NTP server, if you do not wish to use the default from chrony. This can be done on the utility server. See <a href="#setup-an-ntp-server">Setup an NTP Server</a>.</p>
+<h2 id="setup-ansible-controller-and-clients">Setup Ansible Controller and Clients<a class="headerlink" href="#setup-ansible-controller-and-clients" title="Permanent link">&para;</a></h2>
+<p>As the exam may expect familiarity with ansible, setting up an ansible controller may be ideal.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>We still recommend basic familiarity with FreeIPA itself as it is ideal for understanding the entire stack. Learning by hand is important first before attempting to automate.</strong></p>
+</div>
+<h3 id="controller-setup">Controller Setup<a class="headerlink" href="#controller-setup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code># as root, install the necessary packages and create the user
+% dnf install ansible -y
+% useradd ansible
+
+# ensure ansible can do root things locally.
+% visudo -f /etc/sudoers.d/ansible
+ansible ALL=(ALL) NOPASSWD: ALL
+</code></pre></div>
+<p>Become the ansible user, and finish the general configuration.</p>
+<div class="highlight"><pre><span></span><code>% ssh-keygen
+% ansible-config init --disabled &gt; ansible.cfg
+</code></pre></div>
+<p>Configure <code>ansible.cfg</code> in any way you see fit. We recommend these settings at a minimum.</p>
+<div class="highlight"><pre><span></span><code><span class="k">[defaults]</span>
+<span class="na">roles_path</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">roles:/usr/share/ansible/roles</span>
+<span class="na">collections_paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">collections:/usr/share/ansible/collections</span>
+<span class="na">remote_user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ansible</span>
+<span class="c1">; id_rsa is the default generated key. you can use any format.</span>
+<span class="na">private_key_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/ansible/.ssh/id_rsa</span>
+<span class="na">ansible_managed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">EX362 Study</span>
+
+<span class="k">[inventory]</span>
+<span class="na">enable_plugins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">host_list, virtualbox, yaml, constructed, script, ini, auto</span>
+</code></pre></div>
+<p>Configure the base inventory. For the inventory, you should ensure <em>all</em> lab systems are listed.</p>
+<div class="highlight"><pre><span></span><code><span class="k">[ipa:children]</span>
+<span class="na">ipaserver</span>
+<span class="na">ipareplicas</span>
+<span class="na">ipaclients</span>
+
+<span class="k">[ipa:vars]</span>
+
+<span class="k">[ipaserver:vars]</span>
+
+<span class="k">[ipareplica:vars]</span>
+
+<span class="k">[ipaclients:vars]</span>
+
+<span class="k">[ipaserver]</span>
+<span class="na">idm1.example.com    ansible_host</span><span class="o">=</span><span class="s">192.168.15.2</span>
+
+<span class="k">[ipareplica]</span>
+<span class="na">idm2.example.com    ansible_host</span><span class="o">=</span><span class="s">192.168.15.2</span>
+
+<span class="k">[ipaclients]</span>
+<span class="na">ansible.example.com ansible_connection</span><span class="o">=</span><span class="s">local</span>
+<span class="na">client.example.com  ansible_host</span><span class="o">=</span><span class="s">192.168.15.10</span>
+<span class="na">nfs.example.com     ansible_host</span><span class="o">=</span><span class="s">192.168.15.11</span>
+<span class="na">utility.example.com ansible_host</span><span class="o">=</span><span class="s">192.168.15.12</span>
+</code></pre></div>
+<p>Install the required collections.</p>
+<div class="highlight"><pre><span></span><code>% ansible-galaxy collection install freeipa.ansible_freeipa
+
+# if you plan on managing network manager using ansible, use this collection.
+% ansible-galaxy collection install community.general
+
+# if you plan on managing firewalld and other features, use this collection.
+% ansible-galaxy collection install ansible.posix
+</code></pre></div>
+<p>At this point, you will need to configure all the clients with an ansible user and the public key. See the ansible documentation for more details.</p>
+<h2 id="install-and-configure-red-hat-identity-management-idm">Install and configure Red Hat Identity Management (IdM)<a class="headerlink" href="#install-and-configure-red-hat-identity-management-idm" title="Permanent link">&para;</a></h2>
+<h3 id="install-idm-using-either-scripts-or-using-ansible-automation-platform">Install IdM using either scripts or using Ansible Automation Platform<a class="headerlink" href="#install-idm-using-either-scripts-or-using-ansible-automation-platform" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>System Name</th>
+<th>IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idm1.example.com</td>
+<td>192.168.15.2</td>
+</tr>
+<tr>
+<td>idm2.example.com</td>
+<td>192.168.15.3</td>
+</tr>
+<tr>
+<td>ansible.example.com</td>
+<td>192.168.15.50</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Domain/Realm Information</p>
+<p>The domain/realm for this will be <code>example.com</code></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Static Addresses</p>
+<p>IPA Servers should either have a DHCP reservation or a static address. In the event that you have either, DNS should always be pointing at 127.0.0.1, especially if your replica serves DNS. Both of our replicas serve DNS, so loopback is sufficient and recommended for our name server.</p>
+<p>In later versions of FreeIPA, there is support to force network manager to ensure resolv.conf is loopback without the need to set it by hand with nmcli.</p>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Script or CLI</label><label for="__tabbed_1_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>idm1.example.com
+<span class="c1"># Set a static address - It&#39;s important for your IdM servers</span>
+<span class="c1"># to have static addresses or a DHCP reservation.</span>
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.address<span class="w"> </span><span class="m">192</span>.168.15.2/24
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.gateway<span class="w"> </span><span class="m">192</span>.168.15.1
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.method<span class="w"> </span>manual
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns-search<span class="w"> </span>example.com
+
+<span class="c1"># You should set this if your replica serves DNS! If not, set it to</span>
+<span class="c1"># one or more of your IdM replicas that do.</span>
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns<span class="w"> </span><span class="m">127</span>.0.0.1
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span>eth0
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Examples of using ipa-server-install</span>
+<span class="c1"># RHEL 9</span>
+%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>ipa-server<span class="w"> </span>ipa-server-dns<span class="w"> </span>ipa-client<span class="w"> </span>sssd<span class="w"> </span>sssd-ipa
+<span class="c1"># Installation, interactive, does not setup specific components</span>
+%<span class="w"> </span>ipa-server-install
+
+<span class="c1"># Installation, mostly automatic (recommended)</span>
+<span class="c1"># This will setup DNS and the necessary pieces for an AD trust</span>
+<span class="c1"># Optionally, you can set --setup-adtrust use the --netbios-name switch</span>
+<span class="c1"># to set your forest netbios name</span>
+%<span class="w"> </span>ipa-server-install<span class="w"> </span>--domain<span class="w"> </span>example.com<span class="w"> </span>--realm<span class="w"> </span>EXAMPLE.COM<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--reverse-zone<span class="o">=</span><span class="m">15</span>.168.192.in-addr.arpa.<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-forwarders<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-ntp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--setup-dns<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span>Passw0rd!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-a<span class="w"> </span>Passw0rd!
+
+<span class="c1"># Same as the above, but sets NTP server to sync to before starting</span>
+<span class="c1"># the installation.</span>
+%<span class="w"> </span>ipa-server-install<span class="w"> </span>--domain<span class="w"> </span>example.com<span class="w"> </span>--realm<span class="w"> </span>EXAMPLE.COM<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--reverse-zone<span class="o">=</span><span class="m">15</span>.168.192.in-addr.arpa.<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-forwarders<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--ntp-server<span class="o">=</span><span class="m">192</span>.168.15.12<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--setup-dns<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span>Passw0rd!<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-a<span class="w"> </span>Passw0rd!
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">={</span>freeipa-4,dns<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>kinit<span class="w"> </span>admin
+<span class="c1"># We need to make sure that any A records get a corresponding PTR record, otherwise you&#39;re making them manually.</span>
+%<span class="w"> </span>ipa<span class="w"> </span>dnsconfig-mod<span class="w"> </span>--allow-sync-ptr<span class="o">=</span>True
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Ensure that your ansible controller is setup and install the collections as needed.</p>
+<div class="admonition warn">
+<p class="admonition-title">Ensure ansible is operable on all machines</p>
+<p>It is recommended that on all machines in this lab, you are configuring ansible as a user with full sudo rights.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Static Addressing, command vs collection</p>
+<p>Earlier, it was suggested to install community.general as it provides an nmcli module. We will be using this. It should be noted that you may not have access to that collection on the exam.</p>
+<p>We also suggested ansible.posix. You may not also have access to this on the exam.</p>
+</div>
+<p>Modify the inventory with the necessary variables and domain information.</p>
+<div class="highlight"><pre><span></span><code><span class="k">[ipa:children]</span>
+<span class="na">ipaserver</span>
+<span class="na">ipareplicas</span>
+<span class="na">ipaclients</span>
+
+<span class="c1">; Based on exam requirements, these vars might have to be set differently</span>
+<span class="k">[ipa:vars]</span>
+<span class="c1">; if you are using an ntp server, set to false and  set ipaclient_ntp_servers</span>
+<span class="c1">; ipaclient_no_ntp=false</span>
+<span class="c1">; ipaclient_ntp_servers=&#39;[&quot;192.168.15.12&quot;]&#39;</span>
+<span class="na">ipaclient_no_ntp</span><span class="o">=</span><span class="s">true</span>
+<span class="c1">; we plan on setting up roaming home directories. setting this</span>
+<span class="c1">; to true shouldn&#39;t hurt.</span>
+<span class="na">ipaclient_mkhomedir</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaclient_ssh_trust_dns</span><span class="o">=</span><span class="s">true</span>
+
+<span class="k">[ipaserver:vars]</span>
+<span class="na">ipaadmin_principal</span><span class="o">=</span><span class="s">admin</span>
+<span class="na">ipaadmin_password</span><span class="o">=</span><span class="s">&#39;Passw0rd!&#39;</span>
+<span class="na">ipadm_password</span><span class="o">=</span><span class="s">&#39;Passw0rd!&#39;</span>
+
+<span class="na">ipaserver_domain</span><span class="o">=</span><span class="s">example.com</span>
+<span class="na">ipaserver_realm</span><span class="o">=</span><span class="s">EXAMPLE.COM</span>
+<span class="na">ipaserver_setup_dns</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaserver_setup_kra</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaserver_setup_firewalld</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaserver_no_forwarders</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaserver_auto_forwarders</span><span class="o">=</span><span class="s">false</span>
+<span class="na">ipaserver_no_host_dns</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipaserver_reverse_zones</span><span class="o">=</span><span class="s">&#39;[&quot;</span><span class="na">15.168.192.in-addr.arpa.&quot;]&#39;</span>
+<span class="na">ipaserver_external_ca</span><span class="o">=</span><span class="s">false</span>
+<span class="c1">; ipaserver_setup_adtrust=true</span>
+<span class="c1">; ipaserver_netbios_name=EXAMPLEAD</span>
+
+<span class="k">[ipareplica:vars]</span>
+<span class="na">ipaadmin_principal</span><span class="o">=</span><span class="s">admin</span>
+<span class="na">ipaadmin_password</span><span class="o">=</span><span class="s">&#39;Passw0rd!&#39;</span>
+<span class="na">ipadm_password</span><span class="o">=</span><span class="s">&#39;Passw0rd!&#39;</span>
+
+<span class="na">ipaserver_realm</span><span class="o">=</span><span class="s">EXAMPLE.COM</span>
+<span class="na">ipareplica_domain</span><span class="o">=</span><span class="s">example.com</span>
+<span class="na">ipareplica_setup_ca</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipareplica_setup_dns</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipareplica_setup_kra</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipareplica_setup_firewalld</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipareplica_no_forwarders</span><span class="o">=</span><span class="s">true</span>
+<span class="na">ipareplica_auto_forwarders</span><span class="o">=</span><span class="s">false</span>
+<span class="c1">; ipareplica_setup_adtrust=true</span>
+<span class="c1">; ipareplica_netbios_name=EXAMPLEAD</span>
+
+<span class="k">[ipaclients:vars]</span>
+<span class="na">ipaclient_domain</span><span class="o">=</span><span class="s">example.com</span>
+<span class="na">ipaclient_realm</span><span class="o">=</span><span class="s">EXAMPLE.COM</span>
+<span class="c1">; the reason why we have a separate principal and password</span>
+<span class="c1">; is because we may have a service account that enrolls instead</span>
+<span class="na">ipaadmin_principal</span><span class="o">=</span><span class="s">admin</span>
+<span class="na">ipaadmin_password</span><span class="o">=</span><span class="s">&#39;Passw0rd!&#39;</span>
+
+<span class="k">[ipaserver]</span>
+<span class="na">idm1.example.com    ansible_host</span><span class="o">=</span><span class="s">192.168.15.2</span>
+
+<span class="k">[ipareplica]</span>
+<span class="na">idm2.example.com    ansible_host</span><span class="o">=</span><span class="s">192.168.15.2</span>
+
+<span class="k">[ipaclients]</span>
+<span class="na">ansible.example.com ansible_connection</span><span class="o">=</span><span class="s">local</span>
+<span class="na">client.example.com  ansible_host</span><span class="o">=</span><span class="s">192.168.15.10</span>
+<span class="na">nfs.example.com     ansible_host</span><span class="o">=</span><span class="s">192.168.15.11</span>
+<span class="na">utility.example.com ansible_host</span><span class="o">=</span><span class="s">192.168.15.12</span>
+</code></pre></div>
+<p>Create the role.</p>
+<div class="highlight"><pre><span></span><code><span class="err">%</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vi role_ipa_server.yml</span>
+<span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Standup</span><span class="nv"> </span><span class="s">IPA</span><span class="nv"> </span><span class="s">Server&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaserver</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">  </span><span class="nt">pre_tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># ensure hostname is what is expected</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Set</span><span class="nv"> </span><span class="s">hostname&quot;</span>
+<span class="w">      </span><span class="nt">ansible.builtin.hostname</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">idm1.example.com</span>
+<span class="w">        </span><span class="nt">use</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">systemd</span>
+
+<span class="w">    </span><span class="c1"># This sets up network manager using community.general.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Set</span><span class="nv"> </span><span class="s">static</span><span class="nv"> </span><span class="s">address&quot;</span>
+<span class="w">      </span><span class="nt">community.general.nmcli</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ifname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enp1s0</span>
+<span class="w">        </span><span class="nt">conn_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enp1s0</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ethernet</span>
+<span class="w">        </span><span class="nt">method4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual</span>
+<span class="w">        </span><span class="nt">ip4</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.15.2/24</span>
+<span class="w">        </span><span class="nt">gw4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.15.1</span>
+<span class="w">        </span><span class="nt">dns4_search</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example.com</span>
+<span class="w">        </span><span class="nt">dns4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">127.0.0.1</span>
+<span class="w">        </span><span class="nt">autoconnect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">freeipa.ansible_freeipa.ipaserver</span>
+<span class="w">      </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+
+<span class="w">  </span><span class="nt">post_tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># We need to ensure firewalld was setup the way we wanted it to</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ensure</span><span class="nv"> </span><span class="s">firewalld</span><span class="nv"> </span><span class="s">rules</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">accurate&quot;</span>
+<span class="w">      </span><span class="nt">ansible.posix.firewalld</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">permanent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">immediate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enabled</span>
+<span class="w">      </span><span class="nt">with_items</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;freeipa-4&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;dns&quot;</span>
+
+<span class="w">    </span><span class="c1"># We need to make sure that any A records get a PTR record.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ensure</span><span class="nv"> </span><span class="s">PTR</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">sync&quot;</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.ipadnsconfig</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_principal</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_principal</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">allow_sync_ptr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Run the role to setup the server.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ansible-playbook<span class="w"> </span>role_ipa_server.yml
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="install-and-configure-a-replica-idm-server">Install and configure a replica IdM Server<a class="headerlink" href="#install-and-configure-a-replica-idm-server" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Script or CLI</label><label for="__tabbed_2_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>idm2.example.com
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.address<span class="w"> </span><span class="m">192</span>.168.15.3/24
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.gateway<span class="w"> </span><span class="m">192</span>.168.15.1
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.method<span class="w"> </span>manual
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns-search<span class="w"> </span>example.com
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns<span class="w"> </span><span class="m">192</span>.168.15.2
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span>eth0
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Adding a replica, optionally change --no-ntp to --ntp-server</span>
+%<span class="w"> </span>ipa-replica-install<span class="w"> </span>--setup-dns<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--setup-ca<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-forwarders<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-ntp
+
+<span class="c1"># Adding a replica unattended without forwarders.</span>
+<span class="c1"># Optionally set --ntp-server.</span>
+%<span class="w"> </span>ipa-client-install<span class="w"> </span>--realm<span class="w"> </span>EXAMPLE.COM<span class="w"> </span>--no-ntp
+%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa<span class="w"> </span>hostgroup-add-member<span class="w"> </span>--hosts<span class="o">=</span>ipa02.example.com<span class="w"> </span>ipaservers
+%<span class="w"> </span>ipa-replica-install<span class="w"> </span>--setup-dns<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--setup-ca<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-forwarders<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-ntp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--unattended
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="err">%</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vi role_ipa_replica.yml</span>
+<span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Standup</span><span class="nv"> </span><span class="s">IPA</span><span class="nv"> </span><span class="s">Replica&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipareplicas</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">  </span><span class="nt">pre_tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># ensure hostname is what is expected</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Set</span><span class="nv"> </span><span class="s">hostname&quot;</span>
+<span class="w">      </span><span class="nt">ansible.builtin.hostname</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">idm2.example.com</span>
+<span class="w">        </span><span class="nt">use</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">systemd</span>
+
+<span class="w">    </span><span class="c1"># This sets up network manager using community.general.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Set</span><span class="nv"> </span><span class="s">static</span><span class="nv"> </span><span class="s">address&quot;</span>
+<span class="w">      </span><span class="nt">community.general.nmcli</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ifname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enp1s0</span>
+<span class="w">        </span><span class="nt">conn_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enp1s0</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ethernet</span>
+<span class="w">        </span><span class="nt">method4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual</span>
+<span class="w">        </span><span class="nt">ip4</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.15.3/24</span>
+<span class="w">        </span><span class="nt">gw4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.15.1</span>
+<span class="w">        </span><span class="nt">dns4_search</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example.com</span>
+<span class="w">        </span><span class="nt">dns4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.15.2</span>
+<span class="w">        </span><span class="nt">autoconnect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ensure</span><span class="nv"> </span><span class="s">firewalld</span><span class="nv"> </span><span class="s">rules</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">accurate&quot;</span>
+<span class="w">      </span><span class="nt">ansible.posix.firewalld</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">permanent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">immediate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enabled</span>
+<span class="w">      </span><span class="nt">with_items</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;freeipa-4&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;dns&quot;</span>
+
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">freeipa.ansible_freeipa.ipareplica</span>
+<span class="w">      </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div>
+<p>Run the role to setup the replica.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ansible-playbook<span class="w"> </span>role_ipa_replica.yml
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="create-users-groups-and-policies">Create Users, Groups, and Policies<a class="headerlink" href="#create-users-groups-and-policies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Users</th>
+<th>Login Name</th>
+<th>Type</th>
+<th>Group</th>
+<th>Role</th>
+<th>UID/GID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>John Smith</td>
+<td>jsmith</td>
+<td>Normal</td>
+<td>admins</td>
+<td></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Bob Rufus</td>
+<td>brufus</td>
+<td>Normal</td>
+<td>corp</td>
+<td></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Larry Dufus</td>
+<td>ldufus</td>
+<td>Normal</td>
+<td>helpdesk</td>
+<td></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Robert Cole</td>
+<td>rcole</td>
+<td>Staged</td>
+<td></td>
+<td></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Thomas Snyder</td>
+<td>tsnyder</td>
+<td>Preserved</td>
+<td></td>
+<td></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>SysHost Management</td>
+<td>syshostmgt</td>
+<td>Normal</td>
+<td></td>
+<td>Host Manager</td>
+<td>10000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Groups</th>
+<th>Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HelpDesk</td>
+<td>helpdesk</td>
+</tr>
+<tr>
+<td>corp</td>
+<td></td>
+</tr>
+<tr>
+<td>enrollers</td>
+<td>Enrollment Administrator</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Roles</th>
+<th>Privilege</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host Manager</td>
+<td>Host administrators</td>
+</tr>
+<tr>
+<td></td>
+<td>Host group administrators</td>
+</tr>
+<tr>
+<td></td>
+<td>Netgroups administrators</td>
+</tr>
+<tr>
+<td></td>
+<td>Host enrollment</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Script or CLI</label><label for="__tabbed_3_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="admonition note">
+<p class="admonition-title">Custom UID/GID</p>
+<p>It is possible to create the users with a custom uid/gid with the switches --uid and --gidnumber which you will see below. It is also possible to set random passwords with --random.</p>
+<p>See ipa user-add --help for more switches.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Password Expiration</p>
+<p>When you make a user with the --password switch or use ipa passwd to set a password, it is automatically expired and must be changed on next login. If you want to avoid this from happening, you will need to set a random password via --password or --random, and then use kpasswd username to change it to the desired password. This does not make the account non-expiring.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Creating users with a password, create all the accounts from the table (except from syshost)</span>
+%<span class="w"> </span>ipa<span class="w"> </span>user-add<span class="w"> </span>--first<span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="w"> </span>--last<span class="o">=</span><span class="s2">&quot;Smith&quot;</span><span class="w"> </span>--password<span class="w"> </span>jsmith
+
+<span class="c1"># Create the system account with a password of Sup3R$ecre7! and a UID of 10000</span>
+%<span class="w"> </span>ipa<span class="w"> </span>user-add<span class="w"> </span>--first<span class="o">=</span><span class="s2">&quot;SysHost&quot;</span><span class="w"> </span>--last<span class="o">=</span><span class="s2">&quot;Management&quot;</span><span class="w"> </span>--uid<span class="o">=</span><span class="m">10000</span><span class="w"> </span>--gidnumber<span class="o">=</span><span class="m">10000</span><span class="w"> </span>--password<span class="w"> </span>syshostmgt
+
+<span class="c1"># Stage a user</span>
+%<span class="w"> </span>ipa<span class="w"> </span>stageuser-add<span class="w"> </span>--first<span class="o">=</span><span class="s2">&quot;Robert&quot;</span><span class="w"> </span>--last<span class="o">=</span><span class="s2">&quot;Cole&quot;</span><span class="w"> </span>rcole
+
+<span class="c1"># Preserve a user</span>
+%<span class="w"> </span>ipa<span class="w"> </span>user-del<span class="w"> </span>tsynder<span class="w"> </span>--preserve
+
+<span class="c1"># Create a regular (POSIX) group</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add<span class="w"> </span>corp
+
+<span class="c1"># Create a member only group</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add<span class="w"> </span>--nonposix<span class="w"> </span>HelpDesk
+%<span class="w"> </span>ipa<span class="w"> </span>group-add<span class="w"> </span>--nonposix<span class="w"> </span>enrollers
+
+<span class="c1"># Add the HelpDesk group to the helpdesk policy</span>
+<span class="c1"># Add the enrollers group to the Enrollment Administrator role</span>
+%<span class="w"> </span>ipa<span class="w"> </span>role-add-member<span class="w"> </span><span class="s2">&quot;helpdesk&quot;</span><span class="w"> </span>--groups<span class="o">=</span>HelpDesk
+%<span class="w"> </span>ipa<span class="w"> </span>role-add-member<span class="w"> </span><span class="s2">&quot;Enrollment Administrator&quot;</span><span class="w"> </span>--groups<span class="o">=</span>enrollers
+
+<span class="c1"># Create a role with privileges</span>
+%<span class="w"> </span>ipa<span class="w"> </span>role-add<span class="w"> </span><span class="s2">&quot;Host Manager&quot;</span>
+%<span class="w"> </span>ipa<span class="w"> </span>role-add-privilege<span class="w"> </span><span class="s2">&quot;Host Manager&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--privileges<span class="o">=</span><span class="s2">&quot;Host administrators&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--privileges<span class="o">=</span><span class="s2">&quot;Host group administrators&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--privileges<span class="o">=</span><span class="s2">&quot;Netgroups administrators&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--privileges<span class="o">=</span><span class="s2">&quot;Host enrollment&quot;</span>
+
+<span class="c1"># Add the syshostmgt user as a member of the role</span>
+%<span class="w"> </span>ipa<span class="w"> </span>role-add-member<span class="w"> </span><span class="s2">&quot;Host Manager&quot;</span><span class="w"> </span>--users<span class="o">=</span><span class="s2">&quot;syshostmgt&quot;</span>
+
+<span class="c1"># Set our user passwords to CentOS123!$ so that way we don&#39;t have to change them later</span>
+%<span class="w"> </span>kpasswd<span class="w"> </span>jsmith
+
+<span class="c1"># If we already set the password we want but we don&#39;t want it to expire without making a policy or prompt for a password change (NOT RECOMMENDED)</span>
+%<span class="w"> </span>ldapmodify<span class="w"> </span>-x<span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;Passw0rd!&#39;</span><span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;cn=Directory Manager&#39;</span>
+dn:<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>syshostmgt,cn<span class="o">=</span>users,cn<span class="o">=</span>accounts,dc<span class="o">=</span>example,dc<span class="o">=</span>com
+changetype:<span class="w"> </span>modify
+delete:<span class="w"> </span>krbLastPwdChange
+
+<span class="o">(</span>Press<span class="w"> </span>CTRL+D<span class="o">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>vi<span class="w"> </span>create_ipa_users.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Create</span><span class="nv"> </span><span class="s">users&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaserver</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># All users are setup as a dictionary</span>
+<span class="w">    </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jsmith</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">John</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Smith</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CentOS123!$&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">brufus</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bob</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Rufus</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CentOS123!$&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldufus</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Larry</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dufus</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CentOS123!$&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">syshostmgt</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SysHost</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Management</span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10000</span>
+<span class="w">        </span><span class="nt">gid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10000</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CentOS123!$&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tsnyder</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Thomas</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Snyder</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CentOS123!$&quot;</span>
+<span class="w">    </span><span class="nt">staged_users</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rcole</span>
+<span class="w">        </span><span class="nt">first</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Robert</span>
+<span class="w">        </span><span class="nt">last</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cole</span>
+<span class="w">    </span><span class="nt">preserved_users</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tsnyder</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create all users</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.ipauser</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">users</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">users</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Preserve users</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.ipauser</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
+<span class="w">        </span><span class="nt">preserve</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">    </span><span class="c1"># The current freeipa collection doesn&#39;t support staged users</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kinit as admin</span>
+<span class="w">      </span><span class="nt">ansible.builtin.shell</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;set</span><span class="nv"> </span><span class="s">-o</span><span class="nv"> </span><span class="s">pipefail</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">echo</span><span class="nv"> </span><span class="s">\&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}\&quot;</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">kinit</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">ipa_admin</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Stage users</span>
+<span class="w">      </span><span class="nt">ansible.builtin.shell</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ipa</span><span class="nv"> </span><span class="s">stageuser-add</span><span class="nv"> </span><span class="s">--first=&quot;{{</span><span class="nv"> </span><span class="s">item.first</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="nv"> </span><span class="s">--last=&quot;{{</span><span class="nv"> </span><span class="s">item.last</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">item.name</span><span class="nv"> </span><span class="s">}}&#39;</span>
+<span class="w">      </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">staged_users</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>vi<span class="w"> </span>create_ipa_groups.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Create</span><span class="nv"> </span><span class="s">groups</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">add</span><span class="nv"> </span><span class="s">users</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">them&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaserver</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admins</span>
+<span class="w">        </span><span class="nt">user</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jsmith</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HelpDesk</span>
+<span class="w">        </span><span class="nt">nonposix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">user</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldufus</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enrollers</span>
+<span class="w">        </span><span class="nt">nonposix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">corp</span>
+<span class="w">        </span><span class="nt">posix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">user</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">brufus</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create all groups</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.ipagroup</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">groups</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">groups</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>vi<span class="w"> </span>create_ipa_policy.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Create</span><span class="nv"> </span><span class="s">policies&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaserver</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Host</span><span class="nv"> </span><span class="s">Manager&quot;</span>
+<span class="w">        </span><span class="nt">privilege</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Host administrators</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Host group administrators</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Netgroups administrators</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Host enrollment</span>
+<span class="w">        </span><span class="nt">user</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">syshostmgt</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;helpdesk&quot;</span>
+<span class="w">        </span><span class="nt">privilege</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Modify Group membership</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Modify Users and Reset passwords</span>
+<span class="w">        </span><span class="nt">group</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HelpDesk</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enrollment</span><span class="nv"> </span><span class="s">Administrator&quot;</span>
+<span class="w">        </span><span class="nt">privilege</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Host Enrollment</span>
+<span class="w">        </span><span class="nt">group</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enrollers</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ensure</span><span class="nv"> </span><span class="s">all</span><span class="nv"> </span><span class="s">roles</span><span class="nv"> </span><span class="s">exist&quot;</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.iparole</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_principal</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item.name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">privilege</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item.privilege|default(omit)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item.group|default(omit)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item.user|default(omit)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">      </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">roles</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="new-passwords-expired">New Passwords Expired<a class="headerlink" href="#new-passwords-expired" title="Permanent link">&para;</a></h4>
+<p>The common question we receive (and even the #freeipa IRC receive) is "Why can't we just set the password to not be expired right away?" See <a href="https://www.freeipa.org/page/New_Passwords_Expired">this page</a> for information on why this is. You may also look at the <a href="https://pagure.io/freeipa/issue/5763">pagure</a> page and the <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1317060">Red Hat bugzilla related bug</a>.</p>
+<h2 id="implement-single-sign-on-sso">Implement Single Sign On (SSO)<a class="headerlink" href="#implement-single-sign-on-sso" title="Permanent link">&para;</a></h2>
+<h3 id="create-an-sso-client">Create an SSO client<a class="headerlink" href="#create-an-sso-client" title="Permanent link">&para;</a></h3>
+<p>To setup a very, very simple SSO, you can setup a simple location that requires a login.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa-getkeytab<span class="w"> </span>-s<span class="w"> </span>idm1.example.com<span class="w"> </span>-p<span class="w"> </span>http/http.example.com<span class="w"> </span>-k<span class="w"> </span>/etc/httpd/conf/http.keytab
+%<span class="w"> </span>vi<span class="w"> </span>/etc/httpd/conf.d/location.conf
+&lt;Location<span class="w"> </span><span class="s2">&quot;/&quot;</span>&gt;
+<span class="w">  </span>AuthType<span class="w"> </span>Kerberos
+<span class="w">  </span>AuthName<span class="w"> </span><span class="s2">&quot;IPA Kerberos Auth&quot;</span>
+<span class="w">  </span><span class="c1"># Keytab</span>
+<span class="w">  </span>Krb5Keytab<span class="w"> </span>/etc/httpd/conf/http.keytab
+<span class="w">  </span><span class="c1"># Kerb settings</span>
+<span class="w">  </span>KrbMethodNegotiate<span class="w"> </span>on
+<span class="w">  </span>KrbMethodK5Passwd<span class="w"> </span>on
+<span class="w">  </span>KrbServiceName<span class="w"> </span>HTTP
+<span class="w">  </span>KrbAuthRealms<span class="w"> </span>EXAMPLE.COM
+<span class="w">  </span>KrbSaveCredentials<span class="w"> </span>off
+<span class="w">  </span>Require<span class="w"> </span>valid-user
+&lt;/Location&gt;
+</code></pre></div>
+<h3 id="verify-sso-client-operation">Verify SSO client operation<a class="headerlink" href="#verify-sso-client-operation" title="Permanent link">&para;</a></h3>
+<p>...</p>
+<h2 id="install-and-configure-an-idm-client">Install and configure an IdM Client<a class="headerlink" href="#install-and-configure-an-idm-client" title="Permanent link">&para;</a></h2>
+<h3 id="install-and-configure-idm-clients">Install and configure IdM Clients<a class="headerlink" href="#install-and-configure-idm-clients" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Client Name</th>
+<th>IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client.example.com</td>
+<td>192.168.15.10</td>
+</tr>
+<tr>
+<td>nfs.example.com</td>
+<td>192.168.15.11</td>
+</tr>
+<tr>
+<td>utility.example.com</td>
+<td>192.168.15.12</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Script or CLI</label><label for="__tabbed_4_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Depending on your architecture and setup, IdM clients should either be pointing directly at the IdM servers for DNS (at least two of them) or pointing at the DNS server in the environment that is delegating that domain to the IdM domain controllers.</p>
+<p>In our lab, our IdM servers are our only DNS servers, thus it makes sense that our clients should point to them. In that scenario, you would configure your DHCP server to use the IdM servers as the name servers and/or configure them in a static manner depending on your environment.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># If your client is not pointing at the IdM DNS and you</span>
+<span class="c1"># don&#39;t have another DNS server that&#39;s performing delegation,</span>
+<span class="c1"># change your name servers.</span>
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns<span class="w"> </span><span class="m">192</span>.168.15.2
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>+ipv4.dns<span class="w"> </span><span class="m">192</span>.168.15.3
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.dns-search<span class="w"> </span>example.com
+
+<span class="c1"># Optionally, if your clients don&#39;t have DHCP </span>
+<span class="c1"># reservations, set a static address.</span>
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.address<span class="w"> </span><span class="m">192</span>.168.15.10/24
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.gateway<span class="w"> </span><span class="m">192</span>.168.15.1
+%<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span>eth0<span class="w"> </span>ipv4.method<span class="w"> </span>manual
+
+<span class="c1"># It might be a good idea to set your hostname if you haven&#39;t already</span>
+%<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>client.example.com
+%<span class="w"> </span>hostname<span class="w"> </span>client.example.com
+
+<span class="c1"># Install the ipa-client packages</span>
+%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>ipa-client<span class="w"> </span>-y
+<span class="c1"># Optionally set --no-ntp to --ntp-server</span>
+%<span class="w"> </span>ipa-client-install<span class="w"> </span>--realm<span class="w"> </span>EXAMPLE.COM<span class="w"> </span>--domain<span class="w"> </span>example.com<span class="w"> </span>--no-ntp
+.<span class="w"> </span>.<span class="w"> </span>.
+%<span class="w"> </span>id<span class="w"> </span>admin
+<span class="nv">uid</span><span class="o">=</span><span class="m">686600000</span><span class="o">(</span>admin<span class="o">)</span><span class="w"> </span><span class="nv">gid</span><span class="o">=</span><span class="m">686600000</span><span class="o">(</span>admins<span class="o">)</span><span class="w"> </span><span class="nv">groups</span><span class="o">=</span><span class="m">686600000</span><span class="o">(</span>admins<span class="o">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Create the role for the client.</p>
+<div class="highlight"><pre><span></span><code><span class="err">%</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vi role_ipa_client.yml</span>
+<span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enroll</span><span class="nv"> </span><span class="s">client</span><span class="nv"> </span><span class="s">system&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaclients</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">freeipa.ansible_freeipa.ipaclient</span>
+<span class="w">      </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div>
+<p>Now run the role to setup the client.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ansible-playbook<span class="w"> </span>role_ipa_client.yml
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="configure-kerberized-services">Configure Kerberized services<a class="headerlink" href="#configure-kerberized-services" title="Permanent link">&para;</a></h3>
+<p>One of the things that you may end up doing, whether by hand or in an automated fashion, is creating kerberized services. In a later section, we address creating an NFS service for both a server and a client for the purpose of automating home directory mounts on a client when a user logs in. Before we dive into that, this just goes over simple kerberized service creation.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create kerberos service</span>
+%<span class="w"> </span>ipa<span class="w"> </span>service-add<span class="w"> </span>HTTP/http.example.com
+</code></pre></div>
+<p>Not only that, it's probably a good idea to actually <em>get</em> the keytab.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa-getkeytab<span class="w"> </span>-s<span class="w"> </span>idm1.example.com<span class="w"> </span>-p<span class="w"> </span>HTTP/http.example.com<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab
+</code></pre></div>
+<p>For an example of automating keytab creation and retrieval, see the CentOS/FreeIPA page on this site.</p>
+<h2 id="manage-the-idm-integrated-certificate-authority">Manage the IdM integrated certificate authority<a class="headerlink" href="#manage-the-idm-integrated-certificate-authority" title="Permanent link">&para;</a></h2>
+<h3 id="configure-and-manage-a-certificate-authority">Configure and manage a certificate authority<a class="headerlink" href="#configure-and-manage-a-certificate-authority" title="Permanent link">&para;</a></h3>
+<p>By default FreeIPA stands up its own CA. And because of this, this allows you or your workplace to be able to issue certificates, that can be used in a wide variety of services, the most common or obvious one would be for Apache httpd.</p>
+<p>There's a couple of ways you can get a certificate signed by FreeIPA. One method is to generate your own CSR and request it to be signed by FreeIPA. Another way is you can do it all from one command, <code>ipa-getcert</code>, and optionally, either have the certificate in PEM format or an NSS database. We'll address these examples.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Creating an SSL certificate in the PEM format</span>
+%<span class="w"> </span>ipa<span class="w"> </span>service-add<span class="w"> </span>HTTP/http.example.com
+%<span class="w"> </span>ipa-getcert<span class="w"> </span>request<span class="w"> </span>-f<span class="w"> </span>/etc/pki/tls/certs/http.pem<span class="w"> </span>-k<span class="w"> </span>/etc/pki/tls/private/http.key<span class="w"> </span>-K<span class="w"> </span>HTTP/http.example.com<span class="w"> </span>-D<span class="w"> </span>http.example.com
+New<span class="w"> </span>signing<span class="w"> </span>request<span class="w"> </span><span class="s2">&quot;20190902000318&quot;</span><span class="w"> </span>added.
+<span class="c1"># Verify</span>
+%<span class="w"> </span>ipa-getcert<span class="w"> </span>list
+Number<span class="w"> </span>of<span class="w"> </span>certificates<span class="w"> </span>and<span class="w"> </span>requests<span class="w"> </span>being<span class="w"> </span>tracked:<span class="w"> </span><span class="m">1</span>.
+Request<span class="w"> </span>ID<span class="w"> </span><span class="s1">&#39;20190902000318&#39;</span>:
+<span class="w">        </span>status:<span class="w"> </span>MONITORING
+<span class="w">        </span>stuck:<span class="w"> </span>no
+<span class="w">        </span>key<span class="w"> </span>pair<span class="w"> </span>storage:<span class="w"> </span><span class="nv">type</span><span class="o">=</span>FILE,location<span class="o">=</span><span class="s1">&#39;/etc/pki/tls/private/http.key&#39;</span>
+<span class="w">        </span>certificate:<span class="w"> </span><span class="nv">type</span><span class="o">=</span>FILE,location<span class="o">=</span><span class="s1">&#39;/etc/pki/tls/certs/http.pem&#39;</span>
+<span class="w">        </span>CA:<span class="w"> </span>IPA
+<span class="w">        </span>issuer:<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>Certificate<span class="w"> </span>Authority,O<span class="o">=</span>EXAMPLE.COM
+<span class="w">        </span>subject:<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>http.example.com,O<span class="o">=</span>EXAMPLE.COM
+<span class="w">        </span>expires:<span class="w"> </span><span class="m">2021</span>-09-02<span class="w"> </span><span class="m">00</span>:03:19<span class="w"> </span>UTC
+<span class="w">        </span>dns:<span class="w"> </span>http.example.com
+<span class="w">        </span>principal<span class="w"> </span>name:<span class="w"> </span>HTTP/http.example.com@EXAMPLE.COM
+<span class="w">        </span>key<span class="w"> </span>usage:<span class="w"> </span>digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+<span class="w">        </span>eku:<span class="w"> </span>id-kp-serverAuth,id-kp-clientAuth
+<span class="w">        </span>pre-save<span class="w"> </span>command:
+<span class="w">        </span>post-save<span class="w"> </span>command:
+<span class="w">        </span>track:<span class="w"> </span>yes
+<span class="w">        </span>auto-renew:<span class="w"> </span>yes
+
+<span class="c1"># Create an SSL certificate in the NSS format</span>
+%<span class="w"> </span>ipa-getcert<span class="w"> </span>request<span class="w"> </span>-d<span class="w"> </span>/etc/pki/tls/certs/nss<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;Test&#39;</span><span class="w"> </span>-K<span class="w"> </span>HTTP/http.example.com<span class="w"> </span>-D<span class="w"> </span>http.example.com
+New<span class="w"> </span>signing<span class="w"> </span>request<span class="w"> </span><span class="s2">&quot;20190902000756&quot;</span><span class="w"> </span>added.
+<span class="c1"># Verify</span>
+%<span class="w"> </span>ipa-getcert<span class="w"> </span>list
+.<span class="w"> </span>.<span class="w"> </span>.
+Request<span class="w"> </span>ID<span class="w"> </span><span class="s1">&#39;20190902000756&#39;</span>:
+<span class="w">        </span>status:<span class="w"> </span>MONITORING
+<span class="w">        </span>stuck:<span class="w"> </span>no
+<span class="w">        </span>key<span class="w"> </span>pair<span class="w"> </span>storage:<span class="w"> </span><span class="nv">type</span><span class="o">=</span>NSSDB,location<span class="o">=</span><span class="s1">&#39;/etc/pki/tls/certs/nss&#39;</span>,nickname<span class="o">=</span><span class="s1">&#39;Test&#39;</span>,token<span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span>
+<span class="w">        </span>certificate:<span class="w"> </span><span class="nv">type</span><span class="o">=</span>NSSDB,location<span class="o">=</span><span class="s1">&#39;/etc/pki/tls/certs/nss&#39;</span>,nickname<span class="o">=</span><span class="s1">&#39;Test&#39;</span>,token<span class="o">=</span><span class="s1">&#39;NSS Certificate DB&#39;</span>
+<span class="w">        </span>CA:<span class="w"> </span>IPA
+<span class="w">        </span>issuer:<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>Certificate<span class="w"> </span>Authority,O<span class="o">=</span>EXAMPLE.COM
+<span class="w">        </span>subject:<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>http.example.com,O<span class="o">=</span>EXAMPLE.COM
+<span class="w">        </span>expires:<span class="w"> </span><span class="m">2021</span>-09-02<span class="w"> </span><span class="m">00</span>:07:57<span class="w"> </span>UTC
+<span class="w">        </span>dns:<span class="w"> </span>http.example.com
+<span class="w">        </span>principal<span class="w"> </span>name:<span class="w"> </span>HTTP/http.example.com@EXAMPLE.COM
+<span class="w">        </span>key<span class="w"> </span>usage:<span class="w"> </span>digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+<span class="w">        </span>eku:<span class="w"> </span>id-kp-serverAuth,id-kp-clientAuth
+<span class="w">        </span>pre-save<span class="w"> </span>command:
+<span class="w">        </span>post-save<span class="w"> </span>command:
+<span class="w">        </span>track:<span class="w"> </span>yes
+<span class="w">        </span>auto-renew:<span class="w"> </span>yes
+</code></pre></div>
+<p>By default, when a certificate request is performed (and succeeds to be signed by the IPA CA), it is typically tracked and auto-renewed by default. This is done by the certmonger service, which eliminates the need to have to renew anything by hand.</p>
+<h3 id="create-secret-vaults">Create Secret Vaults<a class="headerlink" href="#create-secret-vaults" title="Permanent link">&para;</a></h3>
+<p>When a domain supports the KRA role, it can hold password vaults or anything that's considered "secret". You can add the KRA role by installing the relevant package and installing the role.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Script or CLI</label><label for="__tabbed_5_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>On each IdM server, you will need to enable the role.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>ipa-server-kra
+%<span class="w"> </span>ipa-kra-install
+</code></pre></div>
+<p>Create a private vault (as a user)</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa<span class="w"> </span>vault-add<span class="w"> </span>admin_private<span class="w"> </span>--desc<span class="w"> </span><span class="s2">&quot;Admin Private Vault&quot;</span>
+</code></pre></div>
+<p>(more to come)</p>
+</div>
+<div class="tabbed-block">
+<p>If you are following the ansible method, you already have this role installed based on the inventory configuration. Now it's a matter of creating a simple secret.</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Create</span><span class="nv"> </span><span class="s">Simple</span><span class="nv"> </span><span class="s">Vault&quot;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipaserver</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Create</span><span class="nv"> </span><span class="s">vault</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">data&quot;</span>
+<span class="w">      </span><span class="nt">freeipa.ansible_freeipa.ipavault</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipaadmin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ipaadmin_password</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simplevault</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;A</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">vault&quot;</span>
+<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VaultPassword21!&quot;</span>
+<span class="w">        </span><span class="nt">data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Simple</span><span class="nv"> </span><span class="s">data&quot;</span>
+<span class="w">      </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">member</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="create-and-configure-idm-users-and-user-policies">Create and configure IdM users and user policies<a class="headerlink" href="#create-and-configure-idm-users-and-user-policies" title="Permanent link">&para;</a></h2>
+<p>In FreeIPA, there are two sets of policies:</p>
+<ul>
+<li>Role Based Access Control (RBAC) which are the permissions, delegated or otherwise, that allow (or deny) access to various pieces of FreeIPA. This can be users that have the ability to reset passwords, modify groups, or perhaps they can issue keytabs. This was partially covered in a previous section.</li>
+<li>Host Based Access Control (HBAC) which are the permissions granted to a user or users to access systems on various (PAM) services, such as ssh or logging into a desktop system (eg, GDM).</li>
+</ul>
+<h3 id="configure-policies-and-user-access">Configure Policies and User Access<a class="headerlink" href="#configure-policies-and-user-access" title="Permanent link">&para;</a></h3>
+<p>HBAC, or Host Based Access Controls, are permissions that grant user or users access to systems via any number of services. The services are PAM services. No doubt you have looked in <code>/etc/pam.d</code> before and have seen quite a few files or even modified them by hand at some point.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/etc/pam.d/
+total<span class="w"> </span><span class="m">80</span>
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">272</span><span class="w"> </span>May<span class="w"> </span><span class="m">11</span><span class="w">  </span><span class="m">2019</span><span class="w"> </span>atd
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">232</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">15</span>:28<span class="w"> </span>config-util
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">328</span><span class="w"> </span>Nov<span class="w">  </span><span class="m">8</span><span class="w">  </span><span class="m">2019</span><span class="w"> </span>crond
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">32</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">14</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>fingerprint-auth<span class="w"> </span>-&gt;<span class="w"> </span>/etc/authselect/fingerprint-auth
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">70</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">06</span>:35<span class="w"> </span>ksu
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">715</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>login
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">154</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">15</span>:28<span class="w"> </span>other
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">168</span><span class="w"> </span>Apr<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">20</span>:08<span class="w"> </span>passwd
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">29</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">14</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>password-auth<span class="w"> </span>-&gt;<span class="w"> </span>/etc/authselect/password-auth
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">155</span><span class="w"> </span>Apr<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">22</span>:00<span class="w"> </span>polkit-1
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">25</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">14</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>postlogin<span class="w"> </span>-&gt;<span class="w"> </span>/etc/authselect/postlogin
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">640</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>remote
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">143</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>runuser
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">138</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>runuser-l
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">30</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">14</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>smartcard-auth<span class="w"> </span>-&gt;<span class="w"> </span>/etc/authselect/smartcard-auth
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">25</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">10</span>:18<span class="w"> </span>smtp<span class="w"> </span>-&gt;<span class="w"> </span>/etc/alternatives/mta-pam
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">76</span><span class="w"> </span>Apr<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">20</span>:11<span class="w"> </span>smtp.postfix
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">727</span><span class="w"> </span>Feb<span class="w">  </span><span class="m">4</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>sshd
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">214</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">20</span>:48<span class="w"> </span>sssd-shadowutils
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">566</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>su
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">154</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">19</span>:40<span class="w"> </span>sudo
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">178</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">19</span>:40<span class="w"> </span>sudo-i
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">137</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">05</span>:38<span class="w"> </span>su-l
+lrwxrwxrwx.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">27</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">14</span><span class="w">  </span><span class="m">2020</span><span class="w"> </span>system-auth<span class="w"> </span>-&gt;<span class="w"> </span>/etc/authselect/system-auth
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">248</span><span class="w"> </span>Jul<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">07</span>:57<span class="w"> </span>systemd-user
+-rw-r--r--.<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">84</span><span class="w"> </span>May<span class="w"> </span><span class="m">11</span><span class="w">  </span><span class="m">2019</span><span class="w"> </span>vlock
+</code></pre></div>
+<p>On a typical Red Hat system, the most common ones (such as <code>su</code>, <code>sshd</code>, <code>sudo</code>) imports the <code>system-auth</code> file, so the login request is processed through those means. When defining HBAC rules, you either must allow "all" services or be selective. For example, if an HBAC rule allows "sshd", a user is allowed to ssh into a system, but wouldn't allow them to login locally on the console, as that goes through <code>login</code>. If you want the user to be able to run the <code>su</code> and <code>sudo</code> commands, you would also need to allow those services. Otherwise, the user is denied, even if sudo policies are available.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Script or CLI</label><label for="__tabbed_6_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="o">[</span>label@mgt<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>-i
+<span class="o">[</span>sudo<span class="o">]</span><span class="w"> </span>password<span class="w"> </span><span class="k">for</span><span class="w"> </span>label:
+sudo:<span class="w"> </span>PAM<span class="w"> </span>account<span class="w"> </span>management<span class="w"> </span>error:<span class="w"> </span>Permission<span class="w"> </span>denied
+</code></pre></div>
+<p>In FreeIPA, there is typically a rule already predefined that allows everyone to access all systems and all services. This can be removed or disabled and this removes host access to everything immediately. This is typically recommended in most environments where there are security standards and procedures in place.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># To disable</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-disable<span class="w"> </span>allow_all
+<span class="c1"># To delete instead</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-del<span class="w"> </span>allow_all
+</code></pre></div>
+<p>When performing a FreeIPA installation, it is possible to add <code>--no-hbac-allow</code> that will disable the allow_all rule.</p>
+<p>Below are some examples of adding access.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Allow all admins to access all systems</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add<span class="w"> </span>--hostcat<span class="o">=</span>all<span class="w"> </span>--servicecat<span class="o">=</span>all<span class="w"> </span>--desc<span class="o">=</span><span class="s1">&#39;Allow all admins to access all systems&#39;</span><span class="w"> </span>All_Admins
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add-user<span class="w"> </span>--groups<span class="o">=</span>admins<span class="w"> </span>All_Admins
+
+<span class="c1"># And then test...</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbactest<span class="w"> </span>--rules<span class="o">=</span>All_Admins<span class="w"> </span>--user<span class="o">=</span>jsmith<span class="w"> </span>--host<span class="o">=</span>client.example.com<span class="w"> </span>--service<span class="o">=</span>login
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Allow the corp users to access the client system only using the sshd pam services</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add<span class="w"> </span>--desc<span class="o">=</span><span class="s1">&#39;Allow corp users to access client on ssh&#39;</span><span class="w"> </span>corp_access
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add-user<span class="w"> </span>--groups<span class="o">=</span>corp<span class="w"> </span>corp_access
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add-host<span class="w"> </span>--hosts<span class="o">=</span>client.example.com<span class="w"> </span>corp_access
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add-service<span class="w"> </span>--hbacsvcs<span class="o">=</span>sshd<span class="w"> </span>corp_access
+
+<span class="c1"># And then test...</span>
+%<span class="w"> </span>ipa<span class="w"> </span>hbactest<span class="w"> </span>--rules<span class="o">=</span>corp_access<span class="w"> </span>--user<span class="o">=</span>brufus<span class="w"> </span>--host<span class="o">=</span>client.example.com<span class="w"> </span>--service<span class="o">=</span>sshd
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>To do this the ansible way, you can make a playbook like this.</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="configure-roaming-or-automounted-home-directories">Configure roaming or automounted home directories<a class="headerlink" href="#configure-roaming-or-automounted-home-directories" title="Permanent link">&para;</a></h3>
+<p>You will need to configure your NFS server to serve up roaming home directories for users and then your client should have automouting enabled.</p>
+<div class="admonition note">
+<p class="admonition-title">Client Kerberos Service</p>
+<p>It may not be required to create an nfs kerberos service for the client. The ipa-client-automount command may already handle this but it does not hurt to create one. In fact, the host keytab is used on the client side anyway. Creating an NFS client keytab may have been required in the past.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># IDM Steps</span>
+%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa<span class="w"> </span>service-add<span class="w"> </span>nfs/nfs.example.com
+%<span class="w"> </span>ipa<span class="w"> </span>service-add<span class="w"> </span>nfs/client.example.com
+
+<span class="c1"># Setup the automounting locations</span>
+%<span class="w"> </span>ipa<span class="w"> </span>automountmap-add<span class="w"> </span>default<span class="w"> </span>auto.home
+%<span class="w"> </span>ipa<span class="w"> </span>automountkey-add<span class="w"> </span>default<span class="w"> </span>--key<span class="w"> </span><span class="s2">&quot;/home&quot;</span><span class="w"> </span>--info<span class="w"> </span>auto.home<span class="w"> </span>auto.master
+%<span class="w"> </span>ipa<span class="w"> </span>automountkey-add<span class="w"> </span>default<span class="w"> </span>--key<span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="w"> </span>--info<span class="w"> </span><span class="s2">&quot;-fstype=nfs4,rw,sec=krb5,soft nfs.example.com:/exports/home/&amp;&quot;</span><span class="w"> </span>auto.home
+
+<span class="c1"># NFS Server Steps</span>
+%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>nfs-utils<span class="w"> </span>-y
+%<span class="w"> </span>mkdir<span class="w"> </span>/exports/home
+%<span class="w"> </span>vi<span class="w"> </span>/etc/exports
+/exports/home<span class="w"> </span>*<span class="o">(</span>rw,sec<span class="o">=</span>sys:krb5:krb5i:krb5p<span class="o">)</span>
+
+<span class="c1"># Make the home directories for all users and move them to /export/home</span>
+%<span class="w"> </span>mkhomedir_helper<span class="w"> </span>jsmith
+%<span class="w"> </span>mv<span class="w"> </span>/home/jsmith<span class="w"> </span>/export/home/
+
+<span class="c1"># Create the necessary keytabs</span>
+%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa-getkeytab<span class="w"> </span>-s<span class="w"> </span>idm1.example.com<span class="w"> </span>-p<span class="w"> </span>nfs/nfs.example.com<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab
+
+<span class="c1"># Verify keytab</span>
+%<span class="w"> </span>klist<span class="w"> </span>-ket<span class="w"> </span>/etc/krb5.keytab
+
+<span class="c1"># Enable and start nfs</span>
+%<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>nfs-server<span class="w"> </span>--now
+
+<span class="c1"># Open the necessary firewall ports</span>
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-service<span class="o">=</span>nfs<span class="w"> </span>--permanent
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--complete-reload
+
+<span class="c1"># Client steps</span>
+%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ipa-getkeytab<span class="w"> </span>-s<span class="w"> </span>idm1.example.com<span class="w"> </span>-p<span class="w"> </span>nfs/client.example.com<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab
+%<span class="w"> </span>ipa-client-automount<span class="w"> </span>--location<span class="o">=</span>default
+
+<span class="c1"># Verify keytab</span>
+%<span class="w"> </span>klist<span class="w"> </span>-ket<span class="w"> </span>/etc/krb5.keytab
+</code></pre></div>
+<p>To test, login to the system via ssh or console and verify the home directory has mounted. /var/log/messages and secure will display errors in case of failure.</p>
+<h3 id="use-ansible-tower-to-configure-and-manage-idm-users">Use Ansible Tower to configure and manage IdM Users<a class="headerlink" href="#use-ansible-tower-to-configure-and-manage-idm-users" title="Permanent link">&para;</a></h3>
+<p>Several sections ago, we setup users either manually or via ansible playbooks. This would be generally the same, but may entail further configuration.</p>
+<p>With that said, Ansible Tower (AWX or AAP) is out of scope for this guide, as there is no straight forward way to set it up in a lab. AWX for example has a kubernetes operator and they encourage the use of docker for testing purposes. You can do this, but this is not formally tested.</p>
+<p>AAP on the other hand has installation steps for non-kubernetes environments. However, it is a Red Hat product and requires a subscription to use.</p>
+<h3 id="configure-idm-as-an-ldap-backend-for-external-services">Configure IdM as an LDAP backend for external services<a class="headerlink" href="#configure-idm-as-an-ldap-backend-for-external-services" title="Permanent link">&para;</a></h3>
+<p>Most services and applications that authenticate users do typically have LDAP support. IdM can be used as an LDAP backend. You typically need only a few things to authenticate users from IdM to an application.</p>
+<ul>
+<li>Base DN, this always ends up being the top level of your domain: dc=example,dc=com - All accounts share this common base.</li>
+<li>Bind DN, this is a system account that binds to the directory to assist with searches and authentication</li>
+<li>Attribute mappings</li>
+<li>Groups, depending on the application</li>
+</ul>
+<p>Below is a table of common DN's you may specify in an application:</p>
+<table>
+<thead>
+<tr>
+<th>DN's</th>
+<th>Path</th>
+<th>Filter (if applicable)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base DN</td>
+<td>dc=example,dc=com</td>
+<td></td>
+</tr>
+<tr>
+<td>User DN</td>
+<td>cn=users,cn=accounts,dc=example,dc=com</td>
+<td>uid=...</td>
+</tr>
+<tr>
+<td>Group DN</td>
+<td>cn=groups,cn=accounts,dc=example,dc=com</td>
+<td>(objectClass=groupOfNames)</td>
+</tr>
+<tr>
+<td>Bind DN</td>
+<td>uid=account,cn=sysaccounts,cn=etc,dc=example,dc=com</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa<span class="w"> </span>user-show<span class="w"> </span>admin<span class="w"> </span>--all<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;^dn&#39;</span>
+<span class="w">  </span>dn:<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>admin,cn<span class="o">=</span>users,cn<span class="o">=</span>accounts,dc<span class="o">=</span>example,dc<span class="o">=</span>com
+</code></pre></div>
+<p>Below is a table of common attributes that may be used to map user information in the application.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Login Name</td>
+<td>uid</td>
+</tr>
+<tr>
+<td>First Name</td>
+<td>givenName</td>
+</tr>
+<tr>
+<td>Surname</td>
+<td>sn</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>mail</td>
+</tr>
+<tr>
+<td>Groups</td>
+<td>memberOf</td>
+</tr>
+<tr>
+<td>Full Name</td>
+<td>cn</td>
+</tr>
+</tbody>
+</table>
+<p>Below are two ways to create a bind account (bind DN). The first way is the LDAP way. The second way is the ipa-ldap-updater.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>ldapadd<span class="w"> </span>-Y<span class="w"> </span>GSSAPI
+.<span class="w"> </span>.<span class="w"> </span>.
+dn:<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>binder,cn<span class="o">=</span>sysaccounts,cn<span class="o">=</span>etc,dc<span class="o">=</span>example,dc<span class="o">=</span>com
+objectclass:<span class="w"> </span>account
+objectclass:<span class="w"> </span>simplesecurityobject
+uid:<span class="w"> </span>binder
+userPassword:<span class="w"> </span>password123
+passwordExpirationTime:<span class="w"> </span>20380119031407Z
+nsIdleTimeout:<span class="w"> </span><span class="m">0</span>
+<span class="c1"># Press CTRL+d</span>
+adding<span class="w"> </span>new<span class="w"> </span>entry<span class="w"> </span><span class="s2">&quot;uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>kinit<span class="w"> </span>admin
+%<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; binder.update</span>
+<span class="s">dn: uid=binder,cn=sysaccounts,cn=etc,dc=example,dc=com</span>
+<span class="s">add:objectclass:account</span>
+<span class="s">add:objectclass:simplesecurityobject</span>
+<span class="s">add:uid:binder</span>
+<span class="s">add:userPassword:password123</span>
+<span class="s">add:passwordExpirationTime:20380119031407Z</span>
+<span class="s">add:nsIdleTimeout:0</span>
+<span class="s">EOF</span>
+%<span class="w"> </span>ipa-ldap-updater<span class="w"> </span>binder.update
+</code></pre></div>
+<p>When this account is created, you can then specify the full DN for that object into a bind DN field, along with it's password into an accompanying bind password field.</p>
+<p>If you'd like an example of setting up Ansible Tower (or AWX, the open source version of tower) against IdM, you can click <a href="https://github.com/ansible/awx/blob/devel/docs/auth/ldap.md">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Kerberos</p>
+<p>On some applications, it is possible to use kerberos authentication rather than a straight bind account. The general idea is the same when picking out the base dn, attributes, and the like. However, instead you would create an account with an accompanying LDAP/... service principal to do the authentication.</p>
+</div>
+<h2 id="maintain-idm-services">Maintain IdM services<a class="headerlink" href="#maintain-idm-services" title="Permanent link">&para;</a></h2>
+<h3 id="configure-ntp-on-all-idm-components">Configure NTP on all IdM components<a class="headerlink" href="#configure-ntp-on-all-idm-components" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">NTP Server Setup</p>
+<p>The utility server that is part of this lab can be used to run an NTP server. See <a href="#setup-an-ntp-server">Setup an NTP Server</a>.</p>
+</div>
+<p>When the domain was initially setup, we may have used <code>--no-ntp</code>, including for the clients. This means there's no attempt to configure nor sync chrony. This automatically assumes chrony is working as intended with the default pool configured from the chrony package (or by IT policy via automation). However, for this lab, if you have an NTP server you want to use, you can set it up in the <code>/etc/chrony.conf</code> file.</p>
+<div class="highlight"><pre><span></span><code>% vi /etc/chrony.conf
+. . .
+# pool 2.centos.pool.ntp.org iburst
+server 192.168.15.12
+. . .
+
+% systemctl restart chronyd.service
+% chronyc tracking
+</code></pre></div>
+<h3 id="configure-firewall-on-all-idm-components">Configure firewall on all IdM components<a class="headerlink" href="#configure-firewall-on-all-idm-components" title="Permanent link">&para;</a></h3>
+<p>If the domain is working, then you setup firewalld correctly.</p>
+<h3 id="back-up-an-idm-infrastructure">Back up an IdM infrastructure<a class="headerlink" href="#back-up-an-idm-infrastructure" title="Permanent link">&para;</a></h3>
+<p>There are multiple ways you can backup IPA. </p>
+<ul>
+<li>Full backup: Default, shuts down IPA before performing a backup. This backs up with raw files. As such, it must be done offline.</li>
+<li>Data backup: Backs up a copy of the ldap data and the changelog (the IPA-REALM instance, DogTag, IPA backend). This can be done online.</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Script or CLI</label><label for="__tabbed_7_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Turns off IPA completely and perform a backup</span>
+%<span class="w"> </span>ipa-backup
+<span class="c1"># Backs up and gpg encrypts</span>
+%<span class="w"> </span>ipa-backup<span class="w"> </span>--gpg<span class="w"> </span>--gpg-keyring<span class="o">=</span>/root/keys
+</code></pre></div>
+<p>To restore a backup, the ipa-restore command is available.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa-restore<span class="w"> </span>/var/lib/ipa/backup/
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>. . .</p>
+</div>
+</div>
+</div>
+<h3 id="perform-a-backup-without-interruption-of-services">Perform a backup without interruption of services<a class="headerlink" href="#perform-a-backup-without-interruption-of-services" title="Permanent link">&para;</a></h3>
+<p>It is possible to perform a backup without taking down services. However, not everything will get backed up as a result.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Script or CLI</label><label for="__tabbed_8_2">Ansible</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The backup command allows you to pass an online flag to ensure a backup taken doesn't down the IPA services. Note that not everything can be backed up online.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Backs up data only and doesn&#39;t take down IPA</span>
+%<span class="w"> </span>ipa-backup<span class="w"> </span>--data<span class="w"> </span>--online
+<span class="c1"># Backs up data only and gpg encrypts</span>
+%<span class="w"> </span>ipa-backup<span class="w"> </span>--gpg<span class="w"> </span>--gpg-keyring<span class="o">=</span>/root/keys<span class="w"> </span>--data<span class="w"> </span>--online
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>. . .</p>
+</div>
+</div>
+</div>
+<h2 id="value-add">Value Add<a class="headerlink" href="#value-add" title="Permanent link">&para;</a></h2>
+<h3 id="use-the-rest-api-to-query-idm">Use the REST api to query IdM<a class="headerlink" href="#use-the-rest-api-to-query-idm" title="Permanent link">&para;</a></h3>
+<p>When you invoke the <code>ipa</code> command, you are actually communicating with the API that runs on the IdM replicas. Operations done are sent via a POST with JSON data. The return data is also in JSON and translated to be readable in the terminal. Because it's JSON, custom scripts can be made with say perl or python that communicates with the API to send the calls, perhaps for specific tasks, jobs, or other operations that could be automated. You can also use <code>curl</code> to do this also if you so choose. </p>
+<p>The question becomes, "well, how do I know the right data to send?" You can issue the -vv switch to see the request being sent.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa<span class="w"> </span>-vv<span class="w"> </span>ping
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>trying<span class="w"> </span>https://idm1.example.com/ipa/json
+ipa:<span class="w"> </span>INFO:<span class="w"> </span><span class="o">[</span>try<span class="w"> </span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Forwarding<span class="w"> </span><span class="s1">&#39;schema&#39;</span><span class="w"> </span>to<span class="w"> </span>json<span class="w"> </span>server<span class="w"> </span><span class="s1">&#39;https://idm1.example.com/ipa/json&#39;</span>
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>trying<span class="w"> </span>https://idm1.example.com/ipa/session/json
+ipa:<span class="w"> </span>INFO:<span class="w"> </span><span class="o">[</span>try<span class="w"> </span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Forwarding<span class="w"> </span><span class="s1">&#39;ping/1&#39;</span><span class="w"> </span>to<span class="w"> </span>json<span class="w"> </span>server<span class="w"> </span><span class="s1">&#39;https://idm1.example.com/ipa/session/json&#39;</span>
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>Request:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;method&quot;</span>:<span class="w"> </span><span class="s2">&quot;ping/1&quot;</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;params&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">[]</span>,<span class="w"> </span>
+<span class="w">        </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;2.251&quot;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="o">}</span>
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>Response:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;error&quot;</span>:<span class="w"> </span>null,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;principal&quot;</span>:<span class="w"> </span><span class="s2">&quot;admin@EXAMPLE.COM&quot;</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;result&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;summary&quot;</span>:<span class="w"> </span><span class="s2">&quot;IPA server version 4.10.2. API version 2.251&quot;</span>
+<span class="w">    </span><span class="o">}</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;4.10.2&quot;</span>
+<span class="o">}</span>
+--------------------------------------------
+IPA<span class="w"> </span>server<span class="w"> </span>version<span class="w"> </span><span class="m">4</span>.10.2.<span class="w"> </span>API<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>.251
+--------------------------------------------
+</code></pre></div>
+<p>If you look at the 'request' section, you can see the data that is sent. Each request has a <code>method</code> and <code>params</code>, where method is a command to be excuted and params is simply an array that contains positional arguments and a dictionary of options. If you take a look at say, group-show, you would see a different request.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa<span class="w"> </span>-vv<span class="w"> </span>group-show<span class="w"> </span>admins
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>trying<span class="w"> </span>https://idm1.example.com/ipa/session/json
+ipa:<span class="w"> </span>INFO:<span class="w"> </span><span class="o">[</span>try<span class="w"> </span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>Forwarding<span class="w"> </span><span class="s1">&#39;group_show/1&#39;</span><span class="w"> </span>to<span class="w"> </span>json<span class="w"> </span>server<span class="w"> </span><span class="s1">&#39;https://idm1.example.com/ipa/session/json&#39;</span>
+ipa:<span class="w"> </span>INFO:<span class="w"> </span>Request:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;method&quot;</span>:<span class="w"> </span><span class="s2">&quot;group_show/1&quot;</span>,<span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;params&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">[</span>
+<span class="w">            </span><span class="s2">&quot;admins&quot;</span>
+<span class="w">        </span><span class="o">]</span>,<span class="w"> </span>
+<span class="w">        </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;2.230&quot;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="o">}</span>
+<span class="c1">### Lots of output ###</span>
+</code></pre></div>
+<p>Let's say I wanted to perform that in a simple bash script that uses curl. I would perform a <code>kinit</code> and then run the script below to have it login for me via kerberos and do the work.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">ipaReplica</span><span class="o">=</span>idm1.example.com
+<span class="nv">cookieJar</span><span class="o">=</span>my.cookie.jar
+
+<span class="c1"># Login with Kerberos</span>
+curl<span class="w"> </span>-v<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span>referer:https://<span class="nv">$ipaReplica</span>/ipa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span><span class="nv">$cookieJar</span><span class="w"> </span>-b<span class="w"> </span><span class="nv">$cookieJar</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cacert<span class="w"> </span>/etc/ipa/ca.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--negotiate<span class="w"> </span>-u<span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://<span class="nv">$ipaReplica</span>/ipa/session/login_kerberos
+
+<span class="c1"># Send user_find method request</span>
+curl<span class="w"> </span>-v<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span>referer:https://<span class="nv">$ipaReplica</span>/ipa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type:application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Accept:applicaton/json&quot;</span><span class="se">\</span>
+<span class="w">  </span>-c<span class="w"> </span><span class="nv">$cookieJar</span><span class="w"> </span>-b<span class="w"> </span><span class="nv">$cookieJar</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cacert<span class="w"> </span>/etc/ipa/ca.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w">  </span><span class="s1">&#39;{&quot;method&quot;:&quot;group_show/1&quot;,&quot;params&quot;:[[&quot;admins&quot;],{}],&quot;id&quot;:0}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://<span class="nv">$ipaReplica</span>/ipa/session/json
+</code></pre></div>
+<p>Any of the commands ran via <code>ipa</code> can be reviewed with the -vv switch so you can see what kind of call it's making and how it's making it. Thus, making it easier to tie into your own scripts. On the Web UI, you can go to IPA Server -&gt; API Browser to find more information on the specific API calls.</p>
+<h3 id="implement-an-idp">Implement an IdP<a class="headerlink" href="#implement-an-idp" title="Permanent link">&para;</a></h3>
+<p>While not strictly a certification objective at this present time, there may be a chance it could be. FreeIPA 4.10+ have the ability to implement authentication to external identity providers. FreeIPA allows you to use RADIUS proxy authentication for example, but using this same method, an OAuth 2.0 authorization server could be used as well. When it comes to an IdP, you can instead configure IdP clients using <code>ipa idp-add</code> and use software like Keycloak or otherwise that supports OAuth 2.0 workflows. We recommend checking out the <a href="https://freeipa.readthedocs.io/en/latest/workshop/12-external-idp-support.html">FreeIPA Workshop Unit 12</a> for more details.</p>
+<h3 id="setup-an-ntp-server">Setup an NTP Server<a class="headerlink" href="#setup-an-ntp-server" title="Permanent link">&para;</a></h3>
+<p>It is unlikely you'll need to setup an NTP server on an exam. However, rather than relying on the built-in pool servers provided by the chrony package, you may ask IdM to use another NTP server or pool for itself and the clients that enroll. Using the utility server, we can setup a quick NTP server.</p>
+<div class="highlight"><pre><span></span><code>% vi /etc/chrony.conf
+. . .
+allow 192.168.15.0/24
+
+% systemctl restart chronyd.service
+% firewall-cmd --add-service=ntp --permanent
+% firewall-cmd --reload
+</code></pre></div>
+<p>For your IdM domain, you can then add a SRV record. This is supposed to allow the client installation to automatically set the NTP server.</p>
+<div class="highlight"><pre><span></span><code>% ipa dnsrecord-add example.com _ntp \
+  --srv-port=123 \
+  --srv-target=utility.example.com. \
+  --srv-weight=100 \
+  --srv-priority=0
+</code></pre></div>
+<h3 id="active-directory-trust">Active Directory Trust<a class="headerlink" href="#active-directory-trust" title="Permanent link">&para;</a></h3>
+<p>Active Directory trusts are no longer part of the main objectives for the exam. However, that does not mean it will not be part of it. It is important to still know how to set it up manually. In the installation section of this guide, there are commented variables for a trust configuration.</p>
+<h4 id="create-trust-relationships-with-active-directory">Create trust relationships with Active Directory<a class="headerlink" href="#create-trust-relationships-with-active-directory" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">AD Setup</p>
+<p>We do not cover setting up an AD forest here. This is out of scope for this series. If you are using Server 2016 or higher and you are using "core", look up the commands:</p>
+<p>Install-WindowsFeature AD-domain-services
+Import-Module ADDSDeployment
+Install-ADDSForest</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Server Name</th>
+<th>IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ad.example.net</td>
+<td>192.168.15.15</td>
+</tr>
+</tbody>
+</table>
+<p>For our trust, the AD server will need to be configured to be the example.net domain with the hostname of ad.example.net. This way, we are not colliding in DNS and both AD and IdM should be able to communicate with each other as two separate forests. It is recommended to use Windows Server 2016 (with the same domain functional level) for this setup, as experience with that product is a recommended prerequisite for the exam.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>ipa-server-trust-ad<span class="w"> </span>-y
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--add-service<span class="o">=</span>freeipa-trust<span class="w"> </span>--permanent
+success
+%<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+success
+%<span class="w"> </span>ipa-adtrust-install
+.<span class="w"> </span>.<span class="w"> </span>.
+<span class="c1"># This is the admin@REALM IPA account</span>
+admin<span class="w"> </span>password:
+
+WARNING:<span class="w"> </span>The<span class="w"> </span>smb.conf<span class="w"> </span>already<span class="w"> </span>exists.<span class="w"> </span>Running<span class="w"> </span>ipa-adtrust-install<span class="w"> </span>will<span class="w"> </span><span class="k">break</span><span class="w"> </span>your<span class="w"> </span>existing<span class="w"> </span>samba<span class="w"> </span>configuration.
+
+<span class="c1"># Type &#39;yes&#39; here</span>
+Do<span class="w"> </span>you<span class="w"> </span>wish<span class="w"> </span>to<span class="w"> </span><span class="k">continue</span>?<span class="w"> </span><span class="o">[</span>no<span class="o">]</span>:<span class="w"> </span>yes
+
+Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>support<span class="w"> </span><span class="k">for</span><span class="w"> </span>trusted<span class="w"> </span>domains<span class="w"> </span><span class="k">in</span><span class="w"> </span>Schema<span class="w"> </span>Compatibility<span class="w"> </span>plugin?
+This<span class="w"> </span>will<span class="w"> </span>allow<span class="w"> </span>clients<span class="w"> </span>older<span class="w"> </span>than<span class="w"> </span>SSSD<span class="w"> </span><span class="m">1</span>.9<span class="w"> </span>and<span class="w"> </span>non-Linux<span class="w"> </span>clients<span class="w"> </span>to<span class="w"> </span>work<span class="w"> </span>with<span class="w"> </span>trusted<span class="w"> </span>users.
+
+<span class="c1"># You can press enter here to accept the default. If you have BSD, Solaris, Omnios, HP-UX, AIX, or RHEL 5 and older clients</span>
+<span class="c1"># you may want to enable this. Some apps may benefit from this also.</span>
+Enable<span class="w"> </span>trusted<span class="w"> </span>domains<span class="w"> </span>support<span class="w"> </span><span class="k">in</span><span class="w"> </span>slapi-nis?<span class="w"> </span><span class="o">[</span>no<span class="o">]</span>:
+
+Enter<span class="w"> </span>the<span class="w"> </span>NetBIOS<span class="w"> </span>name<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>IPA<span class="w"> </span>domain.
+Only<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span><span class="m">15</span><span class="w"> </span>uppercase<span class="w"> </span>ASCII<span class="w"> </span>letters,<span class="w"> </span>digits<span class="w"> </span>and<span class="w"> </span>dashes<span class="w"> </span>are<span class="w"> </span>allowed.
+Example:<span class="w"> </span>EXAMPLE.
+
+<span class="c1"># You can accept the default or put your own.</span>
+NetBIOS<span class="w"> </span>domain<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>IPA<span class="o">]</span>:<span class="w"> </span>IPA0
+
+WARNING:<span class="w"> </span><span class="m">4</span><span class="w"> </span>existing<span class="w"> </span>users<span class="w"> </span>or<span class="w"> </span>groups<span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>have<span class="w"> </span>a<span class="w"> </span>SID<span class="w"> </span>identifier<span class="w"> </span>assigned.
+Installer<span class="w"> </span>can<span class="w"> </span>run<span class="w"> </span>a<span class="w"> </span>task<span class="w"> </span>to<span class="w"> </span>have<span class="w"> </span>ipa-sidgen<span class="w"> </span>Directory<span class="w"> </span>Server<span class="w"> </span>plugin<span class="w"> </span>generate
+the<span class="w"> </span>SID<span class="w"> </span>identifier<span class="w"> </span><span class="k">for</span><span class="w"> </span>all<span class="w"> </span>these<span class="w"> </span>users.<span class="w"> </span>Please<span class="w"> </span>note,<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">case</span><span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span>high
+number<span class="w"> </span>of<span class="w"> </span>users<span class="w"> </span>and<span class="w"> </span>groups,<span class="w"> </span>the<span class="w"> </span>operation<span class="w"> </span>might<span class="w"> </span>lead<span class="w"> </span>to<span class="w"> </span>high<span class="w"> </span>replication
+traffic<span class="w"> </span>and<span class="w"> </span>performance<span class="w"> </span>degradation.<span class="w"> </span>Refer<span class="w"> </span>to<span class="w"> </span>ipa-adtrust-install<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>man<span class="w"> </span>page
+<span class="k">for</span><span class="w"> </span>details.
+
+<span class="c1"># You should always say yes.</span>
+Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>ipa-sidgen<span class="w"> </span>task?<span class="w"> </span><span class="o">[</span>no<span class="o">]</span>:<span class="w"> </span>yes
+
+.<span class="w"> </span>.<span class="w"> </span>.
+
+<span class="c1"># This will complete and list ports to open and such. We did this earlier.</span>
+</code></pre></div>
+<p>Now that the AD trust components are prepped, depending on the setup, we'll need to do some DNS zone forwards. It is likely you have IPA and AD running their own DNS. <strong>Note</strong>: This may not be the case in a real world scenario.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># We need to create a forward zone here for the example.net zone</span>
+%<span class="w"> </span>ipa<span class="w"> </span>dnsforwardzone-add<span class="w"> </span>example.net<span class="w"> </span>--forwarder<span class="o">=</span><span class="m">192</span>.168.15.15<span class="w"> </span>--forward-policy<span class="o">=</span>only
+Server<span class="w"> </span>will<span class="w"> </span>check<span class="w"> </span>DNS<span class="w"> </span>forwarder<span class="o">(</span>s<span class="o">)</span>.
+This<span class="w"> </span>may<span class="w"> </span>take<span class="w"> </span>some<span class="w"> </span>time,<span class="w"> </span>please<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>...
+<span class="w">  </span>Zone<span class="w"> </span>name:<span class="w"> </span>example.net.
+<span class="w">  </span>Active<span class="w"> </span>zone:<span class="w"> </span>TRUE
+<span class="w">  </span>Zone<span class="w"> </span>forwarders:<span class="w"> </span><span class="m">192</span>.168.15.15
+<span class="w">  </span>Forward<span class="w"> </span>policy:<span class="w"> </span>only
+
+<span class="c1"># We should probably create a few dns records...</span>
+<span class="c1"># Assuming the AD netbios name is EXAMPLEAD, use the syntax hostname.NETBIOS here</span>
+%<span class="w"> </span>ipa<span class="w"> </span>dnsrecord-add<span class="w"> </span>example.com<span class="w"> </span>ad.EXAMPLEAD<span class="w"> </span>--a-ip-address<span class="o">=</span><span class="m">192</span>.168.15.15
+<span class="c1"># Same idea here, but we&#39;re only doing the netbios name and saying the name server record is the AD server</span>
+%<span class="w"> </span>ipa<span class="w"> </span>dnsrecord-add<span class="w"> </span>example.com<span class="w"> </span>EXAMPLEAD<span class="w"> </span>--ns-hostname<span class="o">=</span>ad.EXAMPLEAD
+
+<span class="c1"># We need to allow the zones to be transferable to the AD domain</span>
+%<span class="w"> </span>ipa<span class="w"> </span>dnszone-mod<span class="w"> </span>example.com<span class="w"> </span>--allow-transfer<span class="o">=</span><span class="m">192</span>.168.15.15
+</code></pre></div>
+<p>On the AD side, we need to create the IPA zone. It's absolutely required.</p>
+<p><div class="highlight"><pre><span></span><code>C:\Windows\System32&gt;dnscmd 127.0.0.1 /ZoneAdd example.com /Secondary 192.168.15.2
+</code></pre></div>
+You should probably double check that the DNS records are returning on the IDM servers.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>dig<span class="w"> </span>_ldap._tcp.example.com<span class="w"> </span>SRV
+<span class="p">;</span><span class="w"> </span>&lt;&lt;&gt;&gt;<span class="w"> </span>DiG<span class="w"> </span><span class="m">9</span>.9.4-RedHat-9.9.4-61.el7<span class="w"> </span>&lt;&lt;&gt;&gt;<span class="w"> </span>SRV<span class="w"> </span>_ldap._tcp.example.com
+<span class="p">;;</span><span class="w"> </span>global<span class="w"> </span>options:<span class="w"> </span>+cmd
+<span class="p">;;</span><span class="w"> </span>Got<span class="w"> </span>answer:
+<span class="p">;;</span><span class="w"> </span>-&gt;&gt;HEADER<span class="s">&lt;&lt;- opcode: QUERY, status: NOERROR, id: 14793</span>
+<span class="s">;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2</span>
+
+<span class="s">;; OPT PSEUDOSECTION:</span>
+<span class="s">; EDNS: version: 0, flags:; udp: 4096</span>
+<span class="s">;; QUESTION SECTION:</span>
+<span class="s">;_ldap._tcp.example.com.      IN      SRV</span>
+
+<span class="s">;; ANSWER SECTION:</span>
+<span class="s">_ldap._tcp.example.com. 86400 IN      SRV     0 100 389 idm1.example.com.</span>
+<span class="s">_ldap._tcp.example.com. 86400 IN      SRV     0 100 389 idm2.example.com.</span>
+
+<span class="s">;; AUTHORITY SECTION:</span>
+<span class="s">example.com.          86400   IN      NS      idm1.example.com.</span>
+<span class="s">example.com.          86400   IN      NS      idm2.example.com.</span>
+
+<span class="s">;; ADDITIONAL SECTION:</span>
+<span class="s">idm1.example.com.      1200    IN      A       192.168.15.2</span>
+<span class="s">idm2.example.com.      1200    IN      A       192.168.15.3</span>
+
+<span class="s"># Same with the AD records</span>
+<span class="s">% dig _ldap._tcp.example.net SRV</span>
+<span class="s">; &lt;&lt;&gt;&gt; DiG 9.9.4-RedHat-9.9.4-61.el7 &lt;&lt;&gt;&gt; SRV _ldap._tcp.example.net</span>
+<span class="s">;; global options: +cmd</span>
+<span class="s">;; Got answer:</span>
+<span class="s">;; -&gt;&gt;HEADER&lt;&lt;- opcode</span>:<span class="w"> </span>QUERY,<span class="w"> </span>status:<span class="w"> </span>NOERROR,<span class="w"> </span>id:<span class="w"> </span><span class="m">12195</span>
+<span class="p">;;</span><span class="w"> </span>flags:<span class="w"> </span>qr<span class="w"> </span>rd<span class="w"> </span>ra<span class="p">;</span><span class="w"> </span>QUERY:<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>ANSWER:<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>AUTHORITY:<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>ADDITIONAL:<span class="w"> </span><span class="m">9</span>
+
+<span class="p">;;</span><span class="w"> </span>OPT<span class="w"> </span>PSEUDOSECTION:
+<span class="p">;</span><span class="w"> </span>EDNS:<span class="w"> </span>version:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>flags:<span class="p">;</span><span class="w"> </span>udp:<span class="w"> </span><span class="m">4096</span>
+<span class="p">;;</span><span class="w"> </span>QUESTION<span class="w"> </span>SECTION:
+<span class="p">;</span>_ldap._tcp.example.net.<span class="w">       </span>IN<span class="w">      </span>SRV
+
+<span class="p">;;</span><span class="w"> </span>ANSWER<span class="w"> </span>SECTION:
+_ldap._tcp.example.net.<span class="w"> </span><span class="m">600</span><span class="w">    </span>IN<span class="w">      </span>SRV<span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">389</span><span class="w"> </span>ad.example.net.
+
+.<span class="w"> </span>.<span class="w"> </span>.
+</code></pre></div>
+<p>Now that they are returning, intiate the trust.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa<span class="w"> </span>trust-add<span class="w"> </span>--type<span class="o">=</span>ad<span class="w"> </span>example.net<span class="w"> </span>--admin<span class="w"> </span>Administrator<span class="w"> </span>--password
+Active<span class="w"> </span>Directiron<span class="w"> </span>domain<span class="w"> </span>administrator<span class="err">&#39;</span>s<span class="w"> </span>password:<span class="w"> </span><span class="o">(</span><span class="nb">type</span><span class="w"> </span>password<span class="w"> </span>here<span class="o">)</span>
+-----------------------------------------------------
+Added<span class="w"> </span>Active<span class="w"> </span>Directory<span class="w"> </span>trust<span class="w"> </span><span class="k">for</span><span class="w"> </span>realm<span class="w"> </span><span class="s2">&quot;example.net&quot;</span>
+-----------------------------------------------------
+<span class="w">  </span>Realm<span class="w"> </span>name:<span class="w"> </span>example.net
+<span class="w">  </span>Domain<span class="w"> </span>NetBIOS<span class="w"> </span>name:<span class="w"> </span>EXAMPLEAD
+<span class="w">  </span>Domain<span class="w"> </span>Security<span class="w"> </span>Identifier:<span class="w"> </span>S-1-5-21-XXXXXXXXXX-YYYYYYYYY-ZZZZZZZZZZ
+<span class="w">  </span>Trust<span class="w"> </span>direction:<span class="w"> </span>Trusting<span class="w"> </span>forest
+<span class="w">  </span>Trust<span class="w"> </span>type:<span class="w"> </span>Active<span class="w"> </span>Directory<span class="w"> </span>domain
+<span class="w">  </span>Trust<span class="w"> </span>status:<span class="w"> </span>Established<span class="w"> </span>and<span class="w"> </span>verified
+
+<span class="c1"># Check that an AD user is resolvable. You can do this with DOMAIN\name or name@DOMAIN</span>
+%<span class="w"> </span>id<span class="w"> </span>EXAMPLEAD<span class="se">\\</span>administrator
+%<span class="w"> </span>id<span class="w"> </span>administrator@example.net
+</code></pre></div>
+<h3 id="authenticate-users-with-an-active-directory-domain">Authenticate users with an Active Directory domain<a class="headerlink" href="#authenticate-users-with-an-active-directory-domain" title="Permanent link">&para;</a></h3>
+<p>As we disabled the allow_all rule, let's create a set of groups first and then the HBAC rule.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create the starting AD group</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add<span class="w"> </span>adusers
+<span class="c1"># Create an external group. This is required for AD users.</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add<span class="w"> </span>--external<span class="w"> </span>adgroup_external
+<span class="c1"># Add an AD user into the external group</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add-member<span class="w"> </span>--users<span class="o">=</span>administrator@example.net<span class="w"> </span>adgroup_external
+<span class="c1"># Make the external group a member of ad users</span>
+%<span class="w"> </span>ipa<span class="w"> </span>group-add-member<span class="w"> </span>--groups<span class="o">=</span>adgroup_external<span class="w"> </span>adusers
+</code></pre></div>
+<p>As we've made an HBAC rule before, this should be simple.</p>
+<div class="highlight"><pre><span></span><code>%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add<span class="w"> </span>--hostcat<span class="o">=</span>all<span class="w"> </span>--servicecat<span class="o">=</span>all<span class="w"> </span>--desc<span class="o">=</span><span class="s1">&#39;ad users all access&#39;</span><span class="w"> </span>adusers_access
+%<span class="w"> </span>ipa<span class="w"> </span>hbacrule-add-user<span class="w"> </span>--groups<span class="o">=</span>adusers<span class="w"> </span>adusers_access
+%<span class="w"> </span>ipa<span class="w"> </span>hbactest<span class="w"> </span>--rules<span class="o">=</span>adusers_access<span class="w"> </span>--user<span class="o">=</span>administrator@example.net<span class="w"> </span>--host<span class="o">=</span>client.example.com<span class="w"> </span>--service<span class="o">=</span>sshd
+</code></pre></div>
+<p>The test should pass without any issues.</p>
+<div class="admonition note">
+<p class="admonition-title">Group Types</p>
+<p>While this may not be required information while working on the exam, it's important to understand that there are different group types in AD and the behavior changes based on the group type.</p>
+<p>Groups in Active Directory have three types. These three types can actually change the behavior of how SSSD on the IPA domain controllers resolve them or if they'll even be resolvable at all. The three types are 'Domain Local', 'Global', and 'Universal'. If at all possible, avoid groups being 'Global'. Domain Local or Universal is recommended.</p>
+</div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2026-01-06
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+  <h2 id="__comments">Comments</h2>
+  <!-- Insert generated snippet here -->
+  <script src="https://giscus.app/client.js"
+        data-repo="nazunalika/linux-guide-and-hints"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTA0ODc3ODI="
+        data-category="General"
+        data-category-id="DIC_kwDODIvJ5s4CcRPm"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark_tritanopia"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate"
+        ? "transparent_dark"
+        : "light"
+
+      // Instruct Giscus to set theme
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      var ref = document.querySelector("[data-md-component=palette]")
+      ref.addEventListener("change", function() {
+        var palette = __md_get("__palette")
+        if (palette && typeof palette.color === "object") {
+          var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+          // Instruct Giscus to change theme
+          var frame = document.querySelector(".giscus-frame")
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app"
+          )
+        }
+      })
+    })
+  </script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright 2025, remyabel, nazunalika
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

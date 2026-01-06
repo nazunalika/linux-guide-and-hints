@@ -1,0 +1,1834 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Linux Guide and Hints Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://linuxguideandhints.com/el/sysadmin/">
+      
+      
+        <link rel="prev" href="../pxeboot/">
+      
+      
+        <link rel="next" href="../unbound/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>The System Administrator Experience - Linux Guide and Hints</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#recommendations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Linux Guide and Hints" class="md-header__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Linux Guide and Hints
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The System Administrator Experience
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Linux Guide and Hints" class="md-nav__button md-logo" aria-label="Linux Guide and Hints" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Linux Guide and Hints
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nazunalika/linux-guide-and-hints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nazunalika/linux-guide-and-hints
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux Guide and Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Linux
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enterprise Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Provisioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../freeipa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FreeIPA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT/Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenLDAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pxeboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PXE (with grub2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The System Administrator Experience
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The System Administrator Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certification-completions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certification Completions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-and-changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes and Changelog
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Begin
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Begin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-a-kvm-hypervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup a KVM Hypervisor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup a KVM Hypervisor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommendations-and-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations and Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-and-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DHCP and DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DHCP and DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bonus-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-and-content-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server and Content Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server and Content Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bonus-points_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect-content-management-to-hypervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connect Content Management to Hypervisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spin-up-vms-using-katellospacewalk-or-pxe-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spin Up VM's Using Katello/Spacewalk or PXE Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-freeipa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup FreeIPA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spin-up-two-vms-for-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spin Up Two VM's for Databases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spin-up-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spin Up Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spin-up-vm-for-nfsiscsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spin Up VM for NFS/iSCSI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-bacula-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Bacula Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-twofour-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Two/Four VM's
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-load-balancer-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Load Balancer VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-postfix-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Postfix VM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy Postfix VM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bonus-points_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-nagios-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Nagios VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-syslog-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Syslog VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-your-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Your Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rpm-build-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RPM Build Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unbound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unbound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../training/ex362/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EX362 Exam Prep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/euphemism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Euphemism Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/ipv6he/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hurricane Electric IPv6 Tunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/mingw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MinGW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/port465/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Is port 465 deprecated?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archive/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archives
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fedora" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fedora
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>The System Administrator Experience</h1>
+
+<p>This write up provides steps on the System Administrator experience.
+This is not an end-all, be-all, and has many variables to keep in mind.
+But can provide a baseline for you.</p>
+<p>Please keep in mind, this is for Red Hat based distributions, mainly
+Enterprise Linux 8 and 9. CentOS Stream works within reason.</p>
+<p>Also note that it will be recommended that you do things in ansible. The
+RHCE for RHEL 9 will require you to be able to use ansible. As such, we
+will be focusing on RHEL 9.</p>
+<h2 id="recommendations">Recommendations<a class="headerlink" href="#recommendations" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Software Replacements</p>
+<ul>
+<li>Postgresql can be replaced with MySQL/MariaDB</li>
+<li>Use Katello/Foreman, straight Pulp, or Uyuni</li>
+<li>You can use any hypervisor other than KVM if you wish, with
+  specific caveats</li>
+<li>nagios can be replaced with icinga</li>
+<li>You can replace firewalld with the regular nftables service. This
+  may be required for your virtual host</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>General Notes</p>
+<ul>
+<li>It's recommended to use colored vim syntax. Root doesn't use vim
+  when vim-enhanced is installed. You can make an alias for vi to run
+  vim (not recommended).</li>
+<li>Turn on syntaxing in <code>~/.vimrc</code> with <code>syntax on</code></li>
+<li>Make the vim colors brighter in <code>~/.vimrc</code> with <code>set background=dark</code></li>
+<li>Export your EDITOR variable in <code>~/.bash_profile</code> with <code>export EDITOR=vim</code></li>
+<li>Keep selinux set to <strong>enforcing</strong></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hardware Requirements</p>
+<ul>
+<li>RAM - Minimum: 32GB, Recommended: 64GB</li>
+<li>CPU - Minimum: Intel or AMD Quad Core, Recommended: 8 Core with HyperThreading</li>
+<li>Storage - Minimum: 4TB, Recommended: 8TB</li>
+<li>Network - minium 1gb link recommended</li>
+</ul>
+</div>
+<p>Please consider on building an actual lab machine that you can do this
+on.</p>
+<h2 id="certification-completions">Certification Completions<a class="headerlink" href="#certification-completions" title="Permanent link">&para;</a></h2>
+<p>Certification guidelines will be updated later.</p>
+<h2 id="notes-and-changelog">Notes and Changelog<a class="headerlink" href="#notes-and-changelog" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Post Experience Notes</p>
+<p>While this write up uses KVM exclusively, you may want to enhance your
+learning after the fact by setting up another virtualization platform
+on your virtual host. It may require you to redesign everything or
+even start over, but it is something you can consider which you like
+best overall.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 07, 2024</td>
+<td>Restructure with markdown</td>
+</tr>
+</tbody>
+</table>
+<h2 id="begin">Begin<a class="headerlink" href="#begin" title="Permanent link">&para;</a></h2>
+<p>We'll now begin the system administrator experience. We will provide
+from beginning to end, what to do, without giving away what has to be
+done or has to be configured. This is on you to perform. At the end,
+there is a "wiki" that you create where you will have a chance to
+document everything you did. I recommend writing down or putting in a
+word document what you are doing or have done throughout so it'll make
+your wiki documentation much, much better.</p>
+<h3 id="setup-a-kvm-hypervisor">Setup a KVM Hypervisor<a class="headerlink" href="#setup-a-kvm-hypervisor" title="Permanent link">&para;</a></h3>
+<p>Now you'll need to setup a KVM Hypervisor. You can do this on Fedora
+39+ or Enterprise Linux 9. Because EL9 is a stable platform for libvirt,
+I recommend using going that route. If you want the latest features for
+the cost of some stability, Fedora will work for you.</p>
+<p>You may want to make sure your hardware supports virtualization.</p>
+<div class="highlight"><pre><span></span><code>egrep --color &#39;vmx|svm&#39; /proc/cpuinfo
+</code></pre></div>
+<h4 id="recommendations-and-options">Recommendations and Options<a class="headerlink" href="#recommendations-and-options" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>Create multiple datastores (storage pools where the VM images will
+  sit)</p>
+<ul>
+<li>Example, 2x2TB means you can make two datastores, 4x1TB means
+  you can make four.</li>
+</ul>
+</li>
+<li>
+<p>Attempt to use LVM as the backing for the store.</p>
+<ul>
+<li>You can create a Volume Group and have the VM's live as Logical
+  Volumes.</li>
+<li>You can create a Volume Group and have one or more partitions to
+  make "more" datastores</li>
+</ul>
+</li>
+<li>
+<p>Destroy the "built in" network that libvirt already provides and
+  make your own</p>
+<ul>
+<li>It already makes virbr0. Make your own OR modify it to not
+  support DHCP/DNS (eg, static only)</li>
+</ul>
+</li>
+</ul>
+<h4 id="hints">Hints<a class="headerlink" href="#hints" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>Most of your commands will be from the following:</p>
+<ul>
+<li>virsh</li>
+<li>fdisk/parted</li>
+<li>pvcreate &amp; vgcreate</li>
+<li>mkfs</li>
+</ul>
+</li>
+<li>
+<p>To get the most performance out of your VM's disk wise, consider
+  these options:</p>
+<ul>
+<li>Avoid QCOW2</li>
+<li>Use virtio for the hardware whenever possible</li>
+<li>Set caching to "none" for hard disks on VM's when using raw
+  volumes or partitions</li>
+</ul>
+</li>
+</ul>
+<h3 id="dhcp-and-dns">DHCP and DNS<a class="headerlink" href="#dhcp-and-dns" title="Permanent link">&para;</a></h3>
+<p>You'll need to setup a DHCP and DNS server. You have a few choices.</p>
+<ol>
+<li>Create two VM's to run DHCP for HA and create FreeIPA servers to
+   handle DNS (two replicas, doubles as authentication for Linux/UNIX
+   clients)</li>
+<li>Create two VM's to run DHCP for HA and create two standalone BIND
+   servers as master/slave</li>
+<li>Use your hypervisor to host DHCP and BIND (not recommended)</li>
+</ol>
+<p>It would be sensible to do "1", if you do "2", you at least get more
+exposure to how zone files are created and the like. For ease of use,
+<strong>we recommend choosing option 1.</strong></p>
+<p>Also, it is possible to allow cobbler handle DHCP and DNS or integrate
+directly into DNS such as making changes, but this is outside the scope
+of this write up.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do NOT run DHCP from the FreeIPA replicas. The FreeIPA servers should
+have STATIC addresses set.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When you are setting up DHCP and DNS on separate servers (such as
+FreeIPA replicas), the DHCP server needs to be configured to tell all
+the clients the true gateway (this is either a VM in on KVM or a
+hypervisor of your choice if you are doing straight KVM) and the DNS servers.</p>
+</div>
+<p>Setup a VM or your hypervisor as the gateway to the internet.</p>
+<ol>
+<li>IP forwarding enabled (/etc/sysctl.conf)</li>
+<li>NAT enabled (firewalld can help you with this, check out the zones)</li>
+<li>A virtual interface (hypervisor) or a second interface for your
+   network (as a VM)</li>
+</ol>
+<p>When setting up DHCP and DNS:</p>
+<ol>
+<li>Decide on a domain name. This can be a domain you own or one you
+   make up internally. I personally used one of my four domains for
+   this lab. RFC expects that internal networks have world routable
+   domains. This is up to you. <strong>Do NOT use '.local' domains</strong></li>
+<li>Setup DNS forwarders to ensure your VM's can get DNS requests from
+   the internet. You create a forwarders { } block with each outside
+   DNS IP listed in BIND or you can <em>optionally</em> set them in the
+   FreeIPA interface. You can list as many as you want. With a default
+   configuration of FreeIPA, forwarders are not strictly required. <strong>Do
+   NOT put these extra DNS servers in your dhcpd.conf configuration</strong></li>
+<li>You need two zones. Forward Zone: This is for your domain, name to
+   an IP. Reverse Zone: This is for reverse IP lookups, IP to a name.
+   FreeIPA handles this for you on setup if you state you are handling
+   a reverse zone and what the subnet is.</li>
+</ol>
+<h4 id="bonus-points">Bonus Points<a class="headerlink" href="#bonus-points" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Setup Dynamic DNS - This requires an almost specific configuration
+  between dhcpd and named (bind) or FreeIPA's named.</li>
+<li>Dynamic DNS needs to be aware of a domain name</li>
+<li>Use SSSD for the IPA clients to update their DNS automatically
+  (FreeIPA only) - this may not be required if dhcpd and named are
+  configured correctly</li>
+<li>Setup an unbound service running on port 9053 that forwards to
+  1.1.1.1 for encrypted DNS</li>
+</ul>
+<p><strong>From this point forward, you are to ensure each of your VM's that you
+create have DNS entries. If you have Dynamic DNS running, you will NOT
+need to do any manual changes. If using FreeIPA, you may not need to
+make these changes. You can use nsupdate or the ipa equivalent to add
+additional entries as needed if you are implementing static A records or
+CNAME records.</strong></p>
+<h3 id="server-and-content-management">Server and Content Management<a class="headerlink" href="#server-and-content-management" title="Permanent link">&para;</a></h3>
+<p>At this point, you'll need to setup Foreman/Katello, Pulp, or Uyuni on
+a VM. I recommend using Pulp if you want something smaller and simpler.
+If you want something close to <strong>Red Hat Satellite</strong>, go through
+katello. It is a combination of pulp, candlepin, foreman. This
+recommendation is primarily because of Satellite 6 existing in a large
+amount of Red Hat shops.</p>
+<p>Katello, go <a href="http://www.katello.org/">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Heads up</p>
+<ul>
+<li>You're going to be hosting repositories, I SERIOUSLY recommend
+  creating a VM that has at least 250GB starting and going from there.
+  Don't try to host Fedora.</li>
+<li>Katello is resource heavy, you may need to tune it.</li>
+<li>Pulp may be easier on you, resource wise.</li>
+</ul>
+</div>
+<h4 id="bonus-points_1">Bonus Points<a class="headerlink" href="#bonus-points_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Setup errata importation for the Enterprise Linux
+  Channels/Repositories to properly see Advisories and Information for
+  package updates if the repos you are importing does not contain them</li>
+<li>Create custom kickstarts for your systems (this will help you out
+  later)</li>
+</ul>
+<p>Kickstart examples can be found at my
+<a href="https://github.com/nazunalika/useful-scripts/tree/master/centos">github</a>.</p>
+<h3 id="connect-content-management-to-hypervisor">Connect Content Management to Hypervisor<a class="headerlink" href="#connect-content-management-to-hypervisor" title="Permanent link">&para;</a></h3>
+<p>Next you will need to connect your Content Management to your
+hypervisor. View their documentation to get an idea of how it works.</p>
+<h3 id="spin-up-vms-using-katellospacewalk-or-pxe-server">Spin Up VM's Using Katello/Spacewalk or PXE Server<a class="headerlink" href="#spin-up-vms-using-katellospacewalk-or-pxe-server" title="Permanent link">&para;</a></h3>
+<p>You will need to spin up two EL8 or EL9 VM's via Katello or PXE. Do not spin
+them up using virt-install, virt-manager, or anything else. This will require
+you to connect Katello to the hypervisor. Ensure they are registered
+properly to your content management server.</p>
+<p>If you find the clients aren't registering on Katello, click
+<a href="https://theforeman.org/manuals/3.8/index.html">here</a>.</p>
+<p>If you find that you do not want to use Katello to perform this task,
+then you can setup cobbler and work it out from there. <strong>I currently do
+not have a tutorial for this, but there is plenty of documentation
+online.</strong> There are also ansible playbooks you could look at for
+examples if you wanted to go that route, but it may be time consuming
+and something to setup at the very end.</p>
+<h3 id="setup-freeipa">Setup FreeIPA<a class="headerlink" href="#setup-freeipa" title="Permanent link">&para;</a></h3>
+<p>Setup FreeIPA with two replicas, using CA and DNS built in
+configuration. This is recommended if you do not want to setup BIND by
+hand. FreeIPA also provides authentication to your systems without
+having to go through the hassle of setting up OpenLDAP by hand nor
+having Windows AD.</p>
+<ul>
+<li><a href="https://freeipa.org">FreeIPA</a></li>
+<li><a href="https://linuxguideandhints.com/el/freeipa">FreeIPA Guide</a></li>
+</ul>
+<p>I recommend against setting up OpenLDAP for the case of UNIX
+authentication. For anything else, go for it.</p>
+<p>Once FreeIPA is available, all systems should be using FreeIPA as your
+DNS servers and they should all be enrolled to your domain.</p>
+<h3 id="spin-up-two-vms-for-databases">Spin Up Two VM's for Databases<a class="headerlink" href="#spin-up-two-vms-for-databases" title="Permanent link">&para;</a></h3>
+<p>Create two new VM's from your Content Management or PXE system that are
+EL9 and install the default postgresql on them.</p>
+<p>Attempt to install and configure pgpool-II for master-master
+replication. Note that this may not be default in Enterprise Linux and
+you can safely skip this.</p>
+<h3 id="spin-up-configuration-management">Spin Up Configuration Management<a class="headerlink" href="#spin-up-configuration-management" title="Permanent link">&para;</a></h3>
+<p>While Katello has some form of ansible built in, it may be
+better to create a solitary configuration management VM and hook it in.
+Spin up a VM that is EL9 and install a master for configuration
+management.</p>
+<p>It is HIGHLY recommended that you use ansible. Ansible is the supported
+and recommended system by Red Hat and is utilized in the certification
+exams for EL9. At some point, you could spin up a docker container for
+AWX if you wanted, but this is not a strict requirement.</p>
+<h3 id="spin-up-vm-for-nfsiscsi">Spin Up VM for NFS/iSCSI<a class="headerlink" href="#spin-up-vm-for-nfsiscsi" title="Permanent link">&para;</a></h3>
+<p>This VM should be EL9. Ensure it has an extra 20GB disk attached to it.
+Install the following:</p>
+<ol>
+<li>An NFS server (nfs-utils)</li>
+<li>An iSCSI server (scsi-target-utils, targetcli)</li>
+</ol>
+<p>You are to:</p>
+<ol>
+<li>Export an NFS directory</li>
+<li>Export a LUN to any server</li>
+</ol>
+<p><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/managing_storage_devices/configuring-an-iscsi-initiator_managing-storage-devices">iSCSI for RHEL 9</a></p>
+<h3 id="deploy-bacula-server">Deploy Bacula Server<a class="headerlink" href="#deploy-bacula-server" title="Permanent link">&para;</a></h3>
+<p>Bacula is a backup service. It is actually confusing to setup. It's not
+easy. There are plenty of write-ups for bacula and RHEL/Enterprise Linux.
+The digital ocean write-ups are complete, but do NOT give you everything
+you need to know to do it "correct" or to succeed completing this portion.</p>
+<p>Your server will need the following:</p>
+<ol>
+<li>Ensure the system has a large disk or a large second disk (this can
+   be any size, start small though) - You can also use your NFS server
+   or iSCSI's LUN.</li>
+<li>Ensure it is partitioned for ext4</li>
+<li>Ensure it is mounted to /bacula</li>
+<li>If using iSCSI or NFS, ensure the disk from that server is bigger
+   than 20GB. 50 should suffice.</li>
+<li>Bakula will need to be configured to use postgresql (digital ocean
+   does NOT use postgresql, you will need to do some reading)</li>
+<li>Register each machine you have to it, storing to flatfile</li>
+</ol>
+<h2 id="deploy-twofour-vms">Deploy Two/Four VM's<a class="headerlink" href="#deploy-twofour-vms" title="Permanent link">&para;</a></h2>
+<ol>
+<li>First one/two will be web servers running apache (httpd)</li>
+<li>Next one/two will be app servers</li>
+</ol>
+<p>This is a typical "web/app" configuration. Some shops use apache
+frontends to weblogic backends. Sometimes it's tomcat backends. Some
+shops opt for other methods and software too.</p>
+<p>If wish to setup Wildfly and host a wiki, you will need to do the
+following:</p>
+<ol>
+<li>Setup Wildfly Wiki or on your app servers</li>
+<li>Setup apache to forward requests to your tomcat servers for the wiki</li>
+<li>Do this as a VirtualHost configuration with the ServerName as
+   "wiki.domain.tld", replacing "domain.tld" with your domain</li>
+<li>Set a ServerAlias as wiki</li>
+</ol>
+<p>If you wish to setup a Git</p>
+<h2 id="deploy-load-balancer-vm">Deploy Load Balancer VM<a class="headerlink" href="#deploy-load-balancer-vm" title="Permanent link">&para;</a></h2>
+<p>This will be considered a "VIP" of sorts for your wiki and other
+applications. This VM can either use iptables round-robin or HAProxy. I
+highly recommend trying both to see what's easier for you. <strong>HAProxy is
+recommended, because it's an actual load balancer application.</strong></p>
+<p>You will need the following:</p>
+<ol>
+<li>A DNS CNAME for this machine called "wiki.domain.tld", replacing
+   domain.tld with your domain</li>
+<li>You will need to configure apache to respond to requests for
+   "wiki.domain.tld" (virtual host configuration) and forward them on
+   to the app servers</li>
+<li>HAProxy will need to forward 80 and 443 requests to the two web
+   servers</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Dynamic DNS</p>
+<p>If you are using Dynamic DNS, you may need to run rndc sync before
+making changes in the case of standalone BIND. You will want to use the
+nsupdate command to make changes to your Dynamic Zones. If you are using
+FreeIPA DNS this is not required.</p>
+</div>
+<h2 id="deploy-postfix-vm">Deploy Postfix VM<a class="headerlink" href="#deploy-postfix-vm" title="Permanent link">&para;</a></h2>
+<p>You will need to do the following:</p>
+<ol>
+<li>Ensure postfix is listening on all interfaces</li>
+<li>Ensure postfix is setup to send and receive messages only from your
+   internal network</li>
+<li>Setup a gmail account or another relay to allow the above to work to
+   outside mail (this is sort of tricky for gmail, but doable)</li>
+</ol>
+<h4 id="bonus-points_2">Bonus Points<a class="headerlink" href="#bonus-points_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Create two relays as "mailhost1" and "mailhost2" for your domain
+  with the same configurations</li>
+<li>
+<p>Create a CNAME for "mailhost.domain.tld" for your load balancer,
+  forwarding port 25 to both servers</p>
+<ul>
+<li>Optionally, you can use round-robin DNS instead of HAProxy</li>
+</ul>
+</li>
+</ul>
+<h3 id="setup-nagios-vm">Setup Nagios VM<a class="headerlink" href="#setup-nagios-vm" title="Permanent link">&para;</a></h3>
+<p>This will be a monitoring server on EL9. You will need to set it up to
+use snmp to monitor the communication state of every service above. This
+means:</p>
+<ol>
+<li>Is the right port open?</li>
+<li>I got the right kind of response.</li>
+<li>Filesystem Space, too full?</li>
+</ol>
+<p>If you are planning to use full on SNMP, all servers will need the
+appropriate SNMP ports open and they will need the snmpd clients
+installed (with a monitor snmpd account)</p>
+<h3 id="setup-syslog-vm">Setup Syslog VM<a class="headerlink" href="#setup-syslog-vm" title="Permanent link">&para;</a></h3>
+<p>Setup this server as a syslog server. It can be EL8 or higher. Ensure
+that it is listening on port 514 UDP and TCP in the configuration and
+that those ports are open.</p>
+<p>You will need to go to your servers and setup /etc/rsyslog.conf to send
+ALL logs to this syslog server</p>
+<p>Optionally, setup an all inclusive logging solution, like graylog,
+elastic search, mongodb, fluentd. The sky is the limit here!</p>
+<h3 id="document-your-work">Document Your Work<a class="headerlink" href="#document-your-work" title="Permanent link">&para;</a></h3>
+<p>On your new wiki, document everything you did, right now, on your new
+wiki.</p>
+<h3 id="rpm-build-server">RPM Build Server<a class="headerlink" href="#rpm-build-server" title="Permanent link">&para;</a></h3>
+<p>For fun, you can setup a new server that is your designated RPM building
+machine. You will need to install <strong>mock</strong> to do this. Optionally, you
+can setup koji, bodhi, the things that the Fedora project uses. This is
+not for the faint of heart.</p>
+<h3 id="git-server">Git Server<a class="headerlink" href="#git-server" title="Permanent link">&para;</a></h3>
+<p>Also for fun, you can setup a git server. There are many options out
+there. A popular opensource one is <a href="https://gitea.io/">Gitea</a>.</p>
+<h3 id="ansible">Ansible<a class="headerlink" href="#ansible" title="Permanent link">&para;</a></h3>
+<p>Consider setting up ansible and the open source tower. Automate
+everything via ansible.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2026-01-06
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright 2025, remyabel, nazunalika
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
