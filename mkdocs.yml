@@ -15,7 +15,7 @@ copyright: Copyright 2025, remyabel, nazunalika
 
 # Configuration
 theme:
-  name: material
+  variant: classic
   highlightjs: true
   nav_style: dark
   hljs_languages:
@@ -43,8 +43,8 @@ theme:
 # Plugins
 plugins:
   - autolinks
-  - awesome-pages
-  - git-revision-date
+  - awesome-nav
+  - git-revision-date-localized
   - search
 #  - macros:
 #      include_dir: docs/include
