@@ -59,8 +59,8 @@ markdown_extensions:
   - meta
   - pymdownx.details # this allows collapsible attributions
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.emoji.twemoji
+      emoji_generator: !!python/name:material.emoji.to_svg
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
