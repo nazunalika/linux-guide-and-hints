@@ -204,7 +204,7 @@ If we plan on hosting the installation mirror in your environment, it's recommen
     % firewall-cmd --complete-reload
 
     # create the directories for our distributions
-    % mkdir -p /var/www/html/os/{fedora,centos,rocky}
+    % mkdir -p /var/www/html/os/{fedora,centos}
 
 Setting up Grub
 +++++++++++++++
@@ -241,105 +241,10 @@ This should produce a grub menu for both EFI and BIOS systems that contain three
 Adding Distributions
 ++++++++++++++++++++
 
-Now that grub is sort of setup, we should add a distribution to it at least. Below are a couple examples using Fedora, Rocky Linux, and CentOS Stream.
-
-Rocky Linux
-'''''''''''
-
-Setting up Rocky Linux (or any other Enterprise Linux distribution) should be straight forward. We'll download both Rocky Linux 8 and Rocky Linux 9 and setup the menus.
-
-.. note::
-
-   If you plan on not hosting a mirror of the base repositories, ensure that your inst.repo/inst.stage2 commands are accurate to a mirror of your choice.
-
-The below assumes we are hosting a mirror of the downloaded ISO, which will make installations quicker as it'll be confined to your network.
-
-.. code-block:: shell
-
-   % cd /var/tmp
-   # Rocky Linux 8
-   % wget https://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8-latest-x86_64-dvd.iso
-   # Rocky Linux 9
-   % wget https://dl.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9-latest-x86_64-dvd.iso
-
-   # Optionally, if you plan on supporting ARM...
-   % wget https://dl.rockylinux.org/pub/rocky/8/isos/aarch64/Rocky-8-latest-aarch64-dvd.iso
-   % wget https://dl.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9-latest-aarch64-dvd.iso
-
-Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/rocky-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/rocky/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
-
-.. code-block:: shell
-
-   ## Rocky 8
-   % mount -o loop Rocky-8-latest-x86_64-dvd.iso /mnt
-   % mkdir /var/lib/tftpboot/rocky-8-x86_64
-   % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
-   % mkdir -p /var/www/html/os/rocky/8/x86_64
-   % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/8/x86_64
-   % umount /mnt
-   
-   ## Rocky 9
-   % mount -o loop Rocky-9-latest-x86_64-dvd.iso /mnt
-   % mkdir /var/lib/tftpboot/rocky-9-x86_64
-   % cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
-   % mkdir -p /var/www/html/os/rocky/9/x86_64
-   % rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
-   % umount /mnt
-
-   % restorecon -R /var/www/html/os/rocky
-
-At this point, we'll need to setup the grub menus. We'll setup non-kickstart examples for BIOS and UEFI.
-
-.. code-block:: none
-
-   . . .
-   # Rocky 8
-   menuentry 'Install Rocky Linux 8 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 8 kernel..."
-     linuxefi rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
-     initrdefi rocky-8-x86_64/initrd.img
-   }
-   menuentry 'Install Rocky Linux 8 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 8 kernel..."
-     linux16 rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
-     initrd16 rocky-8-x86_64/initrd.img
-   }
-
-   # if you are setting up arm...
-   menuentry 'Install Rocky Linux 8 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 8 kernel..."
-     linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/aarch64 inst.stage2=http://10.100.0.1/os/rocky/8/aarch64 ip=dhcp
-     initrd rocky-9-aarch64/initrd.img
-   }
-
-.. code-block:: none
-
-   . . .
-   # Rocky 9
-   menuentry 'Install Rocky Linux 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 9 kernel..."
-     linuxefi rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
-     initrdefi rocky-9-x86_64/initrd.img
-   }
-   menuentry 'Install Rocky Linux 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 9 kernel..."
-     linux16 rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
-     initrd16 rocky-9-x86_64/initrd.img
-   }
-
-   # if you are setting up arm...
-   menuentry 'Install Rocky Linux 9 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
-     echo "Loading Rocky Linux 9 kernel..."
-     linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/aarch64 inst.stage2=http://10.100.0.1/os/rocky/9/aarch64 ip=dhcp
-     initrd rocky-9-aarch64/initrd.img
-   }
-
-The Rocky Linuxinstallation should now be bootable.
+Now that grub is sort of setup, we should add a distribution to it at least. Below are a couple examples using Fedora and CentOS Stream.
 
 CentOS Stream
 '''''''''''''
-
-Much like Rocky Linux (or other derivatives), the path is the same for setting it up.
 
 .. note:: Using upstream mirror path
 
@@ -356,7 +261,7 @@ Much like Rocky Linux (or other derivatives), the path is the same for setting i
    % wget -O CentOS-Stream-9-latest-aarch64-dvd1.iso \
      'https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/aarch64/iso/CentOS-Stream-9-latest-aarch64-dvd1.iso&redirect=1&protocol=https'
 
-Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/rocky-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/rocky/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
+Here we'll copy the data we want into the necessary directories. Any pxeboot related images will go to `/var/lib/tftpboot/centos-X-ARCH` (X being the major version, ARCH being the architecture). If we are keeping a local mirror of the DVD, we'll put it into `/var/www/html/os/centos/X/ARCH`. Below is for x86_64, but the same steps can be repeated for aarch64 without any issues. Just replace x86_64 with aarch64.
 
 .. code-block:: shell
    ## CentOS Stream 9

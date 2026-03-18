@@ -396,7 +396,7 @@ setup a virtual host (this is outside the scope of this page).
 % firewall-cmd --complete-reload
 
 # create the directories for our distributions
-% mkdir -p /var/www/html/os/{fedora,centos,rocky}
+% mkdir -p /var/www/html/os/{fedora,centos}
 ```
 
 ### Setting up Grub
@@ -438,160 +438,14 @@ contain three bootable options.
 ## Adding Distributions
 
 Now that grub is sort of setup, we should add a distribution to it at
-least. Below are a couple examples using Fedora, Rocky Linux, and CentOS
-Stream.
+least. Below are a couple examples using Fedora and CentOS Stream.
 
 !!! note
     When setting up for UEFI, if `linux` and `initrd` do not work for you,
     you may need to use `linuxefi` and `initrdefi` instead. This should be
     a rare case.
 
-### Rocky Linux
-
-Setting up Rocky Linux (or any other Enterprise Linux distribution)
-should be straight forward. We'll download both Rocky Linux 8 and Rocky
-Linux 9 and setup the menus.
-
-!!! note
-    If you plan on not hosting a mirror of the base repositories, ensure
-    that your inst.repo/inst.stage2 commands are accurate to a mirror of
-    your choice.
-
-The below assumes we are hosting a mirror of the downloaded ISO, which
-will make installations quicker as it'll be confined to your network.
-
-``` bash
-% cd /var/tmp
-# Rocky Linux 8
-% wget https://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8-latest-x86_64-dvd.iso
-# Rocky Linux 9
-% wget https://dl.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9-latest-x86_64-dvd.iso
-
-# Optionally, if you plan on supporting ARM...
-% wget https://dl.rockylinux.org/pub/rocky/8/isos/aarch64/Rocky-8-latest-aarch64-dvd.iso
-% wget https://dl.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9-latest-aarch64-dvd.iso
-```
-
-Here we'll copy the data we want into the necessary directories. Any
-pxeboot related images will go to /var/lib/tftpboot/rocky-X-ARCH (X
-being the major version, ARCH being the architecture). If we are keeping
-a local mirror of the DVD, we'll put it into
-/var/www/html/os/rocky/X/ARCH. Below is for x86_64, but the same steps
-can be repeated for aarch64 without any issues. Just replace x86_64
-with aarch64.
-
-``` bash
-## Rocky 8
-% mount -o loop Rocky-8-latest-x86_64-dvd.iso /mnt
-% mkdir /var/lib/tftpboot/rocky-8-x86_64
-% cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
-% mkdir -p /var/www/html/os/rocky/8/x86_64
-% rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/8/x86_64
-% umount /mnt
-
-## Rocky 9
-% mount -o loop Rocky-9-latest-x86_64-dvd.iso /mnt
-% mkdir /var/lib/tftpboot/rocky-9-x86_64
-% cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
-% mkdir -p /var/www/html/os/rocky/9/x86_64
-% rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/9/x86_64
-% umount /mnt
-
-## Rocky 10
-% mount -o loop Rocky-10-latest-x86_64-dvd.iso /mnt
-% mkdir /var/lib/tftpboot/rocky-10-x86_64
-% cp /mnt/images/pxeboot/* /var/lib/tftpboot/rocky-10-x86_64
-% mkdir -p /var/www/html/os/rocky/10/x86_64
-% rsync -vrlptDSH --delete /mnt/ /var/www/html/os/rocky/10/x86_64
-% umount /mnt
-
-
-# Copy the appropriate files over for the kernels
-% mkdir -p /var/lib/tftpboot/rocky-{8..10}-x86_64
-% cp /var/www/html/os/rocky/8/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-8-x86_64
-% cp /var/www/html/os/rocky/9/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-9-x86_64
-% cp /var/www/html/os/rocky/10/x86_64/images/pxeboot/* /var/lib/tftpboot/rocky-10-x86_64
-
-% restorecon -R /var/www/html/os/rocky
-% restorecon -R /var/lib/tftpboot
-```
-
-At this point, we'll need to setup the grub menus. We'll setup
-non-kickstart examples for BIOS and UEFI.
-
-```
-. . .
-# Rocky 8
-menuentry 'Install Rocky Linux 8 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 8 kernel..."
-  linux rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
-  initrd rocky-8-x86_64/initrd.img
-}
-menuentry 'Install Rocky Linux 8 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 8 kernel..."
-  linux16 rocky-8-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/x86_64 inst.stage2=http://10.100.0.1/os/rocky/8/x86_64 ip=dhcp
-  initrd16 rocky-8-x86_64/initrd.img
-}
-
-# if you are setting up arm...
-menuentry 'Install Rocky Linux 8 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 8 kernel..."
-  linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/8/aarch64 inst.stage2=http://10.100.0.1/os/rocky/8/aarch64 ip=dhcp
-  initrd rocky-9-aarch64/initrd.img
-}
-```
-
-```
-. . .
-# Rocky 9
-menuentry 'Install Rocky Linux 9 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 9 kernel..."
-  linux rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
-  initrd rocky-9-x86_64/initrd.img
-}
-menuentry 'Install Rocky Linux 9 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 9 kernel..."
-  linux16 rocky-9-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/x86_64 inst.stage2=http://10.100.0.1/os/rocky/9/x86_64 ip=dhcp
-  initrd16 rocky-9-x86_64/initrd.img
-}
-
-# if you are setting up arm...
-menuentry 'Install Rocky Linux 9 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 9 kernel..."
-  linux rocky-9-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/9/aarch64 inst.stage2=http://10.100.0.1/os/rocky/9/aarch64 ip=dhcp
-  initrd rocky-9-aarch64/initrd.img
-}
-```
-
-```
-. . .
-# Rocky 10
-menuentry 'Install Rocky Linux 10 (No KS) (UEFI)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 10 kernel..."
-  linux rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
-  initrd rocky-10-x86_64/initrd.img
-}
-menuentry 'Install Rocky Linux 10 (No KS) (BIOS)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 10 kernel..."
-  linux16 rocky-10-x86_64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/x86_64 inst.stage2=http://10.100.0.1/os/rocky/10/x86_64 ip=dhcp
-  initrd16 rocky-10-x86_64/initrd.img
-}
-
-# if you are setting up arm...
-menuentry 'Install Rocky Linux 10 (No KS) (aarch64)' --class fedora --class gnu-linux --class gnu --class os {
-  echo "Loading Rocky Linux 10 kernel..."
-  linux rocky-10-aarch64/vmlinuz inst.repo=http://10.100.0.1/os/rocky/10/aarch64 inst.stage2=http://10.100.0.1/os/rocky/10/aarch64 ip=dhcp
-  initrd rocky-10-aarch64/initrd.img
-}
-```
-
-
-The Rocky Linux installation should now be bootable.
-
 ### CentOS Stream
-
-Much like Rocky Linux (or other derivatives), the path is the same for
-setting it up.
 
 !!! note "Using upstream mirror path"
     If you plan on not hosting a mirror of the base repositories, ensure
@@ -618,10 +472,10 @@ setting it up.
 ```
 
 Here we'll copy the data we want into the necessary directories. Any
-pxeboot related images will go to /var/lib/tftpboot/rocky-X-ARCH (X
+pxeboot related images will go to /var/lib/tftpboot/centos-X-ARCH (X
 being the major version, ARCH being the architecture). If we are keeping
 a local mirror of the DVD, we'll put it into
-/var/www/html/os/rocky/X/ARCH. Below is for x86_64, but the same steps
+/var/www/html/os/centos/X/ARCH. Below is for x86_64, but the same steps
 can be repeated for aarch64 without any issues. Just replace x86_64
 with aarch64.
 
@@ -965,13 +819,13 @@ Using the above setup, it is perfectly possible to have Secure Boot working. Ins
 ```
 % dnf download shim-x64
 % rpm2cpio shim-x64-15.8-2.el9.x86_64.rpm | cpio -idmv
-% ls -l boot/efi/EFI/rocky
+% ls -l boot/efi/EFI/centos
 total 3656
 -rwx------. 1 root root    104 Apr  4 14:23 BOOTX64.CSV
 -rwx------. 1 root root 857352 Apr  4 14:23 mmx64.efi
 -rwx------. 1 root root 959224 Apr  4 14:23 shim.efi
 -rwx------. 1 root root 959224 Apr  4 14:23 shimx64.efi
--rwx------. 1 root root 952016 Apr  4 14:23 shimx64-rocky.efi
+-rwx------. 1 root root 952016 Apr  4 14:23 shimx64-centos.efi
 ```
 
 Note that both `shim.efi` and `shimx64.efi` should be the same file. Copying
