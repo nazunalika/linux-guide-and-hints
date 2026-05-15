@@ -67,7 +67,7 @@ Here are the list of requirements below.
     * Consider setting up a trust with Active Directory if you are in a
       mixed environment, eg Active Directory already exists.
     * IPA servers should have static assigned addresses - Configured via
-      nmcli or directly in /etc/sysconfig/network-scripts/ifcfg-\*
+      nmcli.
     * Try to avoid running FreeIPA without DNS - while possible, you are
       creating higher maintenance
 
@@ -77,11 +77,12 @@ Here are the list of requirements below.
     If this is the case, they will need to be in different domains (e.g., 
     example.com and ipa.example.com, or example.com and example.net).
 
-    If you are in a larger environment, it may be detrimental instead. In
-    this case, having a way to keep users in sync between AD and IPA might
-    be the better option. This is because AD lookups can be resource
+    If you are in a larger environment, it may be detrimental to do this.
+    In this case, having a way to keep users in sync between AD and IPA
+    might be the better option. This is because AD lookups can be resource
     intensive, and a large AD environment can slow down performance or not
-    work at all without sssd tuning.
+    work at all without sssd tuning. I personally would recommend against a
+    trust with AD and find a way to keep things in sync between both domains.
 
     All trust information is in [this section](#active-directory-trust)
 
