@@ -2030,6 +2030,53 @@ record with the correct object class and attribute.
 
 The DNS servers will now provide the appropriate priorities to the services.
 
+### DNS Dynamic Updates on subdomains
+
+By default, the primary domain/realm that you setup for IPA will have dynamic
+updates turned on. This is so that when clients join, records can be updated by
+the clients freely. An example of updates would be for say, a workstation that
+has a DHCP address. However, if you have clients that will be in a subdomain,
+some records may not be filled in for you.
+
+When you make a new subdomain, ensure you enable dynamic updates as you make it.
+
+```
+% ipa dnszone-add --dynamic-update=true
+```
+
+Or if you're like me and just noticed that SSHFP records aren't being filled in
+(REFUSED in the logs), just update your zones.
+
+```
+% ipa dnszone-mod --dynamic-update=true
+```
+
+On the clients, you can then run an nsupdate to update the records.
+
+```
+% kinit -k
+% grep '^update' /var/log/ipaclient-install.log | grep SSHFP > /tmp/update.txt
+% vi /tmp/update.txt
+update delete arm01.build.clockwork.host. IN SSHFP
+# Add the next two lines after the above
+show
+send
+update add arm01.build.clockwork.host. 1200 IN SSHFP 4 1 D6832A6450B1FF5B01928BE616BEE26AF999DAF2
+update add arm01.build.clockwork.host. 1200 IN SSHFP 4 2 EABAB1431622D8E9EA61281FF4C1C9004A895509AD4870F23BEA777A3C38C8A6
+update add arm01.build.clockwork.host. 1200 IN SSHFP 3 1 DE4EB5CD722E29AF8BD04832B4543F624793C298
+update add arm01.build.clockwork.host. 1200 IN SSHFP 3 2 1E8096A15E270BCB83CF703AC5E65A045A6C2A4368EA27FA66687CA7784D6E0B
+update add arm01.build.clockwork.host. 1200 IN SSHFP 1 1 89E404ECA3DA0460A778FAE5AFB63B9757551ECA
+update add arm01.build.clockwork.host. 1200 IN SSHFP 1 2 9D92F23DC16BC9BDB25D90D3E6E0A57B7D480F628A3ED2E58C2123AF480A14CD
+# Add the next two lines after the above
+show
+send
+
+% nsupdate -g /tmp/update.txt
+```
+
+There is technically a way to do this with `ipa console`, but nsupdate was
+easier for my case.
+
 ## Logging
 
 ### Audit Logs
