@@ -958,7 +958,7 @@ you are searching for "users" and check that they appear in a list on
 the right hand side, optionally doing a search. In a default setup, you
 shouldn't need an account to do (some) anonymous lookups. If you
 changed that in any way, you will need to create a readonly system
-account in cn=sysaccounts,cn=etc.
+account using `ipa sysaccount-add`.
 
 Login to the account for the first time from the login screen. Once the
 setup has complete, log out and back to a login account. In a terminal,
@@ -1294,6 +1294,10 @@ couple of manual things we have to do, but they are trivial. Solaris
 
 Below is for the service account like in the previous section, here as a
 reference.
+
+!!! note "sysaccount command"
+    Manually adding sysaccounts is no longer needed. The below is simply a
+    reference. You can simply use `ipa sysaccount-add` instead.
 
 ```
 dn: uid=solaris,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
@@ -1722,12 +1726,9 @@ system. Each OS has their set of instructions for compiling.
 First, create the following system account. We will need this when we
 are configuring our legacy clients.
 
-    dn: uid=hbac,cn=sysaccounts,cn=etc,dc=ipa,dc=example,dc=com
-    objectClass: account
-    objectClass: simplesecurityobject
-    objectClass: top
-    uid: hbac
-    userPassword: password
+```
+ipa sysaccount-add --password hbac
+```
 
 #### Solaris 11
 
@@ -2152,6 +2153,47 @@ entryusn: 900028
 
 These are notes of things I've ran into before while dealing with
 the certificate system.
+
+### Creating Sub-CA's
+
+There may be a time where you want to create intermediate CA's from your IPA
+root ca. This is actually quite straight forward to do.
+
+```
+% ipa ca-add --desc="IPA IoT Chains" --subject="CN=IoT,O=EXAMPLE.COM"
+% ipa ca-add --desc="IPA WiFi Chains" --subject="CN=WiFi,O=EXAMPLE.COM"
+```
+
+Optionally, you can place them in the same location as your `ca.crt` on all your
+domain controllers. This way, you simply make it easier for any client to obtain
+them.
+
+```
+% ipa ca-show ipa_iot --certificate-out=/usr/share/ipa/html/iot.crt
+% ipa ca-show ipa_wifi --certificate-out=/usr/share/ipa/html/wifi.crt
+```
+
+### Allowing ipa-getcert to issue from a Sub-CA
+
+While the above is easy to do, `ipa-getcert` may not entirely agree. The
+simplest way to allow `-X` or `--issuer` to work for Sub-CA's with the same
+restrictions as the root CA, simply add a CA to the ACL.
+
+```
+% ipa caacl-find
+----------------
+1 CA ACL matched
+----------------
+  ACL name: hosts_services_caIPAserviceCert
+  Enabled: True
+  Host category: all
+  Service category: all
+----------------------------
+Number of entries returned 1
+----------------------------
+
+% ipa caacl-add-ca hosts_services_caIPAserviceCert --cas=ipa_iot
+```
 
 ### Renewed IPA HTTP Certificate Stuck
 
