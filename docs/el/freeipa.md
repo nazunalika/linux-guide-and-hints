@@ -793,17 +793,17 @@ directory utility. This depends on your macOS version.
    can click the "+" to add the attribute types as needed. **Do not
    set homeDirectory otherwise you will fail to login.**
 
-| Attribute               | Mapping                         |
-|-------------------------|---------------------------------|
-| AuthenticationAuthority | uid                             |
-| GeneratedUID            | GeneratedUID or ipaUniqueID     |
-| NFSHomeDirectory        | #/Users/$uid$                   |
-| PrimaryGroupID          | gidNumber                       |
-| RealName                | cn                              |
-| RecordName              | uid                             |
-| UniqueID                | uidNumber                       |
-| UserShell               | loginShell                      |
-| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$    |
+| Attribute               | Mapping                             |
+|-------------------------|-------------------------------------|
+| AuthenticationAuthority | uid or #;Kerberos;;$uid;EXAMPLE.COM |
+| GeneratedUID            | GeneratedUID or ipaUniqueID         |
+| NFSHomeDirectory        | #/Users/$uid$                       |
+| PrimaryGroupID          | gidNumber                           |
+| RealName                | cn                                  |
+| RecordName              | uid                                 |
+| UniqueID                | uidNumber                           |
+| UserShell               | loginShell                          |
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$        |
 
 7. If using custom mapping, click reach record type you created and
    ensure the base DN is set.
