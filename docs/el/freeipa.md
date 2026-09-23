@@ -793,17 +793,17 @@ directory utility. This depends on your macOS version.
    can click the "+" to add the attribute types as needed. **Do not
    set homeDirectory otherwise you will fail to login.**
 
-| Attribute               | Mapping                             |
-|-------------------------|-------------------------------------|
-| AuthenticationAuthority | uid or #;Kerberos;;$uid;EXAMPLE.COM |
-| GeneratedUID            | GeneratedUID or ipaUniqueID         |
-| NFSHomeDirectory        | #/Users/$uid$                       |
-| PrimaryGroupID          | gidNumber                           |
-| RealName                | cn                                  |
-| RecordName              | uid                                 |
-| UniqueID                | uidNumber                           |
-| UserShell               | loginShell                          |
-| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$        |
+| Attribute               | Mapping                                |
+|-------------------------|----------------------------------------|
+| AuthenticationAuthority | #;Kerberosv5;;$uid$;EXAMPLE.COM or uid |
+| GeneratedUID            | GeneratedUID or ipaUniqueID            |
+| NFSHomeDirectory        | #/Users/$uid$                          |
+| PrimaryGroupID          | gidNumber                              |
+| RealName                | cn                                     |
+| RecordName              | uid                                    |
+| UniqueID                | uidNumber                              |
+| UserShell               | loginShell                             |
+| AltSecurityIdentities   | #Kerberos:$krbPrincipalName$           |
 
 7. If using custom mapping, click reach record type you created and
    ensure the base DN is set.
@@ -1093,6 +1093,17 @@ those too.
 
     * [Pagure](https://pagure.io/freeipa/issue/4813)
     * [freeipa-macosx-support](https://github.com/abbra/freeipa-macosx-support)
+
+!!! note
+    If you find that kerberos tickets are not being issued on login, despite
+    using the kerberosv5 value for AuthenticationAuthority, you will need to
+    append it to the account (assuming it's a mobile account). Verify first:
+
+    `dscl . -show /Users/user AuthenticationAuthority`
+
+    If you do not see a string like ";Kerberosv5;;user@EXAMPLE.COM;", append it.
+
+    `dscl . -append /Users/user AuthenticationAuthority ";Kerberosv5;;user@EXAMPLE.COM;"`
 
 ### SUSE
 
