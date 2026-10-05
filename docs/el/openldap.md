@@ -9,8 +9,8 @@ Please note that the OpenLDAP server is considered deprecated in RHEL
 (and thusly other EL derivatives). This document will stay here as a
 reference for those who are still using the server software on
 Enterprise Linux 7, potentially using the OpenLDAP LTB version of the
-software, or using the openldap-servers package from Rocky Linux 9's
-plus repository. It may apply to Fedora users in some contexts, but
+software, or using the openldap-servers package from EPEL or a plus
+repository. It may apply to Fedora users in some contexts, but
 there are some differences they may never be documented here. If you see
 a need for corrections, please open up an issue on our github.
 
@@ -86,8 +86,7 @@ Tutorial Preface, Notes, and Recommendations
 
     Enterprise Linux 9 has fully dropped OpenLDAP where there are no server
     packages normally built. In some EL distributions, openldap-servers is
-    still built and provided in an extra repository. Rocky Linux 9 has
-    openldap-servers in their plus repository. EPEL also has it available.
+    still built and provided in an extra repository.
 
 Installation
 ============
@@ -104,7 +103,6 @@ installed. If you don't plan on migrating local accounts to LDAP, you
 can leave out migrationtools.
 
 ```
-# If you are on Rocky Linux 9, you will need to enable the plus repository
 dnf install openldap openldap-servers migrationtools nss-tools -y
 ```
 
