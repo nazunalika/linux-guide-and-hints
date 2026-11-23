@@ -2184,9 +2184,28 @@ them.
 % ipa ca-show ipa_wifi --certificate-out=/usr/share/ipa/html/wifi.crt
 ```
 
-### Allowing ipa-getcert to issue from a Sub-CA
+#### Issuing Certificates from a Sub-CA
 
-While the above is easy to do, `ipa-getcert` may not entirely agree. The
+After creating the Sub-CA's and you want to issue a certificate, it's as simple
+as creating a CSR and then requesting it to be signed.
+
+```
+# Create the CSR
+% openssl req -new -newkey rsa:3072 -nodes \
+    -keyout android02.phone.key \
+    -out android02.phone.csr \
+    -subj "/CN=android02.phone.clockwork.host"
+
+# Ask for IPA to sign it
+% ipa cert-request android02.phone.csr \
+    --principal="host/android02.phone.clockwork.host@CLOCKWORK.HOST" \
+    --ca="ipa_wifi" \
+    --certificate-out=android02.phone.pem
+```
+
+#### Allowing ipa-getcert to issue from a Sub-CA
+
+While creating a Sub-CA is easy to do, `ipa-getcert` may not entirely agree. The
 simplest way to allow `-X` or `--issuer` to work for Sub-CA's with the same
 restrictions as the root CA, simply add a CA to the ACL.
 
@@ -2204,6 +2223,7 @@ Number of entries returned 1
 ----------------------------
 
 % ipa caacl-add-ca hosts_services_caIPAserviceCert --cas=ipa_iot
+% ipa caacl-add-ca hosts_services_caIPAserviceCert --cas=ipa_wifi
 ```
 
 ### Renewed IPA HTTP Certificate Stuck
